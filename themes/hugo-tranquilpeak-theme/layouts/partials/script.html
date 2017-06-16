@@ -1,0 +1,70 @@
+<!--EXTERNAL SCRIPTS-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js"></script>
+<!--EXTERNAL SCRIPTS END-->
+<!--SCRIPTS-->
+<script src="/js/script-wl33z0n6ocaypepiqrazthtivfrliqijej4rq8ek8gvrv1awftmgjuv8k4zc.min.js"></script>
+<!--SCRIPTS END-->
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight').each(function(i, block) {
+    var code = "";
+    hljs.highlightAuto(block.innerText).value.split(/\r\n|\r|\n/).forEach(function(line) {
+      code += "<span class=\"line\">" + line + "</span><br>";
+    });
+    if (code.length > 0) {
+      block.innerHTML = code;  
+    }
+  });
+  $('pre > code').each(function(i, block) {
+    $(this).addClass('codeblock');
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+{{ if .IsPage }}
+  {{ if not (eq .Params.comments false) }}
+    {{ if .Site.DisqusShortname }}
+      <script>
+        var disqus_config = function () {
+          this.page.url = '{{ .Permalink }}';
+          {{ if .Params.disqusIdentifier }}
+            this.page.identifier = '{{ .Params.disqusIdentifier }}';
+          {{ else }}
+            this.page.identifier = '{{ .URL | relURL }}'
+          {{ end }}
+        };
+        (function() {
+          // Don't ever inject Disqus on localhost--it creates unwanted
+          // discussions from 'localhost:1313' on your Disqus account...
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = '{{ .Site.DisqusShortname }}';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ with .Site.Params.algolia }}
+  {{ if (isset . "appId") | and (isset . "apiKey") | and (isset . "indexName") }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('{{ .appId }}', '{{ .apiKey }}');
+      var algoliaIndex = algoliaClient.initIndex('{{ .indexName }}');
+    </script>
+  {{ end }}
+{{ end }}
+
+{{ range .Site.Params.customJS }}
+   <script src="{{ $.Site.BaseURL }}{{ . }}"></script>
+{{ end }}
