@@ -12,7 +12,10 @@
 # For developpers, if you modify this theme, put your images in `source/images` folder and
 # use grunt task `build` to synchronize assets
 
-baseurl = ""
+# baseurl = "https://netdevops.me"
+baseurl = "https://rdodin.gitlab.io"
+buildDrafts = true
+metadataFormat = "yaml"
 languageCode = "en-us"
 defaultContentLanguage = "en-us"
 title = "NetDevOps.me"
@@ -143,7 +146,7 @@ canonifyurls = true
   # Current image is on AWS S3 and delivered by AWS CloudFront.
   # Otherwise put your image in folder `static/_images/` (development)  or in `source/assets/images/` if you can't or don't want to build the theme,
   # and use relative url : `your-image.png`
-  coverImage = "code1.jpg"
+  coverImage = "bg_solid1.png"
 
   # Display an image gallery at the end of a post which have photos variables (false: disabled, true: enabled)
   imageGallery = true
