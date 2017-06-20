@@ -12,8 +12,8 @@
 # For developpers, if you modify this theme, put your images in `source/images` folder and
 # use grunt task `build` to synchronize assets
 
-# baseurl = "https://netdevops.me"
-baseurl = "https://rdodin.gitlab.io"
+baseurl = "https://netdevops.me"
+# baseurl = "https://rdodin.gitlab.io"
 buildDrafts = true
 metadataFormat = "yaml"
 languageCode = "en-us"
