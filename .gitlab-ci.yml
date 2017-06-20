@@ -1,7 +1,5 @@
 pages:
-  stage: docs
   image: fundor333/hugo
-  # add 'node_modules' to cache for speeding up builds
   script:
     - hugo
   # send all files from public directory to the CI server
