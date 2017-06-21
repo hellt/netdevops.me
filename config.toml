@@ -26,7 +26,7 @@ paginate = 7
 canonifyurls = true
 
 [permalinks]
-  post = "/:year/:month/:slug/"
+  post = "/:year/:slug/"
 
 [taxonomies]
   tag = "tags"
@@ -73,12 +73,12 @@ canonifyurls = true
   name = "Archives"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-archive\"></i>"
   url = "/archives"
-[[menu.main]]
-  weight = 5
-  identifier = "about"
-  name = "About"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-question\"></i>"
-  url = "/#about"
+# [[menu.main]]
+#   weight = 5
+#   identifier = "about"
+#   name = "About"
+#   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-question\"></i>"
+#   url = "/#about"
 
 [[menu.links]]
   weight = 1
@@ -114,7 +114,7 @@ canonifyurls = true
   # dateFormat = "2 January 2006"
 
   # Global keywords configuration. Following keywords will be add to every pages
-  keywords = ["network", "netdevops", "devops", "sdn"]
+  keywords = ["network", "netdevops", "devops", "sdn", "nuage"]
 
   # Hide sidebar on all article page to let article take full width to improve reading, and enjoy wide images and cover images. (true: enable, false: disable)
   clearReading = true
