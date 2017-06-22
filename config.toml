@@ -21,7 +21,7 @@ defaultContentLanguage = "en-us"
 title = "NetDevOps.me"
 theme = "hugo-tranquilpeak-theme"
 # disqusShortname = "hugo-tranquilpeak-theme"
-# googleAnalytics = "UA-123-45"
+googleAnalytics = "UA-101537614-1"
 paginate = 7
 canonifyurls = true
 
@@ -91,14 +91,14 @@ canonifyurls = true
   identifier = "gitlab"
   name = "GitLab"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-gitlab\"></i>"
-  url = "https://gitlab.com/dodin.roman"
+  url = "https://gitlab.com/rdodin"
 
 [[menu.misc]]
   weight = 1
   identifier = "twitter"
   name = "Twitter"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-twitter\"></i>"
-  url = "https://twitter.com/noshut_ru"
+  url = "https://twitter.com/ntdvps"
 [[menu.misc]]
   weight = 2
   identifier = "rss"
