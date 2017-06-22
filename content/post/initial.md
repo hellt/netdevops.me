@@ -5,6 +5,7 @@ title: "Initial commit"
 ---
 Hey there, it's Roman here, a network engineer who decided to swap the job role and pour some DevOps sauce on top of the network engineering base. And it seems that the timing is just perfect to write down all the things that I will encounter on that transition path. Hence, the idea to spawn a blog was born.
 
+
 Lucky me, the name came almost instantly, thanks to the community that generated another sound buzzword for guys like I wanna be -- **NetDevOps**. So here we are at [https://netdevops.me](https://netdevops.me)!
 
 
