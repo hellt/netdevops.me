@@ -1,3 +1,4 @@
 themes/**/.gitignore
 themes/**/.git
 themes/**/.github
+.vscode
