@@ -39,10 +39,10 @@ canonifyurls = true
   job = "Netdevops @ Nuage Networks"
   location = "Russia"
   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
-  gravatarEmail = "dodin.roman@gmail.com"
+  # gravatarEmail = "dodin.roman@gmail.com"
   # Your profile picture
   # Overwritten by your gravatar image if `author.gravatarEmail` is filled
-  picture = "https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png"
+  picture = "https://lh3.googleusercontent.com/K2Sx_i1moAOJXVSLSVQzr3G7KFuHSMH3jfv8pLl-dbL9n-w9umjWWwzUgLTsEeoktq7jb1XAwgUSgnaN7RH4bCwGNN0yO4zMWtyJnuvlMHcwakyP6h5BYtgP_MfvVisQLCnElAPQiF_fCh9o0zRyJC68pye7TGF8DXIbqHky4qi7Z722qvsNjSMqrz4NBaQfXxMC3OcR9aUfdaVEBq9wnEyKJ_KNWWNEJZxT17HVzAAWTNeqFFkbNzcVxT8d0_9K-viSxPyVSaZZowEWHmBFPN8TA-HjsWMGqaHgYxIeZ-EliiHASYSz5dLz9503N-WVEP90ZIIqHNTMcci2J6fYRNKOpmRMAIlGWFmA-3R50u3KwSxbUEiIWlvfeHyYPJqy-bd01GQJcducpc6eU4RmnD1qgJCSfMn9aBqGZ_-3JMfTOC6qAnTItIeVSe5QmTZyBT36LyjnC4n91qYc8YDWQRXNBLxkY9O-gg2CWg8kHUEfPTUOCx8QMx--l9SRkfuo0FiRAoxtDPYPLX4mtgy0cinE5WrnegiQWC1Vd8WpGyHPlQQTijCTcvWh9pl2aWSL-CJnZN33Fhg1NWnwUxRCRv8Q47GZW-LarZTHaCj2GJrlr_8jhO9Tnw=s110-no"
   # Your Twitter username without the @. E.g : thibaudlepretre
   twitter = "@ntdvps"
   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
@@ -123,7 +123,7 @@ canonifyurls = true
   # If false it will flat categories.
   hierarchicalCategories = true
 
-  description = "Hugo tranquilpeak theme demo"
+  description = "Blog about the Net+Dev+Ops"
 
   # Customization
   # Define the behavior of the sidebar
@@ -146,7 +146,7 @@ canonifyurls = true
   # Current image is on AWS S3 and delivered by AWS CloudFront.
   # Otherwise put your image in folder `static/_images/` (development)  or in `source/assets/images/` if you can't or don't want to build the theme,
   # and use relative url : `your-image.png`
-  coverImage = "bg_solid1.png"
+  coverImage = "bg_solid1-min.png"
 
   # Display an image gallery at the end of a post which have photos variables (false: disabled, true: enabled)
   imageGallery = true
