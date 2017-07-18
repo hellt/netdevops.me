@@ -9,6 +9,7 @@ tags:
 - qemu/kvm/libvirt
 
 title: Destroy and Undefine KVM VMs in a single run
+
 ---
 
 `virsh` is a goto console utility for managing Qemu/KVM virtual machines. But when it comes to deletion of the VMs you better keep calm - there is no single command to destroy the VM, its definition XML file and disk image.
@@ -86,4 +87,6 @@ virsh list --all | grep -o -E "(4010_DEMO\w*)" | \
 xargs -I % sh -c 'virsh destroy % && virsh undefine % && rm -rf /var/lib/libvirt/images/%;'
 ```
 
-The `xargs` flag `-I %` here allows us to substitute each `%` sign in the command with the `xargs` input argument. This effectively destroys the virsh domain along with its definition and disk image. 
+The `xargs` flag `-I %` here allows us to substitute each `%` sign in the command with the `xargs` input argument. This effectively destroys the virsh domain along with its definition and disk image.
+
+> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/1).
