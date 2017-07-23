@@ -73,12 +73,12 @@ canonifyurls = true
   name = "Archives"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-archive\"></i>"
   url = "/archives"
-# [[menu.main]]
-#   weight = 5
-#   identifier = "about"
-#   name = "About"
-#   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-question\"></i>"
-#   url = "/#about"
+[[menu.main]]
+  weight = 5
+  identifier = "about"
+  name = "About"
+  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-question\"></i>"
+  url = "/2017/initial-commit/"
 
 [[menu.links]]
   weight = 1
