@@ -9,7 +9,7 @@ Hey there, it's Roman here, a network engineer who decided to swap the job role 
 Lucky me, the name came almost instantly, thanks to the community that generated another sound buzzword for guys like I wanna be -- **NetDevOps**. So here we are at [https://netdevops.me](https://netdevops.me)!
 
 
-## What is this all about?
+# What is this all about?
 This blog will be my diary on a journey to embrace
 
 - Scripting and tooling (Network Automation, Config Management, Test Automation, CI/CD)
@@ -20,12 +20,14 @@ This blog will be my diary on a journey to embrace
 The type of content you could expect to appear here can be described (but not limited) by the following categories:
 
 - Intermediate level tutorials in the above mentioned areas judging that a reader has a network background
-- Tips and tricks, i.e. terse posts covering a particular workflow or technique 
+- Tips and tricks, i.e. terse posts covering a particular workflow or technique
 
 <!--more-->
 
-## Other projects
-My other blog -- [noshut.ru](http://noshut.ru) -- dedicated to Service Provider routing technologies in general and Nokia SROS in particular will stay alive, though I do not expect to write more _pure routing_ topics anytime soon. 
+# Other projects
+My other blog -- [noshut.ru](http://noshut.ru) -- dedicated to Service Provider routing technologies in general and Nokia SROS in particular will stay alive, though I do not expect to write more _pure routing_ topics anytime soon.
 
-I will heavily rely on another paradigm CL -- continuous learning -- meaning that many of my posts here will be of a ** type 
+I will heavily rely on another paradigm CL -- continuous learning -- meaning that many of my posts here will be of a ** type
 
+# How to reach me
+I am pretty active on [Twitter](https://twitter.com/ntdvps) and [LinkedIn](https://www.linkedin.com/in/rdodin/). You can also drop me an email `dodin [d0t] roman {at} gmail.com`
