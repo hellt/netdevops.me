@@ -42,7 +42,7 @@ canonifyurls = true
   # gravatarEmail = "dodin.roman@gmail.com"
   # Your profile picture
   # Overwritten by your gravatar image if `author.gravatarEmail` is filled
-  picture = "https://lh3.googleusercontent.com/K2Sx_i1moAOJXVSLSVQzr3G7KFuHSMH3jfv8pLl-dbL9n-w9umjWWwzUgLTsEeoktq7jb1XAwgUSgnaN7RH4bCwGNN0yO4zMWtyJnuvlMHcwakyP6h5BYtgP_MfvVisQLCnElAPQiF_fCh9o0zRyJC68pye7TGF8DXIbqHky4qi7Z722qvsNjSMqrz4NBaQfXxMC3OcR9aUfdaVEBq9wnEyKJ_KNWWNEJZxT17HVzAAWTNeqFFkbNzcVxT8d0_9K-viSxPyVSaZZowEWHmBFPN8TA-HjsWMGqaHgYxIeZ-EliiHASYSz5dLz9503N-WVEP90ZIIqHNTMcci2J6fYRNKOpmRMAIlGWFmA-3R50u3KwSxbUEiIWlvfeHyYPJqy-bd01GQJcducpc6eU4RmnD1qgJCSfMn9aBqGZ_-3JMfTOC6qAnTItIeVSe5QmTZyBT36LyjnC4n91qYc8YDWQRXNBLxkY9O-gg2CWg8kHUEfPTUOCx8QMx--l9SRkfuo0FiRAoxtDPYPLX4mtgy0cinE5WrnegiQWC1Vd8WpGyHPlQQTijCTcvWh9pl2aWSL-CJnZN33Fhg1NWnwUxRCRv8Q47GZW-LarZTHaCj2GJrlr_8jhO9Tnw=s110-no"
+  picture = "https://lh3.googleusercontent.com/VlftXgU8IMOX0c_ffNfI2PPGzzxX8_98efUy0ZZlBnqhqhtudObQbk0i5UYcKSJcCdzfab6Ek8fR8toWP0ILXoojaOOJ8FEOVhUGWeKaRHjQT9DOHLY_s9Y5eNgCrCNqdcMAEVUWc8U=s110-no"
   # Your Twitter username without the @. E.g : thibaudlepretre
   twitter = "@ntdvps"
   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
@@ -163,7 +163,7 @@ canonifyurls = true
   autoThumbnailImage = true
 
   # Your favicon path, default is "/favicon.png"
-  favicon = "images/ntdvps_ico64.png"
+  favicon = "/images/ntdvps_ico64.png"
 
   # Header configuration
   # The link at the right of the header is customizable
