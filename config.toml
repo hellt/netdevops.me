@@ -101,6 +101,12 @@ canonifyurls = true
   url = "https://twitter.com/ntdvps"
 [[menu.misc]]
   weight = 2
+  identifier = "linkedin"
+  name = "LinkedIn"
+  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-linkedin\"></i>"
+  url = "https://www.linkedin.com/in/rdodin/"
+[[menu.misc]]
+  weight = 3
   identifier = "rss"
   name = "RSS"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-rss\"></i>"
