@@ -4,7 +4,6 @@ keywords:
 - screencast
 - loom
 tags:
-- screencast
 - loom
 title: Screencasting for teams with Loom
 ---
