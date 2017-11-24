@@ -17,8 +17,8 @@
     {{ end }}
   {{ end }}
 {{ end }}
-{{ if and (.Scratch.Get "thumbnailImage") .Params.thumbnailimageposition }}
-  {{ .Scratch.Set "thumbnailImagePosition" .Params.thumbnailimageposition }}
+{{ if or .Params.thumbnailimageposition .Site.Params.thumbnailimageposition }}
+  {{ .Scratch.Set "thumbnailImagePosition" (.Params.thumbnailimageposition | default .Site.Params.thumbnailimageposition) }}
 {{ else }}
   {{ .Scratch.Set "thumbnailImagePosition" "bottom" }}
 {{ end }}
@@ -40,9 +40,8 @@
       {{ partial "post/meta" . }}
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
+      {{ .Summary }}
       <p>
-        {{ printf "%s" .Summary | markdownify }}
-        <br>
         <a href="{{ .Permalink }}" class="postShorten-excerpt_link link">{{ i18n "post.read_more" }}</a>
         {{ with .Params.readingtime }}
           <span class="postShorten-readingtime">

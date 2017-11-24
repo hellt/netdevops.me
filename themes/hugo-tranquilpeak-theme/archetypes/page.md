@@ -1,5 +1,6 @@
 ---
-title: "New Page"
+title: "{{ replace .TranslationBaseName "-" " " | title }}"
+date: {{ .Date }}
 categories:
 - category
 - subcategory
@@ -9,10 +10,8 @@ tags:
 keywords:
 - tech
 comments:       false
-showDate:       false
-showSocial:     false
-showTags:       false
-showPagination: false
+showMeta:       false
+showActions:    false
 #thumbnailImage: //example.com/image.jpg
 ---
 
