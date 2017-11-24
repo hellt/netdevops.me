@@ -34,9 +34,12 @@ Look at this greyish snippet, looks ugly.
 
 Luckily, we can add _custom_ languages using [Cloudflare CDN collection](https://cdnjs.com/libraries/highlight.js/) of pre-built packages.
 
-To do so, add this config portion to your Hugo' `config.toml`:
+To do so, add [this config portion](https://gitlab.com/rdodin/netdevops.me/commit/d26866ee4b21f7ad8a590e466f92354487ace6ed) to your Hugo' `config.toml`:
 ```ini
-# note, it is nested under [params] section
+# double check, that you have 
+# syntaxHighlighter = "highlight.js" in your config.toml
+
+# note, [[params.customJS]] is nested under [params] section
   [[params.customJS]]
       src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
       integrity = "sha256-tvm0lHsuUZcOfj/0C9xJTU4OQx5KpUgxUcAXLX5kvwA="
@@ -55,6 +58,11 @@ And now our YAML looks a bit better:
       include_vars: main.yml
 ```
 
-I changed the `style-*-.min.css` property to highlight string portions in green, instead of dark blue. A proper way would be to use a custom HLjs theme, but building it in Tranquilpeak theme [is kinda tedious](https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#change-code-coloration-highlightjs-theme), so I picked up a shortcut.
+I changed the `style-*-.min.css` property to highlight string portions in green, instead of dark blue. A proper way would be to use a custom HLjs theme, but building it in Tranquilpeak theme [is kinda tedious](https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#change-code-coloration-highlightjs-theme), so I picked up a shortcut changing the [compiled css](https://gitlab.com/rdodin/netdevops.me/blob/master/themes/hugo-tranquilpeak-theme/static/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css) instead:
+```bash
+# change the color code for this class
+# in my case I changed to #a5c261
+.codeblock .string,figure.highlight .string{color:#a5c261}
+```
 
 > Thanks to [Tranquilpeack for Hugo](https://github.com/kakawait/hugo-tranquilpeak-theme) theme maintainer, who [shared](https://github.com/kakawait/hugo-tranquilpeak-theme/issues/186#issuecomment-346593802) with me this option for custom highlighting
