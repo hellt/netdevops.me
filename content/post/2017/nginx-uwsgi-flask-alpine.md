@@ -61,7 +61,7 @@ nginx config consists of two parts:
 For the **global nginx config file** I combined the recommendations outlined in the post [_How to Configure NGINX for a Flask Web Application_](http://www.patricksoftwareblog.com/how-to-configure-nginx-for-a-flask-web-application/) with [nginx configuration samples](https://uwsgi-docs.readthedocs.io/en/latest/Nginx.html) from uWSGI docs.
 
 A little caveat that you might encounter when deploying nginx in Alpine Linux renders itself like that:
-```
+```plain
 Error: nginx: [emerg] open() "/run/nginx/nginx.pid" failed (2: No such file or directory)
 ```
 
@@ -99,7 +99,7 @@ So far we dealt with the first bastion, which is nginx config. Our configuration
 
 ## uWSGI configuration
 uWSGI [documentation](https://uwsgi-docs.readthedocs.io/) is extensive, you may find all the tweaks and recommendations for the wide range of deployment scenarios. Since this container we build is of general purpose, a sensible uWSGI configuration file ([`uwsgi.ini`](https://github.com/hellt/nginx-uwsgi-flask-alpine-docker/blob/master/python2/uwsgi.ini)) could look as follows:
-```
+```toml
 [uwsgi]
 module = main
 callable = app
