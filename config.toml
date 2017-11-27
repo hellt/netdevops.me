@@ -209,15 +209,15 @@ canonifyurls = true
       src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
       integrity = "sha256-tvm0lHsuUZcOfj/0C9xJTU4OQx5KpUgxUcAXLX5kvwA="
       crossorigin = "anonymous"
-      async = true
-      defer = true
+      async = false
+      defer = false
 
   [[params.customJS]]
         src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ini.min.js"
         integrity = "sha256-2Vq9OFd9iraeY0svJsG2OZpprBRu01kIhQt8PfCKUks="
         crossorigin = "anonymous"
-        async = true
-        defer = true
+        async = false
+        defer = false
 
   # [[params.customCSS]]
   #     src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css"
