@@ -489,5 +489,6 @@ With the above explained concepts I successfully transferred **nokdoc-sentinel**
 1. [Serverless Framework AWS Guide](https://serverless.com/framework/docs/providers/aws/guide/)
 1. [AWS Lambda Developers Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 1. [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/)
+1. [Keeping secrets out of Git with Serverless](http://www.goingserverless.com/blog/keeping-secrets-out-of-git)
 
 > Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/2).
