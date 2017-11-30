@@ -65,4 +65,7 @@ I changed the `style-*-.min.css` property to highlight string portions in green,
 .codeblock .string,figure.highlight .string{color:#a5c261}
 ```
 
-> Thanks to [Tranquilpeack for Hugo](https://github.com/kakawait/hugo-tranquilpeak-theme) theme maintainer, who [shared](https://github.com/kakawait/hugo-tranquilpeak-theme/issues/186#issuecomment-346593802) with me this option for custom highlighting
+> Thanks to [Tranquilpeack for Hugo](https://github.com/kakawait/hugo-tranquilpeak-theme) theme maintainer, who [shared](https://github.com/kakawait/hugo-tranquilpeak-theme/issues/186#issuecomment-346593802) with me this option for custom highlighting  
+<br/>
+
+> **PS.** Since the method to load custom JS described in this article [has a bug](https://github.com/kakawait/hugo-tranquilpeak-theme/issues/186#issuecomment-348104753) when it comes to Chrome browser, I changed the way Hugo loads custom JS as suggested in the referenced issue.
