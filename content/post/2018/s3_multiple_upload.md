@@ -9,13 +9,13 @@ title: Uploading multiple files to AWS S3 in parallel
 
 ---
 
-When it comes to uploading multiple small/medium files to AWS S3 a regular user might face slow upload speeds when it is triggered through AWS Management Console. Recently I tried to upload 4k html files and was immediately discouraged by the progress reported by AWS Console upload manager. It was something close to 0.5% per 10s. Clearly, the choke point was the network (as usual, brothers!).
+Have you ever tried to upload thousands of small/medium files to the AWS S3? If you had, you might also noticed ridiculously slow upload speeds when the upload was triggered through the AWS Management Console. Recently I tried to upload 4k html files and was immediately discouraged by the progress reported by the AWS Console upload manager. It was something close to the 0.5% per 10s. Clearly, the choke point was the network (as usual, brothers!).
 
-Comer here, Google, we need to find a better way to handle this kind of upload.
+Comer here, Google, we need to find a better way to handle this kind of an upload.
 
 <!--more-->
 
-To set context, take a look at file size distribution I had (thanks to this [awk magic](https://superuser.com/questions/565443/generate-distribution-of-file-sizes-from-the-command-prompt)):
+To set a context, take a look at the file size distribution I had (thanks to this [awk magic](https://superuser.com/questions/565443/generate-distribution-of-file-sizes-from-the-command-prompt)):
 
 ```
   Size, KB   Num of files
@@ -35,7 +35,7 @@ To set context, take a look at file size distribution I had (thanks to this [awk
    4194304   1
 ```
 
-My thought was that maybe there is a way to upload tar.gz archive and unpack it in S3 bucket, unfortunately this is not supported by S3. The remaining options were ([as per this SO thread](https://stackoverflow.com/questions/28291466/how-to-extract-files-from-a-zip-archive-in-s3)):
+My thought was that maybe there is a way to upload a tar.gz archive and unpack it in an S3 bucket, unfortunately this is not supported by the S3. The remaining options were ([as per this SO thread](https://stackoverflow.com/questions/28291466/how-to-extract-files-from-a-zip-archive-in-s3)):
 
 > 1. You could mount the S3 bucket as a local filesystem using s3fs and FUSE (see article and github site). This still requires the files to be downloaded and uploaded, but it hides these operations away behind a filesystem interface.
 
@@ -43,7 +43,7 @@ My thought was that maybe there is a way to upload tar.gz archive and unpack it 
 
 > 3. You may be able to perform remote operations on the files, without downloading them onto your local machine, using AWS Lambda.
 
-Hands down, these three methods could give you the best speeds, since you could upload tar archive and do the heavy lifting on the AWS side. Anyway, none of them were quite appealing to me for that one-time upload I needed to handle. I hoped to find kind of a parallel way of multiple uploads with a CLI approach.
+Hands down, these three methods could give you the best speeds, since you could upload tar archive and do the heavy lifting on the AWS side. But none of them were quite appealing to me considering the one-time upload I needed to handle. I hoped to find kind of a parallel way of the multiple uploads with a CLI approach.
 
 So what I found boiled down to the following CLI-based workflows:
 
@@ -51,7 +51,7 @@ So what I found boiled down to the following CLI-based workflows:
 2. `aws cp` command with `xargs` to act on multiple files
 3. `aws cp` command with `parallel` to act on multiple files
 
-TL;DR: First option won the competition, but lets have a look at numbers. I created 100 files 4096B each and an empty test bucket to do the tests:
+TL;DR: First option won the competition (# of cores matters), but lets have a look at the numbers. I created 100 files 4096B each and an empty test bucket to do the tests:
 
 ```bash
 # create 100 files size of 4096 bytes each
@@ -65,12 +65,12 @@ $ find . -type f -print0 | xargs -0 ls -l | awk '{size[int(log($5)/log(2))]++}EN
 ```
 
 ### 1. AWS Management Console
-As a normal human being I selected all these 100 files in the file dialog of AWS Management Console and waited for **5 minutes** to upload 100 of them. Horrible.
+As a normal human being I selected all these 100 files in the file dialog of the AWS Management Console and waited for **5 minutes** to upload 100 of them. Horrible.
 
 > The rest of the tests were run on an old 2012 MacBook Air with 4vCPUs.
 
 ### 2. aws s3 sync
-`aws s3 sync` command is cool when you only want to upload the missing files or make the remote part in sync with a local one. In case when a bucket is empty a sequential upload will happen, but will it be fast enough?
+A `aws s3 sync` command is cool when you only want to upload the missing files or make the remote part in sync with a local one. In case when a bucket is empty a sequential upload will happen, but will it be fast enough?
 
 ```bash
 time aws s3 sync . s3://test-ntdvps
@@ -89,7 +89,7 @@ ls -1 | time xargs -I % aws s3 cp % s3://test-ntdvps
 294.05 real        68.76 user         9.27 sys
 ```
 
-5 mins! As bad as AWS Management Console way!
+5 mins! As bad as the AWS Management Console way!
 
 ### 4. aws s3 cp with parallel
 
@@ -101,10 +101,10 @@ ls -1 | time parallel -j60 -I % aws s3 cp % s3://test-ntdvps --profile rdodin-cn
 39.32 real       108.41 user        14.46 sys
 ```
 
-~40 seconds, better than `xargs` and worse than `aws s3 sync`. With number of files increasing `aws s3 sync` starts to win more, and the reason is I think is that `aws s3 sync` uses one tcp connection, while `aws s3 cp` opens new connection with each files passed.
+~40 seconds, better than `xargs` and worse than `aws s3 sync`. With an increasing number of the files `aws s3 sync` starts to win more, and the reason is probably because `aws s3 sync` uses one tcp connection, while `aws s3 cp` opens a new connection for an each file transfer operation.
 
-### 5. What if I had more CPU cores?
-You can increase the number of the workers, and if you have a solid amount of threads available you might win the competition:
+### 5. What if I had some more CPU cores?
+You can increase the number of the workers, and if you have a solid amount of threads available you might win the upload competition:
 
 ```
 # 48 Xeon vCPUs, same 100 files 4KB each
@@ -117,6 +117,6 @@ aws s3 sync: 40 seconds
 aws s3 cp with parallel and 252 jobs: 21.5 seconds
 ``` 
 
-So you see that `aws s3 cp` with `parallel` might come handy if you have enough of vCPU to handle that many parallel workers. But if you are sending files from a notebook, `aws s3 sync` will usually be a better choice.
+So you see that the `aws s3 cp` with `parallel` might come handy if you have enough of vCPUs to handle that many parallel workers. But if you are sending your files from a regular notebook/PC the `aws s3 sync` command will usually be of a better choice.
 
 > Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/6).
