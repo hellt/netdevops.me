@@ -156,7 +156,7 @@ As with API Gateways, you will most probably see some Lambda questions thanks to
 **Miscellaneous**  
 My least favorite part is some corner services like AWS EMR, Kinesis, Redshift, etc.
 
-For Kinesis you need to know the difference between the Kinesis Firehorse and Kinesis Streams.
+For Kinesis you need to know the difference between the Kinesis Firehose and Kinesis Streams.
 
 For Redshift you need to have just a basic understanding about the sevice itself and when to choose it over RDS.
 
