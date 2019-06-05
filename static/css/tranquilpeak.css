@@ -1,0 +1,11 @@
+.post-content {
+	font-size: 1.5rem;
+}
+
+code {
+	font-size: 1.3rem;
+	display: inline-block;
+	font-weight: 400;
+    padding: 0px 5px;
+    line-height: 1.6em;
+}

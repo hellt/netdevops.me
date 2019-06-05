@@ -48,6 +48,9 @@ canonifyurls = true
   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
   # googlePlus = "+ThibaudLepretre"
 
+[blackfriday]
+  fractions = false
+
 # Menu Configuration
 [[menu.main]]
   weight = 1
@@ -187,7 +190,7 @@ canonifyurls = true
 
   # Custom CSS. Put here your custom CSS files. They are loaded after the theme CSS;
   # they have to be referred from static root. Example
-  # customCSS = ["css/foo.css"]
+  customCSS = ["css/tranquilpeak.css"]
 
   # Custom JS. Put here your custom JS files. They are loaded after the theme JS;
   # they have to be referred from static root. Example
