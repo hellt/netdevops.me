@@ -2,5 +2,5 @@ themes/**/.gitignore
 themes/**/.git
 themes/**/.github
 .vscode
-
+.vagrant
 **/.DS_Store
