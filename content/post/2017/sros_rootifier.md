@@ -1,5 +1,6 @@
 ---
 date: 2017-11-22
+gitment_id: sros-root
 keywords:
 - SROS
 - Nokia

@@ -5,6 +5,7 @@ author: Roman Dodin
 # layout: post
 url: /2015/06/ldp-ordered-label-distribution-control-explained/
 draft: false
+gitment_id: ldp-ordered-distribution
 tags:
   - LDP
   - MPLS

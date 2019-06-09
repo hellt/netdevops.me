@@ -1,5 +1,6 @@
 ---
 date: 2017-11-09T12:00:00Z
+gitment_id: nginx-uwsgi-flask
 keywords:
 - Flask
 - nginx

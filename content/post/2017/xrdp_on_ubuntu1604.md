@@ -1,5 +1,6 @@
 ---
 date: 2017-08-25
+gitment_id: xrdp-ubuntu
 keywords:
 - xrdp
 - ubuntu
