@@ -1,5 +1,6 @@
 ---
 date: 2017-07-28
+gitment_id: vscode-go1
 keywords:
 - Golang
 - VSCode

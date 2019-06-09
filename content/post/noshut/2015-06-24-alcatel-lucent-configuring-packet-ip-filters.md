@@ -4,6 +4,7 @@ date: 2015-06-24T16:59:56+00:00
 author: Roman Dodin
 url: /2015/06/alcatel-lucent-configuring-packet-ip-filters/
 draft: false
+gitment_id: ip-filter
 tags:
   - SROS
   - Nokia

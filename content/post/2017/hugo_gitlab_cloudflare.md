@@ -1,5 +1,6 @@
 ---
 date: 2017-08-04T12:00:00Z
+gitment_id: hugo-gitlab-cloudflare
 keywords:
 - Hugo
 - Gitlab

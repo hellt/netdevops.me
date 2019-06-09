@@ -1,5 +1,6 @@
 ---
 date: 2017-10-26
+gitment_id: vif-move
 keywords:
 - virsh
 tags:

@@ -1,5 +1,6 @@
 ---
 date: 2017-07-18T12:00:00Z
+gitment_id: virsh-remove
 keywords:
 - virsh
 - kvm
