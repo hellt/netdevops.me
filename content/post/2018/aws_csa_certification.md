@@ -1,5 +1,6 @@
 ---
 date: 2018-05-11T12:00:00Z
+gitment_id: aws-csa-cert
 keywords:
 - AWS
 - Certification
