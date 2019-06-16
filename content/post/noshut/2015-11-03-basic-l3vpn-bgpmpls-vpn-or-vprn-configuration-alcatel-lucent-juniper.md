@@ -9,11 +9,13 @@ keys:
   - Juniper
   - L3VPN
   - VPRN
+  - BGP
 tags:
   - Nokia
   - Juniper
   - L3VPN
   - VPRN
+  - BGP
 ---
 
 The topic of this post is **Layer 3 VPN** (L3VPN or VPRN as we call it in SROS) configuration, and I decided to kill two birds with one stone by inviting Juniper vMX to our cozy SROS environment.
