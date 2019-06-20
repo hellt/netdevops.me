@@ -1,0 +1,53 @@
+---
+title: How to download an M3U/M3U8 playlist (stream) without a special software
+date: 2019-06-20T10:00:07+00:00
+author: Roman Dodin
+# layout: post
+draft: false
+gitment_id: m3u8 download
+keys:
+  - m3u8
+  - video
+tags:
+  - m3u8
+  - video
+---
+
+I love the tech conferences that share the recordings of the sessions without hiding behind the registration or a pay wall. Luckily the trend to share the knowledge with a community openly is growing, yet you still can find a nice talk hidden behind the above mentioned walls. 
+
+Sometimes an easy registration is all it takes, but then, how do you watch it offline? For example, I do love to catch up with with the recent trends and experiences while being on a plane, meaning that I just cant afford to be hooked up to the Internet.
+
+If a talk is published on the YouTube, you are good to go and download it with any web service that pops up in the google search by the term "Youtube download". But what do we do when the video is hosted somewhere in the CDN and is served as a dynamic playlist of `*.ts` files?
+
+Here I share with you an easy way to download the videos from an [m3u/m3u8]([m3u8](https://en.wikipedia.org/wiki/M3U)) playlist.
+
+<!--more-->
+
+The dynamic playlist format - M3U/M3U8 - is a way to tell the browser how to download the pieces of the video that will comprise the whole recording. So the download process is actually as easy as:
+
+1. Get the m3u8 link
+2. Download every file from that playlist and glue them into a single video.
+
+# Getting the playlist URL
+Now the first part is easy, you go to the page where a vide player is rendered and search for the `m3u8` file using the developers tools console of your browser.
+
+![m3u8](https://gitlab.com/rdodin/pics/wikis/uploads/d93e36091a2753714bdb6e56ba796a70/image.png)
+
+Make sure to get the master playlist request url and copy it in your clipboard.
+
+# Downloading the files
+The title of this post says "... with no special software", yet we will use the [VLC](https://www.videolan.org/vlc/) player here which I deliberately categorize as a software that everyone can get on every platform, so its not a special software.
+
+What you need to do next is to choose **File -> Open Network** dialog and paste the URL of the m3u8 playlist from the prev. step. Now you can either play it in the VLC right away, or check the **Stream Output** checkbox and click **Settings**.
+
+![m3u](https://gitlab.com/rdodin/pics/wikis/uploads/a7e2a5ccdb760fcb543914f7c244183b/image.png)
+
+This will open a new dialog where you can choose:
+
+* the path to a resulting video file
+* the video container format
+* and, optionally, the audio/video codecs if you want to do transcoding
+
+![settings](https://gitlab.com/rdodin/pics/wikis/uploads/84ac91ad725e848045ea53ad5d818c0c/image.png)
+
+Click **Ok** and the files will start to download and encode in your resulting video container by the path you specified. This is not a particularly fast process, so just wait till the progress bar reaches its end and enjoy the video!
