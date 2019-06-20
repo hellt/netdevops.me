@@ -35,6 +35,20 @@ Now the first part is easy, you go to the page where a vide player is rendered a
 
 Make sure to get the master playlist request url and copy it in your clipboard.
 
+## Video quality
+In the master playlist body you can see the different versions of the playlists, typically they differ with the quality settings. Consider the following m3u8 file contents:
+
+```bash
+#EXTM3U
+#EXT-X-VERSION:4
+#EXT-X-STREAM-INF:PROGRAM-ID=0,BANDWIDTH=180400,CODECS="mp4a.40.2,avc1.4d001e",RESOLUTION=720x294,AUDIO="audio-0",CLOSED-CAPTIONS=NONE
+https://manifest.prod.boltdns.net/...
+#EXT-X-STREAM-INF:PROGRAM-ID=0,BANDWIDTH=335500,CODECS="mp4a.40.2,avc1.4d001f",RESOLUTION=1200x490,AUDIO="audio-1",CLOSED-CAPTIONS=NONE
+https://manifest.prod.boltdns.net/...
+```
+
+The first cropped link is for the playlist with 720x294 resolution, whereas the second one is a HQ version with "1200x490" stream. If you see that for some reason you are downloading the low quality stream, extract the HQ stream URL and use it instead of the master playlist URL.
+
 # Downloading the files
 The title of this post says "... with no special software", yet we will use the [VLC](https://www.videolan.org/vlc/) player here which I deliberately categorize as a software that everyone can get on every platform, so its not a special software.
 
