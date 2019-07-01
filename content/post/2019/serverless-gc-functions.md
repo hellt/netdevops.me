@@ -323,7 +323,7 @@ my_dict["a_dict"]["nested_dict"]["qwe"] = "asd"
 ```
 With an empty GET request the function delivers a demo of its capabilities by taking a hardcoded demo JSON and making a transformation. The returned string is returned in a JSON object accessible by the `data` key.
 
-## 3.2 POST with a root and pycatj_data specified
+## 4.2 POST with a root and pycatj_data specified
 Getting a demo response back is useless, to make use of a pycatjify service a user can specify the `root` value and pass the original JSON data in a POST request body using the `pycatj_data` key:
 ```bash
 curl -sX POST https://us-central1-pycatj.cloudfunctions.net/pycatjify \
@@ -338,7 +338,7 @@ POST["a_dict"]["qwe"][1] = 2
 POST["a_dict"]["nested_dict"]["das"] = 31
 ```
 
-# 3.3 POST without root, with pycatj_data
+## 4.3 POST without root, with pycatj_data
 It is also allowed to omit the `root` key, in that case a default root value will be applied:
 
 ```bash
@@ -354,7 +354,7 @@ my_dict["a_dict"]["qwe"][1] = 2
 my_dict["a_dict"]["nested_dict"]["das"] = 31
 ```
 
-# 3.4 POST with json file as a body
+## 4.4 POST with json file as a body
 My personal favorite is dumping a JSON file in a request. In that case a lengthy `curl` is not needed and you can specify a path to a file with a `@` char.  
 This example leverages the logic embedded in a function that treats the whole body of an incoming request as a data for `pycatj` transformation. 
 ```bash
