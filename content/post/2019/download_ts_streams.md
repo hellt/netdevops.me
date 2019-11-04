@@ -33,7 +33,7 @@ The dynamic playlist format - M3U/M3U8 - is a way to tell the browser how to dow
 # Getting the playlist URL
 Now the first part is easy, you go to the page where a vide player is rendered and search for the `m3u8` file using the developers tools console of your browser.
 
-![m3u8](https://gitlab.com/rdodin/pics/wikis/uploads/d93e36091a2753714bdb6e56ba796a70/image.png)
+![m3u8](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/d93e36091a2753714bdb6e56ba796a70/image.png)
 
 Make sure to get the master playlist request url and copy it in your clipboard.
 
@@ -57,7 +57,7 @@ The title of this post says "... with no special software", yet we will use the 
 
 What you need to do next is to choose **File -> Open Network** dialog and paste the URL of the m3u8 playlist from the prev. step. Now you can either play it in the VLC right away, or check the **Stream Output** checkbox and click **Settings**.
 
-![m3u](https://gitlab.com/rdodin/pics/wikis/uploads/a7e2a5ccdb760fcb543914f7c244183b/image.png)
+![m3u](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/a7e2a5ccdb760fcb543914f7c244183b/image.png)
 
 This will open a new dialog where you can choose:
 
@@ -65,7 +65,7 @@ This will open a new dialog where you can choose:
 * the video container format
 * and, optionally, the audio/video codecs if you want to do transcoding
 
-![settings](https://gitlab.com/rdodin/pics/wikis/uploads/84ac91ad725e848045ea53ad5d818c0c/image.png)
+![settings](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/84ac91ad725e848045ea53ad5d818c0c/image.png)
 
 Click **Ok** and the files will start to download and encode in your resulting video container by the path you specified. This is not a particularly fast process, so just wait till the progress bar reaches its end and enjoy the video!
 

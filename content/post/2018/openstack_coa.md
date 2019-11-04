@@ -92,7 +92,7 @@ The exam environment allows you to use the integrated notebook. I used it to mar
 
 Go and pursue the COA certification, its not the easiest one out there, but certainly its not one of the toughest. Depending on your exposure to the Openstack basics you can prepare only for the rare things like `swift` expiration configuration and maybe some other CLI-only tasks and sit the exam. Since it sports one free re-take, you can safely get a taste of it and probably pass it from the first attempt. Good luck!
 
-![coa_cert](https://gitlab.com/rdodin/pics/wikis/uploads/11111cf64e2d44ece59a82837f1c4db6/image.png)
+![coa_cert](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/11111cf64e2d44ece59a82837f1c4db6/image.png)
 
 ## Useful links
 1. [Preparing for the Certified OpenStack Administrator Exam](https://www.amazon.com/Preparing-Certified-OpenStack-Administrator-Exam-ebook/dp/B06WRT43DW)
