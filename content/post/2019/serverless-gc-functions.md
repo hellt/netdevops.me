@@ -14,7 +14,7 @@ tags:
 
 title: Creating Google Cloud Platform Function with Python and Serverless
 ---
-![serveless](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/e4f956d64dcf812f64a77f8532499d07/image.png)
+![serveless](https://gitlab.com/rdodin/pics/-/wikis/uploads/e4f956d64dcf812f64a77f8532499d07/image.png)
 Two years ago [I shared](../../2017/building-aws-lambda-with-python-s3-and-serverless/) my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service.
 
 Naturally, a simple, single-purpose tool is a perfect candidate for function-as-a-service (FaaS), and since I had past experience with AWS Lambda, this time I decided to meet its Google's sibling - [Google Cloud Function](https://cloud.google.com/functions/).
@@ -206,7 +206,7 @@ Hello World!
 
 You can also verify the resources that were created by this deployment by visiting the **Deployment Manager** in the GCP console as well as navigating to the functions page and examine the deployed function and its properties:
 
-![function](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/10b4d747ddda7e773d8b21767619b9df/image.png)
+![function](https://gitlab.com/rdodin/pics/-/wikis/uploads/10b4d747ddda7e773d8b21767619b9df/image.png)
 
 ## 2.3 Writing a Function
 That was a template [function](https://serverless.com/framework/docs/providers/google/guide/functions/) that we just [deployed](https://serverless.com/framework/docs/providers/google/guide/deploying/) with the HTTP [event](https://serverless.com/framework/docs/providers/google/guide/events/) acting as a trigger.

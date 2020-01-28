@@ -43,7 +43,7 @@ A classic, book-pictured network automation engineer is an all Python-shop custo
 Educating yourself on a different technology with a different set of the instruments and/or the views means a lot. Even by scratching the surface of the Javascript, its package managers and the front-end frameworks could make you better understand the pros and cons of the ecosystem you are in.
 
 # 2 Front-end & Javascript frameworks
-<center>![pic](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/6e95f9e54f4062d13e314fc1b4d78266/image.png)</center>
+<center>![pic](https://gitlab.com/rdodin/pics/-/wikis/uploads/6e95f9e54f4062d13e314fc1b4d78266/image.png)</center>
 So how do one start if they want to learn any of that shiny front-end witchery given that there are so many frameworks around? In spite to answer this question I compiled the following list of options that when I approached the task of making a [`pycatjify`](https://pycatjify.netdevops.me) web service:
 
 1. **Frameworkless: bare HTML/CSS/JS**  
@@ -117,7 +117,7 @@ In the [ending](https://gist.github.com/hellt/f0878010813c21837a518d89f36f5e61#f
 ## 3.3 Bootstrap components are your lego blocks
 The framework's library has a lot of components that might be treated like the lego blocks with which you build the web facade. The benefit of having the pre-created components is huge; you don't need to create these common components yourself from the ground up, just browse the library and pick the right ones.
 
-> ![components](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/cb491f0ab8842f37bcd76f8557102d72/image.png)
+> ![components](https://gitlab.com/rdodin/pics/-/wikis/uploads/cb491f0ab8842f37bcd76f8557102d72/image.png)
 > <center><small>Example of the tabs & pills components</small></center>
 
 To understand which components I'd need for the pycatjify I imagined what layout would I want my page to have. Since `pycatj` is a tool that works on an input JSON/YAML data and produces a multi line output, the simple layout could consist of a [navigation bar](https://mdbootstrap.com/docs/jquery/navigation/navbar/) with the project logo, the two [input fields](https://mdbootstrap.com/docs/jquery/forms/inputs/) for input and output data and the [modal dialog](https://mdbootstrap.com/docs/jquery/modals/basic/) with [cards](https://mdbootstrap.com/docs/jquery/components/cards/).
@@ -128,7 +128,7 @@ When building pycatjify front-end I just removed the default contents of the `<b
 
 It looks like a lot of lines of code, but everything was just pasted from the examples section. First time it takes some time to get to know the components and their behavior, but do it once and the next project would be an effortless task.
 
-> ![pic](https://gitlab.com/rdodin/pics/-/wiki_pages/uploads/6a42e976d4a8a732b6b62f1e2f58a7dd/image.png)
+> ![pic](https://gitlab.com/rdodin/pics/-/wikis/uploads/6a42e976d4a8a732b6b62f1e2f58a7dd/image.png)
 > <center><small>pycatjify web ui</small></center>
 
 # 4 Hooking up the back-end
