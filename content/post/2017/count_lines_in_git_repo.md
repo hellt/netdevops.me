@@ -1,6 +1,6 @@
 ---
 date: 2017-07-25
-gitment_id: git-repo-lines
+comment_id: git-repo-lines
 keywords:
 - xargs
 - git

@@ -2,7 +2,7 @@
 title: Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities
 date: 2015-09-23T16:41:58+00:00
 author: Roman Dodin
-gitment_id: bgp-communities
+comment_id: bgp-communities
 url: /2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/
 tags:
   - Nokia

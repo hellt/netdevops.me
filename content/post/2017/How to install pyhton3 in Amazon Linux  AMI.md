@@ -1,6 +1,6 @@
 ---
 date: 2017-08-20T12:00:00Z
-gitment_id: py3-aws
+comment_id: py3-aws
 keywords:
 - AWS
 - python

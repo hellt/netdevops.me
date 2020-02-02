@@ -1,6 +1,6 @@
 ---
 date: 2017-07-24T06:00:00Z
-gitment_id: nokdoc-sentinel
+comment_id: nokdoc-sentinel
 keywords:
 - AWS
 - AWS Lambda

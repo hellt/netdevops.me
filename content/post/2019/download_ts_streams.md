@@ -4,7 +4,7 @@ date: 2019-06-20T10:00:07+00:00
 author: Roman Dodin
 # layout: post
 draft: false
-gitment_id: m3u8 download
+comment_id: m3u8 download
 keys:
   - m3u8
   - video

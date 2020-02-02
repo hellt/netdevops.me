@@ -1,6 +1,6 @@
 ---
 date: 2018-03-25T12:00:00Z
-gitment_id: s3-multiupload
+comment_id: s3-multiupload
 keywords:
 - AWS
 tags:

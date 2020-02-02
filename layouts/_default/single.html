@@ -38,23 +38,25 @@
                     {{ if .Site.DisqusShortname }}
                     {{ partial "post/disqus.html" . }}
                     {{ end }}
-                    {{ if (.Params.gitment_id) }}
-                    <div id="git-comments"></div>
-                    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-                    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+
+                    <div id="gitalk-container"></div>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
                     <script>
-                        var gitment = new Gitment({
-                            id: '{{ .Params.gitment_id }}',  // 可选, 默认为 location.href
-                            owner: 'hellt',
+                        const gitalk = new Gitalk({
+                            clientID: '11769dd99bbd352fa941',
+                            clientSecret: 'f1b2e17c8a787a142d1e74f8a6469b712cf81d19',
                             repo: 'netdevops.me_gitment_comments',
-                            oauth: {
-                                client_id: '6fa547858513dab9bfd5',
-                                client_secret: 'a11ead60e18021e8d83c992921e0ee32b8b0e4ac',
-                            }
+                            owner: 'hellt',
+                            admin: ['hellt'],
+                            id: '{{ .Params.comment_id }}',      // Ensure uniqueness and length less than 50
+                            distractionFreeMode: false  // Facebook-like distraction free mode
                         })
-                        gitment.render('git-comments')
+
+                        gitalk.render('gitalk-container')
                     </script>
-                    {{ end }}
+
                     {{ end }}
                 </div>
             </article>

@@ -1,6 +1,6 @@
 ---
 date: 2018-11-11T12:00:00Z
-gitment_id: coa-cert
+comment_id: coa-cert
 keywords:
 - Openstack
 - Certification

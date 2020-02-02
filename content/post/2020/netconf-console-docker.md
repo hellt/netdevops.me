@@ -1,6 +1,6 @@
 ---
 date: 2020-01-28T06:00:00Z
-gitment_id: netconf-console-docker
+comment_id: netconf-console-docker
 keywords:
 - netconf
 - docker

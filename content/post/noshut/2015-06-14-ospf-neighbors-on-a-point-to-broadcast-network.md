@@ -4,7 +4,7 @@ date: 2015-06-14T11:02:45+00:00
 url: /2015/06/ospf-neighbors-on-a-point-to-broadcast-network/
 toc: true
 draft: false
-gitment_id: ospf-p2b
+comment_id: ospf-p2b
 tags:
   - OSPF
 ---

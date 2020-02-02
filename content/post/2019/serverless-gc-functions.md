@@ -1,6 +1,6 @@
 ---
 date: 2019-06-30T06:00:00Z
-gitment_id: gcp-function
+comment_id: gcp-function
 keywords:
 - GCP
 - GCP Function

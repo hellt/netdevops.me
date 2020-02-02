@@ -1,6 +1,6 @@
 ---
 date: 2017-10-29
-gitment_id: wait-ssh-paramiko
+comment_id: wait-ssh-paramiko
 keywords:
 - paramiko
 - python

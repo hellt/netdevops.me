@@ -1,6 +1,6 @@
 ---
 date: 2017-11-24
-gitment_id: yaml-hl
+comment_id: yaml-hl
 keywords:
 - highlightjs
 - yaml

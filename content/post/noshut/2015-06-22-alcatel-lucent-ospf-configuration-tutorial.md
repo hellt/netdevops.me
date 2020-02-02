@@ -5,7 +5,7 @@ author: Roman Dodin
 url: /2015/06/alcatel-lucent-ospf-configuration-tutorial/
 # toc: true
 draft: false
-gitment_id: sros-ospf-tutorial
+comment_id: sros-ospf-tutorial
 tags:
   - SROS
   - Nokia
