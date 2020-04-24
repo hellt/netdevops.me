@@ -17,7 +17,7 @@ In a network automation field where the configuration protocols such as NETCONF 
 This blog post is about a handy tool called [`netconf-console`](https://pypi.org/project/netconf-console/) which allows you to interface with your network device using NETCONF quick and easy. And, of course, I packed it in a smallish container so you can enjoy it hassle-free on every docker-enabled host.
 <!--more-->
 
-[`netconf-console`](https://pypi.org/project/netconf-console/) is a tool from Tail-f that basically gives you a NETCONF client for your console. That is exactly the packaging that I appreciate to have when I need to play with NETCONF. Cold-starting a python project with `ncclient` is much slower and you need ensure that you have all the RPCs coded, meh. With the console client you have almost anything you need to start tinkering with NETCONF enabled device.
+[`netconf-console`](https://bitbucket.org/martin_volf/ncc/src/master/) is a tool from Tail-f that basically gives you a NETCONF client for your console. That is exactly the packaging that I appreciate to have when I need to play with NETCONF. Cold-starting a python project with `ncclient` is much slower and you need ensure that you have all the RPCs coded, meh. With the console client you have almost anything you need to start tinkering with NETCONF enabled device.
 
 ```
 # netconf-console --host=example.com --db candidate --lock --edit-config=fragment1.xml \
@@ -40,6 +40,8 @@ netconf> rpc confirm.xml
 I've been spoiled by Rust/Go tools that are self-contained, dependency-free and almost platform-agnostic. To achieve the same level of hassle-free for python tool I practice containerization.
 
 So I decided to put `netconf-console` in a whale protected cage by building a multi-stage docker image. Even though there are [some](https://hub.docker.com/search?q=netconf%20console&type=image) images for the netconf-console, they are all outdated, based on an old version of the tool and use python2 under the hood. Its 2020 here, so I wanted to create a fresh, small image based off of the recent netconf-console code and running with python3.
+
+> Of course you can install the netconf-console with pip as usual: `pip install netconf-console`
 
 So here it is, a multi-stage build [Dockerfile](https://github.com/hellt/netconf-console-docker/blob/master/Dockerfile) that builds `netconf-console` in Alpine linux with python3.7.  
 The result of this build can be found at the relevant [docker hub page](https://hub.docker.com/repository/docker/hellt/netconf-console).
