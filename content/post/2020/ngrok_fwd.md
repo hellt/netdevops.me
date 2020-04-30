@@ -69,6 +69,13 @@ Let's dissect this two stage process of setting the tunnels up:
 
 That way we bridge the linux ports exposed with `ngrok` with the ports on the router. If that sounds confusing, lets go through the example.
 
+## socat vs fwd
+If you (as me) will experience some issues with `fwd` reporting broken pipes there is an old-school alternative - `socat`. As with `fwd`, you can concatenate connections in the following way:
+```bash
+# requests coming to localhost:11122 will be forwarded to 10.2.0.11:22
+socat tcp-listen:11122,reuseaddr,fork tcp:10.2.0.11:22
+```
+
 ## Practical example
 We start first with exposing the ports of the machine that runs `ngrok` client and has IP reachability with our router. To expose multiple ports in a quick and easy way, I suggest you leverage the `ngrok` configuration file which can resemble smth like this:
 
