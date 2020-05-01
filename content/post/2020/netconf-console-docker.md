@@ -47,7 +47,7 @@ So here it is, a multi-stage build [Dockerfile](https://github.com/hellt/netconf
 The result of this build can be found at the relevant [docker hub page](https://hub.docker.com/repository/docker/hellt/netconf-console).
 
 ### Tags
-The docker image will be tagged in accordance with the relase verion numbers of the `netconf-console`; at the time of this writing, the latest version is `2.2.0`, hence you will find the image with the corresponding tag. Also, the `latest` tag will point to the most recent version.
+The docker image will be tagged in accordance with the release version numbers of the `netconf-console`; at the time of this writing, the latest version is `2.2.0`, hence you will find the image with the corresponding tag. Also, the `latest` tag will point to the most recent version.
 
 ## Installation
 As with any other docker image, all it takes is to make a pull:
@@ -125,7 +125,7 @@ $ cat test.xml
 </rpc>
 ```
 ```xml
-$ docker run -it --rm -v $(pwd):/rpcs hellt/netconf-console --host=10.1.0.11 --port=830 -u admin -p admin /rpcs/test.xml
+$ docker run -it --rm -v $(pwd):/rpc hellt/netconf-console --host=10.1.0.11 --port=830 -u admin -p admin test.xml
 <?xml version='1.0' encoding='UTF-8'?>
 <rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="113">
     <data>
@@ -157,4 +157,6 @@ $ docker run -it --rm -v $(pwd):/rpcs hellt/netconf-console --host=10.1.0.11 --p
 </rpc-reply>
 ```
 
-And you can create pretty complex ad-hoc RPCs with locking the datastore, commiting and discarding the changes effortlessly.
+> Note that the WORKDIR of the container image is set to `/rpc`, therefore mounting the directory with your RPCs to that mountpoint will allow to refer to the file names directly.
+
+And you can create pretty complex ad-hoc RPCs with locking the datastore, committing and discarding the changes effortlessly.
