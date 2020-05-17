@@ -9,3 +9,9 @@ code {
     padding: 0px 5px;
     line-height: 1.6em;
 }
+
+@media (min-width: 1400px) {
+	.main-content-wrap {
+		max-width: 950px;
+	}
+}
