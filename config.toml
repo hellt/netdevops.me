@@ -20,7 +20,6 @@ languageCode = "en-us"
 defaultContentLanguage = "en-us"
 title = "NetDevOps"
 theme = "hugo-tranquilpeak-theme"
-# disqusShortname = "hugo-tranquilpeak-theme"
 googleAnalytics = "UA-101537614-1"
 paginate = 7
 canonifyurls = true
@@ -42,14 +41,19 @@ canonifyurls = true
   # gravatarEmail = "dodin.roman@gmail.com"
   # Your profile picture
   # Overwritten by your gravatar image if `author.gravatarEmail` is filled
-  picture = "https://lh3.googleusercontent.com/VlftXgU8IMOX0c_ffNfI2PPGzzxX8_98efUy0ZZlBnqhqhtudObQbk0i5UYcKSJcCdzfab6Ek8fR8toWP0ILXoojaOOJ8FEOVhUGWeKaRHjQT9DOHLY_s9Y5eNgCrCNqdcMAEVUWc8U=s110-no"
+  picture = "https://gitlab.com/rdodin/pics/-/wikis/uploads/95361847e46716d94cd8469ae33eeed1/avatar.png"
   # Your Twitter username without the @. E.g : thibaudlepretre
   twitter = "@ntdvps"
   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
   # googlePlus = "+ThibaudLepretre"
 
+[markup]
+  defaultMarkdownHandler = "blackfriday"
+
 [blackfriday]
   fractions = false
+  plainIDAnchors = true
+  skipHTML = false
 
 # Menu Configuration
 [[menu.main]]
