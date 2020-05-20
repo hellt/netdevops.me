@@ -1,5 +1,5 @@
 pages:
-  image: fundor333/hugo:0.53
+  image: fundor333/hugo:0.69.2
   script:
     - hugo
   # send all files from public directory to the CI server
