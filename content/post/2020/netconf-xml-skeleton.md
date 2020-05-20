@@ -177,7 +177,7 @@ Just paste it in the `get-config` XML envelope like this and save it in a `get-u
 </rpc>
 ```
 
-Now its ready to be tested (using [netconf-console in a docker container](netconf-console-docker.md)):
+Now its ready to be tested (using [netconf-console in a docker container](https://netdevops.me/2020/netconf-console-in-a-docker-container/)):
 
 ```xml
 [root@infra ~]# docker run -it --rm -v $(pwd):/rpcs hellt/netconf-console --host=10.1.0.11 --port=830 -u admin -p admin /rpcs/get-users.xml
