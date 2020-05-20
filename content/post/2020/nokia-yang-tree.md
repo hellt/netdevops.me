@@ -20,13 +20,13 @@ The automation tools leveraging YANG is often a missing link and in this post I 
 **Table of contents**:
 
 - [1 Models for machines](#1-models-for-machines)
-  - [1.1 Why browsing models is important?](#11-why-browsing-models-is-important)
+  - [1.1 Why browsing models is important?](#1-1-why-browsing-models-is-important)
 - [2 YANG representations](#2-yang-representations)
-  - [2.1 Tree](#21-tree)
-  - [2.2 HTML tree](#22-html-tree)
+  - [2.1 Tree](#2-1-tree)
+  - [2.2 HTML tree](#2-2-html-tree)
 - [3 Nokia YANG tree repository](#3-nokia-yang-tree-repository)
-  - [3.1 YANG Browser](#31-yang-browser)
-  - [3.2 Path Browser](#32-path-browser)
+  - [3.1 YANG Browser](#3-1-yang-browser)
+  - [3.2 Path Browser](#3-2-path-browser)
 - [4 Summary](#4-summary)
 
 ## 1 Models for machines
@@ -132,8 +132,8 @@ Due to the substantial size of the combined models it takes quite some time for 
 That is how [hellt/nokia-yangtree](https://github.com/hellt/nokia-yangtree) repo was born. The repository features:
 
 1. various _views_ of the Nokia combined YANG models (text tree, xml, html tree) as well as stores the XPATH paths extracted from the models. A user can clone the repo and gain access to all of these formats
-2. [**YANG Browser**](#31-yang-browser) that serves the "HTML tree" views of the combined models so that our users could consume these models online without a need to generate them
-3. [**Path Browser**](#32-path-browser) that enables search functionality over the extracted model paths
+2. [**YANG Browser**](#3-1-yang-browser) that serves the "HTML tree" views of the combined models so that our users could consume these models online without a need to generate them
+3. [**Path Browser**](#3-2-path-browser) that enables search functionality over the extracted model paths
 
 <div align="center">
     <img style="width:70%" src="https://gitlab.com/rdodin/pics/-/wikis/uploads/b49f71395d2ed2e2f17d6a31d7ddd4a9/image.png" />
@@ -214,4 +214,4 @@ With a service like that you can efficiently and plain easy search through the N
 ## 4 Summary
 By leveraging the opensource tools and by writing our own paths extractor we have created a DIY YANG browsing set of instruments that greatly help network automation engineers working with Nokia gear. Understanding the utter importance of YANG, it was imperative for me to make these models more convenient to consume and, at the same time, keeping it open and free.
 
-As a result of that effort, the community now can use [YANG Browser](#31-yang-browser) to breeze through the Nokia YANG modules and [Path Browser](#32-path-browser) comes to help when the users need to perform a search for the certain leaves.
+As a result of that effort, the community now can use [YANG Browser](#3-1-yang-browser) to breeze through the Nokia YANG modules and [Path Browser](#3-2-path-browser) comes to help when the users need to perform a search for the certain leaves.
