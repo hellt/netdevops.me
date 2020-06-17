@@ -98,6 +98,6 @@ Go and pursue the COA certification, its not the easiest one out there, but cert
 1. [Preparing for the Certified OpenStack Administrator Exam](https://www.amazon.com/Preparing-Certified-OpenStack-Administrator-Exam-ebook/dp/B06WRT43DW)
 2. [Preparing to COA Git repo](https://github.com/PacktPublishing/Preparing-for-the-Certified-OpenStack-Administrator-Exam)
 
-> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/8).
-
-
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

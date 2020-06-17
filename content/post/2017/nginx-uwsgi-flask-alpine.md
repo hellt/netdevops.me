@@ -214,3 +214,7 @@ First of all, there is no need to use the image from the docker hub, it was crea
 3. Copy your app to the `/app` subdirectory and you are good to build your image
 
 > Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/5history).
+
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

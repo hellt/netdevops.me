@@ -110,4 +110,8 @@ and the rest is handled by the marvelous youtube-dl:
 Sometimes, though, you can't just specify the URL of a page where the player is normally loaded in your browser, due to the cookies presented in your browser and who knows what black magic this frontenders invented while we were not watching.  
 Then you still need to manually fetch the m3u8 link and feed it to the `youtube-dl`. The rest stays the same, the tool will handle the download/encoding process in the most effective and pleasant way.
 
-> Note, you also might need to download the `ffmpeg` for youtube-dl to merge the different streams in a single container. Anyway, `youtube-dl` will tell you if its the case for you.
+Note, you also might need to download the `ffmpeg` for youtube-dl to merge the different streams in a single container. Anyway, `youtube-dl` will tell you if its the case for you.
+
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

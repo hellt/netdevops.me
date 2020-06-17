@@ -1153,3 +1153,7 @@ VRF's 20 routing table says that packets destined to `1.1.1.1` should be forward
 CE2_JUN receives an ordinary IP packet with a destination address matching its interface. It decapsulates ICMP echo request and sends back the echo reply.
 
 This concludes the control and data plane operations walk through. If you followed along the explanations and practiced the configuration steps, you should be in a good shape to implement the basic L3VPN services and also should have a pretty solid understanding of the service establishment mechanics.
+
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

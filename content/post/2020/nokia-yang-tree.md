@@ -215,3 +215,7 @@ With a service like that you can efficiently and plain easy search through the N
 By leveraging the opensource tools and by writing our own paths extractor we have created a DIY YANG browsing set of instruments that greatly help network automation engineers working with Nokia gear. Understanding the utter importance of YANG, it was imperative for me to make these models more convenient to consume and, at the same time, keeping it open and free.
 
 As a result of that effort, the community now can use [YANG Browser](#3-1-yang-browser) to breeze through the Nokia YANG modules and [Path Browser](#3-2-path-browser) comes to help when the users need to perform a search for the certain leaves.
+
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

@@ -469,3 +469,7 @@ Jun 11 10:14:57.782075 OSPF packet ignored: configuration mismatch from 10.1.2.2
 
   * [OSPF Version 2](http://tools.ietf.org/html/rfc2328) (RFC)
   * [What is your OSPF neighbor doing? Adjacency problems in OSPF](https://inetzero.com/what-is-your-ospf-neighbor-doing-adjancency-problems-in-ospf/) (https://inetzero.com)
+
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

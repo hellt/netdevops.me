@@ -1082,3 +1082,7 @@ Apart from traditional way of cloning a [repo](https://github.com/hellt/PLAZA) a
 # What's next?
 
 Tons of useful things are missing at the moment - no search, no active tags, no login-based system, no tests, etc. I will probably add some of this features later, but you are welcome to suggest, blame, and pull-request. Yeah, the code `as is` can be grabbed from [GitHub](https://github.com/hellt/PLAZA).
+
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

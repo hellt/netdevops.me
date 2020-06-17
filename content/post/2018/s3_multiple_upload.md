@@ -120,4 +120,6 @@ aws s3 cp with parallel and 252 jobs: 21.5 seconds
 
 So you see that the `aws s3 cp` with `parallel` might come handy if you have enough of vCPUs to handle that many parallel workers. But if you are sending your files from a regular notebook/PC the `aws s3 sync` command will usually be of a better choice.
 
-> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/6).
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>

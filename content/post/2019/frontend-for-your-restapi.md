@@ -195,3 +195,7 @@ You can imagine, that adding all of these features increases the complexity of t
 I hope this "how to create a front-end being not a front-ender" post helps you with the basics of a simple front-end machinery. Remember, its important to start, and its easier to start small, you can always grow later. And I think the Bootstrap-like frameworks are a good choice for that.
 
 Checkout the [project's source code](https://github.com/hellt/pycatj-web) and leave the comments or ask questions below if I missed something.
+
+> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
+> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
+<a href="https://www.buymeacoffee.com/ntdvps" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
