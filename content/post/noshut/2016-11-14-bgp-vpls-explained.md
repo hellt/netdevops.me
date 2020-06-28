@@ -1,5 +1,5 @@
 ---
-title: BGP VPLS explained (Nokia & Juniper)
+title: BGP VPLS deep dive. Nokia SR OS & Juniper
 date: 2016-11-14T04:22:27+00:00
 author: Roman Dodin
 comment_id: bgp-vpls-explained
