@@ -285,7 +285,7 @@ Using our local users examples that translates to a need to filter the informati
                     <user-params>
                         <local-user>
                             <user>
-                                <user-name>admin</user-name>  <!-- Content Match node >
+                                <user-name>admin</user-name>  <!-- Content Match node -->
                             </user>
                         </local-user>
                     </user-params>
