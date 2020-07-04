@@ -35,7 +35,7 @@ canonifyurls = true
 [author]
   name = "Roman Dodin"
   bio = "Eagerness to learn & passion to share"
-  job = "Network Automtaion @ Nokia"
+  job = "Network Automation @ Nokia"
   location = "Netherlands"
   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
   # gravatarEmail = "dodin.roman@gmail.com"
