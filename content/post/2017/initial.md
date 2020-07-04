@@ -3,31 +3,29 @@ draft: false
 date: "2017-06-19T23:00:00Z"
 title: "Initial commit"
 ---
-Hey there, it's Roman here, a network engineer who decided to swap the job role and pour some DevOps sauce on top of the network engineering base. And it seems that the timing is just perfect to write down all the things that I will encounter on that transition path. Hence, the idea to spawn a blog was born.
+Hey there and thanks for stopping by! I'm Roman - once a network engineer who decided to pour some thick layer of DevOps and programmability sauce on top of the network engineering base.
 
+I am currently with **Nokia** doing Network Automation consulting which involves node-level automation for Nokia SR OS platform as well as the higher level orchestration powered with Nokia NSP.
 
-Lucky me, the name came almost instantly, thanks to the community that generated another sound buzzword for guys like I wanna be -- **NetDevOps**. So here we are at [https://netdevops.me](https://netdevops.me)!
+My geek area of interest is best described with the [tags](https://netdevops.me/tags/) this blog has. It ranges from a classic Networking domain to programmable networks powered by modern model interfaces and devops stacks.
 
+In addition to my daily customer-facing activities I embrace the open source and taking every chance to contribute to it. You might know me as one of the authors of Nokia related plugins for projects like Netmiko, NAPALM, Ansible, etc. You can also check out my own projects - https://github.com/hellt.
 
-# What is this all about?
+My programming interests are now occupied with Go, but I did enjoy Python and am a heavy user of Ansible.
+
+Previously held positions:
+
+* Technical Marketing Engineer @ [Nuage Networks](https://www.nuagenetworks.net/)
+* Test Automation Engineer @ [Nuage Networks](https://www.nuagenetworks.net/)
+* New Product Introduction engineer @ [Nokia](https://nokia.com)
+
+### What is this blog about?
 This blog will be my diary on a journey to embrace
 
 - Scripting and tooling (Network Automation, Config Management, Test Automation, CI/CD)
+- Model driven network interfaces (NETCONF, gNMI, YANG)
 - Virtualization, containerization and orchestration
-- Networking in the cloud providers infrastructure (aws, gcp, azure)
-- [Nuage Networks VSP](http://www.nuagenetworks.net/) operation
+- Networking in the public cloud (aws, gcp, azure)
 
-The type of content you could expect to appear here can be described (but not limited) by the following categories:
-
-- Intermediate level tutorials in the above mentioned areas judging that a reader has a network background
-- Tips and tricks, i.e. terse posts covering a particular workflow or technique
-
-<!--more-->
-
-# Other projects
-My other blog -- [noshut.ru](http://noshut.ru) -- dedicated to Service Provider routing technologies in general and Nokia SROS in particular will stay alive, though I do not expect to write more _pure routing_ topics anytime soon.
-
-I will heavily rely on another paradigm CL -- continuous learning -- meaning that many of my posts here will be of a ** type
-
-# How to reach me
-I am pretty active on [Twitter](https://twitter.com/ntdvps) and [LinkedIn](https://www.linkedin.com/in/rdodin/). You can also drop me an email `dodin [d0t] roman {at} gmail.com`
+### How to reach me
+I am quite active on [Twitter](https://twitter.com/ntdvps) and [LinkedIn](https://www.linkedin.com/in/rdodin/). You can also drop me an email `dodin [d0t] roman {at} gmail.com`
