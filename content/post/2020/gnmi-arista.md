@@ -17,7 +17,7 @@ tags:
 
 title: Arista vEOS gNMI Tutorial
 ---
-We were pleasantly surprised by the way community appreciated [gNMIc](gnmic.md) release. Thank you 🙏! That solidifies the fact that a well-formed, documented and easy to use gNMI tool was needed.
+We were pleasantly surprised by the way community appreciated [gNMIc](https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/) release. Thank you 🙏! That solidifies the fact that a well-formed, documented and easy to use gNMI tool was needed.
 
 Now with gNMIc available to everybody its easy like never before to test gNMI implementation of different routing OSes. And in this post we will get our hands on **Arista vEOS**.
 <!--more-->
