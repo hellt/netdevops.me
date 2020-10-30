@@ -13,7 +13,6 @@
 # use grunt task `build` to synchronize assets
 
 baseurl = "https://netdevops.me/"
-# baseurl = "https://rdodin.gitlab.io"
 buildDrafts = true
 metadataFormat = "yaml"
 languageCode = "en-us"
@@ -194,7 +193,7 @@ canonifyurls = true
 
   # Custom CSS. Put here your custom CSS files. They are loaded after the theme CSS;
   # they have to be referred from static root. Example
-  customCSS = ["css/tranquilpeak.css"]
+  customCSS = ["css/tranquilpeak.css", "css/fonts.css"]
 
   # Custom JS. Put here your custom JS files. They are loaded after the theme JS;
   # they have to be referred from static root. Example
