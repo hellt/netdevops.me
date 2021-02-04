@@ -2,6 +2,11 @@
 	font-size: 1.5rem;
 }
 
+/* this rule is to make drawio diagrams look correct wrt to text alignment */
+div.geDiagramContainer div {
+	line-height: 1.2;
+}
+
 code {
 	font-size: 1.3rem;
 	display: inline-block;
