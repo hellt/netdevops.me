@@ -380,7 +380,7 @@ The rest of the service configuration goes like this:
             sap 1/1/2:10 create
                 no shutdown
             exit
-            no shutdown</pre>
+            no shutdown
 ```
 
 Important part here is `sap` (service access point) binding. Command `sap 1/1/2:10` basically tells that frames coming in `port 1/1/2` encapsulated with `vlan-id 10` will be attached to this VPLS service. Note, that `vlan-id 10` is a service delimiter. Read more about processing of vlan tags [here](https://infocenter.alcatel-lucent.com/public/7750SR140R4/topic/com.sr.l2/html/vpls.html?cp=5_2_2_2#i4833010).
