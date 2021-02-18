@@ -168,6 +168,7 @@ There is a KSM kernel feature that allows you to achieve some memory sharing via
 
 The following resources will help you start with KSM:
 
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_tuning_and_optimization_guide/chap-ksm#sect-KSM-The_KSM_tuning_service
 * https://gist.github.com/mapuo/17e3b253222172c1659782eb14150c3a
 * https://www.linux-kvm.org/page/KSM#Enabling_KSM
 * https://openterprise.it/2019/03/enable-ksm-kernel-same-page-merging-on-fedora/
