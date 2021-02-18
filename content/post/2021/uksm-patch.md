@@ -34,6 +34,8 @@ So I decided to bring UKSM to my Ubuntu 20.04 VM that I use to launch virtualize
 
 The results look promising. Running 6 VMs with a system memory footprint of one is a solid memory optimization, especially considering that performance penalty is something we can bare in a lab where we mostly play with control plane features.
 
+![uksm-compare](https://gitlab.com/rdodin/pics/-/wikis/uploads/55317652924b2ad3d083cf6719b5cd1e/image.png)
+
 Now if you want to bring UKSM to your hypervisor you will need to jump through some hoops, as UKSM is a kernel feature that is not available as a module. This means that you need to build a kernel with UKSM enabled, and that might be a barrier too high for some of you. It was for me, until I spent a night trying multiple things until it worked, so let me share with you the process and the outcomes so that you can rip the benefits without having all the trouble of trial-and-error routine.
 
 #### 0 TL;DR
