@@ -131,7 +131,7 @@ canonifyurls = true
   # Syntax highlighter, possible choice between: "highlight.js" (recommanded) and "prism.js" (experimental)
   # You can comment it to disable syntax highlighting
   syntaxHighlighter = "highlight.js"
-  customJS = ["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js","https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ini.min.js"]
+  customJS = ["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js","https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ini.min.js", "https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js"]
   
 
   # Hide sidebar on all article page to let article take full width to improve reading, and enjoy wide images and cover images. (true: enable, false: disable)
