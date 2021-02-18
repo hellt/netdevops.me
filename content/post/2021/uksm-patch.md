@@ -163,6 +163,17 @@ docker cp $id:/uksm-kernel .
 
 All you need to do is to start with step 5 and you should be all good. Thanks for tuning in!
 
+## PS. KSM vs UKSM
+There is a KSM kernel feature that allows you to achieve some memory sharing via a similar mechanisms. It can be that KSM will deliver a similar performance on your setup, and being included in your kernel by default it might be worth checking out.
+
+The following resources will help you start with KSM:
+
+* https://gist.github.com/mapuo/17e3b253222172c1659782eb14150c3a
+* https://www.linux-kvm.org/page/KSM#Enabling_KSM
+* https://openterprise.it/2019/03/enable-ksm-kernel-same-page-merging-on-fedora/
+* https://rotelok.com/enable-ksm-centos7-debian/
+* https://www.kernel.org/doc/Documentation/vm/ksm.txt
+
 > If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
 > <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
 
