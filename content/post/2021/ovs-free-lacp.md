@@ -44,6 +44,9 @@ But the elephant in the room is a Linux bridge' inability to pass certain Ethern
 
 Off we go looking for alternatives.
 
+> ADD: Apparently, there is a simple way to make LACP to pass over the linux bridge, another great person Vincent Bernard read the mailing list archives [and found out](https://twitter.com/vince2_/status/1363452081445740549) that you can only restrict the MAC_PAUSE frames and leave LACP be.  
+> though tc solution is cleaner for the purpose of a point-to-point link.
+
 ## 2 Macvtap
 Another approach that Michael tried when he was working on docker-topo was macvtap interface that looked promising on paper.
 
