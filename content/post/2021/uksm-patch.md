@@ -52,7 +52,8 @@ As mentioned above, UKSM is a kernel feature and the way it is distributed nowad
 As the UKSM patches need to be applied to a kernel source code, we need to get one. Here things can get a tad complicated.
 
 There are many different kernels out there:
-* vanilla Linux kernels blessed by Linux himself
+
+* vanilla Linux kernels blessed by Linus himself
 * distribution kernels (Debian, Ubuntu, Fedora, etc)
 * third party kernels with the best hacks
 
