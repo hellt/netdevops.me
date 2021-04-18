@@ -2,7 +2,6 @@
 title: How to download an M3U/M3U8 playlist (stream) without a special software
 date: 2019-06-20T10:00:07+00:00
 author: Roman Dodin
-# layout: post
 draft: false
 comment_id: m3u8 download
 keys:
@@ -21,7 +20,7 @@ Sometimes an easy registration is all it takes, but then, how do you watch it of
 
 If a talk is published on the YouTube, you are good to go and download it with any web service that pops up in the google search by the term "Youtube download". But what do we do when the video is hosted somewhere in the CDN and is served as a dynamic playlist of `*.ts` files?
 
-Here I share with you an easy way to download the videos from an [m3u/m3u8]([m3u8](https://en.wikipedia.org/wiki/M3U)) playlist.
+Here I share with you an easy way to download the videos from an [m3u/m3u8](https://en.wikipedia.org/wiki/M3U) playlist.
 
 <!--more-->
 
