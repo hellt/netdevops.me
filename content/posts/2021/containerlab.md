@@ -144,10 +144,10 @@ Containerlab is extensible, and if anything that is dear to your heart is missin
 ## Network node + regular containers
 Also remember that the same clab file can really be like docker-compose file.
 
-Need to bind mount files/dirs to your network node - ✅
-Want to expose a port to a container host - ✅
-Maybe set ENV vars - ✅
-Or change/augment the CMD the node runs - ✅
+* ✅ Need to bind mount files/dirs to your network node
+* ✅ Want to expose a port to a container host
+* ✅ Maybe set ENV vars
+* ✅ Or change/augment the CMD the node runs
 
 I am repeating myself, but can't stress this enough, containerlab clab files are a mix of a docker-compose and some networking stardust.
 That means that you can define a topology that will have both linux containers and network nodes.
