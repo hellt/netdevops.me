@@ -29,4 +29,3 @@ sudo apt-get install xrdp
 
 You can also try a `deb` package of `xrdp 0.9.2` -- https://github.com/suminona/xrdp-ru-audio
 
-<!--more-->

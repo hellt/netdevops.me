@@ -15,7 +15,8 @@ tags:
 
 The purpose of this post is to cover basic [OSPFv2](https://tools.ietf.org/html/rfc2328) configuration steps and commands for Nokia SROS routers. Intended readers are engineers with basic OSPF knowledge who want to know how to configure OSPF on Alcatel-Lucent Service Routers (7750-SR, 7705-SR, 7210-SR).
 
-All examples are valid for `TiMOS-B-12.0.R8` software.<!--more-->
+All examples are valid for `TiMOS-B-12.0.R8` software.
+<!--more-->
 
 # Single-area OSPF
 

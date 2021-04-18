@@ -10,7 +10,6 @@ tags:
 
 title: How to patch Ubuntu 20.04 Focal Fossa with UKSM?
 ---
-<!--more-->
 
 Running multiple VMs out of the same disk image is something we, network engineers, do quite often. A virtualized network usually consists of a few identical virtualized network elements that we interconnected with links making a topology.
 

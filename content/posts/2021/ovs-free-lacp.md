@@ -14,7 +14,6 @@ tags:
 
 title: Transparently redirecting packets/frames between interfaces
 ---
-<!--more-->
 
 Lately I have been consumed by an idea of running container-based labs that span containerized NOSes, classical VM-based routers and regular containers with a single and uniform UX.
 

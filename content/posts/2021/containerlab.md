@@ -27,7 +27,6 @@ keywords:
 
 title: Containerlab - your network-centric labs with a Docker UX
 ---
-<!--more-->
 
 With the growing number of containerized Network Operating Systems (NOS) grows the demand to easily run them in the user-defined, versatile lab topologies. Unfortunately, container runtimes alone and tools like docker-compose are not a particularly good fit for that purpose, as they do not allow a user to easily create p2p connections between the containers.
 

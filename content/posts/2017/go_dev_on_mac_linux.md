@@ -50,4 +50,3 @@ And thats it, open your `settings.json`, put something like
 ```
 and thats it, next time you hit "install" of Go Extension dependencies, they will be stored outside your Dropbox-powered `$GOPATH` and won't interfere with each other.
 
-<!--more-->

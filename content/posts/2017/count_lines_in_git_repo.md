@@ -27,4 +27,3 @@ $ git ls-files nuage-cats/ | grep -E ".*(py|robot)" | xargs wc -l
       26 nuage-cats/test_suites/0910_fail_bridges_kvm_vms/0910_fail_bridges_kvm_vms.robot
    13636 total
 ```
-<!--more-->

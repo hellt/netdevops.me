@@ -1,234 +1,71 @@
-# Tranquilpeak
-# Version : 0.3.1-BETA
-# Author : Thibaud Leprêtre
-
-# I STRONGLY recommend you to use a CDN to speed up loading of pages.
-# There is many free CDN like Cloudinary or you can also use indirectly
-# by using services like Google Photos.
-
-# If you want to store images yourself, please read this guidelines:
-# For users, if you only use this theme, put your images directly in `source/assets/images` folder
-# But if you want to add local images, you can put your images directly in `source/assets/images` folder
-# For developpers, if you modify this theme, put your images in `source/images` folder and
-# use grunt task `build` to synchronize assets
-
 baseurl = "https://netdevops.me/"
 buildDrafts = true
 metadataFormat = "yaml"
 languageCode = "en-us"
-defaultContentLanguage = "en-us"
+defaultContentLanguage = "en"
 title = "NetDevOps"
-theme = "hugo-tranquilpeak-theme"
+theme = "uBlogger"
 googleAnalytics = "UA-101537614-1"
-paginate = 7
-canonifyurls = true
 
-[permalinks]
-  post = "/:year/:slug/"
+# [author]
+#   name = "Roman Dodin"
+#   bio = "Eagerness to learn & passion to share"
+#   job = "Network Automation @ Nokia"
+#   location = "Netherlands"
+#   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
+#   # gravatarEmail = "dodin.roman@gmail.com"
+#   # Your profile picture
+#   # Overwritten by your gravatar image if `author.gravatarEmail` is filled
+#   picture = "https://gitlab.com/rdodin/pics/-/wikis/uploads/95361847e46716d94cd8469ae33eeed1/avatar.png"
+#   # Your Twitter username without the @. E.g : thibaudlepretre
+#   twitter = "@ntdvps"
+#   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
+#   # googlePlus = "+ThibaudLepretre"
 
-[taxonomies]
-  tag = "tags"
-  # category = "categories"
-  archive = "archives"
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    # you can add extra information before the name (HTML format is supported), such as icons
+    pre = ""
+    # you can add extra information after the name (HTML format is supported), such as icons
+    post = ""
+    name = "Posts"
+    url = "/posts/"
+    # title will be shown when you hover on this menu link
+    title = ""
+    weight = 1
+  [[menu.main]]
+    identifier = "tags"
+    pre = ""
+    post = ""
+    name = "Tags"
+    url = "/tags/"
+    title = ""
+    weight = 2
+  [[menu.main]]
+    identifier = "categories"
+    pre = ""
+    post = ""
+    name = "Categories"
+    url = "/categories/"
+    title = ""
+    weight = 3
 
-[author]
-  name = "Roman Dodin"
-  bio = "Eagerness to learn & passion to share"
-  job = "Network Automation @ Nokia"
-  location = "Netherlands"
-  # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
-  # gravatarEmail = "dodin.roman@gmail.com"
-  # Your profile picture
-  # Overwritten by your gravatar image if `author.gravatarEmail` is filled
-  picture = "https://gitlab.com/rdodin/pics/-/wikis/uploads/95361847e46716d94cd8469ae33eeed1/avatar.png"
-  # Your Twitter username without the @. E.g : thibaudlepretre
-  twitter = "@ntdvps"
-  # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
-  # googlePlus = "+ThibaudLepretre"
-
+# Markup related configuration in Hugo
 [markup]
-  defaultMarkdownHandler = "blackfriday"
-
-[blackfriday]
-  fractions = false
-  plainIDAnchors = true
-  skipHTML = false
-
-# Menu Configuration
-[[menu.main]]
-  weight = 1
-  identifier = "home"
-  name = "Home"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-home\"></i>"
-  url = "/"
-# [[menu.main]]
-#   weight = 2
-#   identifier = "categories"
-#   name = "Categories"
-#   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-bookmark\"></i>"
-#   url = "/categories"
-[[menu.main]]
-  weight = 3
-  identifier = "tags"
-  name = "Tags"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-tags\"></i>"
-  url = "/tags"
-[[menu.main]]
-  weight = 4
-  identifier = "archives"
-  name = "Archives"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-archive\"></i>"
-  url = "/archives"
-[[menu.main]]
-  weight = 5
-  identifier = "about"
-  name = "About"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-question\"></i>"
-  url = "/2017/initial-commit/"
-
-[[menu.links]]
-  weight = 1
-  identifier = "github"
-  name = "GitHub"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-github\"></i>"
-  url = "https://github.com/hellt"
-[[menu.links]]
-  weight = 2
-  identifier = "gitlab"
-  name = "GitLab"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-gitlab\"></i>"
-  url = "https://gitlab.com/rdodin"
-
-[[menu.misc]]
-  weight = 1
-  identifier = "twitter"
-  name = "Twitter"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-twitter\"></i>"
-  url = "https://twitter.com/ntdvps"
-[[menu.misc]]
-  weight = 2
-  identifier = "linkedin"
-  name = "LinkedIn"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-linkedin\"></i>"
-  url = "https://www.linkedin.com/in/rdodin/"
-[[menu.misc]]
-  weight = 3
-  identifier = "rss"
-  name = "RSS"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-rss\"></i>"
-  url = "/index.xml"
+  # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
+  [markup.highlight]
+    # false is a necessary configuration
+    noClasses = false
 
 [params]
-  # Customize date format use to render blog post date, categories and other
-  # You must use date format used by Go Time package https://golang.org/pkg/time/
-  # Months (not work with short month like "jan", "feb", etc) are translated if translation exists on i18n folders
-  # Default format is: January 2, 2006 
-  # dateFormat = "2 January 2006"
+# uBlogger theme version
+  version = "2.0.X"
 
   # Global keywords configuration. Following keywords will be add to every pages
   keywords = ["network", "netdevops", "devops", "sdn", "nuage"]
 
-  # Syntax highlighter, possible choice between: "highlight.js" (recommanded) and "prism.js" (experimental)
-  # You can comment it to disable syntax highlighting
-  syntaxHighlighter = "highlight.js"
-  customJS = ["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js","https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ini.min.js", "https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js"]
-  
-
-  # Hide sidebar on all article page to let article take full width to improve reading, and enjoy wide images and cover images. (true: enable, false: disable)
-  clearReading = true
-
-  # Define categories will create hierarchy between parents: `categories = ["foo", "bar"]` will consider "bar" a sub-category of "foo". 
-  # If false it will flat categories.
-  hierarchicalCategories = true
-
   description = "Blog about the Net+Dev+Ops"
-
-  # Customization
-  # Define the behavior of the sidebar
-  # 1: Display extra large sidebar on extra large screen, large sidebar on large screen,
-  #    medium sidebar on medium screen and header bar on small screen and
-  # extra large sidebar is swiped on extra large screen and large sidebar on all lower screen (default)
-  # 2: Display large sidebar on large screen, medium sidebar on medium screen and
-  #    header bar on small screen and large sidebar is swiped
-  # 3: Display medium sidebar on large and medium screen and header bar on small screen and
-  #    medium sidebar is swiped
-  # 4: Display header bar on all screens, extra large sidebar is swiped on extra large screen and
-  #    large sidebar is swiped on all lower screens
-  # 5: Display header bar on all screens and large sidebar is swiped on large screen
-  # 6: Display header bar on all screens and medium sidebar is swiped
-  sidebarBehavior = 2
-
-  # Your blog cover picture. I STRONGLY recommend you to use a CDN to speed up loading of pages.
-  # There is many free CDN like Cloudinary or you can also use indirectly
-  # by using services like Google Photos.
-  # Current image is on AWS S3 and delivered by AWS CloudFront.
-  # Otherwise put your image in folder `static/_images/` (development)  or in `source/assets/images/` if you can't or don't want to build the theme,
-  # and use relative url : `your-image.png`
-  coverImage = "bg_solid1-min.png"
-
-  # Display an image gallery at the end of a post which have photos variables (false: disabled, true: enabled)
-  imageGallery = true
-
-  # Display thumbnail image of each post on index pages (false: disabled, true: enabled)
-  thumbnailImage = true
-  # Display thumbnail image at the right of title in index pages (`right`, `left` or `bottom`)
-  # Set this value to `right` if you have old posts to keep the old style on them
-  # and define `thumbnailImagePosition` on a post to overwrite this setting
-  thumbnailImagePosition = "bottom"
-  # Automatically select the cover image or the first photo from the gallery of a post if there is no thumbnail image as the thumbnail image
-  # Set this value to `true` if you have old posts that use the cover image or the first photo as the thumbnail image
-  # and set `autoThumbnailImage` to `false` on a post to overwrite this setting
-  autoThumbnailImage = true
 
   # Your favicon path, default is "/favicon.png"
   favicon = "/images/ntdvps_ico64.png"
-
-  # Header configuration
-  # The link at the right of the header is customizable
-  # You can add a link (as an icon) at the right of the header instead of the author's gravatar image or author's picture.
-  # By default, author's gravatar or author's picture is displayed.
-  #     url: /#search
-  #     icon: search
-  #     class: st-search-show-outputs
-
-  # Custom CSS. Put here your custom CSS files. They are loaded after the theme CSS;
-  # they have to be referred from static root. Example
-  customCSS = ["css/tranquilpeak.css", "css/fonts.css"]
-
-  # Custom JS. Put here your custom JS files. They are loaded after the theme JS;
-  # they have to be referred from static root. Example
-  # customJS = ["js/foo.js"]
-
-  [params.header.rightLink]
-    class = ""
-    icon = ""
-    url = "/#about"
-
-  # Customize like of athor avatar in sidebar
-  # [params.sidebar.profile]
-  #   url = "/#about"
-
-  # Customize copyright value "© 2016 <CUSTOMIZATION>. All Rights Reserved"
-  # [params.footer]
-  #   copyright = "<a href=\"https://github.com/kakawait\">kakawait</a>"
-
-  # [[params.customJS]]
-  #     src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
-  #     integrity = "sha256-tvm0lHsuUZcOfj/0C9xJTU4OQx5KpUgxUcAXLX5kvwA="
-  #     crossorigin = "anonymous"
-  #     async = false
-  #     defer = false
-
-  # [[params.customJS]]
-  #       src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ini.min.js"
-  #       integrity = "sha256-2Vq9OFd9iraeY0svJsG2OZpprBRu01kIhQt8PfCKUks="
-  #       crossorigin = "anonymous"
-  #       async = false
-  #       defer = false
-
-  # [[params.customCSS]]
-  #     src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css"
-  #     integrity = "sha256-w6kCMnFvhY2tI1OnsYR/rb5DG9yFGodJknvFZOkp51E="
-  #     crossorigin = "anonymous"
-  #     async = true
-  #     defer = true

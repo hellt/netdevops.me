@@ -14,7 +14,6 @@ tags:
 
 title: Building and publishing deb/rpm packages with goreleaser and fury.io
 ---
-<!--more-->
 
 I am a huge fan of a [goreleaser](https://goreleaser.com/) tool that enables users to build Go projects and package/publish build artifacts in a fully automated and highly customizable way. We've have been using goreleaser with all our recent projects and we couldn't be any happier since then.
 
