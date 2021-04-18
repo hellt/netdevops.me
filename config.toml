@@ -42,14 +42,6 @@ googleAnalytics = "UA-101537614-1"
     url = "/tags/"
     title = ""
     weight = 2
-  [[menu.main]]
-    identifier = "categories"
-    pre = ""
-    post = ""
-    name = "Categories"
-    url = "/categories/"
-    title = ""
-    weight = 3
 
 # Markup related configuration in Hugo
 [markup]
@@ -63,9 +55,9 @@ googleAnalytics = "UA-101537614-1"
   version = "2.0.X"
 
   # Global keywords configuration. Following keywords will be add to every pages
-  keywords = ["network", "netdevops", "devops", "sdn", "nuage"]
+  keywords = ["network automation", "netdevops", "devops", "go", "cloud"]
 
-  description = "Blog about the Net+Dev+Ops"
+  description = "DevOps applied to networking"
 
   # Your favicon path, default is "/favicon.png"
   favicon = "/images/ntdvps_ico64.png"
