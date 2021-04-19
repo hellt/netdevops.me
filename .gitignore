@@ -5,3 +5,5 @@ themes/**/.github
 .vagrant
 **/.DS_Store
 public
+tmp
+bin
