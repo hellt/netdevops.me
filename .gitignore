@@ -7,3 +7,4 @@ themes/**/.github
 public
 tmp
 bin
+resources/_gen/**/*

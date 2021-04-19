@@ -93,7 +93,9 @@ enableEmoji = true
       # disclaimer (HTML format is supported)
       # disclaimer = "test"
 
-  [params.comment.utterances]
+  [params.comment]
+    enable = true
+    [params.comment.utterances]
       enable = true
       repo = "hellt/netdevops.me"
       issueTerm = "pathname"
