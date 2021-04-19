@@ -1,0 +1,7 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MPLS - Tag - NetDevOps</title><link>https://netdevops.me/tags/mpls/</link><description>MPLS - Tag - NetDevOps</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 02 Jun 2015 10:43:07 +0000</lastBuildDate><atom:link href="https://netdevops.me/tags/mpls/" rel="self" type="application/rss+xml"/><item><title>LDP. Ordered Label Distribution Control explained</title><link>https://netdevops.me/2015/06/ldp-ordered-label-distribution-control-explained/</link><pubDate>Tue, 02 Jun 2015 10:43:07 +0000</pubDate><author>Roman Dodin</author><guid>https://netdevops.me/2015/06/ldp-ordered-label-distribution-control-explained/</guid><description><![CDATA[<p>Major network vendors (except Cisco) default to the following modes of Label Distribution Protocol (LDP) operation (as per <a href="https://tools.ietf.org/html/rfc5036" target="_blank">RFC 5036 LDP Specification</a>):</p>
+<ul>
+<li>Label Distribution (Advertisement): Downstream Unsolicited (section 2.6.3)</li>
+<li>Label Control: Ordered (section 2.6.1)</li>
+<li>Label Retention: Liberal (section 2.6.2)</li>
+</ul>
+<p>This topic focuses on Ordered Label Distribution Control procedure to help you better understand when LSR actually assigns labels and initiates transmission of a label mapping.</p>]]></description></item></channel></rss>

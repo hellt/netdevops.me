@@ -1,0 +1,196 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>NETCONF console in a docker container |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="NETCONF console in a docker container"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="NETCONF console in a docker container"><meta property="og:description" content="Its an engineers core ability to decompose a complex task in a set of a smaller, easy to understand and perform sub-tasks. Be it a feature-rich program that is decomposed to classes, functions and APIs or a huge business operation captured in steps in a Methods Of Procedure document.
+In a network automation field where the configuration protocols such as NETCONF or gRPC are emerging, it is always needed to have a quick way to validate an RPC or Notification feature before implementing this in a code or a workflow.
+This blog post is about a handy tool called netconf-console which allows you to interface with your network device using NETCONF quick and easy. And, of course, I packed it in a smallish container so you can enjoy it hassle-free on every docker-enabled host."><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2020/netconf-console-in-a-docker-container/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-01-28T06:00:00+00:00"><meta property="article:modified_time" content="2021-04-19T12:35:46+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2020/netconf-console-in-a-docker-container/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"NETCONF console in a docker container","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2020\/netconf-console-in-a-docker-container\/"},"genre":"posts","keywords":"Netconf, Docker","wordCount":855,"url":"https:\/\/netdevops.me\/2020\/netconf-console-in-a-docker-container\/","datePublished":"2020-01-28T06:00:00+00:00","dateModified":"2021-04-19T12:35:46+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>NETCONF console in a docker container</li></ol></nav><h1 class="single-title flipInX">NETCONF console in a docker container</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2020-01-28>2020-01-28</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>855 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>5 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#containerize>Containerize</a><ul><li><a href=#tags>Tags</a></li></ul></li><li><a href=#installation>Installation</a></li><li><a href=#usage-examples>Usage examples</a></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>Its an engineers core ability to decompose a complex task in a set of a smaller, easy to understand and perform sub-tasks. Be it a feature-rich program that is decomposed to classes, functions and APIs or a huge business operation captured in steps in a <em>Methods Of Procedure</em> document.</p><p>In a network automation field where the configuration protocols such as NETCONF or gRPC are emerging, it is always needed to have a quick way to validate an <em>RPC</em> or <em>Notification</em> feature before implementing this in a code or a workflow.</p><p>This blog post is about a handy tool called <a href=https://pypi.org/project/netconf-console/ target=_blank rel="noopener noreffer"><code>netconf-console</code></a> which allows you to interface with your network device using NETCONF quick and easy. And, of course, I packed it in a smallish container so you can enjoy it hassle-free on every docker-enabled host.</p><p><a href=https://bitbucket.org/martin_volf/ncc/src/master/ target=_blank rel="noopener noreffer"><code>netconf-console</code></a> is a tool from Tail-f that basically gives you a NETCONF client for your console. That is exactly the packaging that I appreciate to have when I need to play with NETCONF. Cold-starting a python project with <code>ncclient</code> is much slower and you need ensure that you have all the RPCs coded, meh. With the console client you have almost anything you need to start tinkering with NETCONF enabled device.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># netconf-console --host=example.com --db candidate --lock --edit-config=fragment1.xml \
+--rpc=commit-confirmed.xml --unlock --sleep 5 --rpc=confirm.xml
+</code></pre></td></tr></table></div></div><p>Moreover, you can have an interactive NETCONF console to your device:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># netconf-console --host=example.com -i
+netconf&gt; lock
+netconf&gt; edit-config fragment1.xml --db candidate
+netconf&gt; rpc commit-confirmed.xml
+netconf&gt; unlock
+netconf&gt; get-config
+netconf&gt; rpc confirm.xml
+</code></pre></td></tr></table></div></div><h2 id=containerize class=headerLink><a href=#containerize class=header-mark></a>Containerize</h2><p>I&rsquo;ve been spoiled by Rust/Go tools that are self-contained, dependency-free and almost platform-agnostic. To achieve the same level of hassle-free for python tool I practice containerization.</p><p>So I decided to put <code>netconf-console</code> in a whale protected cage by building a multi-stage docker image. Even though there are <a href="https://hub.docker.com/search?q=netconf%20console&type=image" target=_blank rel="noopener noreffer">some</a> images for the netconf-console, they are all outdated, based on an old version of the tool and use python2 under the hood. Its 2020 here, so I wanted to create a fresh, small image based off of the recent netconf-console code and running with python3.</p><blockquote><p>Of course you can install the netconf-console with pip as usual: <code>pip install netconf-console</code></p></blockquote><p>So here it is, a multi-stage build <a href=https://github.com/hellt/netconf-console-docker/blob/master/Dockerfile target=_blank rel="noopener noreffer">Dockerfile</a> that builds <code>netconf-console</code> in Alpine linux with python3.7.<br>The result of this build can be found at the relevant <a href=https://hub.docker.com/repository/docker/hellt/netconf-console target=_blank rel="noopener noreffer">docker hub page</a>.</p><h3 id=tags class=headerLink><a href=#tags class=header-mark></a>Tags</h3><p>The docker image will be tagged in accordance with the release version numbers of the <code>netconf-console</code>; at the time of this writing, the latest version is <code>2.2.0</code>, hence you will find the image with the corresponding tag. Also, the <code>latest</code> tag will point to the most recent version.</p><h2 id=installation class=headerLink><a href=#installation class=header-mark></a>Installation</h2><p>As with any other docker image, all it takes is to make a pull:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>docker pull hellt/netconf-console
+</code></pre></td></tr></table></div></div><h2 id=usage-examples class=headerLink><a href=#usage-examples class=header-mark></a>Usage examples</h2><p>The entry point of the docker image is the netconf-console itself, therefore you can run it almost in the same way as you&rsquo;d do with a standalone installation - by providing the arguments to the callable.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># verify that the tool is properly working,</span>
+docker run --rm -it hellt/netconf-console --help
+
+usage: netconf-console <span class=o>[</span>-h<span class=o>]</span> <span class=o>[</span>-s <span class=o>[{</span>plain,noaaa<span class=o>}</span> <span class=o>[{</span>plain,noaaa<span class=o>}</span> ...<span class=o>]]]</span> <span class=o>[</span>--db DB<span class=o>]</span>
+                       <span class=o>[</span>--timeout TIMEOUT<span class=o>]</span>
+                       <span class=o>[</span>--with-defaults <span class=o>{</span>explicit,trim,report-all,report-all-tagged<span class=o>}]</span>
+                       <span class=o>[</span>--with-inactive<span class=o>]</span> <span class=o>[</span>-x XPATH<span class=o>]</span>
+                       <span class=o>[</span>-t <span class=o>{</span>test-then-set,set,test-only<span class=o>}]</span>
+                       <span class=o>[</span>-o <span class=o>{</span>merge,replace,create<span class=o>}]</span>
+                       <span class=o>[</span>--del-operation <span class=o>{</span>remove,delete<span class=o>}]</span> <span class=o>[</span>-v VERSION<span class=o>]</span>
+                       <span class=o>[</span>-u USERNAME<span class=o>]</span> <span class=o>[</span>-p <span class=o>[</span>PASSWORD<span class=o>]]</span> <span class=o>[</span>--host HOST<span class=o>]</span>
+                       <span class=o>[</span>-r REPLY_TIMEOUT<span class=o>]</span> <span class=o>[</span>--port PORT<span class=o>]</span>
+                       <span class=o>[</span>--privKeyFile PRIVKEYFILE<span class=o>]</span> <span class=o>[</span>--raw <span class=o>[</span>RAW<span class=o>]]</span> <span class=o>[</span>--tcp<span class=o>]</span>
+                       <span class=o>[</span>-N <span class=o>[</span>NS <span class=o>[</span>NS ...<span class=o>]]]</span> <span class=o>[</span>--debug<span class=o>]</span> <span class=o>[</span>--hello<span class=o>]</span> <span class=o>[</span>--get <span class=o>[</span>GET<span class=o>]]</span>
+                       <span class=o>[</span>--get-config <span class=o>[</span>GET_CONFIG<span class=o>]]</span> <span class=o>[</span>--kill-session SESSION_ID<span class=o>]</span>
+                       <span class=o>[</span>--discard-changes<span class=o>]</span> <span class=o>[</span>--lock<span class=o>]</span> <span class=o>[</span>--unlock<span class=o>]</span>
+                       <span class=o>[</span>--commit <span class=o>[{</span>confirmed<span class=o>}]]</span> <span class=o>[</span>--validate <span class=o>[</span>VALIDATE<span class=o>]]</span>
+                       <span class=o>[</span>--copy-running-to-startup<span class=o>]</span>
+                       <span class=o>[</span>--copy-config <span class=o>[</span>COPY_CONFIG<span class=o>]]</span>
+                       <span class=o>[</span>--edit-config <span class=o>[</span>EDIT_CONFIG <span class=o>[</span>EDIT_CONFIG ...<span class=o>]]]</span>
+                       <span class=o>[</span>--set <span class=o>[</span>SET <span class=o>[</span>SET ...<span class=o>]]]</span>
+                       <span class=o>[</span>--delete <span class=o>[</span>DELETE <span class=o>[</span>DELETE ...<span class=o>]]]</span>
+                       <span class=o>[</span>--create <span class=o>[</span>CREATE <span class=o>[</span>CREATE ...<span class=o>]]]</span>
+                       <span class=o>[</span>--get-schema GET_SCHEMA<span class=o>]</span>
+                       <span class=o>[</span>--create-subscription <span class=o>[</span>CREATE_SUBSCRIPTION<span class=o>]]</span>
+                       <span class=o>[</span>--rpc <span class=o>[</span>RPC<span class=o>]]</span> <span class=o>[</span>--sleep SLEEP<span class=o>]</span> <span class=o>[</span>-e EXPR<span class=o>]</span> <span class=o>[</span>--dry<span class=o>]</span>
+                       <span class=o>[</span>--interactive<span class=o>]</span>
+                       <span class=o>[</span>filename<span class=o>]</span>
+</code></pre></td></tr></table></div></div><p>The interactive console mode, of course, also works:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>docker run -it --rm hellt/netconf-console --host<span class=o>=</span>10.1.0.11 --port<span class=o>=</span><span class=m>830</span> -u admin -p admin -i
+netconf&gt; hello
+&lt;?xml <span class=nv>version</span><span class=o>=</span><span class=s1>&#39;1.0&#39;</span> <span class=nv>encoding</span><span class=o>=</span><span class=s1>&#39;UTF-8&#39;</span>?&gt;
+&lt;nc:hello xmlns:nc<span class=o>=</span><span class=s2>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span>&gt;
+  &lt;nc:capabilities&gt;
+    &lt;nc:capability&gt;urn:ietf:params:netconf:base:1.0&lt;/nc:capability&gt;
+    &lt;nc:capability&gt;urn:ietf:params:netconf:base:1.1&lt;/nc:capability&gt;
+&lt;&lt;SNIPPED&gt;&gt;
+</code></pre></td></tr></table></div></div><p>Now a more real-life example would be to throw a NETCONF RPC to the target device:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml>$ cat test.xml
+<span class=nt>&lt;rpc</span> <span class=na>message-id=</span><span class=s>&#34;113&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;get&gt;</span>
+    <span class=nt>&lt;filter&gt;</span>
+      <span class=nt>&lt;state</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:state&#34;</span><span class=nt>&gt;</span>
+        <span class=nt>&lt;system&gt;</span>
+          <span class=nt>&lt;security&gt;</span>
+            <span class=nt>&lt;user-params&gt;</span>
+              <span class=nt>&lt;local-user&gt;</span>
+		            <span class=nt>&lt;user/&gt;</span>
+	            <span class=nt>&lt;/local-user&gt;</span>
+            <span class=nt>&lt;/user-params&gt;</span>
+          <span class=nt>&lt;/security&gt;</span>
+        <span class=nt>&lt;/system&gt;</span>
+      <span class=nt>&lt;/state&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+  <span class=nt>&lt;/get&gt;</span>
+<span class=nt>&lt;/rpc&gt;</span>
+</code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml>$ docker run -it --rm -v $(pwd):/rpc hellt/netconf-console --host=10.1.0.11 --port=830 -u admin -p admin test.xml
+<span class=cp>&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&gt;</span>
+<span class=nt>&lt;rpc-reply</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;113&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;state</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:state&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;attempted-logins&gt;</span>13<span class=nt>&lt;/attempted-logins&gt;</span>
+                                <span class=nt>&lt;failed-logins&gt;</span>0<span class=nt>&lt;/failed-logins&gt;</span>
+                                <span class=nt>&lt;locked-out&gt;</span>false<span class=nt>&lt;/locked-out&gt;</span>
+                                <span class=nt>&lt;password-changed-time&gt;</span>2020-01-24T23:27:33.0Z<span class=nt>&lt;/password-changed-time&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>grpc<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;attempted-logins&gt;</span>0<span class=nt>&lt;/attempted-logins&gt;</span>
+                                <span class=nt>&lt;failed-logins&gt;</span>0<span class=nt>&lt;/failed-logins&gt;</span>
+                                <span class=nt>&lt;locked-out&gt;</span>false<span class=nt>&lt;/locked-out&gt;</span>
+                                <span class=nt>&lt;password-changed-time&gt;</span>2020-01-24T23:27:35.0Z<span class=nt>&lt;/password-changed-time&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/state&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><blockquote><p>Note that the WORKDIR of the container image is set to <code>/rpc</code>, therefore mounting the directory with your RPCs to that mountpoint will allow to refer to the file names directly.</p></blockquote><p>And you can create pretty complex ad-hoc RPCs with locking the datastore, committing and discarding the changes effortlessly.</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2020/netconf-console-in-a-docker-container/ data-title="NETCONF console in a docker container" data-via=ntdvps data-hashtags=Netconf,Docker><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2020/netconf-console-in-a-docker-container/ data-hashtag=Netconf><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2020/netconf-console-in-a-docker-container/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/netconf/ class=tag>Netconf</a><a href=/tags/docker/ class=tag>Docker</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

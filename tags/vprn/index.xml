@@ -1,0 +1,10 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>VPRN - Tag - NetDevOps</title><link>https://netdevops.me/tags/vprn/</link><description>VPRN - Tag - NetDevOps</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 03 Nov 2015 23:57:19 +0000</lastBuildDate><atom:link href="https://netdevops.me/tags/vprn/" rel="self" type="application/rss+xml"/><item><title>Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS &amp; Juniper MX</title><link>https://netdevops.me/2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/</link><pubDate>Tue, 03 Nov 2015 23:57:19 +0000</pubDate><author>Roman Dodin</author><guid>https://netdevops.me/2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/</guid><description><![CDATA[<p>The topic of this post is <strong>Layer 3 VPN</strong> (L3VPN or VPRN as we call it in SROS) configuration, and I decided to kill two birds with one stone by inviting Juniper vMX to our cozy SROS environment.</p>
+<p>The BGP/MPLS VPN (<a href="https://tools.ietf.org/html/rfc4364" target="_blank" rel="noopener noreffer">RFC 4364</a>) configuration will undergo the following milestones:</p>
+<ul>
+<li>PE-PE relationship configuration with VPN IPv4 address family introduction</li>
+<li>PE-CE routing configuration with both BGP and OSPF as routing protocols</li>
+<li>Export policy configuration for advertising VPN routes on PE routers</li>
+<li>AS override configuration</li>
+<li>and many more</li>
+</ul>
+<p>We&rsquo;ll wrap it up with the Control Plane/Data Plane evaluation diagrams which help a lot with understanding the whole BGP VPN mechanics. Take your seats, and buckle up!</p>]]></description></item></channel></rss>

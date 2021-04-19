@@ -1,0 +1,564 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Building AWS Lambda with Python, S3 and serverless |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="Building AWS Lambda with Python, S3 and serverless"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="Building AWS Lambda with Python, S3 and serverless"><meta property="og:description" content="Cloud-native revolution pointed out the fact that the microservice is the new building block and your best friends now are Containers, AWS, GCE, Openshift, Kubernetes, you-name-it. But suddenly micro became not that granular enough and people started talking about serverless functions!
+
+        
+    
+When I decided to step in the serverless property I chose AWS Lambda as my instrument of choice. As for experimental subject, I picked up one of my existing projects - a script that tracks new documentation releases for Nokia IP/SDN products (which I aggregate at nokdoc.github.io).
+Given that not so many posts are going deeper than onboarding a simplest function, I decided to write down the key pieces I needed to uncover to push a real code to the Lambda.
+Buckle up, our agenda is fascinating:
+
+testing basic Lambda onboarding process powered by Serverless framework
+accessing files in AWS S3 from within our Lambda with boto3 package and custom AWS IAM role
+packaging non-standard python modules for our Lambda
+exploring ways to provision shared code for Lambdas
+and using path variables to branch out the code in Lambda
+"><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2017-07-24T06:00:00+00:00"><meta property="article:modified_time" content="2021-04-19T11:48:30+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Building AWS Lambda with Python, S3 and serverless","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2017\/building-aws-lambda-with-python-s3-and-serverless\/"},"genre":"posts","keywords":"AWS, AWS Lambda, Boto3, Python, Serverless","wordCount":2605,"url":"https:\/\/netdevops.me\/2017\/building-aws-lambda-with-python-s3-and-serverless\/","datePublished":"2017-07-24T06:00:00+00:00","dateModified":"2021-04-19T11:48:30+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>Building AWS Lambda with Python, S3 and serverless</li></ol></nav><h1 class="single-title flipInX">Building AWS Lambda with Python, S3 and serverless</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2017-07-24>2017-07-24</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>2605 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>13 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#deploying-and-testing-aws-lambda>Deploying and Testing AWS Lambda</a></li></ul><ul><li><a href=#sorting-out-permissions>Sorting out permissions</a></li><li><a href=#using-boto3-to-readwrite-files-in-aws-s3>Using Boto3 to read/write files in AWS S3</a></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>Cloud-native revolution pointed out the fact that the microservice is the new building block and your best friends now are Containers, AWS, GCE, Openshift, Kubernetes, you-name-it. But suddenly <em>micro</em> became not that granular enough and people started talking about <em>serverless functions</em>!
+<a target=_blank href="https://lh3.googleusercontent.com/iNjG1IpPyFKkXIsJThti5hs7_Ytc7GGpf4rCUCw5-f0dF31BYWbyyW3In1Fh4PvTKyh8xamSMKxMeFx6unzqao4ouLPxueLpx8RGD5Fg4SM2Kp_plaryC7zuUsRmAZ8-W9mHwzyuQQmC11-FH-yF5ef1FPsh0xglVv4IcSRDSPUO0BuqNZF0Vd5LpvgRGOvmE0xeqFoK-uUlM0KXRIFQusIcscq-Vv6SVKMBahoOpkhorTFCPD1tAIo4a6-q7diwWJj6TPWMnhMfg85s-NSz_0MR7bTIWw_PRN3HM66sfe8X3a7lmEuc1KxJ1ZF20qS6b9rW90Pa2iw6mHk_b_IjBBQBYeRScTgXd7IZpRQlO5-28RKvSvSJTxoSiCLBIuCgYebgp5hF62w_3Rmd9ajV3fEi_BMT04vd5gft5Mzad0NIA-sDboETXHM-n0UBnvvToAzENmfTl6pC9dXfaXlAvVqDRwDWmXjD5EGnIhLH-6lLSzswlNgqpZYDqd20p0cz_0-8xxmdXrdp7WyHCO4NMkpgZa6zvPpJipPRIaTImqr-GhaceBEHWzFF27aNQ6bx6FNXHj4IhfnM1VyuDqTU33-De-kft_IUF27g6XNKA41ytnNvstOSTqwEFA=w638-h359-no" title="Brian Christner, Docker & Serverless: https://www.slideshare.net/BrianChristner/docker-serverless"><img loading=lazy decoding=async src="https://lh3.googleusercontent.com/iNjG1IpPyFKkXIsJThti5hs7_Ytc7GGpf4rCUCw5-f0dF31BYWbyyW3In1Fh4PvTKyh8xamSMKxMeFx6unzqao4ouLPxueLpx8RGD5Fg4SM2Kp_plaryC7zuUsRmAZ8-W9mHwzyuQQmC11-FH-yF5ef1FPsh0xglVv4IcSRDSPUO0BuqNZF0Vd5LpvgRGOvmE0xeqFoK-uUlM0KXRIFQusIcscq-Vv6SVKMBahoOpkhorTFCPD1tAIo4a6-q7diwWJj6TPWMnhMfg85s-NSz_0MR7bTIWw_PRN3HM66sfe8X3a7lmEuc1KxJ1ZF20qS6b9rW90Pa2iw6mHk_b_IjBBQBYeRScTgXd7IZpRQlO5-28RKvSvSJTxoSiCLBIuCgYebgp5hF62w_3Rmd9ajV3fEi_BMT04vd5gft5Mzad0NIA-sDboETXHM-n0UBnvvToAzENmfTl6pC9dXfaXlAvVqDRwDWmXjD5EGnIhLH-6lLSzswlNgqpZYDqd20p0cz_0-8xxmdXrdp7WyHCO4NMkpgZa6zvPpJipPRIaTImqr-GhaceBEHWzFF27aNQ6bx6FNXHj4IhfnM1VyuDqTU33-De-kft_IUF27g6XNKA41ytnNvstOSTqwEFA=w638-h359-no" alt="https://lh3.googleusercontent.com/iNjG1IpPyFKkXIsJThti5hs7_Ytc7GGpf4rCUCw5-f0dF31BYWbyyW3In1Fh4PvTKyh8xamSMKxMeFx6unzqao4ouLPxueLpx8RGD5Fg4SM2Kp_plaryC7zuUsRmAZ8-W9mHwzyuQQmC11-FH-yF5ef1FPsh0xglVv4IcSRDSPUO0BuqNZF0Vd5LpvgRGOvmE0xeqFoK-uUlM0KXRIFQusIcscq-Vv6SVKMBahoOpkhorTFCPD1tAIo4a6-q7diwWJj6TPWMnhMfg85s-NSz_0MR7bTIWw_PRN3HM66sfe8X3a7lmEuc1KxJ1ZF20qS6b9rW90Pa2iw6mHk_b_IjBBQBYeRScTgXd7IZpRQlO5-28RKvSvSJTxoSiCLBIuCgYebgp5hF62w_3Rmd9ajV3fEi_BMT04vd5gft5Mzad0NIA-sDboETXHM-n0UBnvvToAzENmfTl6pC9dXfaXlAvVqDRwDWmXjD5EGnIhLH-6lLSzswlNgqpZYDqd20p0cz_0-8xxmdXrdp7WyHCO4NMkpgZa6zvPpJipPRIaTImqr-GhaceBEHWzFF27aNQ6bx6FNXHj4IhfnM1VyuDqTU33-De-kft_IUF27g6XNKA41ytnNvstOSTqwEFA=w638-h359-no"></a></p><p>When I decided to step in the serverless property I chose <a href=https://docs.aws.amazon.com/lambda/latest/dg/welcome.html target=_blank rel="noopener noreffer">AWS Lambda</a> as my instrument of choice. As for experimental subject, I picked up one of my existing projects - a script that tracks new documentation releases for Nokia IP/SDN products (which I aggregate at <a href=https://nokdoc.github.io target=_blank rel="noopener noreffer">nokdoc.github.io</a>).</p><p>Given that not so many posts are going deeper than onboarding a simplest function, I decided to write down the key pieces I needed to uncover to push a <strong>real code</strong> to the Lambda.</p><p>Buckle up, our agenda is fascinating:</p><ul><li>testing basic Lambda onboarding process powered by Serverless framework</li><li>accessing files in AWS S3 from within our Lambda with <code>boto3</code> package and custom AWS IAM role</li><li>packaging non-standard python modules for our Lambda</li><li>exploring ways to provision shared code for Lambdas</li><li>and using path variables to branch out the code in Lambda</li></ul><h1 id=init class=headerLink><a href=#init class=header-mark></a>Init</h1><p>What I am going to <em>lambdsify</em> is an existing python3 script called <strong>nokdoc-sentinel</strong> which has the following Lambda-related properties:</p><ul><li>uses non standard python package &ndash; <code>requests</code></li><li>reads/writes a file.</li></ul><p>I specifically emphasized this non-std packages and relying on persistence since these aspects are not covered in 99% of Lambda-related posts, so, filling the spot.</p><blockquote><p>AWS Lambda is a compute service that lets you run code without provisioning or managing servers. AWS Lambda executes your code only when needed and scales automatically, from a few requests per day to thousands per second.</p></blockquote><p>Multiple choices are exposed to you when choosing an instrument to configure & deploy an AWS Lambda:</p><ul><li>AWS Console (web)</li><li>AWS CLI</li><li>Multiple frameworks (<a href=https://serverless.com/ target=_blank rel="noopener noreffer">Serverless</a>, <a href=https://chalice.readthedocs.io/en/latest/index.html target=_blank rel="noopener noreffer">Chalice</a>, <a href=http://pywren.io/ target=_blank rel="noopener noreffer">Pywren</a>)</li></ul><p>While it might be good to feel the taste of a manual Lambda configuration process through the AWS Console, I decided to go &ldquo;everything as a code&rdquo; way and use the <a href=https://serverless.com/ target=_blank rel="noopener noreffer">Serverless</a> framework to define, configure and deploy my first Lambda.</p><blockquote><p>The <strong>Serverless Framework</strong> helps you develop and deploy your AWS Lambda functions, along with the AWS infrastructure resources they require. It&rsquo;s a CLI that offers structure, automation and best practices out-of-the-box, allowing you to focus on building sophisticated, event-driven, serverless architectures, comprised of Functions and Events.</p></blockquote><h1 id=serverless-installation-and-configuration class=headerLink><a href=#serverless-installation-and-configuration class=header-mark></a>Serverless installation and configuration</h1><p>First things first, <a href=https://serverless.com/framework/docs/providers/aws/guide/installation/ target=_blank rel="noopener noreffer">install</a> the framework and <a href=https://serverless.com/framework/docs/providers/aws/guide/credentials/ target=_blank rel="noopener noreffer">configure AWS credentials</a>. I already had credentials configured for AWS CLI thus skipped that part, if that is not the case for you, the docs are comprehensive and should have you perfectly covered.</p><h1 id=creating-a-service-template class=headerLink><a href=#creating-a-service-template class=header-mark></a>Creating a Service template</h1><p>Once serverless is installed, start with creating an <code>aws-python3</code> service:</p><blockquote><p>A <code>service</code> is like a project. It&rsquo;s where you define your AWS Lambda Functions, the events that trigger them and any AWS infrastructure resources they require, all in a file called serverless.yml.</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ serverless create --template aws-python3 --name nokdoc-sentinel
+</code></pre></td></tr></table></div></div><p>Two files will be created:</p><ul><li><code>handler.py</code> &ndash; a module with Lambda function boilerplate code</li><li><code>serverless.yml</code> &ndash; a service definition file</li></ul><h1 id=making-lambda-instance-out-of-a-template class=headerLink><a href=#making-lambda-instance-out-of-a-template class=header-mark></a>Making lambda instance out of a template</h1><p>I renamed <code>handler.py</code> module to <code>sentinel.py</code>, also changed the enclosed function' name and deleted redundant code from the template. For starters I kept the portion of a sample code just to test that deploying to AWS via serverless actually works.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># sentinel.py</span>
+<span class=kn>import</span> <span class=nn>json</span>
+
+<span class=k>def</span> <span class=nf>check</span><span class=p>(</span><span class=n>event</span><span class=p>,</span> <span class=n>context</span><span class=p>):</span>
+    <span class=n>body</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s2>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;Sentinel is on watch!&#34;</span><span class=p>,</span>
+    <span class=p>}</span>
+
+    <span class=n>response</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s2>&#34;statusCode&#34;</span><span class=p>:</span> <span class=mi>200</span><span class=p>,</span>
+        <span class=s2>&#34;body&#34;</span><span class=p>:</span> <span class=n>json</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span><span class=n>body</span><span class=p>)</span>
+    <span class=p>}</span>
+
+    <span class=k>return</span> <span class=n>response</span>
+</code></pre></td></tr></table></div></div><p>Thing to remember is that you also must to make appropriate changes in the <code>serverless.yml</code>, once you renamed the module and the function names:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>functions:
+<span class=c1># name of the func in the module</span>
+  check:
+    <span class=c1># `handler: sentinel.check` reads as </span>
+    <span class=c1># &#34;`check` function in the `sentinel` module</span>
+    handler: sentinel.check
+</code></pre></td></tr></table></div></div><h2 id=deploying-and-testing-aws-lambda class=headerLink><a href=#deploying-and-testing-aws-lambda class=header-mark></a>Deploying and Testing AWS Lambda</h2><p>Before adding some actual load to the Lambda function, lets test that the deployment works. To trigger Lambda execution I added <strong>HTTP GET</strong> <a href=https://serverless.com/framework/docs/providers/aws/guide/events/ target=_blank rel="noopener noreffer">event</a> with the <code>test</code> path in the <code>serverless.yml</code> file. So a call to <code>https://some-aws-hostname.com/test</code> should trigger our lambda function to execute.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>functions:
+  hello:
+    handler: handler.hello
+    <span class=c1># add http GET trigger event</span>
+    events:
+      - http:
+          path: <span class=nb>test</span>
+          method: get
+</code></pre></td></tr></table></div></div><blockquote><p>Read all about supported by serverless framework events in the <a href=https://serverless.com/framework/docs/providers/aws/guide/events/ target=_blank rel="noopener noreffer">official docs</a>.</p></blockquote><p>And we are coming to the first test deployment with the following assets:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ tree -L <span class=m>1</span>
+.
+<span class=p>|</span>-- sentinel.py
+<span class=sb>`</span>-- serverless.yml
+</code></pre></td></tr></table></div></div><p>Lets go and deploy:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>$ serverless deploy
+Serverless: Packaging service...
+Serverless: Creating Stack...
+Serverless: Checking Stack create progress...
+.....
+Serverless: Stack create finished...
+Serverless: Uploading CloudFormation file to S3...
+Serverless: Uploading artifacts...
+Serverless: Uploading service .zip file to S3 (0.33 MB)...
+Serverless: Validating template...
+Serverless: Updating Stack...
+Serverless: Checking Stack update progress...
+..............................
+Serverless: Stack update finished...
+Service Information
+service: nokdoc-sentinel
+stage: dev
+region: us-east-1
+api keys:
+  None
+endpoints:
+  GET - https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/test
+functions:
+  check: nokdoc-sentinel-dev-check
+</code></pre></td></tr></table></div></div><p>Note the endpoint URL at the bottom of the output, using this API endpoint we can check if our Lambda is working:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>curl https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/test
+<span class=o>{</span><span class=s2>&#34;message&#34;</span>: <span class=s2>&#34;Sentinel is on watch!&#34;</span><span class=o>}</span>
+</code></pre></td></tr></table></div></div><h1 id=exploring-serverless-artifacts class=headerLink><a href=#exploring-serverless-artifacts class=header-mark></a>Exploring Serverless artifacts</h1><p>Serverless deployed the Lambda using some defaults parameters (region: us-east-1, stage: dev, IAM role); plus serverless did some <a href=https://serverless.com/framework/docs/providers/aws/cli-reference/deploy#how-it-works target=_blank rel="noopener noreffer">serious heavy-lifting</a> in order to deploy our code to AWS. In particular:</p><ul><li>archived the project files as a zip archive and loaded it to AWS S3</li><li>created CloudFormation template that defines all the steps needed to onboard a Lambda and setup an API gateway to respond to <code>GET</code> requests</li></ul><p>Key artifacts that were created by serverless in AWS can be browsed with the AWS CLI:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># exploring deployed Lambda</span>
+$ aws --region us-east-1 lambda list-functions
+<span class=o>{</span>
+    <span class=s2>&#34;Functions&#34;</span>: <span class=o>[</span>
+        <span class=o>{</span>
+            <span class=s2>&#34;FunctionName&#34;</span>: <span class=s2>&#34;nokdoc-sentinel-dev-check&#34;</span>,
+            <span class=s2>&#34;FunctionArn&#34;</span>: <span class=s2>&#34;arn:aws:lambda:us-east-1:446595173912:function:nokdoc-sentinel-dev-check&#34;</span>,
+            <span class=s2>&#34;Runtime&#34;</span>: <span class=s2>&#34;python3.6&#34;</span>,
+            <span class=s2>&#34;Role&#34;</span>: <span class=s2>&#34;arn:aws:iam::446595173912:role/nokdoc-sentinel-dev-us-east-1-lambdaRole&#34;</span>,
+            <span class=s2>&#34;Handler&#34;</span>: <span class=s2>&#34;sentinel.check&#34;</span>,
+            <span class=s2>&#34;CodeSize&#34;</span>: 1395199,
+            <span class=s2>&#34;Description&#34;</span>: <span class=s2>&#34;&#34;</span>,
+            <span class=s2>&#34;Timeout&#34;</span>: 6,
+            <span class=s2>&#34;MemorySize&#34;</span>: 1024,
+            <span class=s2>&#34;LastModified&#34;</span>: <span class=s2>&#34;2017-07-17T19:06:59.405+0000&#34;</span>,
+            <span class=s2>&#34;CodeSha256&#34;</span>: <span class=s2>&#34;QrFOl8eBL8HipGRCkN/P7wsxkn8/LDIMCAQLxAVmFfI=&#34;</span>,
+            <span class=s2>&#34;Version&#34;</span>: <span class=s2>&#34;</span><span class=nv>$LATEST</span><span class=s2>&#34;</span>,
+            <span class=s2>&#34;TracingConfig&#34;</span>: <span class=o>{</span>
+                <span class=s2>&#34;Mode&#34;</span>: <span class=s2>&#34;PassThrough&#34;</span>
+            <span class=o>}</span>
+        <span class=o>}</span>
+    <span class=o>]</span>
+<span class=o>}</span>
+
+
+<span class=c1># exploring S3 artifacts</span>
+$ aws s3 ls <span class=p>|</span> grep sentinel
+2017-07-17 22:05:13 nokdoc-sentinel-dev-serverlessdeploymentbucket-moviajl407hw
+
+$ aws s3 ls nokdoc-sentinel-dev-serverlessdeploymentbucket-moviajl407hw/serverless/nokdoc-sentinel/dev/1500318307598-2017-07-17T19:05:07.598Z/
+2017-07-17 22:05:40       <span class=m>3578</span> compiled-cloudformation-template.json
+2017-07-17 22:05:41    <span class=m>395199</span> nokdoc-sentinel.zip
+
+<span class=c1># exploring CloudFormation stack</span>
+$ aws --region us-east-1 CloudFormation list-stacks
+<span class=o>{</span>
+    <span class=s2>&#34;StackSummaries&#34;</span>: <span class=o>[</span>
+        <span class=o>{</span>
+            <span class=s2>&#34;StackId&#34;</span>: <span class=s2>&#34;arn:aws:cloudformation:us-east-1:446595173912:stack/nokdoc-sentinel-dev/da010710-6b22-11e7-aa95-500c20fef6d1&#34;</span>,
+            <span class=s2>&#34;StackName&#34;</span>: <span class=s2>&#34;nokdoc-sentinel-dev&#34;</span>,
+            <span class=s2>&#34;TemplateDescription&#34;</span>: <span class=s2>&#34;The AWS CloudFormation template for this Serverless application&#34;</span>,
+            <span class=s2>&#34;CreationTime&#34;</span>: <span class=s2>&#34;2017-07-17T19:05:08.875Z&#34;</span>,
+            <span class=s2>&#34;LastUpdatedTime&#34;</span>: <span class=s2>&#34;2017-07-17T19:05:45.283Z&#34;</span>,
+            <span class=s2>&#34;StackStatus&#34;</span>: <span class=s2>&#34;UPDATE_COMPLETE&#34;</span>
+        <span class=o>}</span>
+    <span class=o>]</span>
+<span class=o>}</span>
+</code></pre></td></tr></table></div></div><p>Are you interested what is in this archive <code>nokdoc-sentinel.zip</code>?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ ls -la ~/Downloads/nokdoc-sentinel/
+total <span class=m>16</span>
+drwx------@  <span class=m>6</span> romandodin  staff   <span class=m>204</span> Jul <span class=m>18</span> 09:51 .
+drwx------+ <span class=m>54</span> romandodin  staff  <span class=m>1836</span> Jul <span class=m>18</span> 09:51 ..
+drwxr-xr-x@  <span class=m>3</span> romandodin  staff   <span class=m>102</span> Jul <span class=m>18</span> 09:51 .vscode
+-rw-r--r--@  <span class=m>1</span> romandodin  staff   <span class=m>208</span> Jan  <span class=m>1</span>  <span class=m>1980</span> sentinel.py
+-rw-r--r--@  <span class=m>1</span> romandodin  staff  <span class=m>3720</span> Jan  <span class=m>1</span>  <span class=m>1980</span> watcher.py
+</code></pre></td></tr></table></div></div><p>There are two files we dealt with earlier plus <code>.vscode</code> dir that a text editor created for its settings. Having <code>.vscode</code> in the deployment package actually indicates that by default serverless zipped everything in the project' dir. You can get in control of this process by using <a href=https://serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration target=_blank rel="noopener noreffer">include/exclude statements</a>.</p><h1 id=accessing-aws-s3-from-within-a-lambda class=headerLink><a href=#accessing-aws-s3-from-within-a-lambda class=header-mark></a>Accessing AWS S3 from within a Lambda</h1><p>It is natural that AWS assumes that Lambdas will be used in a close cooperation with the rest of the AWS family. And for the file storage <strong>AWS S3</strong> is a one-stop shop.</p><h2 id=sorting-out-permissions class=headerLink><a href=#sorting-out-permissions class=header-mark></a>Sorting out permissions</h2><p>What you have to sort out before digging into S3 interaction is the permissions that your Lambda has. When serverless deployed our Lambda with a lot of defaults it also handed out a <a href=https://serverless.com/framework/docs/providers/aws/guide/iam/#the-default-iam-role target=_blank rel="noopener noreffer">default IAM role</a> to our Lambda:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>aws --region us-east-1 lambda list-functions <span class=p>|</span> grep Role
+            <span class=c1># role name is nokdoc-sentinel-dev-us-east-1-lambdaRole</span>
+            <span class=s2>&#34;Role&#34;</span>: <span class=s2>&#34;arn:aws:iam::446595173912:role/nokdoc-sentinel-dev-us-east-1-lambdaRole&#34;</span>,
+</code></pre></td></tr></table></div></div><p>To be able to interact with AWS S3 object model, this Role should have access to S3. Lets investigate:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>aws iam get-role-policy --role-name nokdoc-sentinel-dev-us-east-1-lambdaRole --policy-name dev-nokdoc-sentinel-lambda
+<span class=o>{</span>
+    <span class=s2>&#34;RoleName&#34;</span>: <span class=s2>&#34;nokdoc-sentinel-dev-us-east-1-lambdaRole&#34;</span>,
+    <span class=s2>&#34;PolicyName&#34;</span>: <span class=s2>&#34;dev-nokdoc-sentinel-lambda&#34;</span>,
+    <span class=s2>&#34;PolicyDocument&#34;</span>: <span class=o>{</span>
+        <span class=s2>&#34;Version&#34;</span>: <span class=s2>&#34;2012-10-17&#34;</span>,
+        <span class=s2>&#34;Statement&#34;</span>: <span class=o>[</span>
+            <span class=o>{</span>
+                <span class=s2>&#34;Action&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;logs:CreateLogStream&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Resource&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;arn:aws:logs:us-east-1:446595173912:log-group:/aws/lambda/nokdoc-sentinel-dev-check:*&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Effect&#34;</span>: <span class=s2>&#34;Allow&#34;</span>
+            <span class=o>}</span>,
+            <span class=o>{</span>
+                <span class=s2>&#34;Action&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;logs:PutLogEvents&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Resource&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;arn:aws:logs:us-east-1:446595173912:log-group:/aws/lambda/nokdoc-sentinel-dev-check:*:*&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Effect&#34;</span>: <span class=s2>&#34;Allow&#34;</span>
+            <span class=o>}</span>
+        <span class=o>]</span>
+    <span class=o>}</span>
+<span class=o>}</span>
+</code></pre></td></tr></table></div></div><p>As you see S3 access is not a part of default permissions, so we must grant it to our Lambda. Instead of adding additional permissions to the existing role manually, we can re-deploy the Lambda with updated <code>serverless.yml</code> file. In this edition I specified availability zone, set existing S3 bucket as a deployment target and included IAM role configuration allowing full-access to S3 objects:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># serverless.yml</span>
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: eu-central-1
+  <span class=c1># deploy Lambda function files to the bucket `rdodin`</span>
+  deploymentBucket: rdodin
+  <span class=c1># IAM Role configuration to allow all-access for S3 objects of bucket `rdodin`</span>
+  iamRoleStatements:
+    - Effect: <span class=s2>&#34;Allow&#34;</span>
+      Action: <span class=s2>&#34;s3:*&#34;</span>
+      Resource: <span class=s2>&#34;arn:aws:s3:::rdodin/*&#34;</span>
+</code></pre></td></tr></table></div></div><p>Now the re-deployment will create another Lambda (hence the availability zone has changed), deploy the code in the existing bucket <code>rdodin</code> and apply a policy that allows S3 interaction.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># checking the inline policy of the IAM Role bound to Lambda</span>
+aws lambda get-function --function-name nokdoc-sentinel-dev-check <span class=p>|</span> grep Role
+        <span class=s2>&#34;Role&#34;</span>: <span class=s2>&#34;arn:aws:iam::446595173912:role/nokdoc-sentinel-dev-eu-central-1-lambdaRole&#34;</span>,
+
+aws iam list-role-policies --role-name nokdoc-sentinel-dev-eu-central-1-lambdaRole
+<span class=o>{</span>
+    <span class=s2>&#34;PolicyNames&#34;</span>: <span class=o>[</span>
+        <span class=s2>&#34;dev-nokdoc-sentinel-lambda&#34;</span>
+    <span class=o>]</span>
+<span class=o>}</span>
+
+aws iam get-role-policy --role-name nokdoc-sentinel-dev-eu-central-1-lambdaRole --policy-name dev-nokdoc-sentinel-lambda
+<span class=o>{</span>
+    <span class=s2>&#34;RoleName&#34;</span>: <span class=s2>&#34;nokdoc-sentinel-dev-eu-central-1-lambdaRole&#34;</span>,
+    <span class=s2>&#34;PolicyName&#34;</span>: <span class=s2>&#34;dev-nokdoc-sentinel-lambda&#34;</span>,
+    <span class=s2>&#34;PolicyDocument&#34;</span>: <span class=o>{</span>
+        <span class=s2>&#34;Version&#34;</span>: <span class=s2>&#34;2012-10-17&#34;</span>,
+        <span class=s2>&#34;Statement&#34;</span>: <span class=o>[</span>
+            <span class=o>{</span>
+                <span class=s2>&#34;Action&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;logs:CreateLogStream&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Resource&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;arn:aws:logs:eu-central-1:446595173912:log-group:/aws/lambda/nokdoc-sentinel-dev-check:*&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Effect&#34;</span>: <span class=s2>&#34;Allow&#34;</span>
+            <span class=o>}</span>,
+            <span class=o>{</span>
+                <span class=s2>&#34;Action&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;logs:PutLogEvents&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Resource&#34;</span>: <span class=o>[</span>
+                    <span class=s2>&#34;arn:aws:logs:eu-central-1:446595173912:log-group:/aws/lambda/nokdoc-sentinel-dev-check:*:*&#34;</span>
+                <span class=o>]</span>,
+                <span class=s2>&#34;Effect&#34;</span>: <span class=s2>&#34;Allow&#34;</span>
+            <span class=o>}</span>,
+            <span class=o>{</span>
+                <span class=s2>&#34;Action&#34;</span>: <span class=s2>&#34;s3:*&#34;</span>,
+                <span class=s2>&#34;Resource&#34;</span>: <span class=s2>&#34;arn:aws:s3:::rdodin/*&#34;</span>,
+                <span class=s2>&#34;Effect&#34;</span>: <span class=s2>&#34;Allow&#34;</span>
+            <span class=o>}</span>
+        <span class=o>]</span>
+    <span class=o>}</span>
+<span class=o>}</span>
+</code></pre></td></tr></table></div></div><p>Now as the S3 permissions are there, we are free to list bucket contents and modify the files in it.</p><h2 id=using-boto3-to-readwrite-files-in-aws-s3 class=headerLink><a href=#using-boto3-to-readwrite-files-in-aws-s3 class=header-mark></a>Using Boto3 to read/write files in AWS S3</h2><p>AWS provides us with the <a href=https://boto3.readthedocs.io/en/latest/index.html target=_blank rel="noopener noreffer">boto3</a> package as a Python API for AWS services. Moreover, this package comes pre-installed on the <a href=https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html target=_blank rel="noopener noreffer">system that is used to run the Lambdas</a>, so you do not need to provide a package.</p><p>I put a file <em>(releases_current.json)</em> that my script expects to read to the directory created by the serverless deployment script:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws s3 ls rdodin/serverless/nokdoc-sentinel/
+                           PRE dev/
+2017-07-22 15:57:07       <span class=m>3424</span> releases_current.json
+</code></pre></td></tr></table></div></div><p>Lets see if we can access it from within the Lambda using <code>boto3</code> and its <a href=https://boto3.readthedocs.io/en/latest/reference/services/s3.html target=_blank rel="noopener noreffer">documentation</a>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># sentinel.py</span>
+<span class=kn>import</span> <span class=nn>json</span>
+<span class=kn>import</span> <span class=nn>boto3</span>
+
+
+<span class=k>def</span> <span class=nf>check</span><span class=p>(</span><span class=n>event</span><span class=p>,</span> <span class=n>context</span><span class=p>):</span>
+    <span class=n>s3</span> <span class=o>=</span> <span class=n>boto3</span><span class=o>.</span><span class=n>resource</span><span class=p>(</span><span class=s1>&#39;s3&#39;</span><span class=p>)</span>
+    <span class=n>bucket</span> <span class=o>=</span> <span class=n>s3</span><span class=o>.</span><span class=n>Bucket</span><span class=p>(</span><span class=s1>&#39;rdodin&#39;</span><span class=p>)</span>
+    <span class=c1># reading a file in S3 bucket</span>
+    <span class=n>original_f</span> <span class=o>=</span> <span class=n>bucket</span><span class=o>.</span><span class=n>Object</span><span class=p>(</span>
+        <span class=s1>&#39;serverless/nokdoc-sentinel/releases_current.json&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>get</span><span class=p>()[</span><span class=s1>&#39;Body&#39;</span><span class=p>]</span><span class=o>.</span><span class=n>read</span><span class=p>()[:</span><span class=mi>50</span><span class=p>]</span>
+    <span class=c1># writing to a file</span>
+    <span class=n>new_f</span> <span class=o>=</span> <span class=n>bucket</span><span class=o>.</span><span class=n>put_object</span><span class=p>(</span>
+        <span class=n>Key</span><span class=o>=</span><span class=s1>&#39;serverless/nokdoc-sentinel/newfile.txt&#39;</span><span class=p>,</span> <span class=n>Body</span><span class=o>=</span><span class=s1>&#39;Hello AWS&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>get</span><span class=p>()[</span><span class=s1>&#39;Body&#39;</span><span class=p>]</span><span class=o>.</span><span class=n>read</span><span class=p>()</span>
+
+    <span class=n>body</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s2>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;Sentinel loaded a file {} and created a new file {}&#34;</span>
+        <span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>original_f</span><span class=p>,</span> <span class=n>new_f</span><span class=p>),</span>
+    <span class=p>}</span>
+
+    <span class=n>response</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s2>&#34;statusCode&#34;</span><span class=p>:</span> <span class=mi>200</span><span class=p>,</span>
+        <span class=s2>&#34;body&#34;</span><span class=p>:</span> <span class=n>json</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span><span class=n>body</span><span class=p>)</span>
+    <span class=p>}</span>
+
+    <span class=k>return</span> <span class=n>response</span>
+</code></pre></td></tr></table></div></div><p>Re-deploy and check:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ curl https://xxxxx.execute-api.eu-central-1.amazonaws.com/dev/test
+<span class=o>{</span><span class=s2>&#34;message&#34;</span>: <span class=s2>&#34;Sentinel loaded a file b&#39;{\&#34;nuage-vsp\&#34;: [\&#34;4.0.R8\&#34;, \&#34;4.0.R7\&#34;, \&#34;4.0.R6.2\&#34;, \&#34;4.&#39; and created a new file b&#39;Hello AWS&#39;&#34;</span><span class=o>}</span>
+</code></pre></td></tr></table></div></div><p>So far, so good. We are now capable of reading/writing to a file stored in AWS S3.</p><h1 id=adding-python-packages-to-lambda class=headerLink><a href=#adding-python-packages-to-lambda class=header-mark></a>Adding python packages to Lambda</h1><p>We were lucky to use only the packages that either standard (<code>json</code>) or comes preinstalled in Lambda-system (<code>boto3</code>). But what if we need to use packages other from that, maybe your own packages or from PyPI?</p><p>Well, in that case you need to push these packages along with your function' code as a singe <em>deployment package</em>. <a href=https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html target=_blank rel="noopener noreffer">As official guide says</a> you need to copy packages to the root directory of your function and zip everything as a single archive.</p><p>What comes as a drawback of this recommendation is that</p><ul><li>your project dir will be dirty with all these packages sitting in the root</li><li>you will have to .gitignore these packages directory to keep your packages out of a repository</li></ul><p>I like the solution proposed in the <a href=https://serverlesscode.com/post/python-3-on-serverless-framework/ target=_blank rel="noopener noreffer">&ldquo;Building Python 3 Apps On The Serverless Framework&rdquo;</a> post. Install your packages in a some directory in your projects dir and modify your <code>PYTHONPATH</code> to include this directory.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># install `requests` package in a `vendored` dir at the projects root</span>
+pip install -t vendored/ requests
+
+<span class=c1># `requests` and its dependencies are there</span>
+$ ls vendored/
+certifi                     chardet                     idna                        requests                    urllib3
+certifi-2017.4.17.dist-info chardet-3.0.4.dist-info     idna-2.5.dist-info          requests-2.18.1.dist-info   urllib3-1.21.1.dist-info
+</code></pre></td></tr></table></div></div><p>Now modify your code to include <code>vendored</code> directory in your <code>PYTHONPATH</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=kn>import</span> <span class=nn>boto3</span>
+
+<span class=n>here</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>dirname</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>realpath</span><span class=p>(</span><span class=vm>__file__</span><span class=p>))</span>
+<span class=n>sys</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>here</span><span class=p>,</span> <span class=s2>&#34;vendored&#34;</span><span class=p>))</span>
+<span class=c1># now it is allowed to add a non-std package</span>
+<span class=kn>import</span> <span class=nn>requests</span>
+
+<span class=k>def</span> <span class=nf>check</span><span class=p>(</span><span class=n>event</span><span class=p>,</span> <span class=n>context</span><span class=p>):</span>
+<span class=c1># output omitted</span>
+</code></pre></td></tr></table></div></div><p>Note, that if a package has a native binary code, it must be compiled for <a href=https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html target=_blank rel="noopener noreffer">the system that is used to run Lambdas</a>.</p><h1 id=shared-code-for-lambdas class=headerLink><a href=#shared-code-for-lambdas class=header-mark></a>Shared code for Lambdas</h1><p>Even though a Lambda often assumed as an independent function, a real application you might want to transfer to Lambda quite likely will have dependencies on some common code. Refer to the <a href=https://serverlesscode.com/post/python-3-on-serverless-framework/#writing-shared-code target=_blank rel="noopener noreffer">&ldquo;Writing Shared Code&rdquo;</a> section of the above mentioned blog post to see how its done.</p><h1 id=handling-arguments-in-lambdas class=headerLink><a href=#handling-arguments-in-lambdas class=header-mark></a>Handling arguments in Lambdas</h1><p>Another common practice in a classic util function is to have some arguments (argparse) that allow to branch out the code and make an app' logic feature-rich. In Lambdas, of course, you have no CLI exposed, so to make a substitution for the arguments you can go two ways:</p><ul><li>create several functions for your project and bind different API endpoints to each of them</li><li>use a single function and add a variable part to the API endpoint</li></ul><p>I will show how to handle the latter option. First, create a variable parameter for your API endpoint in the <code>serverless.yml</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>    events:
+      - http:
+          <span class=c1># `{command}` is a variable part here</span>
+          path: go/<span class=o>{</span>command<span class=o>}</span>
+          method: get
+</code></pre></td></tr></table></div></div><p>Now you Lambda can be branched out like that, using the part that you will place in the end of your API endpoint as an argument.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>check</span><span class=p>(</span><span class=n>event</span><span class=p>,</span> <span class=n>context</span><span class=p>):</span>
+    <span class=c1># a variable that we referenced as {command} in serverless.yml</span>
+    <span class=c1># can be accessed by a `command` key of event[&#39;pathParameters&#39;] dict</span>
+    <span class=k>if</span> <span class=s1>&#39;branch1&#39;</span> <span class=ow>in</span> <span class=n>event</span><span class=p>[</span><span class=s1>&#39;pathParameters&#39;</span><span class=p>][</span><span class=s1>&#39;command&#39;</span><span class=p>]:</span>
+        <span class=n>body</span> <span class=o>=</span> <span class=p>{</span>
+            <span class=s2>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;Argument `A` execution block&#34;</span>
+        <span class=p>}</span>
+
+    <span class=k>if</span> <span class=s1>&#39;branch2&#39;</span> <span class=ow>in</span> <span class=n>event</span><span class=p>[</span><span class=s1>&#39;pathParameters&#39;</span><span class=p>][</span><span class=s1>&#39;command&#39;</span><span class=p>]:</span>
+        <span class=n>body</span> <span class=o>=</span> <span class=p>{</span>
+            <span class=s2>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;Argument `B` execution block&#34;</span>
+        <span class=p>}</span>
+
+    <span class=n>response</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s2>&#34;statusCode&#34;</span><span class=p>:</span> <span class=mi>200</span><span class=p>,</span>
+        <span class=s2>&#34;body&#34;</span><span class=p>:</span> <span class=n>json</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span><span class=n>body</span><span class=p>)</span>
+    <span class=p>}</span>
+
+    <span class=k>return</span> <span class=n>response</span>
+</code></pre></td></tr></table></div></div><p>Now adding an arbitrary text after the <code>go/</code> path will be evaluated in your Lambda allowing you to conditionally execute some parts of your code.</p><h1 id=summary class=headerLink><a href=#summary class=header-mark></a>Summary</h1><p>With the above explained concepts I successfully transferred <strong>nokdoc-sentinel</strong> script from a standalone cron-triggered module to the AWS Lambda. You can check out the project' code and the <code>serverless.yml</code> file at <a href=https://github.com/hellt/nokdoc-sentinel-lambda target=_blank rel="noopener noreffer">github repo</a>.</p><h1 id=links class=headerLink><a href=#links class=header-mark></a>Links</h1><ol><li><strong>Benny Bauer</strong> &ndash; <a href="https://www.youtube.com/watch?v=G17E4Muylis" target=_blank rel="noopener noreffer">Python in The Serverless Era PyCon 2017</a></li><li><strong>Ryan S. Brown</strong> &ndash; <a href=https://serverlesscode.com/post/python-3-on-serverless-framework/ target=_blank rel="noopener noreffer">Building Python 3 Apps On The Serverless Framework</a></li><li><a href=https://serverless.com/framework/docs/providers/aws/guide/ target=_blank rel="noopener noreffer">Serverless Framework AWS Guide</a></li><li><a href=https://docs.aws.amazon.com/lambda/latest/dg/welcome.html target=_blank rel="noopener noreffer">AWS Lambda Developers Guide</a></li><li><a href=https://docs.aws.amazon.com/cli/latest/reference/ target=_blank rel="noopener noreffer">AWS CLI Command Reference</a></li><li><a href=http://www.goingserverless.com/blog/keeping-secrets-out-of-git target=_blank rel="noopener noreffer">Keeping secrets out of Git with Serverless</a></li></ol><blockquote><p>Post comments <a href=https://gitlab.com/rdodin/netdevops.me/issues/2 target=_blank rel="noopener noreffer">are here</a>.</p></blockquote></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless/ data-title="Building AWS Lambda with Python, S3 and serverless" data-via=ntdvps data-hashtags="AWS,AWS Lambda,Boto3,Python,Serverless"><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless/ data-hashtag=AWS><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/aws/ class=tag>AWS</a><a href=/tags/aws-lambda/ class=tag>AWS Lambda</a><a href=/tags/boto3/ class=tag>Boto3</a><a href=/tags/python/ class=tag>python</a><a href=/tags/serverless/ class=tag>Serverless</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

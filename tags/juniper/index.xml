@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Juniper - Tag - NetDevOps</title><link>https://netdevops.me/tags/juniper/</link><description>Juniper - Tag - NetDevOps</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 14 Nov 2016 04:22:27 +0000</lastBuildDate><atom:link href="https://netdevops.me/tags/juniper/" rel="self" type="application/rss+xml"/><item><title>BGP VPLS deep dive. Nokia SR OS &amp; Juniper</title><link>https://netdevops.me/2016/11/bgp-vpls-explained-nokia-juniper/</link><pubDate>Mon, 14 Nov 2016 04:22:27 +0000</pubDate><author>Roman Dodin</author><guid>https://netdevops.me/2016/11/bgp-vpls-explained-nokia-juniper/</guid><description><![CDATA[<p>It may very well be that VPLS days are numbered and EVPN is to blame. Nevertheless, it would be naive to expect VPLS extinction in the near future. With all its shortcomings VPLS is still very well standardized, interop-proven and has a huge footprint in MPLS networks of various scale.</p>
+<p>In this post I will cover theory and configuration parts for one particular flavor of VPLS signalling - BGP VPLS (aka Kompella VPLS) defined in <a href="http://www.rfcreader.com/#rfc4761" target="_blank" rel="noopener noreffer">RFC4761</a>. I&rsquo;ll start with simple single home VPLS scenario while multi-homing techniques and some advanced configurations might appear in a separate post later.</p>
+<p>In this topic the following SW releases were used:</p>
+<ul>
+<li>Nokia (Alcatel-Lucent) VSR 14.0.R4</li>
+<li>Juniper vMX 14.1R1.10</li>
+</ul>]]></description></item><item><title>Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS &amp; Juniper MX</title><link>https://netdevops.me/2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/</link><pubDate>Tue, 03 Nov 2015 23:57:19 +0000</pubDate><author>Roman Dodin</author><guid>https://netdevops.me/2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/</guid><description><![CDATA[<p>The topic of this post is <strong>Layer 3 VPN</strong> (L3VPN or VPRN as we call it in SROS) configuration, and I decided to kill two birds with one stone by inviting Juniper vMX to our cozy SROS environment.</p>
+<p>The BGP/MPLS VPN (<a href="https://tools.ietf.org/html/rfc4364" target="_blank" rel="noopener noreffer">RFC 4364</a>) configuration will undergo the following milestones:</p>
+<ul>
+<li>PE-PE relationship configuration with VPN IPv4 address family introduction</li>
+<li>PE-CE routing configuration with both BGP and OSPF as routing protocols</li>
+<li>Export policy configuration for advertising VPN routes on PE routers</li>
+<li>AS override configuration</li>
+<li>and many more</li>
+</ul>
+<p>We&rsquo;ll wrap it up with the Control Plane/Data Plane evaluation diagrams which help a lot with understanding the whole BGP VPN mechanics. Take your seats, and buckle up!</p>]]></description></item></channel></rss>

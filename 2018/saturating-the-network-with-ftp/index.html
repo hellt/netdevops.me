@@ -1,0 +1,131 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Saturating the network with FTP |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="Saturating the network with FTP"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="Saturating the network with FTP"><meta property="og:description" content="While working on the Ipanema Wan Opt VNF integration with Nuage Networks I stumbled upon an interesting case which required to max out the network with FTP traffic. The tricky point there was to create the FTP connection which won&rsquo;t be limited by the disk IO performance. Especially, considering that the disks were kind of slow in the setup I had.
+It turns out, you can use the in-memory devices in the FTP communication path /dev/zero -> /dev/null, ruling out the slowliness that could have been added by the disks. Lets figure out how to do that!"><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2018/saturating-the-network-with-ftp/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-11-23T12:00:00+00:00"><meta property="article:modified_time" content="2021-04-19T12:35:46+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2018/saturating-the-network-with-ftp/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Saturating the network with FTP","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2018\/saturating-the-network-with-ftp\/"},"genre":"posts","keywords":"vsftpd, FTP","wordCount":592,"url":"https:\/\/netdevops.me\/2018\/saturating-the-network-with-ftp\/","datePublished":"2018-11-23T12:00:00+00:00","dateModified":"2021-04-19T12:35:46+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>Saturating the network with FTP</li></ol></nav><h1 class="single-title flipInX">Saturating the network with FTP</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2018-11-23>2018-11-23</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>592 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>3 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#devzero---devnull>/dev/zero -> /dev/null</a></li><li><a href=#vsftpd-configuration>vsftpd configuration</a></li><li><a href=#500-oops-ftruncate>500 OOPS: ftruncate</a></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>While working on the <a href=https://www.infovista.com/products/ipanema-sdwan target=_blank rel="noopener noreffer">Ipanema Wan Opt VNF</a> integration with <a href=http://www.nuagenetworks.net/enterprise/software-defined-wan/ target=_blank rel="noopener noreffer">Nuage Networks</a> I stumbled upon an interesting case which required to max out the network with FTP traffic. The tricky point there was to create the FTP connection which won&rsquo;t be limited by the disk IO performance. Especially, considering that the disks were kind of slow in the setup I had.</p><p>It turns out, you can use the in-memory devices in the FTP communication path <code>/dev/zero -> /dev/null</code>, ruling out the slowliness that could have been added by the disks. Lets figure out how to do that!</p><p>Software-wise my setup consisted of a single FTP server <code>vsftpd</code> and the FTP client <code>ftp</code> all running on Centos7-based VMs. These VMs were equipped with a network namespace <code>ns-data</code> which host the datapath interface <code>eth1</code>.</p><h2 id=devzero---devnull class=headerLink><a href=#devzero---devnull class=header-mark></a>/dev/zero -> /dev/null</h2><p>I found this <a href=https://fordodone.com/2013/11/13/ftp-to-dev-null-to-test-bandwidth/ target=_blank rel="noopener noreffer">&ldquo;ftp to dev null to test bandwidth&rdquo;</a> blog post explaining how to use <code>/dev/zero</code> as a source file and <code>/dev/null</code> as a destination within a running FTP session.</p><p>The example there (executed on the FTP client side) demonstrates the following technique:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=cp>#!/bin/bash
+</span><span class=cp></span>/usr/bin/ftp -n &lt;IP address of machine&gt; <span class=s>&lt;&lt;END
+</span><span class=s>verbose on
+</span><span class=s>user &lt;username&gt; &lt;password&gt;
+</span><span class=s>bin
+</span><span class=s>put &#34;|dd if=/dev/zero bs=32k&#34; /dev/null
+</span><span class=s>bye
+</span><span class=s>END</span>
+</code></pre></td></tr></table></div></div><p>So this example did not work for me right out of the box so let me augment it with the few findings I came across while trying to make this one work.</p><h2 id=vsftpd-configuration class=headerLink><a href=#vsftpd-configuration class=header-mark></a>vsftpd configuration</h2><p>The <code>put "|dd if=/dev/zero bs=32k" /dev/null</code> command is the transfer operation from the client to the server. On the server side the data that comes from the client is saved in <code>/dev/null</code> device.</p><p>First thing to check there is that your FTP server configuration allows a client to use the <code>dev/null</code> device as the destination. I used the <code>vsftpd</code> as a server, so the config that worked for me (using the local user authentication) is as follows:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># cat /etc/vsftpd/vsftpd.conf</span>
+<span class=nv>anonymous_enable</span><span class=o>=</span>NO
+<span class=nv>local_enable</span><span class=o>=</span>YES
+<span class=nv>write_enable</span><span class=o>=</span>YES
+<span class=nv>anon_upload_enable</span><span class=o>=</span>YES
+<span class=nv>anon_mkdir_write_enable</span><span class=o>=</span>YES
+<span class=nv>anon_other_write_enable</span><span class=o>=</span>YES
+<span class=nv>anon_world_readable_only</span><span class=o>=</span>YES
+<span class=nv>connect_from_port_20</span><span class=o>=</span>YES
+<span class=nv>hide_ids</span><span class=o>=</span>YES
+<span class=nv>pasv_min_port</span><span class=o>=</span><span class=m>40000</span>
+<span class=nv>pasv_max_port</span><span class=o>=</span><span class=m>60000</span>
+<span class=nv>local_umask</span><span class=o>=</span><span class=m>022</span>
+<span class=nv>dirmessage_enable</span><span class=o>=</span>YES
+<span class=nv>xferlog_enable</span><span class=o>=</span>YES
+<span class=nv>xferlog_std_format</span><span class=o>=</span>YES
+<span class=nv>listen</span><span class=o>=</span>YES
+<span class=nv>xferlog_enable</span><span class=o>=</span>YES
+<span class=nv>ls_recurse_enable</span><span class=o>=</span>NO
+<span class=nv>ascii_download_enable</span><span class=o>=</span>NO
+<span class=nv>async_abor_enable</span><span class=o>=</span>YES
+<span class=nv>one_process_model</span><span class=o>=</span>NO
+<span class=nv>idle_session_timeout</span><span class=o>=</span><span class=m>120</span>
+<span class=nv>data_connection_timeout</span><span class=o>=</span><span class=m>300</span>
+<span class=nv>accept_timeout</span><span class=o>=</span><span class=m>60</span>
+<span class=nv>connect_timeout</span><span class=o>=</span><span class=m>60</span>
+<span class=nv>pam_service_name</span><span class=o>=</span>vsftpd
+<span class=nv>tcp_wrappers</span><span class=o>=</span>YES
+</code></pre></td></tr></table></div></div><p>This enables me to authenticate using the local user credentials on the server and write the data to the <code>/dev/null</code> device.</p><h2 id=500-oops-ftruncate class=headerLink><a href=#500-oops-ftruncate class=header-mark></a>500 OOPS: ftruncate</h2><p>Once I found the workable vsftpd config, I run the script and received <code>500 OOPS: ftruncate</code> error from the server. This problem, as it seems, only affects RHEL-based distros, and as explained <a href=https://access.redhat.com/solutions/776843 target=_blank rel="noopener noreffer">here</a> the workaround is to use <code>append</code> command instead of a <code>put</code>.</p><p>This brings me to the final version of the script I used:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># cat ./ftp.sh</span>
+<span class=c1>#!/bin/bash</span>
+ip netns <span class=nb>exec</span> ns-data /usr/bin/ftp -n 192.168.99.101 <span class=s>&lt;&lt;END
+</span><span class=s>verbose on
+</span><span class=s>user myuser mypassword
+</span><span class=s>bin
+</span><span class=s>append &#34;|dd if=/dev/zero bs=32k&#34; /dev/null
+</span><span class=s>bye
+</span><span class=s>END</span>
+</code></pre></td></tr></table></div></div><p>And the result I got on the 10Mbps uplinks:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ sudo bash ftp.sh
+Verbose mode on.
+<span class=m>331</span> Please specify the password.
+<span class=m>230</span> Login successful.
+<span class=m>200</span> Switching to Binary mode.
+local: <span class=p>|</span>dd <span class=k>if</span><span class=o>=</span>/dev/zero <span class=nv>bs</span><span class=o>=</span>32k remote: /dev/null
+<span class=m>227</span> Entering Passive Mode <span class=o>(</span>192,168,99,101,222,205<span class=o>)</span>.
+<span class=m>150</span> Ok to send data.
+^C277+0 records in
+276+0 records out
+<span class=m>9043968</span> bytes <span class=o>(</span>9.0 MB<span class=o>)</span> copied, 7.06165 s, 1.3 MB/s
+
+send aborted
+waiting <span class=k>for</span> remote to finish abort
+<span class=m>226</span> Transfer complete.
+<span class=m>8986624</span> bytes sent in 7.03 secs <span class=o>(</span>1278.00 Kbytes/sec<span class=o>)</span>
+<span class=m>221</span> Goodbye.
+</code></pre></td></tr></table></div></div><p>And this saturates my uplinks completely.</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2018/saturating-the-network-with-ftp/ data-title="Saturating the network with FTP" data-via=ntdvps data-hashtags=vsftpd,FTP><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2018/saturating-the-network-with-ftp/ data-hashtag=vsftpd><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2018/saturating-the-network-with-ftp/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/vsftpd/ class=tag>vsftpd</a><a href=/tags/ftp/ class=tag>FTP</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

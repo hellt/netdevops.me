@@ -1,0 +1,332 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Creating Google Cloud Platform Function with Python and Serverless |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="Creating Google Cloud Platform Function with Python and Serverless"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="Creating Google Cloud Platform Function with Python and Serverless"><meta property="og:description" content="Two years ago I shared my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service."><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2019/creating-google-cloud-platform-function-with-python-and-serverless/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-06-30T06:00:00+00:00"><meta property="article:modified_time" content="2021-04-19T13:05:51+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2019/creating-google-cloud-platform-function-with-python-and-serverless/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Creating Google Cloud Platform Function with Python and Serverless","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2019\/creating-google-cloud-platform-function-with-python-and-serverless\/"},"genre":"posts","keywords":"GCP, GCP Function, Python, Serverless","wordCount":2790,"url":"https:\/\/netdevops.me\/2019\/creating-google-cloud-platform-function-with-python-and-serverless\/","datePublished":"2019-06-30T06:00:00+00:00","dateModified":"2021-04-19T13:05:51+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>Creating Google Cloud Platform Function with Python and Serverless</li></ol></nav><h1 class="single-title flipInX">Creating Google Cloud Platform Function with Python and Serverless</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2019-06-30>2019-06-30</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>2790 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>14 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#21-serverless-service-template>2.1 Serverless service template</a></li><li><a href=#22-testing-function-deployment>2.2 Testing function deployment</a></li><li><a href=#23-writing-a-function>2.3 Writing a Function</a><ul><li><a href=#231-managing-code-dependencies>2.3.1 Managing code dependencies</a></li><li><a href=#232-events>2.3.2 Events</a></li><li><a href=#233-writing-a-function>2.3.3 Writing a function</a></li></ul></li><li><a href=#24-logging>2.4 Logging</a></li></ul><ul><li><a href=#41-empty-get-request>4.1 empty GET request</a></li><li><a href=#42-post-with-a-root-and-pycatj_data-specified>4.2 POST with a root and pycatj_data specified</a></li><li><a href=#43-post-without-root-with-pycatj_data>4.3 POST without root, with pycatj_data</a></li><li><a href=#44-post-with-json-file-as-a-body>4.4 POST with json file as a body</a></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>Two years ago <a href=/2017/building-aws-lambda-with-python-s3-and-serverless/ rel>I shared</a> my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service.</p><p><img loading=lazy decoding=async class=render-image src=https://gitlab.com/rdodin/pics/-/wikis/uploads/e4f956d64dcf812f64a77f8532499d07/image.png alt=serverless title=image.png></p><p>Naturally, a simple, single-purpose tool is a perfect candidate for function-as-a-service (FaaS), and since I had past experience with AWS Lambda, this time I decided to meet its Google&rsquo;s sibling - <a href=https://cloud.google.com/functions/ target=_blank rel="noopener noreffer">Google Cloud Function</a>.</p><p>In this post we&rsquo;ll discover how to take a python package with 3rd party dependencies, make a GCP Function from it and deploy it without a single click in the UI - all without leaving the IDE.</p><p>[<a href=https://github.com/hellt/pycatj-web target=_blank rel="noopener noreffer">Project&rsquo;s source code</a>]</p><p>The python tool I considered a natural fit for a Cloud Function is a <a href=https://github.com/dbarrosop/pycatj target=_blank rel="noopener noreffer"><code>pycatj</code></a> by <strong>David Barroso</strong> that he released just recently.</p><center><blockquote class=twitter-tweet><p lang=en dir=ltr>For those with problems accessing yaml/json data: <a href=https://t.co/IbbS3x05bq>https://t.co/IbbS3x05bq</a></p>&mdash; David Barroso (@dbarrosop) <a href="https://twitter.com/dbarrosop/status/1143810284513107968?ref_src=twsrc%5Etfw">June 26, 2019</a></blockquote><script async src=https://platform.twitter.com/widgets.js></script></center><p>This tool helps you to map a JSON/YAML file to a Python dictionary highlighting the keys you need to access the nested data:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-json data-lang=json><span class=err>$</span> <span class=err>cat</span> <span class=err>tests/data/test_</span><span class=mi>1</span><span class=err>.json</span>
+<span class=p>{</span>
+    <span class=nt>&#34;somekey&#34;</span><span class=p>:</span> <span class=s2>&#34;somevalue&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;somenumber&#34;</span><span class=p>:</span> <span class=mi>123</span><span class=p>,</span>
+    <span class=nt>&#34;a_dict&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;asd&#34;</span><span class=p>:</span> <span class=s2>&#34;123&#34;</span><span class=p>,</span>
+        <span class=nt>&#34;qwe&#34;</span><span class=p>:</span> <span class=p>[</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>],</span>
+        <span class=nt>&#34;nested_dict&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;das&#34;</span><span class=p>:</span> <span class=mi>31</span><span class=p>,</span>
+            <span class=nt>&#34;qwe&#34;</span><span class=p>:</span> <span class=s2>&#34;asd&#34;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=err>$</span> <span class=err>pycatj</span> <span class=err>--root</span> <span class=err>my_var</span> <span class=err>tests/data/test_</span><span class=mi>1</span><span class=err>.json</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;somekey&#34;</span><span class=p>]</span> <span class=err>=</span> <span class=s2>&#34;somevalue&#34;</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;somenumber&#34;</span><span class=p>]</span> <span class=err>=</span> <span class=mi>123</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;asd&#34;</span><span class=p>]</span> <span class=err>=</span> <span class=s2>&#34;123&#34;</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>][</span><span class=mi>0</span><span class=p>]</span> <span class=err>=</span> <span class=mi>1</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>][</span><span class=mi>1</span><span class=p>]</span> <span class=err>=</span> <span class=mi>2</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>][</span><span class=mi>2</span><span class=p>]</span> <span class=err>=</span> <span class=mi>3</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=p>][</span><span class=s2>&#34;das&#34;</span><span class=p>]</span> <span class=err>=</span> <span class=mi>31</span>
+<span class=err>my_var</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>]</span> <span class=err>=</span> <span class=s2>&#34;asd&#34;</span>
+</code></pre></td></tr></table></div></div><p>I felt like having a single-page web service that would do these transformations leveraging the <code>pycatj</code> would be helpful to somebody sometime.<br>Probably the easiest way would be to rewrite the same code with JavaScript and create a static page with that code without any backend, but <em>does it spark joy?</em>. Not even a bit.</p><p>And as a starting point I decided to create a serverless function that will rely on <code>pycatj</code> and will be triggered later by a Web frontend with an HTTP request carrying the content for <em>pycatj-ifying</em>.</p><p>In a nutshell, the function should behave something like that:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>curl -X POST https://api-endpoint.com -d <span class=s1>&#39;{&#34;data&#34;:{&#34;somekey&#34;:&#34;value1&#34;}}&#39;</span>
+<span class=c1># returns</span>
+my_var<span class=o>[</span><span class=s2>&#34;somekey&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=s2>&#34;value1&#34;</span>
+</code></pre></td></tr></table></div></div><p>To add some sugar to the mix I will leverage the <a href=https://serverless.com target=_blank rel="noopener noreffer">serverless</a> framework to do the heavy lifting in a code-first way. The plan is set, lets go see it to completion.</p><h1 id=agenda class=headerLink><a href=#agenda class=header-mark></a>Agenda</h1><p>The decomposition of the service creation and deployment can be done as follows:</p><ol><li>Google Cloud Platform<ol><li>Create a GCP account (if needed) and acquire the API credentials</li><li>Create a project in GCP that will host a Function and enable the needed APIs for serverless to be able to create the Function and its artifacts</li></ol></li><li>Function creation and testing<ol><li>create the code in conformance with the GCP Function handlers/events rules</li><li>Manage code dependencies</li></ol></li><li>Function deployment<ol><li>leveraging serverless framework to deploy a function to GCP</li></ol></li><li>Add a frontend (in another blog post) that will use the serverless function.</li></ol><h1 id=1-google-cloud-platform class=headerLink><a href=#1-google-cloud-platform class=header-mark></a>1 Google Cloud Platform</h1><p>Following the agenda, ensure that you have a working GCP account (trial gives you $300, and GCP Function is perpetually FREE with the sane usage thresholds). Make sure that you have a billing account created, this is set up when you opt in the free trial program, for example. Without a linked billing account the Functions won&rsquo;t work.</p><p>Once you have your account set, you should either continue with a default project or create a new one. In either case you need to enable the APIs that will be leveraged by serverless framework for a function deployment process. Go thru <a href=https://serverless.com/framework/docs/providers/google/guide/credentials/ target=_blank rel="noopener noreffer">this guide</a> carefully on how to enable the right APIs.</p><p><strong>API credentials</strong></p><p>Do not forget to download your API credentials, as nothing can be done without them. This <a href=https://serverless.com/framework/docs/providers/google/guide/credentials/#get-credentials--assign-roles target=_blank rel="noopener noreffer">guide&rsquo;s section</a> explains it all.<br>The commands you will see in the rest of this post assume that the credentials are stored in <code>~/.gcould</code> directory.</p><h1 id=2-function-creation class=headerLink><a href=#2-function-creation class=header-mark></a>2 Function creation</h1><p>Since we are living on the edge, we will rely on the <a href=https://serverless.com target=_blank rel="noopener noreffer">serverless</a> framework to create & deploy our function. The very same framework <a href=/2017/building-aws-lambda-with-python-s3-and-serverless/ rel>I leveraged</a> for the AWS Lambda creation, so why not try it for GCP Function?</p><p>The notable benefit of serverless framework is that it allows you to define your Function deployment <em>as a code</em> and thus making it repeatable, versionable and fast.</p><p>But nothing comes cheap, for all these perks you need to pay; and the serverless toll is in being a Javascript package =|. Don&rsquo;t know about you, but <em>no glove - no love</em> is the principle I try to stick to with JS. So why not quarantine it in a <a href=https://hub.docker.com/r/amaysim/serverless target=_blank rel="noopener noreffer">docker container</a> jail and keep your machine npm-free?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>docker pull amaysim/serverless:1.45.1
+</code></pre></td></tr></table></div></div><h2 id=21-serverless-service-template class=headerLink><a href=#21-serverless-service-template class=header-mark></a>2.1 Serverless service template</h2><p>The way I start my serverless journey is by telling the serverless to <a href=https://serverless.com/framework/docs/providers/google/cli-reference/create/#available-templates target=_blank rel="noopener noreffer">generate a service template</a> in the programming language of my choice. Later we can tune bits and pieces of that <a href=https://serverless.com/framework/docs/providers/aws/guide/services/ target=_blank rel="noopener noreffer">service</a>, but if you start from a zero-ground, its easier to have a scaffolding to work on.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># Create service with `google-python` template in the folder ~/projects/pycatj-web</span>
+docker run --rm <span class=se>\
+</span><span class=se></span> -v ~/projects/pycatj-web:/opt/app <span class=se>\
+</span><span class=se></span> amaysim/serverless:1.45.1 <span class=se>\
+</span><span class=se></span> serverless create --template google-python --path pycatj-serverless
+</code></pre></td></tr></table></div></div><p>The result of the <code>serverless create --template &lt;template></code> command will be a directory with a boilerplate code for our function and a few serverless artifacts.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># artifacts created by `serverless create --template`</span>
+$ tree pycatj-serverless/
+pycatj-serverless/
+├── main.py
+├── package.json
+└── serverless.yml
+</code></pre></td></tr></table></div></div><p>We need to take a closer look at the generated <code>serverless.yml</code> template file where we need to make some adjustments:</p><ol><li>the project name should match the project name you have created in the GCP</li><li>the path to your GCP credentials json file should be valid</li></ol><p>Given that the project in my GCP is called <code>pycatj</code> and my credentials file is <code>~/.gcloud/pycatj-d6af60eda976.json</code> the <code>provider</code> section of the <code>serverless.yml</code> file would look like this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yml data-lang=yml><span class=c># serverless.yml file</span><span class=w>
+</span><span class=w></span><span class=c># with project name and credentials file specified</span><span class=w>
+</span><span class=w></span><span class=nt>provider</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>google</span><span class=w>
+</span><span class=w>  </span><span class=nt>stage</span><span class=p>:</span><span class=w> </span><span class=l>dev</span><span class=w>
+</span><span class=w>  </span><span class=nt>runtime</span><span class=p>:</span><span class=w> </span><span class=l>python37</span><span class=w>
+</span><span class=w>  </span><span class=nt>region</span><span class=p>:</span><span class=w> </span><span class=l>us-central1</span><span class=w>
+</span><span class=w>  </span><span class=nt>project</span><span class=p>:</span><span class=w> </span><span class=l>pycatj</span><span class=w>
+</span><span class=w>  </span><span class=nt>credentials</span><span class=p>:</span><span class=w> </span><span class=l>~/.gcloud/pycatj-d6af60eda976.json</span><span class=w>
+</span></code></pre></td></tr></table></div></div><p>As to the <code>main.py</code> generated by the framework, then its a simple boilerplate code with a text reply to an incoming HTTP request wrapped in a Flask object.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># main.py</span>
+<span class=k>def</span> <span class=nf>http</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;Responds to any HTTP request.
+</span><span class=s2>    Args:
+</span><span class=s2>        request (flask.Request): HTTP request object.
+</span><span class=s2>    Returns:
+</span><span class=s2>        The response text or any set of values that can be turned into a
+</span><span class=s2>        Response object using
+</span><span class=s2>        `make_response &lt;http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response&gt;`.
+</span><span class=s2>    &#34;&#34;&#34;</span>
+    <span class=k>return</span> <span class=n>f</span><span class=s1>&#39;Hello World!&#39;</span>
+</code></pre></td></tr></table></div></div><p>Lets test that our modifications work out so far by trying to deploy the template service.</p><h2 id=22-testing-function-deployment class=headerLink><a href=#22-testing-function-deployment class=header-mark></a>2.2 Testing function deployment</h2><p>Before we start pushing our function and its artifacts to the GCP, we need to tell serverless how to talk to the cloud provider. To do that, we need to install the <code>serverless-google-cloudfunctions</code> plugin that is <a href=https://github.com/hellt/pycatj-web/blob/master/pycatj-serverless/serverless.yml#L18 target=_blank rel="noopener noreffer">referenced</a> in the <code>serverless.yml</code> file.</p><p>Install the google cloud functions plugin with the <code>npm install</code> command using the directory with a generated serverless service files:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>docker run --rm <span class=se>\
+</span><span class=se></span>  -v ~/.gcloud/:/root/.gcloud <span class=se>\
+</span><span class=se></span>  -v ~/projects/pycatj-web/pycatj-serverless:/opt/app <span class=se>\
+</span><span class=se></span>  amaysim/serverless:1.45.1 npm install
+</code></pre></td></tr></table></div></div><p>Note, here I mount my GCP credentials that are stored at <code>~/.gcloud</code> dir to a containers <code>/root/.gcloud</code> dir where serverless container will find them as they are referenced in the <code>serverless.yml</code> file.<br>And secondly I bind mount my project&rsquo;s directory <code>~/projects/pycatj-web/pycatj-serverless</code> to the <code>/opt/app</code> dir inside the container that is a <code>WORKDIR</code> of that container.</p><p>Now we have a green flag to try out the deployment process with <code>serverless deploy</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>docker run --rm \
+  -v ~/.gcloud/:/root/.gcloud \
+  -v ~/projects/pycatj-web/pycatj-serverless:/opt/app \
+  amaysim/serverless:1.45.1 serverless deploy
+</code></pre></td></tr></table></div></div><blockquote><p>If the deployment <a href=https://github.com/serverless/serverless-google-cloudfunctions/issues/82#issuecomment-326222674 target=_blank rel="noopener noreffer">fails</a> with the <strong>Error Not Found</strong> make sure that you don&rsquo;t have stale failed deployments by going to <strong>Cloud Console -> Deployment Manager</strong> and deleting all deployments created by Serverless</p></blockquote><p>Upon a successful deployment you will have a Cloud Function deployed and reachable by the service URL:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Deployed functions
+first
+  https://us-central1-pycatj.cloudfunctions.net/http
+</code></pre></td></tr></table></div></div><p><code>curl</code>-ing that API endpoint will return a simple &ldquo;Hello world&rdquo; as coded in our boilerplate <code>main.py</code> function:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># main.py</span>
+<span class=k>def</span> <span class=nf>http</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>f</span><span class=s1>&#39;Hello World!&#39;</span>
+</code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>curl -s https://us-central1-pycatj.cloudfunctions.net/http
+Hello World!
+</code></pre></td></tr></table></div></div><p>You can also verify the resources that were created by this deployment by visiting the <strong>Deployment Manager</strong> in the GCP console as well as navigating to the functions page and examine the deployed function and its properties:</p><p><img loading=lazy decoding=async class=render-image src=https://gitlab.com/rdodin/pics/-/wikis/uploads/10b4d747ddda7e773d8b21767619b9df/image.png alt=function title=image.png></p><h2 id=23-writing-a-function class=headerLink><a href=#23-writing-a-function class=header-mark></a>2.3 Writing a Function</h2><p>That was a template <a href=https://serverless.com/framework/docs/providers/google/guide/functions/ target=_blank rel="noopener noreffer">function</a> that we just <a href=https://serverless.com/framework/docs/providers/google/guide/deploying/ target=_blank rel="noopener noreffer">deployed</a> with the HTTP <a href=https://serverless.com/framework/docs/providers/google/guide/events/ target=_blank rel="noopener noreffer">event</a> acting as a trigger.</p><p>Lets see how the the actual Python function is coupled to a service definition inside the serverless file. How about we give our function a different name by first changing the <code>functions</code> section of the <code>serverless.yml</code> file:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yaml data-lang=yaml><span class=c># changing the function name and handler to `pycatjify`</span><span class=w>
+</span><span class=w></span><span class=nt>functions</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>pycatjify</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>handler</span><span class=p>:</span><span class=w> </span><span class=l>pycatjify</span><span class=w>
+</span><span class=w>    </span><span class=nt>events</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span>- <span class=nt>http</span><span class=p>:</span><span class=w> </span><span class=l>path</span><span class=w>
+</span></code></pre></td></tr></table></div></div><p>Since we changed the function and the handler name to <code>pycatjify</code> we should do the same to our function inside the <code>main.py</code> file:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>pycatjify</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>f</span><span class=s2>&#34;We are going to give pycatj its own place on the web!&#34;</span>
+</code></pre></td></tr></table></div></div><p>Deploying this function will give us a new API endpoint aligned to a new function name we specified in the <code>serverless.yml</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>Deployed functions
+pycatjify
+  https://us-central1-pycatj.cloudfunctions.net/pycatjify
+
+<span class=c1># testing</span>
+$ curl https://us-central1-pycatj.cloudfunctions.net/pycatjify
+We are going to give pycatj its own place on the web!
+</code></pre></td></tr></table></div></div><h3 id=231-managing-code-dependencies class=headerLink><a href=#231-managing-code-dependencies class=header-mark></a>2.3.1 Managing code dependencies</h3><p>Up until now we played with a boilerplate code with a few names changed to give our function a bit of an identity. We reached the stage when its time to onboard the <code>pycatj</code> package and make our function benefit from it.</p><p>Since the Functions are executed in the sandboxes on the cloud platforms, we must somehow tell what dependencies we want these sandbox to have when running our code. In the <a href=https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless#adding-python-packages-to-lambda target=_blank rel="noopener noreffer">AWS Lambda example</a> we packaged the 3rd party libraries along the function (aka vendoring).</p><p>In GCP case the <a href=../../2017/building-aws-lambda-with-python-s3-and-serverless/#adding-python-packages-to-lambda rel>vendoring</a> approach is also possible and is done in the same way, but it is also possible to ship a pip <code>requirements.txt</code> file along your <code>main.py</code> that will specify your function dependencies as pythonistas used to.</p><blockquote><p>Read more on GCP python <a href=https://cloud.google.com/functions/docs/writing/specifying-dependencies-python target=_blank rel="noopener noreffer">dependency</a> management</p></blockquote><p>Unfortunately, the PIP version that GCP currently uses does not support <a href=https://www.python.org/dev/peps/pep-0517/ target=_blank rel="noopener noreffer">PEP 517</a>, so it was not possible to specify <code>-e git+https://github.com/dbarrosop/pycatj.git#egg=pycatj</code> in a requirements file, thus I continued with a good old vendoring technique:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># executed in ~/projects/pycatj-web/pycatj-serverless</span>
+pip3 install -t ./vendored git+https://github.com/dbarrosop/pycatj.git
+</code></pre></td></tr></table></div></div><p>This installs <code>pycatj</code> package and its dependencies in a <code>vendored</code> directory and will be considered as Function&rsquo;s artifact and pushed to GCP along the <code>main.py</code> with the next <code>serverless deploy</code> command.</p><h3 id=232-events class=headerLink><a href=#232-events class=header-mark></a>2.3.2 Events</h3><p>Every function should be triggered by an <a href=https://cloud.google.com/functions/docs/concepts/events-triggers target=_blank rel="noopener noreffer">event or a trigger</a> that is supported by a cloud provider. When serverless is used the event type is specified for each function in the <code>serverless.yml</code> file:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yaml data-lang=yaml><span class=c># pycatjify function is triggered by an event of type `http`</span><span class=w>
+</span><span class=w></span><span class=c># note that they key `path` is irrelevant to the serverless</span><span class=w>
+</span><span class=w></span><span class=nt>functions</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>pycatjify</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>handler</span><span class=p>:</span><span class=w> </span><span class=l>pycatjify</span><span class=w>
+</span><span class=w>    </span><span class=nt>events</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span>- <span class=nt>http</span><span class=p>:</span><span class=w> </span><span class=l>path</span><span class=w>
+</span></code></pre></td></tr></table></div></div><p>With this configuration we expect our function to execute once an HTTP request hits the function API endpoint.</p><h3 id=233-writing-a-function class=headerLink><a href=#233-writing-a-function class=header-mark></a>2.3.3 Writing a function</h3><p>Yes, a thousand words later we finally at a milestone where we write actual python code for a function. The template we generated earlier gives us a good starting point - a function body with a single <a href=http://flask.pocoo.org/docs/1.0/api/#flask.Request target=_blank rel="noopener noreffer">Flask <code>request</code></a> argument:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>pycatj</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>f</span><span class=s2>&#34;We are going to give pycatj its own place on the web!&#34;</span>
+</code></pre></td></tr></table></div></div><p>The logic of our serverless function that we are coding here is:</p><ol><li>parse the contents of an incoming HTTP request extracting the contents of a JSON file passed along with it</li><li>transform the received data with <code>pycatj</code> package and send back the response</li></ol><p>With a few additions to access the <code>pycatj</code> package in a <code>vendored</code> directory and being able to test the function locally, the resulting <a href=https://github.com/hellt/pycatj-web/blob/master/pycatj-serverless/main.py target=_blank rel="noopener noreffer"><code>main.py</code></a> file looks as follows:</p><script type=application/javascript src=https://gist.github.com/hellt/d44b58c2f0c8b5f1be46047c9916aa82.js></script><p>This code has some extra additions to a simple two-step logic I mentioned before. I stuffed a default <code>data</code> value that will be used when the incoming request has no body, then we will use this dummy data just for demonstration purposes.<br>To let me test the function code locally I added the <code>if __name__ == "__main__":</code> condition and lastly I wrote some <code>print</code> functions for a trivial logging. Speaking of which&mldr;</p><h2 id=24-logging class=headerLink><a href=#24-logging class=header-mark></a>2.4 Logging</h2><p>Logging is a bless! Having a chance to look what happens with your function in a cloud platform sandbox is definitely a plus. With GCP the <a href=https://cloud.google.com/functions/docs/monitoring/logging#functions-log-helloworld-python target=_blank rel="noopener noreffer">logging</a> can be done in the simple and advanced modes. A simple logging logs everything that is printed by a function into <code>stdout/stderr</code> outputs -> a simple <code>print()</code> function would suffice. In a more advanced mode you would leverage a GCP Logging API.</p><p>The logs can be viewed with the Web UI Logging interface, as well as with the <code>gcloud</code> CLI tool.</p><h1 id=3-function-deployment class=headerLink><a href=#3-function-deployment class=header-mark></a>3 Function deployment</h1><p>We previously already tried the deployed process with a boilerplate code just to make sure that the serverless framework works. Now that we have our <code>pycatj</code> package and its dependencies stored in a <code>vendored</code> folder and the function body is filled with the actual code, lets repeat the deployment and see what we get:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>docker run --rm \
+  -v ~/.gcloud/:/root/.gcloud \
+  -v ~/projects/pycatj-web/pycatj-serverless:/opt/app \
+  amaysim/serverless:1.45.1 serverless deploy
+</code></pre></td></tr></table></div></div><p>All goes well and serverless successfully updates our function to include the vendored artifacts as well as the new code in the <code>main.py</code>. Under the hood, the deployment process took the code of our Function and packaged it into a directory, zipped and uploaded to the deployment bucket.</p><p>As demonstrated above, the serverless framework allows a user to express the deployment in a code, making the process extremely easy and fast.</p><h1 id=4-usage-examples class=headerLink><a href=#4-usage-examples class=header-mark></a>4 Usage examples</h1><p>Time to give our Function a roll by bombing it with HTTP requests. In this section I will show you how you can use the pycatjify service within a CLI and in a subsequent post we will write a simple Web UI using the API that our function provides.</p><h2 id=41-empty-get-request class=headerLink><a href=#41-empty-get-request class=header-mark></a>4.1 empty GET request</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=n>curl</span> <span class=o>-</span><span class=n>s</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>us</span><span class=o>-</span><span class=n>central1</span><span class=o>-</span><span class=n>pycatj</span><span class=o>.</span><span class=n>cloudfunctions</span><span class=o>.</span><span class=n>net</span><span class=o>/</span><span class=n>pycatjify</span> <span class=o>|</span> <span class=n>jq</span> <span class=o>-</span><span class=n>r</span> <span class=o>.</span><span class=n>data</span>
+
+<span class=c1># returns</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;data&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;test_value&#34;</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;somenumber&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=mi>123</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;asd&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;123&#34;</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>][</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mi>1</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>][</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>2</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>][</span><span class=mi>2</span><span class=p>]</span> <span class=o>=</span> <span class=mi>3</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=p>][</span><span class=s2>&#34;das&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=mi>31</span>
+<span class=n>my_dict</span><span class=p>[</span><span class=s2>&#34;a_dict&#34;</span><span class=p>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=p>][</span><span class=s2>&#34;qwe&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;asd&#34;</span>
+</code></pre></td></tr></table></div></div><p>With an empty GET request the function delivers a demo of its capabilities by taking a hardcoded demo JSON and making a transformation. The returned string is returned in a JSON object accessible by the <code>data</code> key.</p><h2 id=42-post-with-a-root-and-pycatj_data-specified class=headerLink><a href=#42-post-with-a-root-and-pycatj_data-specified class=header-mark></a>4.2 POST with a root and pycatj_data specified</h2><p>Getting a demo response back is useless, to make use of a pycatjify service a user can specify the <code>root</code> value and pass the original JSON data in a POST request body using the <code>pycatj_data</code> key:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>curl -sX POST https://us-central1-pycatj.cloudfunctions.net/pycatjify <span class=se>\
+</span><span class=se></span>  -H <span class=s2>&#34;Content-Type: application/json&#34;</span> <span class=se>\
+</span><span class=se></span>  -d <span class=s1>&#39;{&#34;root&#34;:&#34;POST&#34;,&#34;pycatj_data&#34;:{&#34;somekey&#34;:&#34;somevalue&#34;,&#34;a_dict&#34;:{&#34;qwe&#34;:[1,2],&#34;nested_dict&#34;:{&#34;das&#34;:31}}}}&#39;</span> <span class=se>\
+</span><span class=se></span>  <span class=p>|</span> jq -r .data
+
+<span class=c1># returns</span>
+POST<span class=o>[</span><span class=s2>&#34;somekey&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=s2>&#34;somevalue&#34;</span>
+POST<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;qwe&#34;</span><span class=o>][</span>0<span class=o>]</span> <span class=o>=</span> <span class=m>1</span>
+POST<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;qwe&#34;</span><span class=o>][</span>1<span class=o>]</span> <span class=o>=</span> <span class=m>2</span>
+POST<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=o>][</span><span class=s2>&#34;das&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=m>31</span>
+</code></pre></td></tr></table></div></div><h2 id=43-post-without-root-with-pycatj_data class=headerLink><a href=#43-post-without-root-with-pycatj_data class=header-mark></a>4.3 POST without root, with pycatj_data</h2><p>It is also allowed to omit the <code>root</code> key, in that case a default root value will be applied:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>curl -sX POST https://us-central1-pycatj.cloudfunctions.net/pycatjify <span class=se>\
+</span><span class=se></span>  -H <span class=s2>&#34;Content-Type: application/json&#34;</span> <span class=se>\
+</span><span class=se></span>  -d <span class=s1>&#39;{&#34;pycatj_data&#34;:{&#34;somekey&#34;:&#34;somevalue&#34;,&#34;a_dict&#34;:{&#34;qwe&#34;:[1,2],&#34;nested_dict&#34;:{&#34;das&#34;:31}}}}&#39;</span> <span class=se>\
+</span><span class=se></span>  <span class=p>|</span> jq -r .data
+
+<span class=c1># returns</span>
+my_dict<span class=o>[</span><span class=s2>&#34;somekey&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=s2>&#34;somevalue&#34;</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;qwe&#34;</span><span class=o>][</span>0<span class=o>]</span> <span class=o>=</span> <span class=m>1</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;qwe&#34;</span><span class=o>][</span>1<span class=o>]</span> <span class=o>=</span> <span class=m>2</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=o>][</span><span class=s2>&#34;das&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=m>31</span>
+</code></pre></td></tr></table></div></div><h2 id=44-post-with-json-file-as-a-body class=headerLink><a href=#44-post-with-json-file-as-a-body class=header-mark></a>4.4 POST with json file as a body</h2><p>My personal favorite is dumping a JSON file in a request. In that case a lengthy <code>curl</code> is not needed and you can specify a path to a file with a <code>@</code> char.<br>This example leverages the logic embedded in a function that treats the whole body of an incoming request as a data for <code>pycatj</code> transformation.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ cat test/test1.json
+<span class=o>{</span>
+    <span class=s2>&#34;somekey&#34;</span>: <span class=s2>&#34;localfile&#34;</span>,
+    <span class=s2>&#34;a_dict&#34;</span>: <span class=o>{</span>
+        <span class=s2>&#34;asd&#34;</span>: <span class=s2>&#34;123&#34;</span>,
+        <span class=s2>&#34;qwe&#34;</span>: <span class=o>[</span>
+            1,
+            <span class=m>2</span>
+        <span class=o>]</span>,
+        <span class=s2>&#34;nested_dict&#34;</span>: <span class=o>{</span>
+            <span class=s2>&#34;das&#34;</span>: 31,
+            <span class=s2>&#34;qwe&#34;</span>: <span class=s2>&#34;asd&#34;</span>
+        <span class=o>}</span>
+    <span class=o>}</span>
+<span class=o>}</span>
+
+curl -sX POST https://us-central1-pycatj.cloudfunctions.net/pycatjify <span class=se>\
+</span><span class=se></span>  -H <span class=s2>&#34;Content-Type: application/json&#34;</span> <span class=se>\
+</span><span class=se></span>  -d <span class=s2>&#34;@./test/test1.json&#34;</span> <span class=se>\
+</span><span class=se></span>  <span class=p>|</span> jq -r .data
+
+<span class=c1># returns</span>
+my_dict<span class=o>[</span><span class=s2>&#34;somekey&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=s2>&#34;localfile&#34;</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;asd&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=s2>&#34;123&#34;</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;qwe&#34;</span><span class=o>][</span>0<span class=o>]</span> <span class=o>=</span> <span class=m>1</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;qwe&#34;</span><span class=o>][</span>1<span class=o>]</span> <span class=o>=</span> <span class=m>2</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=o>][</span><span class=s2>&#34;das&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=m>31</span>
+my_dict<span class=o>[</span><span class=s2>&#34;a_dict&#34;</span><span class=o>][</span><span class=s2>&#34;nested_dict&#34;</span><span class=o>][</span><span class=s2>&#34;qwe&#34;</span><span class=o>]</span> <span class=o>=</span> <span class=s2>&#34;asd&#34;</span>
+</code></pre></td></tr></table></div></div><h1 id=whats-next class=headerLink><a href=#whats-next class=header-mark></a>What&rsquo;s next?</h1><p>Having <code>pycatj</code> functionality available withing a HTTP call reach makes it possible to create a simple one-page web frontend that will receive the users input and render the result of the pycatj-web service we deployed in this post.</p><p>I will make another post covering the learning curve I needed to climb on to create a modern Material UI frontend that leverages the serverless function.</p><p>[<a href=https://github.com/hellt/pycatj-web target=_blank rel="noopener noreffer">Project&rsquo;s source code</a>]</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2019/creating-google-cloud-platform-function-with-python-and-serverless/ data-title="Creating Google Cloud Platform Function with Python and Serverless" data-via=ntdvps data-hashtags="GCP,GCP Function,Python,Serverless"><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2019/creating-google-cloud-platform-function-with-python-and-serverless/ data-hashtag=GCP><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2019/creating-google-cloud-platform-function-with-python-and-serverless/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/gcp/ class=tag>GCP</a><a href=/tags/gcp-function/ class=tag>GCP Function</a><a href=/tags/python/ class=tag>python</a><a href=/tags/serverless/ class=tag>Serverless</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

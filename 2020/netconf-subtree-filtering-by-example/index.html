@@ -1,0 +1,649 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>NETCONF subtree filtering by example |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="NETCONF subtree filtering by example"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="NETCONF subtree filtering by example"><meta property="og:description" content="If you pick a random NetEng and ask them if they love NETCONF they would likely say &ldquo;Nah&rdquo;. The hate-hate love-hate kind of relationship with NETCONF mostly roots in its XML layer that one can&rsquo;t swap out. But if we set the XML-related challenges aside, it will become clear that NETCONF is a very well designed management interface with lots of capabilities.
+In this topic we will touch on the NETCONF&rsquo;s subtree filtering capabilities."><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2020/netconf-subtree-filtering-by-example/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-07-03T06:00:00+00:00"><meta property="article:modified_time" content="2021-04-19T12:35:46+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2020/netconf-subtree-filtering-by-example/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"NETCONF subtree filtering by example","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2020\/netconf-subtree-filtering-by-example\/"},"genre":"posts","keywords":"netconf","wordCount":1754,"url":"https:\/\/netdevops.me\/2020\/netconf-subtree-filtering-by-example\/","datePublished":"2020-07-03T06:00:00+00:00","dateModified":"2021-04-19T12:35:46+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>NETCONF subtree filtering by example</li></ol></nav><h1 class="single-title flipInX">NETCONF subtree filtering by example</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2020-07-03>2020-07-03</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>1754 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>9 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#1-selection-nodes>1 Selection nodes</a></li><li><a href=#2-content-match-nodes>2 Content Match nodes</a></li><li><a href=#3-content-match-and-selection-nodes>3 Content Match and Selection nodes</a></li><li><a href=#summary>Summary</a></li></ul></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>If you pick a random NetEng and ask them if they love NETCONF they would likely say &ldquo;Nah&rdquo;. The <del>hate-hate</del> love-hate kind of relationship with NETCONF mostly roots in its XML layer that one can&rsquo;t swap out. But if we set the XML-related challenges aside, it will become clear that NETCONF is a very well designed management interface with lots of capabilities.</p><p>In this topic we will touch on the NETCONF&rsquo;s subtree filtering capabilities.</p><p>NETCONF&rsquo;s <a href=https://www.rfcreader.com/#rfc6241 target=_blank rel="noopener noreffer">RFC 6241</a> defines two methods for filtering contents on the server (router) side:</p><ul><li><a href=https://www.rfcreader.com/#rfc6241_line867 target=_blank rel="noopener noreffer">Subtree filtering</a> - mandatory for a NETCONF-enabled device to support</li><li><a href=https://www.rfcreader.com/#rfc6241_line3008 target=_blank rel="noopener noreffer">XPATH filtering</a> - an optional capability</li></ul><p>Subtree filtering is powered by the following components:</p><ul><li>Namespace Selection</li><li>Attribute Match Expressions</li><li>Containment Nodes</li><li>Selection Nodes</li><li>Content Match Nodes</li></ul><p>They are very well explained in the RFC, so I won&rsquo;t bother with copy-pasting the definition and the rules these filtering components follow. Instead we will focus on the practical examples and put Selection and Content Match nodes to work in different scenarios.</p><h3 id=1-selection-nodes class=headerLink><a href=#1-selection-nodes class=header-mark></a>1 Selection nodes</h3><p>Selection node allow us to get a node and all its nested elements. Our simple examples will revolve around interactions with local users configuration on a Nokia SR OS which is modelled with the following YANG model:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-text data-lang=text>module: nokia-conf
+  +--rw configure
+     +--rw system
+     |  +--rw security
+     |  |  +--rw user-params
+     |  |     +--rw local-user
+     |  |        +--rw user* [user-name]
+     |  |           +--rw user-name     types-sros:named-item
+     |  |           +--rw password      types-sros:hashed-leaf
+     |  |           +--rw access
+     |  |           |  +--rw console?   boolean
+     |  |           |  +--rw ftp?       boolean
+     |  |           |  +--rw snmp?      boolean
+     |  |           |  +--rw netconf?   boolean
+     |  |           |  +--rw grpc?      boolean
+     |  |           |  +--rw li?        boolean
+     |  |           +--rw console
+                       +--rw member*    -&gt;../aaa/local-profiles…
+</code></pre></td></tr></table></div></div><p>If we want to filter all the configuration information related to the local users we could use Selection node <code>&lt;local-user/></code> in our get-config RPC:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;get-config&gt;</span>
+    <span class=nt>&lt;source&gt;</span>
+    <span class=nt>&lt;running</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;/source&gt;</span>
+    <span class=nt>&lt;filter&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user/&gt;</span>  <span class=c>&lt;!-- selection node --&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+<span class=nt>&lt;/get-config&gt;</span>
+</code></pre></td></tr></table></div></div><blockquote><p>Hint #1: <a href=https://netdevops.me/nokia-yang-tree/ target=_blank rel="noopener noreffer">Nokia-yangtree</a> is a beautiful way to explore Nokia YANG models.<br>Hint #2: I recommend <a href=https://netdevops.me/2020/netconf-console-in-a-docker-container/ target=_blank rel="noopener noreffer">netconf-console</a> to talk NETCONF to your routers.</p></blockquote><p>If we translate this get-operation command to plain English it would sound like: <em>Dear router, can you please return everything you have under <code>local-user</code> node in the running configuration datastore?</em><br>And that is what router replies back:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;rpc-reply</span> <span class=na>xmlns:nc=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;urn:uuid:f00ec433-17b3-4bcb-9d83-c3557794e56e&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;password&gt;</span>$2y$10$Ro5MzyBZ18eVve/aTIYt..fSBbyJar11QGcQbixrVPfxLcpXeZ4eu<span class=nt>&lt;/password&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;console&gt;</span>true<span class=nt>&lt;/console&gt;</span>
+                                    <span class=nt>&lt;netconf&gt;</span>true<span class=nt>&lt;/netconf&gt;</span>
+                                    <span class=nt>&lt;grpc&gt;</span>true<span class=nt>&lt;/grpc&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                                <span class=nt>&lt;console&gt;</span>
+                                    <span class=nt>&lt;member&gt;</span>administrative<span class=nt>&lt;/member&gt;</span>
+                                <span class=nt>&lt;/console&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>roman<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;password&gt;</span>$2y$10$xkqn46jNHBUJWit446j2o.Yu3E9zWOg44yRGjRK2YjRZE4p5xFjmG<span class=nt>&lt;/password&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;console&gt;</span>true<span class=nt>&lt;/console&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                                <span class=nt>&lt;console&gt;</span>
+                                    <span class=nt>&lt;member&gt;</span>default<span class=nt>&lt;/member&gt;</span>
+                                <span class=nt>&lt;/console&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><p>The answer satisfies the request we specified. Router dumps everything it has under <code>local-users</code>.</p><h4 id=11-multiple-selection-nodes class=headerLink><a href=#11-multiple-selection-nodes class=header-mark></a>1.1 Multiple selection nodes</h4><p>But what is we don&rsquo;t want to get back all that information about the local users and just interested in the account names and their access methods? That is as well the work for Selection nodes. But instead of referencing a container or a list with the Selection node, we will pinpoint the nodes of interest - <code>user-name</code> and <code>access</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;get-config&gt;</span>
+    <span class=nt>&lt;source&gt;</span>
+    <span class=nt>&lt;running</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;/source&gt;</span>
+    <span class=nt>&lt;filter&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name</span> <span class=nt>/&gt;</span>
+                                <span class=nt>&lt;access</span> <span class=nt>/&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+<span class=nt>&lt;/get-config&gt;</span>
+</code></pre></td></tr></table></div></div><p>Pay attention that it doesn&rsquo;t matter what type of node we are referencing with a Selection node. It can be a container, a list, a leaf. If a selected node happens to have nested elements they will be returned as well.</p><p>In the example above we reference the <code>user-name</code> leaf and the <code>access</code> container, as a result we receive back a concrete data stored as the <code>user-name</code> node and everything that exists under the <code>access</code> container:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;rpc-reply</span> <span class=na>xmlns:nc=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;urn:uuid:4c646ef4-601b-465e-ba35-f90953527a73&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;console&gt;</span>true<span class=nt>&lt;/console&gt;</span>
+                                    <span class=nt>&lt;netconf&gt;</span>true<span class=nt>&lt;/netconf&gt;</span>
+                                    <span class=nt>&lt;grpc&gt;</span>true<span class=nt>&lt;/grpc&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>roman<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;console&gt;</span>true<span class=nt>&lt;/console&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><h4 id=12-selection-nodes-in-different-containment-nodes class=headerLink><a href=#12-selection-nodes-in-different-containment-nodes class=header-mark></a>1.2 Selection nodes in different containment nodes</h4><p>It is totally fine to have the Selection nodes under different containment nodes. That allows you to filter the information from different nodes in a single request.</p><p>What if we wanted not only to see which users are configured on a box, but also to see how many login attempts each of them made? Thats a perfect example how Selection nodes from different containment nodes play well together.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;get&gt;</span>
+    <span class=nt>&lt;filter&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name</span> <span class=nt>/&gt;</span>  <span class=c>&lt;!-- selection node in context A --&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+        <span class=nt>&lt;state</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:state&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;attempted-logins</span> <span class=nt>/&gt;</span>  <span class=c>&lt;!-- selection node in context B --&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/state&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+<span class=nt>&lt;/get&gt;</span>
+</code></pre></td></tr></table></div></div><p>Here we used Selection nodes even in two different YANG datastores and getting both configuration and state data in a single reply:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;rpc-reply</span> <span class=na>xmlns:nc=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;urn:uuid:c622d500-b780-4765-a71e-8f6b354beff4&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>roman<span class=nt>&lt;/user-name&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+        <span class=nt>&lt;state</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:state&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;attempted-logins&gt;</span>74<span class=nt>&lt;/attempted-logins&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>roman<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;attempted-logins&gt;</span>0<span class=nt>&lt;/attempted-logins&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/state&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><h3 id=2-content-match-nodes class=headerLink><a href=#2-content-match-nodes class=header-mark></a>2 Content Match nodes</h3><p>In many cases it is needed to filter not only on the node itself (what Selection node does), but also on the value of the referenced leaf. That is a work for <a href=https://www.rfcreader.com/#rfc6241_line1017 target=_blank rel="noopener noreffer">Content Match nodes</a>.</p><p>Using our local users examples that translates to a need to filter the information of a single user only. Let&rsquo;s get the configuration of the <code>admin</code> user only by using the Content Match node semantics:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;get-config&gt;</span>
+    <span class=nt>&lt;source&gt;</span>
+    <span class=nt>&lt;running</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;/source&gt;</span>
+    <span class=nt>&lt;filter&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>  <span class=c>&lt;!-- Content Match node --&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+<span class=nt>&lt;/get-config&gt;</span>
+</code></pre></td></tr></table></div></div><p>Content Match nodes filtering is only applicable to the leafs, in our example that was <code>user-name</code> which we set to <code>admin</code>. As a result, we got back the configuration related to the <code>admin</code> user only:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;rpc-reply</span> <span class=na>xmlns:nc=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;urn:uuid:5c1da160-69e1-466a-97c0-541f3add8f2d&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;password&gt;</span>$2y$10$Ro5MzyBZ18eVve/aTIYt..fSBbyJar11QGcQbixrVPfxLcpXeZ4eu<span class=nt>&lt;/password&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;console&gt;</span>true<span class=nt>&lt;/console&gt;</span>
+                                    <span class=nt>&lt;netconf&gt;</span>true<span class=nt>&lt;/netconf&gt;</span>
+                                    <span class=nt>&lt;grpc&gt;</span>true<span class=nt>&lt;/grpc&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                                <span class=nt>&lt;console&gt;</span>
+                                    <span class=nt>&lt;member&gt;</span>administrative<span class=nt>&lt;/member&gt;</span>
+                                <span class=nt>&lt;/console&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><h4 id=21-multiple-content-match-nodes class=headerLink><a href=#21-multiple-content-match-nodes class=header-mark></a>2.1 Multiple Content Match nodes</h4><p>By adding multiple Content Match nodes in your filter request you add an implicit <code>AND</code> operand between them. Lets say we want to list the configured users who both have access to netconf and grpc. We can craft such a filter request by using two Content Match nodes expressions:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;get-config&gt;</span>
+    <span class=nt>&lt;source&gt;</span>
+    <span class=nt>&lt;running</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;/source&gt;</span>
+    <span class=nt>&lt;filter&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;netconf&gt;</span>true<span class=nt>&lt;/netconf&gt;</span>
+                                    <span class=nt>&lt;grpc&gt;</span>true<span class=nt>&lt;/grpc&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+<span class=nt>&lt;/get-config&gt;</span>
+</code></pre></td></tr></table></div></div><p>In the end we get our single user - <code>admin</code> - who has access to the subsystems we put in a filter, cool!</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;rpc-reply</span> <span class=na>xmlns:nc=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;urn:uuid:33d1666e-de58-4414-8c4d-374bd73d8ef2&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;console&gt;</span>true<span class=nt>&lt;/console&gt;</span>
+                                    <span class=nt>&lt;netconf&gt;</span>true<span class=nt>&lt;/netconf&gt;</span>
+                                    <span class=nt>&lt;grpc&gt;</span>true<span class=nt>&lt;/grpc&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><h3 id=3-content-match-and-selection-nodes class=headerLink><a href=#3-content-match-and-selection-nodes class=header-mark></a>3 Content Match and Selection nodes</h3><p>Another interesting filtering technique is combining Selection and Content Match nodes. Quite often you want to filter on the content, but at the same time limit the amount of data that router replies back. That might be very expensive for a router to return every sibling when only Content Match node is used, therefore its a good practice to craft a filter that will contain only the needed information.</p><p>Talking our local users database me might want to know if <code>admin</code> user has access to <code>netconf</code> subsystem and we don&rsquo;t care at all about any other configuration that user has. Thats a perfect candidate for a combination of Content Match and Selection nodes:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;get-config&gt;</span>
+    <span class=nt>&lt;source&gt;</span>
+    <span class=nt>&lt;running</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;/source&gt;</span>
+    <span class=nt>&lt;filter&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>  <span class=c>&lt;!-- content match --&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;netconf/&gt;</span>                 <span class=c>&lt;!-- selection --&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+<span class=nt>&lt;/get-config&gt;</span>
+</code></pre></td></tr></table></div></div><p>And look at what a concise and clear response we got back. It has only the information we cared about.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;rpc-reply</span> <span class=na>xmlns:nc=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;urn:uuid:02b36787-e805-4370-ac7b-b569a14d2e64&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;netconf&gt;</span>true<span class=nt>&lt;/netconf&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><p>In the simplified local users database example that might not seem critical, but on a real network element you might filter through hundreds of configuration elements while only cared about a single one. Then it makes all the sense to combine Content Match nodes with Selection nodes to minimize the payload sizes and computation times.</p><h3 id=summary class=headerLink><a href=#summary class=header-mark></a>Summary</h3><p>NETCONF Subtree filtering is a powerful mechanism that is both easy to use and reason about. By using Contaiment, Selection and Content Match nodes one can easily filter anything, while maintaining efficiency and cleanliness of the filter construct.</p><p>Remember that using Selection nodes with Content Match nodes allow you to follow the beast practices and request only the information that you need, without clutter.</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2020/netconf-subtree-filtering-by-example/ data-title="NETCONF subtree filtering by example" data-via=ntdvps data-hashtags=netconf><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2020/netconf-subtree-filtering-by-example/ data-hashtag=netconf><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2020/netconf-subtree-filtering-by-example/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/netconf/ class=tag>Netconf</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

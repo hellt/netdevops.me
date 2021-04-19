@@ -1,0 +1,256 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>LDP. Ordered Label Distribution Control explained |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="LDP. Ordered Label Distribution Control explained"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="LDP. Ordered Label Distribution Control explained"><meta property="og:description" content="Major network vendors (except Cisco) default to the following modes of Label Distribution Protocol (LDP) operation (as per RFC 5036 LDP Specification):
+
+Label Distribution (Advertisement): Downstream Unsolicited (section 2.6.3)
+Label Control: Ordered (section 2.6.1)
+Label Retention: Liberal (section 2.6.2)
+
+This topic focuses on Ordered Label Distribution Control procedure to help you better understand when LSR actually assigns labels and initiates transmission of a label mapping."><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2015/06/ldp-ordered-label-distribution-control-explained/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2015-06-02T10:43:07+00:00"><meta property="article:modified_time" content="2021-04-19T12:35:46+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2015/06/ldp-ordered-label-distribution-control-explained/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"LDP. Ordered Label Distribution Control explained","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2015\/06\/ldp-ordered-label-distribution-control-explained\/"},"genre":"posts","keywords":"LDP, MPLS","wordCount":1778,"url":"https:\/\/netdevops.me\/2015\/06\/ldp-ordered-label-distribution-control-explained\/","datePublished":"2015-06-02T10:43:07+00:00","dateModified":"2021-04-19T12:35:46+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>LDP. Ordered Label Distribution Control explained</li></ol></nav><h1 class="single-title flipInX">LDP. Ordered Label Distribution Control explained</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2015-06-02>2015-06-02</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>1778 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>9 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#downstream-or-not>Downstream or not?</a></li></ul></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>Major network vendors (except Cisco) default to the following modes of Label Distribution Protocol (LDP) operation (as per <a href=https://tools.ietf.org/html/rfc5036 target=_blank>RFC 5036 LDP Specification</a>):</p><ul><li>Label Distribution (Advertisement): Downstream Unsolicited (section 2.6.3)</li><li>Label Control: Ordered (section 2.6.1)</li><li>Label Retention: Liberal (section 2.6.2)</li></ul><p>This topic focuses on Ordered Label Distribution Control procedure to help you better understand when LSR actually assigns labels and initiates transmission of a label mapping.</p><p>Both <a href=https://tools.ietf.org/html/rfc3031#section-3.19 target=_blank rel="noopener noreffer">RFC 3031 Multiprotocol Label Switching Architecture</a> and <a href=https://tools.ietf.org/html/rfc5036 target=_blank>RFC 5036 LDP Specification</a> give definition for <em>Ordered Label Distribution Control</em> mode:</p><p style=padding-left:30px><strong>RFC 3031:</strong> In Ordered LSP Control, an LSR only binds a label to a particular FEC if it is the egress LSR for that FEC, or if it has already received a label binding for that FEC from its next hop for that FEC.</p><p style=padding-left:30px><strong>RFC 5036: </strong>When using LSP Ordered Control, an LSR may initiate the transmission of a label mapping only for a FEC for which it has a label mapping for the FEC next hop, or for which the LSR is the egress. For each FEC for which the LSR is not the egress and no mapping exists, the LSR MUST wait until a label from a downstream LSR is received before mapping the FEC and passing corresponding labels to upstream LSRs.</p><p>Lets break this definition into distinct sentences:</p><ol><li>In case LSR is the egress router for a FEC <em>X</em> then LSR maps label to FEC <em>X</em> and transmits this label mapping to its LDP peers;</li><li>In case LSR is not the egress router for a FEC <em>X</em> then in order to map a label for this FEC and to propagate this label mapping to its peers, <strong>it has to wait</strong> until it receives a label mapping for this particular FEC <em>X</em> from its downstream LDP peer.</li></ol><p>In this manner the entire LSP is established before MPLS begins to map data onto the LSP, preventing early data mapping from occurring on the first LSR in the path.</p><p>Let&rsquo;s take a look at this simple topology to illustrate these steps.</p><p><a href=http://img-fotki.yandex.ru/get/15557/21639405.11b/0_8342d_43f8a67c_orig.png target=_blank rel="noopener noreffer"><img class=aligncenter src=http://img-fotki.yandex.ru/get/15557/21639405.11b/0_8342d_43f8a67c_XL.png alt width=800 height=382></a></p><p>Routers R1-R2-R3 have OSPF enabled on their interfaces and announce their loopback (or system, as long as we’re using with Alcatel-Lucent routers in this example) IP addresses. So every router has a route to other router’s loopback address.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>A:R1# show router route-table
+
+===============================================================================
+Route Table (Router: Base)
+===============================================================================
+Dest Prefix[Flags]                            Type    Proto     Age        Pref
+      Next Hop[Interface Name]                                    Metric
+-------------------------------------------------------------------------------
+10.1.2.0/24                                   Local   Local     00h08m36s  0
+       toR2                                                         0
+10.2.3.0/24                                   Remote  OSPF      00h04m20s  10
+       10.1.2.2                                                     200
+10.10.10.1/32                                 Local   Local     00h08m36s  0
+       system                                                       0
+10.10.10.2/32                                 Remote  OSPF      00h08m05s  10
+       10.1.2.2                                                     100
+10.10.10.3/32                                 Remote  OSPF      00h01m22s  10
+       10.1.2.2                                                     200
+-------------------------------------------------------------------------------
+No. of Routes: 5
+Flags: n = Number of times nexthop is repeated
+       B = BGP backup route available
+       L = LFA nexthop available
+       S = Sticky ECMP requested
+===============================================================================
+</code></pre></td></tr></table></div></div><p>To investigate label mappings creation and propagation processes lets dive into step-by-step LDP operation for the particular Forward Equivalence Class (FEC) <code>10.10.10.1/32</code> – which is the loopback address of the router R1.</p><p><a href=http://img-fotki.yandex.ru/get/5105/21639405.11b/0_8342e_cd5af88f_orig.png target=_blank rel="noopener noreffer"><img class=aligncenter src=http://img-fotki.yandex.ru/get/5105/21639405.11b/0_8342e_cd5af88f_XL.png alt width=800 height=344></a></p><p> </p><p>Everything starts with R1 which is an Egress router for the FEC 10.10.10.1/32. According to abovementioned <em>Ordered Distribution Control</em> mode definition R1 (again, as an Egress router) has a right to create a binding for the FEC 10.10.10.1/32. Such bindings, created for the FECs which are local to a router often called “Local bindings”.</p><p>Let’s check that R1 actually has this <em>local</em> label mapping in its Label Information Base:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>A:R1# show router ldp bindings
+
+===============================================================================
+LDP Bindings (IPv4 LSR ID 10.10.10.1:0)
+             (IPv6 LSR ID ::[0])
+===============================================================================
+LDP IPv4 Prefix Bindings
+===============================================================================
+Prefix                                      IngLbl                    EgrLbl
+Peer                                        EgrIntf/LspId
+EgrNextHop
+-------------------------------------------------------------------------------
+10.10.10.1/32                               131071U                     --
+10.10.10.2:0                                  --
+  --
+&lt;-- omitted --&gt;
+</code></pre></td></tr></table></div></div><p>Yep, there it is – R1 tells us that he assigned a <strong>local label 131071</strong> for the FEC <code>10.10.10.1/32</code>. Local bindings appear in the “IngLbl” column. Ingress label 131071 means that R1 expects its LDP peers to send their MPLS packets destined to the FEC 10.10.10.1/32 equipped with the label 131071 on top of MPLS label stack.</p><p>Another benefit for being an Egress router for the FEC 10.10.10.1/32 is that R1 could <strong>send</strong> his locally created binding to its peers <strong>right away</strong>. Therefore, R1 sends this mapping to its LDP peer <strong>10.10.10.2:0</strong> (R2).</p><p><a href=http://img-fotki.yandex.ru/get/6723/21639405.11b/0_83430_8d08d0d0_orig.png target=_blank rel="noopener noreffer"><img class=aligncenter src=http://img-fotki.yandex.ru/get/6723/21639405.11b/0_83430_8d08d0d0_XL.png alt width=800 height=368></a></p><p> </p><p>When R2 receives this label mapping message from R1 regarding the FEC 10.10.10.1, it follows this logic: I have received the label mapping for the FEC 10.10.10.1 sent from R1. Thanks to <a href=https://tools.ietf.org/html/rfc5036#section-2.6.2.2 target=_blank rel="noopener noreffer">Liberal Retention mode</a> I place this label binding into my LIB under “EgrLbl” column without further investigation. Such label mapping is often called <strong>remote label</strong> mapping since it came from the remote LDP peer.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>*A:R2# show router ldp bindings prefixes prefix 10.10.10.1/32
+
+===============================================================================
+LDP Bindings (IPv4 LSR ID 10.10.10.2:0)
+             (IPv6 LSR ID ::[0])
+===============================================================================
+Legend: U - Label In Use,  N - Label Not In Use, W - Label Withdrawn
+        WP - Label Withdraw Pending, BU - Alternate For Fast Re-Route
+===============================================================================
+LDP IPv4 Prefix Bindings
+===============================================================================
+Prefix                                      IngLbl                    EgrLbl
+Peer                                        EgrIntf/LspId
+EgrNextHop
+-------------------------------------------------------------------------------
+10.10.10.1/32                                 --                      131071
+10.10.10.1:0                                1/1/1
+10.1.2.1
+
+&lt; omitted &gt;
+</code></pre></td></tr></table></div></div><p>But in order to be able to make its own label mapping for the 10.10.10.1/32 <em>Ordered Label Distribution Control procedure</em> demands R2 to check <strong>if remote binding was received from a <u>downstream</u> router</strong> for this particular FEC. Yes, it is, R1 is downstream router regarding data flow destined to the FEC 10.10.10.1/32.</p><p>Good, R2 recognized R1 as a downstream router and therefore allowed to make its own label mapping (recall ordered control mode definition) for this FEC and propagate its mapping update to R3.</p><p>R2 did not send this update to R1, because R1 is the owner of 10.10.10.1/32 and will never be a transit label switching router for this FEC.</p><p><a href=http://img-fotki.yandex.ru/get/5410/21639405.11b/0_83431_78b4c1c6_orig.png target=_blank rel="noopener noreffer"><img class=aligncenter src=http://img-fotki.yandex.ru/get/5410/21639405.11b/0_83431_78b4c1c6_XL.png alt width=800 height=403></a></p><p> </p><p>Lets see R2’s LIB:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>*A:R2# show router ldp bindings prefixes prefix 10.10.10.1/32
+
+===============================================================================
+LDP Bindings (IPv4 LSR ID 10.10.10.2:0)
+             (IPv6 LSR ID ::[0])
+===============================================================================
+Legend: U - Label In Use,  N - Label Not In Use, W - Label Withdrawn
+        WP - Label Withdraw Pending, BU - Alternate For Fast Re-Route
+===============================================================================
+LDP IPv4 Prefix Bindings
+===============================================================================
+Prefix                                      IngLbl                    EgrLbl
+Peer                                        EgrIntf/LspId
+EgrNextHop
+-------------------------------------------------------------------------------
+10.10.10.1/32                                 --                      131071
+10.10.10.1:0                                1/1/1
+10.1.2.1
+
+10.10.10.1/32                               131070U                   131070
+10.10.10.3:0                                  --
+  --
+
+-------------------------------------------------------------------------------
+No. of IPv4 Prefix Bindings: 2
+===============================================================================
+</code></pre></td></tr></table></div></div><p>Take a look at the highlighted strings, R2 chose a label value of 131070 for the FEC and sent this binding to LDP peer with identifier 10.10.10.3:0 (which is R3). We will cover the reason behind existence of the label 131070 in “EgrLbl” for peer 10.10.10.3:0 a bit later.</p><p>Ok, R2 sent his mapping for 10.10.10.1/32 to R3, what happens next?</p><p><a href=http://img-fotki.yandex.ru/get/5407/21639405.11b/0_83432_190b68c1_orig.png target=_blank rel="noopener noreffer"><img class=aligncenter src=http://img-fotki.yandex.ru/get/5407/21639405.11b/0_83432_190b68c1_XL.png alt width=800 height=413></a></p><p>R3 follows the same logic as R2 did when it receives label mapping message from R2. In the same manner R3 installs remote label binding from R2, checks that R2 positioned downstream regarding data flow to address 10.10.10.1/32 and assigns local label binding for this FEC. But one thing is different with R3 – since R2 is not an owner for the FEC 10.10.10.1 then R3 can send label mapping message backward to R2 – see timestamp E.</p><p> </p><p><a href=http://img-fotki.yandex.ru/get/3611/21639405.11b/0_83434_635118c2_orig.png target=_blank rel="noopener noreffer"><img class=aligncenter src=http://img-fotki.yandex.ru/get/3611/21639405.11b/0_83434_635118c2_XL.png alt width=800 height=323></a></p><p>Lets take a look at R3’s LIB:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>A:R3# show router ldp bindings prefixes prefix 10.10.10.1/32
+
+===============================================================================
+LDP Bindings (IPv4 LSR ID 10.10.10.3:0)
+             (IPv6 LSR ID ::[0])
+===============================================================================
+Legend: U - Label In Use,  N - Label Not In Use, W - Label Withdrawn
+        WP - Label Withdraw Pending, BU - Alternate For Fast Re-Route
+===============================================================================
+LDP IPv4 Prefix Bindings
+===============================================================================
+Prefix                                      IngLbl                    EgrLbl
+Peer                                        EgrIntf/LspId
+EgrNextHop
+-------------------------------------------------------------------------------
+10.10.10.1/32                               131070N                   131070
+10.10.10.2:0                                1/1/2
+10.2.3.2
+
+-------------------------------------------------------------------------------
+No. of IPv4 Prefix Bindings: 1
+===============================================================================
+</code></pre></td></tr></table></div></div><p>When R2 receives this label mapping message from R3 regarding FEC 10.10.10.1, it follows the same logic: I have received the label mapping for the FEC 10.10.10.1. I will place this label binding into my LIB no matter what. This explains the egress label value 131070 in R2’s LIB (see Listing #4) from peer 10.10.10.3:0.</p><p>Although R3 installed a label, it will not take any actions regarding this update since it came from <strong>R3</strong>, which <strong>is not a downstream router</strong> for the FEC 10.10.10.1/32.</p><p>This completes label propagation for the FEC 10.10.10.1/32.</p><h3 id=downstream-or-not class=headerLink><a href=#downstream-or-not class=header-mark></a>Downstream or not?</h3><p>You may have already noticed that the key in making a decision to create a label mapping for a FEC is if the label mapping came from a downstream router? But how does a router decide if its peer is downstream router or upstream? Let’s think about it…</p><p>Rewind to Timestamp B. R2 receives a label mapping message from R1 and needs to decide if R1 is a downstream router regarding FEC 10.10.10.1/32? It looks into Forwarding Information Base for this prefix and sees the next-hop address for it is 10.1.2.1:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>*A:R2# show router fib 1 10.10.10.1/32
+
+===============================================================================
+FIB Display
+===============================================================================
+Prefix [Flags]                                              Protocol
+    NextHop
+-------------------------------------------------------------------------------
+10.10.10.1/32                                               OSPF
+    10.1.2.1 (toR1)
+-------------------------------------------------------------------------------
+Total Entries : 1
+-------------------------------------------------------------------------------
+</code></pre></td></tr></table></div></div><p>So what? We have a next-hop, but how do we know if IP address 10.1.2.1 belongs to R1? To asnswer this question we need to open <a href=https://tools.ietf.org/html/rfc5036 target=_blank>RFC 5036 LDP Specification</a> once again. Navigate to <a href=https://tools.ietf.org/html/rfc5036#section-2.7 target=_blank rel="noopener noreffer">section 2.7</a> LDP Identifiers and Next Hop Addresses:</p><p style=padding-left:30px>To enable LSRs to map between a peer LDP Identifier and the peer&#8217;s addresses, LSRs advertise their addresses using <strong>LDP Address</strong> and Withdraw Address messages.</p><p>Well, it seems LDP peers share <em>LDP Address messages</em> where they communicate all of their configured IP addresses, let’s see under the hood:</p><p><a href=http://img-fotki.yandex.ru/get/5201/21639405.11b/0_83441_d97a2240_XXL.png target=_blank rel="noopener noreffer"><img class=aligncenter src=http://img-fotki.yandex.ru/get/5201/21639405.11b/0_83441_d97a2240_XL.png alt width=800 height=505></a></p><p>That is the answer. LDP speaker should tell its peers about the addresses it has configured. This info communicated via Address Messages and helps remote peers to map LDP indentifier to an IP address.</p><p>With this information provided R2 now can tell for sure that next-hop address it has in its Forwarding Information Base belongs to R1. And that is how R2 can tell that R1 is a downstream router – by matching its next-hop address from FIB with an IP addresses provided in an Address Message from R1.</p><p>And this is all for this time. If you have any questions regarding this topic – do not hesitate, I will gladly address them.</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2015/06/ldp-ordered-label-distribution-control-explained/ data-title="LDP. Ordered Label Distribution Control explained" data-via=ntdvps data-hashtags=LDP,MPLS><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2015/06/ldp-ordered-label-distribution-control-explained/ data-hashtag=LDP><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2015/06/ldp-ordered-label-distribution-control-explained/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/ldp/ class=tag>LDP</a><a href=/tags/mpls/ class=tag>MPLS</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

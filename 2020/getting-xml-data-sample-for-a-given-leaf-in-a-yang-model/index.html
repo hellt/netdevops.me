@@ -1,0 +1,282 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Getting XML data sample for a given leaf in a YANG model |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="Getting XML data sample for a given leaf in a YANG model"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="Getting XML data sample for a given leaf in a YANG model"><meta property="og:description" content="We can praise YANG as long as we want, but for an end user YANG is useful as the tooling around it and the applications leveraging it. Ask yourself, as a user of any kind of NETCONF/YANG application what was the last time you looked at a *.yang file content and found something that was needed to consume that application?
+In a user role I personally never look at a YANG source, though, I look at the tree or HTML representation of YANG all the time; Thats is the YANG human interface for me.
+And even in these human friendly formats you can&rsquo;t find all the answers; for example, looking at the YANG tree, how do you get the XML data sample of a given leaf? Thats what we will discover in this post."><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2020/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-02-01T06:00:00+00:00"><meta property="article:modified_time" content="2021-04-19T12:35:46+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2020/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Getting XML data sample for a given leaf in a YANG model","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2020\/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model\/"},"genre":"posts","keywords":"Netconf, Docker, YANG","wordCount":1282,"url":"https:\/\/netdevops.me\/2020\/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model\/","datePublished":"2020-02-01T06:00:00+00:00","dateModified":"2021-04-19T12:35:46+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>Getting XML data sample for a given leaf in a YANG model</li></ol></nav><h1 class="single-title flipInX">Getting XML data sample for a given leaf in a YANG model</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2020-02-01>2020-02-01</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>1282 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>7 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>We can praise YANG as long as we want, but for an end user YANG is useful as the tooling around it and the applications leveraging it. Ask yourself, as a user of any kind of NETCONF/YANG application what was the last time you looked at a <code>*.yang</code> file content and found something that was needed to consume that application?<br>In a user role I personally never look at a YANG source, though, I look at the tree or HTML representation of YANG all the time; Thats is the YANG human interface for me.</p><p>And even in these human friendly formats you can&rsquo;t find all the answers; for example, looking at the YANG tree, how do you get the XML data sample of a given leaf? Thats what we will discover in this post.</p><h1 id=problem-statement class=headerLink><a href=#problem-statement class=header-mark></a>Problem statement</h1><p>Getting the XML data sample of a given leaf? What is this, why might I need it?</p><p>Lets work through a real-life example that should make a perfect point. Suppose you need to get a list of configured users from a given network element (NE). You would normally do this by leveraging <code>&lt;get-config></code> operation, but in order to get only the users portion of the configuration, you would need to augment your request with a filter.</p><p>NETCONF defaults to <a href=http://www.rfcreader.com/#rfc6241_line869 target=_blank rel="noopener noreffer">subtree filtering</a> when it comes to filters.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=c>&lt;!-- subtree filter example from RFC6241 --&gt;</span>
+<span class=nt>&lt;rpc</span> <span class=na>message-id=</span><span class=s>&#34;101&#34;</span>
+    <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;get-config&gt;</span>
+    <span class=nt>&lt;source&gt;</span>
+      <span class=nt>&lt;running/&gt;</span>
+    <span class=nt>&lt;/source&gt;</span>
+    <span class=nt>&lt;filter</span> <span class=na>type=</span><span class=s>&#34;subtree&#34;</span><span class=nt>&gt;</span>
+      <span class=nt>&lt;top</span> <span class=na>xmlns=</span><span class=s>&#34;http://example.com/schema/1.2/config&#34;</span><span class=nt>&gt;</span>
+        <span class=nt>&lt;users/&gt;</span>
+      <span class=nt>&lt;/top&gt;</span>
+    <span class=nt>&lt;/filter&gt;</span>
+  <span class=nt>&lt;/get-config&gt;</span>
+<span class=nt>&lt;/rpc&gt;</span>
+</code></pre></td></tr></table></div></div><p>Now the question comes: how do one know how to craft the subtree filter XML data for a given NE? If you will send the above XML envelope to any NE you will receive an error, because the subtree filter provided is not how the users are modelled in the underlying YANG model.</p><p>Yes, it boils down to an underlying model used by a given NE; you would need to consult with this model and derive the right nodes to get to the configuration block in question.</p><p>Actually, that post is a feedback to the question that popped up in my twitter recently:</p><center><blockquote class=twitter-tweet><p lang=en dir=ltr>Hello <a href="https://twitter.com/nickrusso42518?ref_src=twsrc%5Etfw">@nickrusso42518</a> <a href="https://twitter.com/ntdvps?ref_src=twsrc%5Etfw">@ntdvps</a> whats the best way to transform a YANG file/section into a XML filter to use in a NETCONF get message? I used to export YANG file with pyang to html format, but it bothers me put the exact tree by hand. Are there an easy way?</p>&mdash; Rafael Ganascim (@rganascim) <a href="https://twitter.com/rganascim/status/1223087371299753984?ref_src=twsrc%5Etfw">January 31, 2020</a></blockquote><script async src=https://platform.twitter.com/widgets.js></script></center><h1 id=solving-the-problem-with-pyang class=headerLink><a href=#solving-the-problem-with-pyang class=header-mark></a>Solving the problem with PYANG</h1><p>Rafael asked a very practical question that every NETCONF user encounters; ours example follows the same question by asking <strong>how do I know which XML data to use in my subtree filter to get users config, are there aby tools for that?</strong></p><p>It didn&rsquo;t take Rafael long to come up with a solution to his own question, which he explained in the same thread:</p><center><blockquote class=twitter-tweet><p lang=en dir=ltr>I found an "easy" way to get the xml tree, instead of writing by hand</p>&mdash; Rafael Ganascim (@rganascim) <a href="https://twitter.com/rganascim/status/1223221183753134080?ref_src=twsrc%5Etfw">January 31, 2020</a></blockquote><script async src=https://platform.twitter.com/widgets.js></script></center><p>As you can see, he leveraged <a href=https://github.com/mbj4668/pyang target=_blank rel="noopener noreffer">PYANG</a> and solved the problem with a grain of <code>sed</code> salt. The steps he took can be categorized with 4 major steps:</p><ol><li>Generated HTML view of a YANG model (jstree output format)</li><li>Copy the path of a node in question</li><li>Remove the prefix from that path</li><li>Generate XML skeleton data for that cleaned path</li></ol><p>Lets solve our example question following this method and using Nokia SR OS router running 19.10.r2.</p><p>First, lets enjoy the generated HTML views of Nokia SR OS models provided in the <a href=https://github.com/hellt/nokia-yangtree/tree/sros_19.10.r6 target=_blank rel="noopener noreffer">nokia-yangtree repo</a>, no need to generate anything yourself, we value your time and here we got you covered.<br>Few clicks away and you drill down to the <code>user</code> list of the configuration model. Thats where our configured local users live.</p><p><img loading=lazy decoding=async class=render-image src=https://gitlab.com/rdodin/pics/-/wikis/uploads/4e657129cac96662d75c2e5908cf0275/image.png alt=users_yang title=image.png></p><p>To our grief, PYANG cant digest the path that it produces in its Path column of the HTML view, therefore we need to sanitize it and remove the path prefix (<code>conf</code> in our case) from it:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># path in the HTML: /conf:configure/conf:system/conf:security/conf:user-params/conf:local-user/conf:user</span>
+/configure/system/security/user-params/local-user/user
+</code></pre></td></tr></table></div></div><blockquote><p><strong>SR OS PRO TIP that makes competition angry</strong><br>You can get the model path right out from the box when you navigate to the context of interest</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-text data-lang=text>*(ex)[]
+A:admin@R1# configure system security user-params local-user user del
+
+*(ex)[configure system security user-params local-user user &#34;del&#34;]
+A:admin@R1# pwc model-path
+Present Working Context:
+/nokia-conf:configure/system/security/user-params/local-user/user=del
+</code></pre></td></tr></table></div></div><blockquote><p>Now all you need is to copy that path and remove the user key.</p></blockquote><p>Having the model path without the context we can generate the XML data using the <a href=https://manned.org/pyang/195e05d7#head15 target=_blank rel="noopener noreffer"><code>sample-xml-skeleton</code></a> output of PYANG.</p><p>For that step I leverage the open YANG models of SR OS that you can download from the <a href=https://github.com/nokia/7x50_YangModels target=_blank rel="noopener noreffer">7x50_YANG_MODELS</a> repo and the <a href=https://github.com/hellt/pyang-docker target=_blank rel="noopener noreffer">PYANG tool in a container</a>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml>$ docker run --rm -v $(pwd):/yang hellt/pyang pyang -f sample-xml-skeleton --sample-xml-skeleton-path &#34;/configure/system/security/user-params/local-user/user&#34; nokia-conf-combined.yang
+<span class=cp>&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&gt;</span>
+<span class=nt>&lt;data</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;system&gt;</span>
+      <span class=nt>&lt;security&gt;</span>
+        <span class=nt>&lt;user-params&gt;</span>
+          <span class=nt>&lt;local-user&gt;</span>
+            <span class=nt>&lt;user&gt;</span>
+              <span class=nt>&lt;user-name/&gt;</span>
+              <span class=nt>&lt;home-directory/&gt;</span>
+              <span class=nt>&lt;password/&gt;</span>
+              <span class=nt>&lt;cli-engine&gt;</span>
+                <span class=c>&lt;!-- # entries: 0..2 --&gt;</span>
+              <span class=nt>&lt;/cli-engine&gt;</span>
+<span class=c>&lt;!-- &lt;&lt;SNIP&gt;&gt; --&gt;</span>
+            <span class=nt>&lt;/user&gt;</span>
+          <span class=nt>&lt;/local-user&gt;</span>
+        <span class=nt>&lt;/user-params&gt;</span>
+      <span class=nt>&lt;/security&gt;</span>
+    <span class=nt>&lt;/system&gt;</span>
+  <span class=nt>&lt;/configure&gt;</span>
+<span class=nt>&lt;/data&gt;</span>
+</code></pre></td></tr></table></div></div><p>Pretty neat, right? You have the path to the node you specified as well as all the enclosed containers, lists and leafs so you can filter on them.</p><p>In our case we can cut everything that sits under the <code>&lt;user></code> node and get the portion of XML data that is ready to be filled in a subtree filter:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=c>&lt;!-- this data is ready to be pasted in a subtree template --&gt;</span>
+  <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;system&gt;</span>
+      <span class=nt>&lt;security&gt;</span>
+        <span class=nt>&lt;user-params&gt;</span>
+          <span class=nt>&lt;local-user&gt;</span>
+            <span class=nt>&lt;user&gt;</span>
+            <span class=nt>&lt;/user&gt;</span>
+          <span class=nt>&lt;/local-user&gt;</span>
+        <span class=nt>&lt;/user-params&gt;</span>
+      <span class=nt>&lt;/security&gt;</span>
+    <span class=nt>&lt;/system&gt;</span>
+  <span class=nt>&lt;/configure&gt;</span>
+<span class=nt>&lt;/data&gt;</span>
+</code></pre></td></tr></table></div></div><p>This is a <code>get-config</code> template XML envelope:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=cp>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span class=nt>&lt;rpc</span> <span class=na>message-id=</span><span class=s>&#34;getBGPNBRstate&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;get&gt;</span>
+        <span class=nt>&lt;filter&gt;</span>
+        <span class=nt>&lt;/filter&gt;</span>
+    <span class=nt>&lt;/get&gt;</span>
+<span class=nt>&lt;/rpc&gt;</span>
+</code></pre></td></tr></table></div></div><p>Just paste it in the <code>get-config</code> XML envelope like this and save it in a <code>get-users.xml</code> file:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml><span class=cp>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span class=nt>&lt;rpc</span> <span class=na>message-id=</span><span class=s>&#34;getBGPNBRstate&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;get&gt;</span>
+        <span class=nt>&lt;filter&gt;</span>
+          <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+              <span class=nt>&lt;security&gt;</span>
+                <span class=nt>&lt;user-params&gt;</span>
+                  <span class=nt>&lt;local-user&gt;</span>
+                    <span class=nt>&lt;user&gt;</span>
+                    <span class=nt>&lt;/user&gt;</span>
+                  <span class=nt>&lt;/local-user&gt;</span>
+                <span class=nt>&lt;/user-params&gt;</span>
+              <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+          <span class=nt>&lt;/configure&gt;</span>
+        <span class=nt>&lt;/filter&gt;</span>
+    <span class=nt>&lt;/get&gt;</span>
+<span class=nt>&lt;/rpc&gt;</span>
+</code></pre></td></tr></table></div></div><p>Now its ready to be tested (using <a href=https://netdevops.me/2020/netconf-console-in-a-docker-container/ target=_blank rel="noopener noreffer">netconf-console in a docker container</a>):</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml>[root@infra ~]# docker run -it --rm -v $(pwd):/rpcs hellt/netconf-console --host=10.1.0.11 --port=830 -u admin -p admin /rpcs/get-users.xml
+<span class=cp>&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&gt;</span>
+<span class=nt>&lt;rpc-reply</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> <span class=na>message-id=</span><span class=s>&#34;getBGPNBRstate&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;data&gt;</span>
+        <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;system&gt;</span>
+                <span class=nt>&lt;security&gt;</span>
+                    <span class=nt>&lt;user-params&gt;</span>
+                        <span class=nt>&lt;local-user&gt;</span>
+                            <span class=nt>&lt;user&gt;</span>
+                                <span class=nt>&lt;user-name&gt;</span>admin<span class=nt>&lt;/user-name&gt;</span>
+                                <span class=nt>&lt;password&gt;</span>$2y$10$TQrZlpBDra86.qoexZUzQeBXDY1FcdDhGWdD9lLxMuFyPVSm0OGy6<span class=nt>&lt;/password&gt;</span>
+                                <span class=nt>&lt;cli-engine&gt;</span>md-cli<span class=nt>&lt;/cli-engine&gt;</span>
+                                <span class=nt>&lt;cli-engine&gt;</span>classic-cli<span class=nt>&lt;/cli-engine&gt;</span>
+                                <span class=nt>&lt;access&gt;</span>
+                                    <span class=nt>&lt;console&gt;</span>true<span class=nt>&lt;/console&gt;</span>
+                                    <span class=nt>&lt;ftp&gt;</span>true<span class=nt>&lt;/ftp&gt;</span>
+                                    <span class=nt>&lt;snmp&gt;</span>true<span class=nt>&lt;/snmp&gt;</span>
+                                    <span class=nt>&lt;netconf&gt;</span>true<span class=nt>&lt;/netconf&gt;</span>
+                                    <span class=nt>&lt;grpc&gt;</span>true<span class=nt>&lt;/grpc&gt;</span>
+                                <span class=nt>&lt;/access&gt;</span>
+                                <span class=nt>&lt;console&gt;</span>
+                                    <span class=nt>&lt;member&gt;</span>administrative<span class=nt>&lt;/member&gt;</span>
+                                    <span class=nt>&lt;member&gt;</span>netconf<span class=nt>&lt;/member&gt;</span>
+                                <span class=nt>&lt;/console&gt;</span>
+                            <span class=nt>&lt;/user&gt;</span>
+                        <span class=nt>&lt;/local-user&gt;</span>
+                    <span class=nt>&lt;/user-params&gt;</span>
+                <span class=nt>&lt;/security&gt;</span>
+            <span class=nt>&lt;/system&gt;</span>
+        <span class=nt>&lt;/configure&gt;</span>
+    <span class=nt>&lt;/data&gt;</span>
+<span class=nt>&lt;/rpc-reply&gt;</span>
+</code></pre></td></tr></table></div></div><p>Works!</p><h1 id=automating-the-solution class=headerLink><a href=#automating-the-solution class=header-mark></a>Automating the solution</h1><p>Seeing this in action got me itching; I wanted to automate this process so it would be generic and less manual. For that reason I enriched my <a href=https://github.com/hellt/pyang-docker target=_blank rel="noopener noreffer">Pyang-docker</a> tool with a tiny shell script that will:</p><ol><li>Automatically strip the path prefix from the string copied from HTML representation of a model</li><li>Call pyang with the right flags to generate the xml data</li></ol><p>Now when you copy-paster your model path from the HTML you can immediately get the XML data skeleton with:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-xml data-lang=xml>$ docker run --rm -v $(pwd):/yang hellt/pyang xmlsk.sh &#34;/conf:configure/conf:system/conf:security/conf:user-params/conf:local-user/conf:user/conf:user-name&#34; nokia-conf-combined.yang
+
+<span class=cp>&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&gt;</span>
+<span class=nt>&lt;data</span> <span class=na>xmlns=</span><span class=s>&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;configure</span> <span class=na>xmlns=</span><span class=s>&#34;urn:nokia.com:sros:ns:yang:sr:conf&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;system&gt;</span>
+      <span class=nt>&lt;security&gt;</span>
+        <span class=nt>&lt;user-params&gt;</span>
+          <span class=nt>&lt;local-user&gt;</span>
+            <span class=nt>&lt;user&gt;</span>
+              <span class=nt>&lt;user-name/&gt;</span>
+            <span class=nt>&lt;/user&gt;</span>
+          <span class=nt>&lt;/local-user&gt;</span>
+        <span class=nt>&lt;/user-params&gt;</span>
+      <span class=nt>&lt;/security&gt;</span>
+    <span class=nt>&lt;/system&gt;</span>
+  <span class=nt>&lt;/configure&gt;</span>
+<span class=nt>&lt;/data&gt;</span>
+</code></pre></td></tr></table></div></div></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2020/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model/ data-title="Getting XML data sample for a given leaf in a YANG model" data-via=ntdvps data-hashtags=Netconf,Docker,YANG><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2020/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model/ data-hashtag=Netconf><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2020/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/netconf/ class=tag>Netconf</a><a href=/tags/docker/ class=tag>Docker</a><a href=/tags/yang/ class=tag>YANG</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

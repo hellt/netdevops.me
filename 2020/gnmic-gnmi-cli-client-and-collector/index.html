@@ -1,0 +1,189 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>gNMIc - gNMI CLI client and collector |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="gNMIc - gNMI CLI client and collector"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="gNMIc - gNMI CLI client and collector"><meta property="og:description" content="Despite the fact that gNMI is defacto the go-to interface for a model-driven telemetry collection, we, as a community, had no gNMI tool that was easy to install, pleasure to use, documented and pre-built for common platforms. Until now.
+I am excited to announce the public release of gnmic - a CLI client and a collector that talks gNMI to your devices."><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-07-08T07:00:00+00:00"><meta property="article:modified_time" content="2021-04-19T12:35:46+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"gNMIc - gNMI CLI client and collector","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2020\/gnmic-gnmi-cli-client-and-collector\/"},"genre":"posts","keywords":"gnmi, openconfig, go","wordCount":1689,"url":"https:\/\/netdevops.me\/2020\/gnmic-gnmi-cli-client-and-collector\/","datePublished":"2020-07-08T07:00:00+00:00","dateModified":"2021-04-19T12:35:46+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg">NetDevOps</a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo>NetDevOps</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>gNMIc - gNMI CLI client and collector</li></ol></nav><h1 class="single-title flipInX">gNMIc - gNMI CLI client and collector</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2020-07-08>2020-07-08</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>1689 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>8 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#what-makes-gnmi-tool-nice-to-use>What makes gNMI tool nice to use?</a></li><li><a href=#gnmic-and-its-features>gNMIc and its features</a></li><li><a href=#summary>Summary</a></li><li><a href=#authors>Authors</a></li></ul></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-04-19</span></span></div><p>Despite the fact that <a href=https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md target=_blank rel="noopener noreffer">gNMI</a> is defacto the go-to interface for a model-driven telemetry collection, we, as a community, had no gNMI tool that was easy to install, pleasure to use, documented and pre-built for common platforms. Until now.</p><p>I am excited to announce the public release of <a href=https://gnmic.kmrd.dev/ target=_blank rel="noopener noreffer"><code>gnmic</code></a> - a CLI client and a collector that talks gNMI to your devices.</p><h3 id=problem-statement class=headerLink><a href=#problem-statement class=header-mark></a>Problem statement</h3><p>I am not exaggerating, there is a shortage of open source gNMI clients one can find. And when I say gNMI clients I mean the CLI clients that allow you to invoke gNMI service RPCs.</p><p>Earlier this year I bragged about it, in hope that my google-foo is just broken and the community knows of a gNMI client that I could download and use right away without jumping through hoops:</p><center><blockquote class=twitter-tweet><p lang=en dir=ltr>So coming back to the OpenConfig/gNMI and what a hot mess it is when it comes to the tooling.<br><br>You would probably think that there is a top-notch gNMI CLI (or even a shell) for you to query your routers like a pro.</p>&mdash; Roman Dodin (@ntdvps) <a href="https://twitter.com/ntdvps/status/1229845496660922368?ref_src=twsrc%5Etfw">February 18, 2020</a></blockquote><script async src=https://platform.twitter.com/widgets.js></script></center><p>But that was not my google-foo, unfortunately. For the sake of completeness allow me to summarize the landscape of gNMI clients in a pre-gnmic era:</p><ul><li><a href=https://github.com/openconfig/gnmi target=_blank rel="noopener noreffer">OpenConfig gNMI CLI client</a> - thats the google search top result one gets when looking for gNMI client. A reference implementation which lacks some essential features:<ul><li>no documentation, no <a href=https://github.com/openconfig/gnmi/issues/7 target=_blank rel="noopener noreffer">usage examples</a> - you really better know how to read Go code to understand how to use it.</li><li>Get requests will require you to <a href=https://github.com/openconfig/gnmi/issues/67 target=_blank rel="noopener noreffer">write in proto</a> syntax instead of a simple <code>get</code> command with a path.</li><li>additional options like Encoding, Models are not exposed via flags.</li><li>no ready-made binaries - you need to have a Go tool chain to build the tool.</li><li>no <em>insecure</em> support - you can kiss goodbye your lab installations without PKI.</li></ul></li><li><a href=https://github.com/google/gnxi target=_blank rel="noopener noreffer">Google gnxi</a> - Googles gNxI tools that include gNMI, gNOI.<ul><li>the gNMI RPCs are split to different CLI tools which is not convenient</li><li>a list of flags is all you got when it comes to documentation</li><li>no releases to download, Go toolchain is needed</li></ul></li><li><a href=https://github.com/cisco-ie/cisco-gnmi-python#cli-usage target=_blank rel="noopener noreffer">cisco-gnmi-python</a> - a Cisco Innovative Edge project that is quite decent and complete, good job! But a few improvements could have been made:<ul><li>client doesn&rsquo;t allow to use insecure gRPC transport, PKI is mandatory.</li><li>Set requests can&rsquo;t set values specified on the command line.</li><li>CLI structure is not consistent across the commands</li><li>No option exposed to set the Subscription mode.</li></ul></li><li><a href=https://github.com/influxdata/telegraf target=_blank rel="noopener noreffer">Telegraf</a> and <a href=https://github.com/nokia/ansible-networking-collections/tree/master/grpc target=_blank rel="noopener noreffer">Ansible gNMI module</a> are not qualified to be considered as CLI tools.</li></ul><h3 id=what-makes-gnmi-tool-nice-to-use class=headerLink><a href=#what-makes-gnmi-tool-nice-to-use class=header-mark></a>What makes gNMI tool nice to use?</h3><p>Looking at this landscape, the following essential features a nice gNMI client should have come to mind:</p><ul><li>provide a clean and vendor independent interface to gNMI RPCs</li><li>expose all configuration options the gNMI RPCs have via flags or file-based configurations</li><li>allow multi-target operations: i.e. a subscription made to a number of the devices</li><li>implement both TLS enabled and non-secure transport</li><li>support different output formats (JSON, proto) and destinations (stdout, file, streaming/messaging buses)</li><li>be documented</li><li>provide an easy way to install the tool without requiring a dev toolchain to be present.</li></ul><p>With these essential features in mind we started to work on <a href=https://gnmic.kmrd.dev/ target=_blank rel="noopener noreffer">gnmic</a>.</p><h3 id=gnmic-and-its-features class=headerLink><a href=#gnmic-and-its-features class=header-mark></a>gNMIc and its features</h3><p align=center><img src="https://gitlab.com/rdodin/pics/-/wikis/uploads/46e7d1631bd5569e9bf289be9dfa3812/gnmic-headline.svg?sanitize=true/"></p><p>The work on <code>gnmic</code> started with analysis of the existing tools shortcomings coupled with collecting requirements from our fellow engineers and our past user experience.</p><blockquote><p>For the <code>gnmic</code> features run down go to our beautiful documentation portal - <a href=https://gnmic.kmrd.dev>https://gnmic.kmrd.dev</a>. In this post I will go a bit deeper on some core features and design choices we made, so please refer to the documentation if you are looking for a basic usage or command reference guide.</p></blockquote><h4 id=consistent-command-line-interface class=headerLink><a href=#consistent-command-line-interface class=header-mark></a>Consistent command line interface</h4><p>It is easy to spot a CLI tool that got some love from its developers by looking at the way it is composed. Since most of the <code>gnmic</code> users will use it as a CLI tool we took an extra step and wrote it with a <a href=https://github.com/spf13/cobra target=_blank rel="noopener noreffer">Cobra</a> framework that adds a great layer of consistency to the command line applications.</p><p>With Cobra <code>gnmic</code> gets extra powers such as consistent global and local flags, multi-tiered subcommands, auto-generated and accurate help and overall a &ldquo;proper&rdquo; CLI behavior.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-text data-lang=text>$ gnmic get --help
+run gnmi get on targets
+
+Usage:
+  gnmic get [flags]
+
+Flags:
+  -h, --help            help for get
+      --model strings   get request model(s)
+      --path strings    get request paths
+      --prefix string   get request prefix
+  -t, --type string     the type of data that is requested from the target. one of: ALL, CONFIG, STATE, OPERATIONAL (default &#34;ALL&#34;)
+
+Global Flags:
+  -a, --address strings             comma separated gnmi targets addresses
+      --config string               config file (default is $HOME/gnmic.yaml)
+  -d, --debug                       debug mode
+  -e, --encoding string             one of [json bytes proto ascii json_ietf]. Case insensitive (default &#34;json&#34;)
+</code></pre></td></tr></table></div></div><h4 id=alignment-to-gnmi-specification class=headerLink><a href=#alignment-to-gnmi-specification class=header-mark></a>Alignment to gNMI specification</h4><p>For a tool to be generic it must not deviate from a reference specification. Adhering to that promise, we made <code>gnmic</code> commands modelled strictly after the gNMI RPCs. Each RPC has a command with a clear and concise name, and each command&rsquo;s flags are named after the fields of the corresponding proto message. No ambiguous flag names or questionable subcommands, it is clear and guessable what each command and flag does without looking at the documentation:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-text data-lang=text>$ gnmic -h
+&lt;snipped&gt;
+
+Available Commands:
+  capabilities query targets gnmi capabilities
+  get          run gnmi get on targets
+  help         Help about any command
+  listen       listens for telemetry dialout updates from the node
+  path         generate gnmi or xpath style from yang file
+  set          run gnmi set on targets
+  subscribe    subscribe to gnmi updates on targets
+  version      show gnmic version
+
+&lt;snipped&gt;
+</code></pre></td></tr></table></div></div><p>Moreover, we tried to expose every configuration knob gNMI specification has to offer. Again, a generic tool should not limit your capabilities, so if you want to, say, restrict the YANG models the gNMI target should use when replying back to the client - there is a <a href=https://gnmic.kmrd.dev/cmd/get/#model target=_blank rel="noopener noreffer">flag</a> for that!</p><h4 id=tls-and-non-tls-transports class=headerLink><a href=#tls-and-non-tls-transports class=header-mark></a>TLS and non-TLS transports</h4><p>We allowed ourselves to step away from the specification to add one additional generic purpose feature - a <a href=https://gnmic.kmrd.dev/global_flags/#insecure target=_blank rel="noopener noreffer">insecure</a> transport fo gRPC connection.</p><p>The need for the non-secured connections is quite reasonable, its cumbersome in many cases to deal with certificates and keys generation if all one is up to is a quick gNMI test.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-text data-lang=text>gnmic -a 10.1.0.11:57400 -u admin -p admin --insecure capabilities
+gNMI_Version: 0.7.0
+supported models:
+  - nokia-conf, Nokia, 19.10.R2
+  - nokia-state, Nokia, 19.10.R2
+  - nokia-li-state, Nokia, 19.10.R2
+  - nokia-li-conf, Nokia, 19.10.R2
+&lt;&lt; SNIPPED &gt;&gt;
+supported encodings:
+  - JSON
+  - BYTES
+</code></pre></td></tr></table></div></div><h4 id=flexible-configuration-options class=headerLink><a href=#flexible-configuration-options class=header-mark></a>Flexible configuration options</h4><p>Due to a sheer amount of configuration options <code>gnmic</code> has, it can sometimes be tedious to specify all of them as CLI flags. For such cases we leveraged <a href=https://github.com/spf13/viper target=_blank rel="noopener noreffer">viper</a> and added support for <a href=https://gnmic.kmrd.dev/user_guide/configuration_file/ target=_blank rel="noopener noreffer">file-based configuration</a> that is consistent with both local and global flags. Its up to a user to choose the configuration file format: YAML, JSON, HCL - all are welcome!</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yml data-lang=yml><span class=l>$ cat ~/gnmic.yml</span><span class=w>
+</span><span class=w></span><span class=nt>address</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;10.0.0.1:57400&#34;</span><span class=w>
+</span><span class=w></span><span class=nt>username</span><span class=p>:</span><span class=w> </span><span class=l>admin</span><span class=w>
+</span><span class=w></span><span class=nt>password</span><span class=p>:</span><span class=w> </span><span class=l>admin</span><span class=w>
+</span><span class=w></span><span class=nt>insecure</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># now gnmic can read this cfg file and get the params from it</span>
+$ gnmi get --path /configure/system/name
+</code></pre></td></tr></table></div></div><h4 id=automation-friendly-output class=headerLink><a href=#automation-friendly-output class=header-mark></a>Automation friendly output</h4><p>Its quite common to use gnmic in a setting where the output it provides is used as an input to another command. The simple example is getting something out of the network element and processing the result with some other tool.</p><p>Keeping that case in mind we modelled gnmic output to default to JSON format, so that you can quickly <code>jq</code> the results out and feed it to other tools or processes.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-json data-lang=json><span class=err>gnmic</span> <span class=err>-a</span> <span class=mf>10.1</span><span class=err>.</span><span class=mf>0.11</span><span class=err>:</span><span class=mi>57400</span> <span class=err>-u</span> <span class=err>admin</span> <span class=err>-p</span> <span class=err>admin</span> <span class=err>--insecure</span> <span class=err>\</span>
+      <span class=err>get</span> <span class=err>--path</span> <span class=err>/state/system/platform</span>
+
+<span class=p>{</span>
+  <span class=nt>&#34;source&#34;</span><span class=p>:</span> <span class=s2>&#34;10.1.0.11:57400&#34;</span><span class=p>,</span>
+  <span class=nt>&#34;timestamp&#34;</span><span class=p>:</span> <span class=mi>1592829586901061761</span><span class=p>,</span>
+  <span class=nt>&#34;time&#34;</span><span class=p>:</span> <span class=s2>&#34;2020-06-22T14:39:46.901061761+02:00&#34;</span><span class=p>,</span>
+  <span class=nt>&#34;updates&#34;</span><span class=p>:</span> <span class=p>[</span>
+    <span class=p>{</span>
+      <span class=nt>&#34;Path&#34;</span><span class=p>:</span> <span class=s2>&#34;state/system/platform&#34;</span><span class=p>,</span>
+      <span class=nt>&#34;values&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;state/system/platform&#34;</span><span class=p>:</span> <span class=s2>&#34;7750 SR-1s&#34;</span>
+      <span class=p>}</span>
+    <span class=p>}</span>
+  <span class=p>]</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><h4 id=multiple-subscriptions class=headerLink><a href=#multiple-subscriptions class=header-mark></a>Multiple subscriptions</h4><p>To expand on <code>gnmic</code> subscription capabilities and not limiting users to a single subscription per target we added a way to decouple subscriptions from the targets. The <a href=https://gnmic.kmrd.dev/user_guide/subscriptions/ target=_blank rel="noopener noreffer">Multiple subscriptions</a> feature allows to defined as many subscriptions as needed and later associate them to the targets:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yaml data-lang=yaml><span class=nt>targets</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>router1.lab.com</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>subscriptions</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span>- <span class=l>port_stats</span><span class=w>
+</span><span class=w>      </span>- <span class=l>service_state</span><span class=w>
+</span><span class=w>  </span><span class=nt>router2.lab.com</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>subscriptions</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span>- <span class=l>service_state</span><span class=w>
+</span><span class=w></span><span class=nt>username</span><span class=p>:</span><span class=w> </span><span class=l>admin</span><span class=w>
+</span><span class=w></span><span class=nt>password</span><span class=p>:</span><span class=w> </span><span class=l>nokiasr0s</span><span class=w>
+</span><span class=w></span><span class=nt>insecure</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=nt>subscriptions</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>port_stats</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>paths</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span>- <span class=s2>&#34;/state/port[port-id=1/1/c1/1]/statistics/out-octets&#34;</span><span class=w>
+</span><span class=w>      </span>- <span class=s2>&#34;/state/port[port-id=1/1/c1/1]/statistics/in-octets&#34;</span><span class=w>
+</span><span class=w>    </span><span class=nt>stream-mode</span><span class=p>:</span><span class=w> </span><span class=l>sample</span><span class=w>
+</span><span class=w>    </span><span class=nt>sample-interval</span><span class=p>:</span><span class=w> </span><span class=l>5s</span><span class=w>
+</span><span class=w>  </span><span class=nt>service_state</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>paths</span><span class=p>:</span><span class=w>
+</span><span class=w>       </span>- <span class=s2>&#34;/state/service/vpls[service-name=*]/oper-state&#34;</span><span class=w>
+</span><span class=w>       </span>- <span class=s2>&#34;/state/service/vprn[service-name=*]/oper-state&#34;</span><span class=w>
+</span><span class=w>    </span><span class=nt>stream-mode</span><span class=p>:</span><span class=w> </span><span class=kc>on</span>-<span class=l>change</span><span class=w>
+</span></code></pre></td></tr></table></div></div><p>With this approach subscriptions stay decoupled from the targets, while being fully configurable.</p><h4 id=documentation class=headerLink><a href=#documentation class=header-mark></a>Documentation</h4><p>Writing documentation is hard, but it felt necessary to provide a full-blown <a href=https://gnmic.kmrd.dev target=_blank rel="noopener noreffer">documentation portal</a> with basic usage, command reference and advanced use cases examples.</p><p>Knowing how problematic it might be for a novice to get started with gNMI, we added a lot of examples to each command <code>gnmic</code> has. The documentation portal is built with <a href=https://github.com/squidfunk/mkdocs-material target=_blank rel="noopener noreffer">mkdocs-material</a> theme and is open, so you can request additions or contribute via <a href=https://gitlab.com/kmrdi/gnmiclient-docs target=_blank rel="noopener noreffer">issues</a>.</p><h4 id=distribution-via-binaries class=headerLink><a href=#distribution-via-binaries class=header-mark></a>Distribution via binaries</h4><p>Not only having documentation is an essential step to break the steep entry barrier, but also the installation process in our opinion must be welcoming and inclusive.</p><p>Being written in Go, <code>gnmic</code> is distributed as a single binary built for most common architectures and OSes. Our single-command <a href=https://gnmic.kmrd.dev/install/ target=_blank rel="noopener noreffer">installation script</a> makes it extremely easy to install or upgrade.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>curl -sL https://github.com/karimra/gnmic/raw/master/install.sh | sudo bash
+</code></pre></td></tr></table></div></div><h3 id=summary class=headerLink><a href=#summary class=header-mark></a>Summary</h3><p>At the end of the day, I tend to believe that <code>gnmic</code> will successfully fill the void of standalone gNMI tools available to the public. Starting from a consistent CLI layer with all the gNMI RPCs nicely exposed and finishing with the proper docs and easy installation it checks all the marks I had in mind for a decent gNMI client, and hope it will be to community&rsquo;s satisfaction as well.</p><p>Oh, and <code>gnmic</code> also has <a href=https://gnmic.kmrd.dev/user_guide/outputs/output_intro/ target=_blank rel="noopener noreffer">collection capabilities</a> allowing you to export the metrics collected via gNMI to Kafka, NATS, Influx, Prometheus. But that is for another post.</p><h3 id=authors class=headerLink><a href=#authors class=header-mark></a>Authors</h3><p>The team behind <code>gnmic</code> consists of <a href=https://github.com/karimra target=_blank rel="noopener noreffer">Karim Radhouani</a> and <a href=https://twitter.com/ntdvps target=_blank rel="noopener noreffer">Roman Dodin</a>, but we are welcome contributors of all sorts. Be it code, documentation, bug reports or feature requests!</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/ data-title="gNMIc - gNMI CLI client and collector" data-via=ntdvps data-hashtags=gnmi,openconfig,go><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/ data-hashtag=gnmi><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/gnmi/ class=tag>gnmi</a><a href=/tags/openconfig/ class=tag>openconfig</a><a href=/tags/go/ class=tag>go</a></div></div></footer></div><div id=toc-final></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>

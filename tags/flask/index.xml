@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Flask - Tag - NetDevOps</title><link>https://netdevops.me/tags/flask/</link><description>Flask - Tag - NetDevOps</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 09 Nov 2017 12:00:00 +0000</lastBuildDate><atom:link href="https://netdevops.me/tags/flask/" rel="self" type="application/rss+xml"/><item><title>Flask application in a production-ready container</title><link>https://netdevops.me/2017/flask-application-in-a-production-ready-container/</link><pubDate>Thu, 09 Nov 2017 12:00:00 +0000</pubDate><author>Author</author><guid>https://netdevops.me/2017/flask-application-in-a-production-ready-container/</guid><description><![CDATA[<p>Flask documentation <a href="http://flask.pocoo.org/docs/0.12/deploying/#deployment-options" target="_blank" rel="noopener noreffer">is very clear</a> on where is the place for its built-in WSGI application server:</p>
+<blockquote>
+<p>While lightweight and easy to use, <strong>Flask’s built-in server is not suitable for production</strong> as it doesn’t scale well and by default serves only one request at a time.</p>
+</blockquote>
+<p>So how about I share with you a <a href="https://github.com/hellt/nginx-uwsgi-flask-alpine-docker" target="_blank" rel="noopener noreffer"><em>Dockerfile</em></a> that will enable your Flask application to run <strong>properly</strong> and ready for production-like deployments? As a bonus, I will share my findings discovered along the way of building this container image.</p>
+<p>
+
+
+
+
+</p>]]></description></item><item><title>Building Web front end for Python scripts with Flask</title><link>https://netdevops.me/2016/04/building-web-front-end-for-python-scripts-with-flask/</link><pubDate>Fri, 01 Apr 2016 04:22:27 +0000</pubDate><author>Roman Dodin</author><guid>https://netdevops.me/2016/04/building-web-front-end-for-python-scripts-with-flask/</guid><description><![CDATA[<p>Recently I revived my relationship with Python in an effort to tackle the routine tasks appearing here and there. So I started to write some <em>pocket scripts</em> and, luckily, was not the only one on this battlefield - my colleagues also have a bunch of useful scripts. With all those code snippets sent in the emails, cloned from the repos, grabbed on the network shares&hellip; I started to wonder how much easier would it be if someone had them all aggregated and presented with a Web UI for a shared access?</p>
+<p>Thus, I started to build web front-end to the python scripts we used daily with these goals in mind:</p>
+<ul>
+<li>allow people with a zero knowledge of Python to use the scripts by interacting with them through a simple Web UI;</li>
+<li>make script&rsquo;s output more readable by leveraging CSS and HTML formatting;</li>
+<li>aggregate all the scripts in one a single repo but in a separate sandboxed directories to maintain code manageability.</li>
+</ul>
+<p>This short demo should give you some taste of what it is:</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/KzOFlFYucvM" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p><strong>Disclaimer:</strong> I am nowhere near even a professional python or web developer. And what makes it even worse is that I used (a lot) a very dangerous coding paradigm - SDD - Stack Overflow Driven Development. So, hurt me plenty if you see some awful mistakes.</p>
+<p><a href="https://github.com/hellt/PLAZA" target="_blank" rel="noopener noreffer">Project source code</a></p>]]></description></item></channel></rss>
