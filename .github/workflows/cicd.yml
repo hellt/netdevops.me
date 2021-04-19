@@ -30,6 +30,7 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     needs: docs-test
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
         with:
