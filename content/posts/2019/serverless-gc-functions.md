@@ -14,15 +14,19 @@ tags:
 
 title: Creating Google Cloud Platform Function with Python and Serverless
 ---
-![serverless](https://gitlab.com/rdodin/pics/-/wikis/uploads/e4f956d64dcf812f64a77f8532499d07/image.png)
+
+
 Two years ago [I shared]({{<relref "../2017/nokdoc_sentinel_lambda.md">}}) my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service.
+
+<!--more-->
+
+![serverless](https://gitlab.com/rdodin/pics/-/wikis/uploads/e4f956d64dcf812f64a77f8532499d07/image.png)
 
 Naturally, a simple, single-purpose tool is a perfect candidate for function-as-a-service (FaaS), and since I had past experience with AWS Lambda, this time I decided to meet its Google's sibling - [Google Cloud Function](https://cloud.google.com/functions/).
 
 In this post we'll discover how to take a python package with 3rd party dependencies, make a GCP Function from it and deploy it without a single click in the UI - all without leaving the IDE.
 
 [[Project's source code](https://github.com/hellt/pycatj-web)]
-<!--more-->
 
 The python tool I considered a natural fit for a Cloud Function is a [`pycatj`](https://github.com/dbarrosop/pycatj) by **David Barroso** that he released just recently.
 
