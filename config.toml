@@ -71,7 +71,10 @@ enableEmoji = true
 
   # Your favicon path, default is "/favicon.png"
   favicon = "/images/ntdvps_ico64.png"
-
+  [params.header]
+    [params.header.title]
+      # logoSvg = "M198.5864 167.4055v30.3465l90.0395-75.8662-90.0395-75.8661v30.3465l54.0237 45.5196zm-108.0469 0v30.3465L.5 121.8858l90.0395-75.8661v30.3465l-54.0237 45.5196zm0-15.1732h36.0158l72.0311-60.6929h-36.0153z"
+      logo = "/android-chrome-192x192.png"
   [params.page]
     [params.page.toc]
       auto = false
