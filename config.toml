@@ -80,6 +80,21 @@ googleAnalytics = "UA-101537614-1"
       appID = "H1AI8QKFEK"
       searchKey = "0544bc3c928ba0e387c3b3353112e43d"
 
+  # Footer config
+  [params.footer]
+    enable = true
+    # uBlogger NEW | 0.2.0 Custom content (HTML format is supported)
+    custom = ''
+    # uBlogger NEW | 0.2.0 whether to show Hugo and theme info
+    hugo = true
+    # uBlogger NEW | 0.2.0 whether to show copyright info
+    copyright = true
+    # uBlogger NEW | 0.2.0 whether to show the author
+    author = true
+    # Site creation time
+    since = 2015
+    # license info (HTML format is supported)
+    license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
