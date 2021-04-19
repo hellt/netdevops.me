@@ -4,3 +4,6 @@ themes/**/.github
 .vscode
 .vagrant
 **/.DS_Store
+public
+tmp
+bin

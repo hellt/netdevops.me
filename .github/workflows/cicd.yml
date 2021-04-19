@@ -1,0 +1,56 @@
+name: github pages
+
+on:
+  push:
+
+jobs:
+  docs-test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          submodules: true # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.82.0"
+          extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - name: htmltest
+        run: |
+          curl https://htmltest.wjdp.uk | bash
+          ./bin/htmltest -c htmltest.yml
+
+  deploy:
+    runs-on: ubuntu-20.04
+    needs: docs-test
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.82.0"
+          extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Update algolia index
+        run: docker run -v $(pwd):/mnt -e ALGOLIA_APP_ID=${{ secrets.ALGOLIA_APP_ID }} -e ALGOLIA_ADMIN_KEY=${{ secrets.ALGOLIA_KEY }} -e ALGOLIA_INDEX_NAME=blog -e ALGOLIA_INDEX_FILE=/mnt/public/index.json ghcr.io/hellt/algolia-update:0.1.0 npm run algolia
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

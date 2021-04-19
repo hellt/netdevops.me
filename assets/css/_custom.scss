@@ -1,0 +1,10 @@
+.single code {
+    line-height: 1.2rem;
+}
+
+.article-post .m {
+    background: none;
+    [theme=dark] & {
+        background: none;
+      }
+}
