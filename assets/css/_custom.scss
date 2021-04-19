@@ -8,3 +8,33 @@
         background: none;
       }
 }
+
+.title {
+    font-size: 130%;
+    text-align: center;
+}
+
+.donate-text {
+    font-size: 110%;
+    margin-top: 40px;
+
+    ul {
+      list-style: none;
+    }
+}
+
+.donate-button {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.block-donate {
+    background-color: #ee5162;
+    color: white;
+    margin-top: 5rem;
+  
+    [theme=dark] & {
+      background-color: #991725;
+      color: white;
+    }
+}
