@@ -93,6 +93,14 @@ enableEmoji = true
       # disclaimer (HTML format is supported)
       # disclaimer = "test"
 
+  [params.comment.utterances]
+      enable = true
+      repo = "hellt/netdevops.me"
+      issueTerm = "pathname"
+      label = "comment"
+      lightTheme = "github-light"
+      darkTheme = "github-dark"
+
   [params.search]
     enable = true
     # type of search engine ("lunr", "algolia")
