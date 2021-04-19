@@ -14,7 +14,7 @@ title: How to make VS Code Go extension to work in your cloud folder on differen
 
 I started to play with **Go** aka Golang. Yeah, leaving the comfort zone, all that buzz. And for quite some time I've been engaged with VS Code whenever/wherever I did dev activities. 
 
-VS Code has a solid Go support via its [official extension](https://marketplace.visualstudio.com/items?itemName=lukehoban.Go):
+VS Code has a solid Go support via its official extension:
 
 > This extension adds rich language support for the Go language to VS Code, including:
 

@@ -14,8 +14,8 @@ tags:
 
 title: Creating Google Cloud Platform Function with Python and Serverless
 ---
-![serveless](https://gitlab.com/rdodin/pics/-/wikis/uploads/e4f956d64dcf812f64a77f8532499d07/image.png)
-Two years ago [I shared](../../2017/building-aws-lambda-with-python-s3-and-serverless/) my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service.
+![serverless](https://gitlab.com/rdodin/pics/-/wikis/uploads/e4f956d64dcf812f64a77f8532499d07/image.png)
+Two years ago [I shared]({{<relref "../2017/nokdoc_sentinel_lambda.md">}}) my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service.
 
 Naturally, a simple, single-purpose tool is a perfect candidate for function-as-a-service (FaaS), and since I had past experience with AWS Lambda, this time I decided to meet its Google's sibling - [Google Cloud Function](https://cloud.google.com/functions/).
 
@@ -95,7 +95,7 @@ Do not forget to download your API credentials, as nothing can be done without t
 The commands you will see in the rest of this post assume that the credentials are stored in `~/.gcould` directory.
 
 # 2 Function creation
-Since we are living on the edge, we will rely on the [serverless](https://serverless.com) framework to create & deploy our function. The very same framework [I leveraged](2017/building-aws-lambda-with-python-s3-and-serverless/) for the AWS Lambda creation, so why not try it for GCP Function?
+Since we are living on the edge, we will rely on the [serverless](https://serverless.com) framework to create & deploy our function. The very same framework [I leveraged]({{<relref "../2017/nokdoc_sentinel_lambda.md">}}) for the AWS Lambda creation, so why not try it for GCP Function?
 
 The notable benefit of serverless framework is that it allows you to define your Function deployment _as a code_ and thus making it repeatable, versionable and fast.
 

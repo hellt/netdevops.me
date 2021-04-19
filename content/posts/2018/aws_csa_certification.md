@@ -35,7 +35,7 @@ At the very end of the course you can simulate the real exam by answering 60 que
 
 While Hands On Labs are super useful to get the practical knowledge about the AWS Console and the configuration of the various services, I did not complete them all for the sake of time. But in general, I would highly suggest to clear Hands On Labs, most of the training providers offer them.
 
-Linux Academy also has an assessment service called [Cloud Assessments](https://www.cloudassessments.com/). I completed the offered set of practice tasks and loved the gamification part they embedded. Solving the real practical tasks within the AWS Console can help you if you had no previous AWS management activities.
+Linux Academy also had an assessment service called Cloud Assessments, now when LA merged with A Cloud Guru this is not available anymore. I completed the offered set of practice tasks and loved the gamification part they embedded. Solving the real practical tasks within the AWS Console can help you if you had no previous AWS management activities.
 
 > ![img](https://pbs.twimg.com/media/DcB2qEAWsAEM9bX.jpg)
 > <center><small>Cloud Assessments challenge you to solve different practice tasks for each major AWS service</center></small>
@@ -69,7 +69,6 @@ Now few posts on the Internet suggested to go over the FAQ section for each AWS 
 Its a wise move to explore how others mastered the exam and pick theirs preparation practices that might work for you as well. I found this two articles quite good and comprehensive, with lots of useful links and suggestions:
 
 * [My AWS Solution Architect Associate exam experience](https://www.viktorious.nl/2018/01/10/my-aws-solution-architect-associate-exam-experience/) by Viktorious
-* [Guide to Passing all 3 AWS Associate-level Certification Exams](https://medium.com/@annamcabee/guide-to-passing-all-3-aws-associate-level-certifications-73516bcef6e1) by Anna McAbee
 * [AWS CSA discussion board on A Cloud Guru](https://acloud.guru/forums/aws-certified-solutions-architect-associate/)
 
 ### Analyze the weak spots

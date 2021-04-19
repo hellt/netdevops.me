@@ -21,7 +21,7 @@ These sad facts pushed me to create a **rootifier** CLI script, that was convert
 
 <center>![rootifier](https://gitlab.com/rdodin/netdevops.me/uploads/29184e488b07d8b5efb77d367a9e41ce/image.png)</center>
 
-Now I decided to make a web service of that script, that is publicly available at https://rootifier.netdevops.me/
+Now I decided to make a web service of that script, that is publicly available at http://rootifier.netdevops.me/
 
 <!--more-->
 

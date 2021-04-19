@@ -49,7 +49,7 @@ Off we go looking for alternatives.
 ## 2 Macvtap
 Another approach that Michael tried when he was working on docker-topo was macvtap interface that looked promising on paper.
 
-![macvtap1](https://pbs.twimg.com/media/EuF4GgyXUAEZ3j5?format=jpg&name=large)
+![macvtap1](https://pbs.twimg.com/media/EuF4GgyXUAEZ3j5?format=jpg)
 
 And although
 

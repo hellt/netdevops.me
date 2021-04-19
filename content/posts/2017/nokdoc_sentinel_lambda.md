@@ -50,7 +50,7 @@ Multiple choices are exposed to you when choosing an instrument to configure & d
 
 * AWS Console (web)
 * AWS CLI
-* Multiple frameworks ([Serverless](https://serverless.com/), [Zappa](https://blog.zappa.io/), [Chalice](https://chalice.readthedocs.io/en/latest/index.html), [Pywren](http://pywren.io/))
+* Multiple frameworks ([Serverless](https://serverless.com/), [Chalice](https://chalice.readthedocs.io/en/latest/index.html), [Pywren](http://pywren.io/))
 
 While it might be good to feel the taste of a manual Lambda configuration process through the AWS Console, I decided to go "everything as a code" way and use the [Serverless](https://serverless.com/) framework to define, configure and deploy my first Lambda.
 

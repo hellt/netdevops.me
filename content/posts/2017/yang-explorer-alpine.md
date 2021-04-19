@@ -12,17 +12,16 @@ tags:
 - Alpine
 
 title: Yang Explorer in a docker container based on Alpine
-
 ---
 
-I [wrote about the Yang Explorer](http://noshut.ru/2017/01/yang-explorer-in-a-docker-container/) in a docker quite some time ago, Yang Explorer was v0.6 at that time. Back then the motivation to create a docker image was pretty simple -- installation was a pain in **v0.6**, it is still a pain, but the official version bumped to **0.8(beta)**.
+I wrote about the Yang Explorer in a docker quite some time ago, Yang Explorer was v0.6 at that time. Back then the motivation to create a docker image was pretty simple -- installation was a pain in **v0.6**, it is still a pain, but the official version bumped to **0.8(beta)**.
 
 So I decided to re-build [an image](https://hub.docker.com/r/hellt/yangexplorer-docker/), now using Alpine Linux as a base image to reduce the size.
 
 <!--more-->
 
 Just take a look how noob-ish I was to publish a `Dockerfile` like this:
-```
+```Dockerfile
 FROM ubuntu:14.04
 MAINTAINER Roman Dodin <dodin.roman@gmail.com>
 RUN DEBIAN_FRONTEND=noninteractive apt-get update; apt-get install -y python2.7 python-pip python-virtualenv git graphviz libxml2-dev libxslt1-dev python-dev zlib1g-dev
@@ -37,7 +36,7 @@ Several unnecessary layers, using Ubuntu as a base -- these are the Docker-novic
 
 Few things changed in the [Yang Explorer](https://github.com/CiscoDevNet/yang-explorer) regarding the setup process, now you do not need to install explicitly all the dependencies, they will be installed using the packaged `requirements.txt` file, so our Dockerfile could be as short as this:
 
-```
+```Dockerfile
 FROM alpine
 
 LABEL maintainer="dodin.roman@gmail.com, netdevops.me"
@@ -63,32 +62,25 @@ In the first `RUN` we write a layer with the tools that are needed to clone the 
 
 ![Layers disposition](https://lh3.googleusercontent.com/pIf91DS4P8xb3FFuqVxWIjH3VLS3xS6DXp3UXAK3uJCveF9olt-ICnRj6peqqDnIY2k_WH5JEcl6Zc4LdoA476baHWDAywZ2NiSMG8WfQDd1leycyhdqA38s2hjyeN16bX9VGuXfdlc=w676-h397-no)
 
-# Usage
+## Usage
 To use this image:
 
 1. Start the container
 
-    ```
+    ```shell
     docker run -p 8088:8088 -d hellt/yangexplorer-docker
     ```
 2. Navigate your flash-capable browser to `http://<ip_of_your_docker_host>:8088`
 
-# Differences with Robert Csapo image
-I outlined special aspects of Robert' image in the [original post](http://noshut.ru/2017/01/yang-explorer-in-a-docker-container). Main differences are in the size: 
+## Differences with Robert Csapo image
+Main differences are in the size: 
 
 * Compressed = 358Mb vs 588Mb
 * Uncompressed = 1.9Gb vs 2.51Gb
 
-# Links
+## Links
 
 * [My image on Docker Hub](https://hub.docker.com/r/hellt/yangexplorer-docker/)
-* [Original Post](http://noshut.ru/2017/01/yang-explorer-in-a-docker-container) about Yang Explorer in a container
 * [Robert' image on Docker hub](https://hub.docker.com/r/robertcsapo/yang-explorer/)
 * [Official Yang Explorer repo](https://github.com/CiscoDevNet/yang-explorer)
 
-> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/4).
-
-> If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
-> <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
-
-> <style>.bmc-button img{height: 20px !important;width: 20px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{padding: 7px 15px 7px 10px !important;line-height: 20px !important;text-decoration: none !important;display:inline-flex !important;color:#FFFFFF !important;background-color:#FF813F !important;border-radius: 5px !important;border: 1px solid transparent !important;padding: 7px 15px 7px 10px !important;font-size: 20px !important;letter-spacing:-0.08px !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#FFFFFF !important;}</style><link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/ntdvps"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px;font-size:14px !important;">For a coffee</span></a>

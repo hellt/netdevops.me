@@ -43,7 +43,8 @@ A classic, book-pictured network automation engineer is an all Python-shop custo
 Educating yourself on a different technology with a different set of the instruments and/or the views means a lot. Even by scratching the surface of the Javascript, its package managers and the front-end frameworks could make you better understand the pros and cons of the ecosystem you are in.
 
 # 2 Front-end & Javascript frameworks
-<center>![pic](https://gitlab.com/rdodin/pics/-/wikis/uploads/6e95f9e54f4062d13e314fc1b4d78266/image.png)</center>
+![pic](https://gitlab.com/rdodin/pics/-/wikis/uploads/6e95f9e54f4062d13e314fc1b4d78266/image.png)
+
 So how do one start if they want to learn any of that shiny front-end witchery given that there are so many frameworks around? In spite to answer this question I compiled the following list of options that when I approached the task of making a [`pycatjify`](https://pycatjify.netdevops.me) web service:
 
 1. **Frameworkless: bare HTML/CSS/JS**  

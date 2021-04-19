@@ -57,9 +57,8 @@ As to the Flask related resources I cherry-picked the following:
 
   1. [Famous Flask Mega Tutorial by Miguel Grinberg](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
   2. [Discover Flask](https://github.com/realpython/discover-flask) - A full season of youtube videos from Michael Herman
-  3. [Official documentation](http://flask.pocoo.org/docs/0.10/quickstart/) of course!
-  4. [Using AJAX requests with Flask](http://codehandbook.org/python-flask-and-jquery-ajax-post/) from codehandbook.com
-  5. Another good post on [AJAX+Flask interaction](http://www.giantflyingsaucer.com/blog/?p=4310) from giantflyingsaucer.com
+  3. [Official documentation](https://flask.palletsprojects.com/en/1.1.x/quickstart/#quickstart) of course!
+  4. Another good post on [AJAX+Flask interaction](http://www.giantflyingsaucer.com/blog/?p=4310) from giantflyingsaucer.com
 
 # Project structure overview
 
@@ -89,7 +88,7 @@ Although the comments above give enough information about the structure, let's g
 
 # Configuring Flask
 
-Once you have Flask installed and got familiar with its basics (either through official quick start guide or tons of tutorials) it is time to configure it. There are [several](http://flask.pocoo.org/docs/0.10/config/) [ways](https://exploreflask.com/configuration.html) to configure a Flask application. The basic one is to specify the configuration statements as the arguments to your `app` instance:
+Once you have Flask installed and got familiar with its basics (either through official quick start guide or tons of tutorials) it is time to configure it. There are [several](https://flask.palletsprojects.com/en/1.1.x/config/) [ways](https://exploreflask.com/configuration.html) to configure a Flask application. The basic one is to specify the configuration statements as the arguments to your `app` instance:
 
 ```python
 app = Flask(__name__)
@@ -114,7 +113,7 @@ But the methods discussed so far can't let you have different configurations for
 
 When I was choosing the configuration method for this app I followed a path which consists of these three key points:
 
-  1. creating configuration classes for different environments using inheritance (explained [here](http://flask.pocoo.org/docs/0.10/config/#development-production))
+  1. creating configuration classes for different environments using inheritance (explained [here](https://flask.palletsprojects.com/en/1.1.x/config/#development-production))
   2. choosing the right configuration class based on the current value of the environment variable
   3. storing environment variables in a file (`.env`) and parsing its contents for parameters ([more here](https://stackoverflow.com/questions/21538859/pycharm-set-environment-variable-for-run-manage-py-task/29546356#29546356))
 
@@ -289,7 +288,7 @@ Follow the [link](http://codepen.io/hellt/pen/PNJwxq) to see my script's page te
 
 ## Routes
 
-Flask uses [routes](http://flask.pocoo.org/docs/0.10/quickstart/#routing) to create URL's for the web pages. If we need to show the main page for example for the URL `abc.com` we need to define the root route - `/` - like this:
+Flask uses [routes](https://flask.palletsprojects.com/en/1.1.x/quickstart/#routing) to create URL's for the web pages. If we need to show the main page for example for the URL `abc.com` we need to define the root route - `/` - like this:
 
 ```python
 @app.route('/')
@@ -308,9 +307,9 @@ My `index()` function does one simple thing, it asks Flask to render specific te
 
 ## Templates
 
-You might guess that a [template](http://flask.pocoo.org/docs/0.10/quickstart/#rendering-templates) has to do something with the HTML content rendered by a browser. Yes, it has, but it is far more powerful than a static HTML file.
+You might guess that a [template](https://flask.palletsprojects.com/en/1.1.x/quickstart/#rendering-templates) has to do something with the HTML content rendered by a browser. Yes, it has, but it is far more powerful than a static HTML file.
 
-> Generating HTML from within Python is not fun, and actually pretty cumbersome because you have to do the HTML escaping on your own to keep the application secure. Because of that Flask configures the [Jinja2](http://jinja.pocoo.org/2/) template engine for you automatically.
+> Generating HTML from within Python is not fun, and actually pretty cumbersome because you have to do the HTML escaping on your own to keep the application secure. Because of that Flask configures the [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/) template engine for you automatically.
 
 So Flask's template is a Jinja2-based template which allows you to build **dynamic** web-pages instead of a static content. To render a template you can use the [`render_template()`](http://flask.pocoo.org/docs/1.0/api/#flask.render_template) method. All you have to do is to provide the name of the template and the variables you want to pass to the template engine.
 
@@ -349,11 +348,11 @@ And this is how it gets rendered:
 
 ![pic](https://img-fotki.yandex.ru/get/28982/21639405.11c/0_88709_76038afa_orig.png)
 
-[Dynamic version](http://codepen.io/hellt/pen/ONjwYY) of the index page can be found on the codepen as well. The trick behind that magic `template->rendered page` transformation is in the first two lines. This is [template inheritance](http://flask.pocoo.org/docs/0.10/patterns/templateinheritance/#template-inheritance) magic - `{% extends 'base.html' %}` - and that is what makes templating so powerful.
+[Dynamic version](http://codepen.io/hellt/pen/ONjwYY) of the index page can be found on the codepen as well. The trick behind that magic `template->rendered page` transformation is in the first two lines. This is [template inheritance](https://flask.palletsprojects.com/en/1.1.x/patterns/templateinheritance/) magic - `{% extends 'base.html' %}` - and that is what makes templating so powerful.
 
 ### Template inheritance
 
-Inheritance drill [described briefly](http://flask.pocoo.org/docs/0.10/patterns/templateinheritance/) in the official documentation and the main part of it sounds like this:
+Inheritance drill [described briefly](https://flask.palletsprojects.com/en/1.1.x/patterns/templateinheritance/) in the official documentation and the main part of it sounds like this:
 
 > Template inheritance allows you to build a base “skeleton” template that contains all the common elements of your site and defines **blocks** that child templates can override.
 
@@ -729,7 +728,7 @@ Dynamic template: http://codepen.io/hellt/pen/PNJwxq
 
 # Flask Blueprints
 
-Another project's major building block is [Blueprint](http://flask.pocoo.org/docs/0.10/blueprints/). Blueprints are important and actually making it possible to isolate various scripts in their appropriate sandboxes. And by sandbox I mean separate directory which hosts all the files linked to the script.
+Another project's major building block is [Blueprint](https://flask.palletsprojects.com/en/1.1.x/blueprints/). Blueprints are important and actually making it possible to isolate various scripts in their appropriate sandboxes. And by sandbox I mean separate directory which hosts all the files linked to the script.
 
 Take a look inside `scripts_bank` directory which will host all the scripts-related files:
 
@@ -862,7 +861,7 @@ def get_vmrc_links():
                         'pass': request.form['vmware_pass']}
 ```
 
-To get the contents arrived in `POST` I queried `form` data structure of the [request](http://werkzeug.pocoo.org/docs/0.11/wrappers/#werkzeug.wrappers.Request) object with appropriate keys. `form[]` object is an `ImmutableDict` data structure which contains all the data received in the `POST` method:
+To get the contents arrived in `POST` I queried `form` data structure of the [request](https://werkzeug.palletsprojects.com/en/1.0.x/wrappers/#) object with appropriate keys. `form[]` object is an `ImmutableDict` data structure which contains all the data received in the `POST` method:
 
 ```python
 ImmutableMultiDict([('vmware_pass', 'mypass'), ('vmware_ip_addr', '172.17.255.253'), ('vmware_login', 'root')])
@@ -901,7 +900,7 @@ vmrc_links = {'collected_vm_info': '',  ## collected results
               'error': ''}              ## errors
 ```
 
-Once I have a dict with results and errors to show I use Flask's [jsonify](http://flask.pocoo.org/docs/0.10/api/#flask.json.jsonify) function to represent my dict as JSON and compose a `Response` object to pass it further to the front-end:
+Once I have a dict with results and errors to show I use Flask's [jsonify](https://flask.palletsprojects.com/en/1.1.x/api/#flask.json.jsonify) function to represent my dict as JSON and compose a `Response` object to pass it further to the front-end:
 
 ```python
     <... omitted ...>

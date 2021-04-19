@@ -133,7 +133,7 @@ supported encodings:
 ```
 
 #### Flexible configuration options
-Due to a sheer amount of configuration options `gnmic` has, it can sometimes be tedious to specify all of them as CLI flags. For such cases we leveraged [viper](https://github.com/spf13/viper) and added support for [file-based configuration](https://gnmic.kmrd.dev/advanced/file_cfg/) that is consistent with both local and global flags. Its up to a user to choose the configuration file format: YAML, JSON, HCL - all are welcome!
+Due to a sheer amount of configuration options `gnmic` has, it can sometimes be tedious to specify all of them as CLI flags. For such cases we leveraged [viper](https://github.com/spf13/viper) and added support for [file-based configuration](https://gnmic.kmrd.dev/user_guide/configuration_file/) that is consistent with both local and global flags. Its up to a user to choose the configuration file format: YAML, JSON, HCL - all are welcome!
 
 ```yml
 $ cat ~/gnmic.yml
@@ -172,7 +172,7 @@ gnmic -a 10.1.0.11:57400 -u admin -p admin --insecure \
 ```
 
 #### Multiple subscriptions
-To expand on `gnmic` subscription capabilities and not limiting users to a single subscription per target we added a way to decouple subscriptions from the targets. The [Multiple subscriptions](https://gnmic.kmrd.dev/advanced/subscriptions/) feature allows to defined as many subscriptions as needed and later associate them to the targets:
+To expand on `gnmic` subscription capabilities and not limiting users to a single subscription per target we added a way to decouple subscriptions from the targets. The [Multiple subscriptions](https://gnmic.kmrd.dev/user_guide/subscriptions/) feature allows to defined as many subscriptions as needed and later associate them to the targets:
 
 ```yaml
 targets:
@@ -220,7 +220,7 @@ curl -sL https://github.com/karimra/gnmic/raw/master/install.sh | sudo bash
 ### Summary
 At the end of the day, I tend to believe that `gnmic` will successfully fill the void of standalone gNMI tools available to the public. Starting from a consistent CLI layer with all the gNMI RPCs nicely exposed and finishing with the proper docs and easy installation it checks all the marks I had in mind for a decent gNMI client, and hope it will be to community's satisfaction as well.
 
-Oh, and `gnmic` also has [collection capabilities](https://gnmic.kmrd.dev/advanced/multi_outputs/output_intro/) allowing you to export the metrics collected via gNMI to Kafka, NATS, Influx, Prometheus. But that is for another post.
+Oh, and `gnmic` also has [collection capabilities](https://gnmic.kmrd.dev/user_guide/outputs/output_intro/) allowing you to export the metrics collected via gNMI to Kafka, NATS, Influx, Prometheus. But that is for another post.
 
 ### Authors
 The team behind `gnmic` consists of [Karim Radhouani](https://github.com/karimra) and [Roman Dodin](https://twitter.com/ntdvps), but we are welcome contributors of all sorts. Be it code, documentation, bug reports or feature requests!

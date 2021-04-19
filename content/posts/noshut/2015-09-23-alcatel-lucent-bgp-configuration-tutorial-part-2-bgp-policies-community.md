@@ -1013,7 +1013,7 @@ To create a community statement that will match on a string that has multiple co
 
 ### Expressions
 
-Nokia SR-OS has the built-in expressions engine equipped with a set of most commonly used operators. The Expressions syntax is described in the [product docs](https://infoproducts.alcatel-lucent.com/html/0_add-h-f/93-0074-10-01/7750_SR_OS_Routing_Protocols_Guide/Route-Policy-CLI.html#1759415):
+Nokia SR-OS has the built-in expressions engine equipped with a set of most commonly used operators. The Expressions syntax is described in the Routing Protocols guide:
 
 ```txt
 community <name> expression <expression> [exact]
@@ -1070,7 +1070,7 @@ Let me show you how easy it is to filter the routes with a community string cont
 
 Here I defined the `Customer_2_from_West` community and used a simple regular expression for to match on the communities `65510:100` **or** `65510:2`. This regexp community string will match strings like  `65510:2` , `65510:2 65510:100` , `65510:2 63300:2 54487:200`
 
-Of course you can create a far more complex regexps, check the [table of the supported operators](https://infoproducts.alcatel-lucent.com/html/0_add-h-f/93-0074-10-01/7750_SR_OS_Routing_Protocols_Guide/route_policies.html#1330874) to build a regexp that meets your needs.
+Of course you can create a far more complex regexps, check the table of the supported operators of the Routing Protocols Guide to build a regexp that meets your needs.
 
 # Wrapping up
 

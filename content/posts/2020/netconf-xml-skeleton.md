@@ -66,7 +66,7 @@ As you can see, he leveraged [PYANG](https://github.com/mbj4668/pyang) and solve
 
 Lets solve our example question following this method and using Nokia SR OS router running 19.10.r2.
 
-First, lets enjoy the generated HTML views of Nokia SR OS models provided in the [nokia-yangtree repo](https://github.com/hellt/nokia-yangtree/tree/sros_19.10.r2), no need to generate anything yourself, we value your time and here we got you covered.  
+First, lets enjoy the generated HTML views of Nokia SR OS models provided in the [nokia-yangtree repo](https://github.com/hellt/nokia-yangtree/tree/sros_19.10.r6), no need to generate anything yourself, we value your time and here we got you covered.  
 Few clicks away and you drill down to the `user` list of the configuration model. Thats where our configured local users live.
 
 ![users_yang](https://gitlab.com/rdodin/pics/-/wikis/uploads/4e657129cac96662d75c2e5908cf0275/image.png)

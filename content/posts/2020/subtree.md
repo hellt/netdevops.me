@@ -13,14 +13,6 @@ If you pick a random NetEng and ask them if they love NETCONF they would likely 
 In this topic we will touch on the NETCONF's subtree filtering capabilities.
 <!--more-->
 
-**Table of contents**
-
-1. [Selection nodes](#1-selection-nodes)  
-   1.1 [Multiple Selection nodes](#1-1-multiple-selection-nodes)  
-   1.2 [Selection nodes in different containment nodes](#1-2-selection-nodes-in-different-containment-nodes)  
-2. [Content Match nodes](#2-content-match-nodes)  
-   2.1. [Multiple Content Match nodes](#2-1-multiple-content-match-nodes)  
-3. [Content Match and Selection nodes](#3-content-match-and-selection-nodes)
 
 NETCONF's [RFC 6241](https://www.rfcreader.com/#rfc6241) defines two methods for filtering contents on the server (router) side:
 

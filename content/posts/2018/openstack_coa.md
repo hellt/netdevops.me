@@ -11,7 +11,7 @@ tags:
 title: Prepping up for and passing the Certified Openstack Administrator Exam
 
 ---
-Shortly after I passed [AWS CSA](aws_csa_certification.md) exam I went on a hunt for the next certification to claim. Decided to tackle the [Openstack COA](https://www.openstack.org/coa) certification first saving the Docker/Kubernetes certification for a later occasion.
+Shortly after I passed [AWS CSA]({{<relref "aws_csa_certification.md">}}) exam I went on a hunt for the next certification to claim. Decided to tackle the [Openstack COA](https://www.openstack.org/coa) certification first saving the Docker/Kubernetes certification for a later occasion.
 
 There is a common joke floating around: _"Oh, is Openstack still a thing?"_ - yes, its pretty much still a thing, especially in the Telecom area where VMs are the only viable option for the most of the cases (think VNFs).  
 Openstack also powers our teams public SDN lab - [NuageX](https://nuagex.io) - that allows to provision a fully functional Nuage environment in a matter of minutes. So I wanted to get a better operational knowledge of Openstack to be able to support and tune the platform if necessary.
@@ -33,7 +33,7 @@ Before going into detailed explanation of the preparation steps and the question
 
 ## Preparation
 
-The exam is a relatively easy one; compared to [AWS CSA](aws_csa_certification.md) it has far less material to learn and being a scenario-based exam it doesn't expect you to memorize things as you can wander in the Horizon dashboard working out a correct solution for the task.
+The exam is a relatively easy one; compared to [AWS CSA]({{<relref "aws_csa_certification.md">}}) it has far less material to learn and being a scenario-based exam it doesn't expect you to memorize things as you can wander in the Horizon dashboard working out a correct solution for the task.
 
 > I actually liked the scenario-based approach more, it tests your hands-on skills rather than the ability to hold a lot of theory in your head (which wears off really fast anyway).
 

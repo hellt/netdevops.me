@@ -79,7 +79,7 @@ You can install it as a python package or as a pre-compiled binary, so the insta
 * filtering and sorting for videos in the playlists (if the playlist has more than one vide, i.e. Youtube playlist)
 * and **many** more.
 
-For example, to download a video that you would normally watch at http://example.com/vid/test a single CLI command is all it takes:
+For example, to download a video that you would normally watch at `http://example.com/vid/test` a single CLI command is all it takes:
 
 ```bash
 # name the output file test.<container_format>

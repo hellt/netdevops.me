@@ -33,7 +33,7 @@ But before we dive in and start throwing words like uwsgi, nginx and sockets let
 > * [**uwsgi**](https://uwsgi-docs.readthedocs.io/en/latest/Protocol.html): A fast, binary protocol implemented by the uWSGI server to communicate with a more full-featured web server. This is a wire protocol, not a transport protocol. It is the preferred way to speak to web servers that are proxying requests to uWSGI.
 
 ## Why do we even need nginx and uWSGI in front of Flask?
-That is the question everyone should ask. Main reason is performance, of course. The Flasks built-in web server is a development server by [Werkzeug](http://werkzeug.pocoo.org/docs/0.12/) which was not designed to be particularly efficient, stable, or secure.  
+That is the question everyone should ask. Main reason is performance, of course. The Flasks built-in web server is a development server by [Werkzeug](https://werkzeug.palletsprojects.com/) which was not designed to be particularly efficient, stable, or secure.  
 And by all means Werkzeug was not optimized to serve static content, that is why production deployments of Flask apps rely on the following stack:
 
 1. **Front-end web-server** (nginx or Apache): load balancing, SSL termination, rate limiting, HTTP parsing and serving static content.
@@ -213,7 +213,6 @@ First of all, there is no need to use the image from the docker hub, it was crea
     2. Enhance nginx config
 3. Copy your app to the `/app` subdirectory and you are good to build your image
 
-> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/5history).
 
 > If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
 > <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>

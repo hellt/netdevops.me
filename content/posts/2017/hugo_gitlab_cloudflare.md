@@ -76,14 +76,14 @@ There is a [comprehensive guide](https://docs.gitlab.com/ee/user/project/pages/)
 
 2. Find your `baseurl` and put it into `config.toml` of your Hugo site. A base URL depends on how did you create a GitLab project. Is it a project placed under you personal account or a under a group? All the options are outlined in the [official docs](https://docs.gitlab.com/ce/user/project/pages/getting_started_part_one.html#gitlab-pages-domain).
 
-3. Make a commit with the contents of your blog and push the changes to the master branch `git push origin master`. That will automatically trigger the `pages` job to build your site and start serving it from https://yournamespace.gitlab.io
+3. Make a commit with the contents of your blog and push the changes to the master branch `git push origin master`. That will automatically trigger the `pages` job to build your site and start serving it from `https://yournamespace.gitlab.io`
 
 4. At this point you are good to go, you have TLS certificate provided by Gitlab for `*.gitlab.io` namespace, your posts will be automatically generated once you push to `master` branch and your texts are in VSC. WIN! 
 
 You can stop here and start generate the content, but if you are up to custom domain or custom TLS certificate -> continue to read.
 
 ## Custom domain
-Having your site to render by _myawesome.blog_ URL instead of _gitlab.io_ is solid. For that you just need a `A` or `CNAME` DNS record provisioned as [explained in the docs](https://docs.gitlab.com/ce/user/project/pages/getting_started_part_three.html). I chose to delegate my **netdevops.me** domain to Cloudflare, since they provide a TLS certificate for free.
+Having your site to render by _myawesome.blog_ URL instead of _gitlab.io_ is solid. For that you just need a `A` or `CNAME` DNS record provisioned as [explained in the docs](https://docs.gitlab.com/ee/user/project/pages/custom_domains_ssl_tls_certification/). I chose to delegate my **netdevops.me** domain to Cloudflare, since they provide a TLS certificate for free.
 
 ## TLS (SSL) certificates
 Two common free options when we talk about TLS certs are LetsEncrypt and Cloudflare certs. I am no security expert to claim that one is better than other, I chose a path that is easier, which is [Cloudflare FlexSSL](https://www.cloudflare.com/ssl/) in my case.

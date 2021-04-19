@@ -275,14 +275,14 @@ This was a totally strange behavior for me to see, yet Cisco didn't brake any ru
 
 # And what about Alcatel-Lucent and Juniper?
 
-But there are other vendors who managed to distinguish between different network interfaces to prevent such a bad situation when adjacency seems to be formed yet no routes are present. And we start with Alcatel-Lucent&#8217;s SR-OS v12.0.R8 (If you are new to ALU routers, check this [OSPF configuration tutorial](http://noshut.ru/2015/06/alcatel-lucent-ospf-configuration-tutorial/)).
+But there are other vendors who managed to distinguish between different network interfaces to prevent such a bad situation when adjacency seems to be formed yet no routes are present. And we start with Alcatel-Lucent&#8217;s SR-OS v12.0.R8 (If you are new to ALU routers, check this [OSPF configuration tutorial]({{< ref "2015-06-22-alcatel-lucent-ospf-configuration-tutorial.md" >}})).
 
 <img class="aligncenter" src="http://img-fotki.yandex.ru/get/4314/21639405.11b/0_8372f_119bb606_L.png" alt="" width="500" height="291" /> 
 
 Network topology and routers configuration area the same. Booting up routers simultaneously and checking adjacency right after that several times:
 
 On R1:
-```
+```text
 *A:R1>config>router>ospf# /show router ospf neighbor
 
 ===============================================================================
