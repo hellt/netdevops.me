@@ -5,22 +5,13 @@ languageCode = "en-us"
 defaultContentLanguage = "en"
 title = "NetDevOps"
 theme = "uBlogger"
-googleAnalytics = "UA-101537614-1"
+
+[permalinks]
+  posts = "/:year/:title/"
 
 # [author]
-#   name = "Roman Dodin"
-#   bio = "Eagerness to learn & passion to share"
-#   job = "Network Automation @ Nokia"
-#   location = "Netherlands"
-#   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
-#   # gravatarEmail = "dodin.roman@gmail.com"
-#   # Your profile picture
-#   # Overwritten by your gravatar image if `author.gravatarEmail` is filled
-#   picture = "https://gitlab.com/rdodin/pics/-/wikis/uploads/95361847e46716d94cd8469ae33eeed1/avatar.png"
-#   # Your Twitter username without the @. E.g : thibaudlepretre
-#   twitter = "@ntdvps"
-#   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
-#   # googlePlus = "+ThibaudLepretre"
+#   name = "netdevops"
+
 
 [menu]
   [[menu.main]]
@@ -47,8 +38,25 @@ googleAnalytics = "UA-101537614-1"
 [markup]
   # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
   [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    lineNumbersInTable = true
     # false is a necessary configuration
     noClasses = false
+
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.renderer]
+      # whether to use HTML tags directly in the document
+      unsafe = true
 
 [params]
 # uBlogger theme version
@@ -58,6 +66,10 @@ googleAnalytics = "UA-101537614-1"
 
   # Your favicon path, default is "/favicon.png"
   favicon = "/images/ntdvps_ico64.png"
+
+  [params.page]
+    [params.page.code]
+      maxShownLines = 20
 
   [params.search]
     enable = true
@@ -80,6 +92,12 @@ googleAnalytics = "UA-101537614-1"
       appID = "H1AI8QKFEK"
       searchKey = "0544bc3c928ba0e387c3b3353112e43d"
 
+  [params.page.share]
+      enable = true
+      Twitter = true
+      Facebook = true
+      Linkedin = true
+
   # Footer config
   [params.footer]
     enable = true
@@ -90,11 +108,21 @@ googleAnalytics = "UA-101537614-1"
     # uBlogger NEW | 0.2.0 whether to show copyright info
     copyright = true
     # uBlogger NEW | 0.2.0 whether to show the author
-    author = true
+    author = false
     # Site creation time
     since = 2015
     # license info (HTML format is supported)
     license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+
+  [params.social]
+    GitHub = "hellt"
+    Twitter = "ntdvps"
+
+  [params.analytics]
+    enable = true
+    [params.analytics.google]
+      id = "UA-101537614-1"
+      anonymizeIP = false
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
