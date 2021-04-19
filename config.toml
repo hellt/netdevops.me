@@ -36,6 +36,7 @@ theme = "uBlogger"
 
 # Markup related configuration in Hugo
 [markup]
+  defaultMarkdownHandler = "goldmark"
   # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
   [markup.highlight]
     codeFences = true
@@ -57,6 +58,7 @@ theme = "uBlogger"
     [markup.goldmark.renderer]
       # whether to use HTML tags directly in the document
       unsafe = true
+      # xhtml = true
 
 [params]
 # uBlogger theme version
@@ -68,8 +70,16 @@ theme = "uBlogger"
   favicon = "/images/ntdvps_ico64.png"
 
   [params.page]
+    [params.page.toc]
+      auto = false
     [params.page.code]
       maxShownLines = 20
+
+  [params.page.library]
+      [params.page.library.css]
+        # located in "assets/"
+        someCSS = "drawio.css"
+        
 
   [params.search]
     enable = true
