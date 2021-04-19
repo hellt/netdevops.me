@@ -19,7 +19,7 @@ What was also quite common is to make a mistake (i.e. syntax one) in a single li
 
 These sad facts pushed me to create a **rootifier** CLI script, that was converting tree-like SROS config into flattented (aka rooted) fashion.
 
-<center>![rootifier](https://gitlab.com/rdodin/netdevops.me/uploads/29184e488b07d8b5efb77d367a9e41ce/image.png)</center>
+![rootifier](https://gitlab.com/rdodin/netdevops.me/uploads/29184e488b07d8b5efb77d367a9e41ce/image.png)
 
 Now I decided to make a web service of that script, that is publicly available at http://rootifier.netdevops.me/
 

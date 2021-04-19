@@ -18,7 +18,9 @@ A problem were hidden right between the moment you spawned `ssh` process in the 
 
 Consequently, I needed a way to ensure that the SSH service is ready before I try to consume it.
 
-<center>![scheme](https://gitlab.com/rdodin/netdevops.me/uploads/584a84f21b9736016c5c2b140f5fab58/image.png)</center>
+<p align=center>
+<img src="https://gitlab.com/rdodin/netdevops.me/uploads/584a84f21b9736016c5c2b140f5fab58/image.png"/>
+</p>
 
 
 <!--more-->
@@ -36,7 +38,10 @@ I found it sufficient to setup a timer-driven _while loop_ where Paramiko tries 
 * if the socket is open and SSH service responding on the remote part - **we are good to go**! This time still `paramiko.ssh_exception.SSHException` is emitted, but the error message would be _No authentication methods provided_.
 
 And that quite does the trick:
-<center>![gif](https://gitlab.com/rdodin/netdevops.me/uploads/744680ad94fe0d7fc6cbb3aaf475b400/wait_ssh.gif)</center>
+
+<p align=center>
+<img src="https://gitlab.com/rdodin/netdevops.me/uploads/744680ad94fe0d7fc6cbb3aaf475b400/wait_ssh.gif"/>
+</p>
 
 > If you like what I'm doing here and in a mood for sending a token of appreciation, you can leave a comment, or use one of the buttons below  
 > <iframe src="https://github.com/sponsors/hellt/button" title="Sponsor hellt" height="35" width="107" style="border: 0;"></iframe>
