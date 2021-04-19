@@ -86,7 +86,7 @@ enableEmoji = true
   [params.home]
     [params.home.profile]
       enable = true
-      avatarURL = "https://lh3.googleusercontent.com/7WHgMcKqco5ZJQNJ1qbVcooUuqxeZyr5ff66WR-PNZRlPruyIIWf910QpTR7UKyj39byluyWA6uR8xRq5x6_LCqHrXrsppP8NVwv8yPzlEc76LxwXJFTpu70zJbsRdwDNwoC7hWtlsEFCduraA3vzorodlQkXsgJ_TPjwLA71p0eQ1WfQ31iMTiqY2NpDCrzNAFLqGJiyj51qX86D2RKjkjVLltSiH_ZQdzc4Z0AVOJuWMJG2VFxHyEYDFVGBUm8-NsFQ5zYi5xEGFJqawARz6K_gJEz-3LENNv_gz4imRe_ovlXW4qS2khLd_aezm9si2SuTVNd5V5mNcir9DFtkEPqkx-5MxRyBHf7slUT6SOVLaWCDRViuo1uEl1xzWVTMh4VdBCQifb2cX8IGRsuvATnpiX6ytNa_ex6wTt-5iOF7BKjWEWPA1MITH_msDxbFhO6LCp6smqo8jJMrCbLEEeEeIlQEqfDZxVbiFu_YAmZNk2C2Sk4hsWOWcVO92jerEOYu6kR8fird3iAj0XLjIRkbVzRSvGRqgYnMrOHQ6BQGF-heIWC_Ek7VmQ_lzgr6bZyfo38XNonhJZQ0KQ4Hb7vTSV7ezr-te3BR9_mjHvUN-_P689vL1WN_g8hvkAOy9A7T7YWvqrb3pgAwz7-LkZEESe1xkEp7uHq9HZWogelPDjzpNsdd4NfPqwtdqmIjWVtOd8V9AgJ5_Dz7J-onwB7=s709-no?authuser=0"
+      avatarURL = "https://cdn.jsdelivr.net/gh/hellt/netdevops.me@master/static/images/me.jpeg"
       title = "Applying DevOps to networking"
       subtitle = "Hey, thanks for coming over. Here you'll find my notes and knowledge sharing on things around Network automation, k8s and public clouds, sprinkled with some software I occasionally write or contribute to."
       social = true
