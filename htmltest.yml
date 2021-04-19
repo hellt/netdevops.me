@@ -3,7 +3,7 @@
 DirectoryPath: ./public
 IgnoreURLs:
   - fonts.gstatic.com
-  - www.linkedin.com/in/rdodin/
+  - linkedin.com/in/
   - mdboostrap.com
   - goreleaser.com
   - pbs.twimg.com
