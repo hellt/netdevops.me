@@ -295,21 +295,20 @@ inet.3: 1 destinations, 1 routes (1 active, 0 holddown, 0 hidden)
                     > to 10.99.99.2 via ge-0/0/0.0, label-switched-path toPE1
 ```
 
-# BGP L3VPN terminology
+## BGP L3VPN terminology
 
 Before we dive deep into the BGP L3VPN configuration it is necessary to refresh on some basic theory. To get a deeper and broader knowledge on the following topic please consider Juniper's _JUNOS MPLS and VPNs student guide_ and [_Alcatel-Lucent's Service Routing Architect guide_](https://www.amazon.com/Alcatel-Lucent-Service-Routing-Architect-Self-Study/dp/111887515X).
 
-## VRFs
+### VRFs
 
 In order to maintain different customer's routes independently PE routers use separate logical routing tables called **Virtual Routing and Forwarding (VRF)**.
+{{< admonition type=info title="RFC 4364. VRFs: Multiple Forwarding Tables in PEs" open=false >}}
+Each PE router maintains a number of separate forwarding tables. One of the forwarding tables is the "default forwarding table". The others are "VPN Routing and Forwarding tables", or "VRFs".
 
-> **RFC 4364. VRFs: Multiple Forwarding Tables in PEs**  
+3.1. VRFs and Attachment Circuits<br /> Every PE/CE attachment circuit is associated, by configuration, with one or more VRFs. An attachment circuit that is associated with a VRF is known as a "VRF attachment circuit".
 
-> Each PE router maintains a number of separate forwarding tables. One of the forwarding tables is the "default forwarding table". The others are "VPN Routing and Forwarding tables", or "VRFs".
-
-> 3.1. VRFs and Attachment Circuits<br /> Every PE/CE attachment circuit is associated, by configuration, with one or more VRFs. An attachment circuit that is associated with a VRF is known as a "VRF attachment circuit".  
-> In the simplest case and most typical case, a PE/CE attachment circuit is associated with exactly one VRF. When an IP packet is received over a particular attachment circuit, its destination IP address is looked up in the associated VRF. The result of that lookup determines how to route the packet.
-
+In the simplest case and most typical case, a PE/CE attachment circuit is associated with exactly one VRF. When an IP packet is received over a particular attachment circuit, its destination IP address is looked up in the associated VRF. The result of that lookup determines how to route the packet.
+{{< /admonition >}}
 
 Provider Edge routers must have a VRF configured for each connected site. VRFs are totally separated in routers control plane by default, so we can depict VRFs as the routers on their own caged in a single hardware unit:
 
@@ -317,7 +316,7 @@ Provider Edge routers must have a VRF configured for each connected site. VRFs a
 
 VRFs also remain local to the corresponding hosting PE routers and their number representation or names are never propagated to the other PEs. In our example we have four VRFs in total, two VRFs (VRF Alcatel and VRF Juniper) per PE.
 
-## Route Distinguisher
+### Route Distinguisher
 
 Since one router can have many routing instances (VRFs) inside, it is necessary to help a router to distinct between the different routes in the different VRFs. It is highly likely that customers connected to a single PE will have overlapping IP addresses and this will potentially lead to troubles as the router won't know which customer a route belongs to.
 
@@ -327,8 +326,7 @@ I emulated this situation to help you better understand the problem; see, Junipe
 
 [Route Distinguisher](https://tools.ietf.org/html/rfc4364#section-4.2) (RD) comes to the rescue.
 
-> **RFC 4364. Route Distinguisher definition**
-
+> **RFC 4364. Route Distinguisher definition**  
 > An RD is simply a number, and it does not contain any inherent information; it does not identify the origin of the route or the set of VPNs to which the route is to be distributed. The purpose of the RD is solely to allow one to create distinct routes to a common IPv4 address prefix.
 
 ![pic](http://img-fotki.yandex.ru/get/15489/21639405.11c/0_86307_f6b5a984_orig.png)
@@ -348,29 +346,29 @@ A:PE1_ALU>config>service>vprn# route-distinguisher
                         ext-comm-val   - [0..4294967295]
                         4byte-asnumber - [1..4294967295]
 
-## EXAMPLE ##
+### EXAMPLE ##
 A:PE1_ALU>config>service>vprn# route-distinguisher 10.10.10.1:20
 ```
 
-## VPN-IPv4 routes
+### VPN-IPv4 routes
 
 A combination of a Route Distinguisher and an IPv4 route effectively produces what is called the [VPN-IPv4 route](https://tools.ietf.org/html/rfc4364#section-4.1). VPN-IPv4 routes are **12 byte** length (8b RD + 4b IPv4) addresses exchanged by MP-BGP speakers. PE routers compose VPN-IPv4 addresses and allocate MPLS labels for the routes before sending them to the MP-BGP neighbors. Consider the picture above to get a visual representation of an VPN-IPv4 route.
 
-## Route Targets
+### Route Targets
 
 So Route Distinguishers make every VPN-IPv4 route unique in a providers core, but we still need a mechanism to tell what VRF a single VPN-IPv4 route belongs to? We need a way to extend the VPN-IPv4 route with the information about which routing instance this route should be put into.
 
 [BGP community](https://netdevops.me/2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/) is a good way to solve this problem. For L3VPNs a specific [extended community](https://tools.ietf.org/html/rfc4360) was defined in [RFC 4364 Section 4.3.1](https://tools.ietf.org/html/rfc4364#section-4.3.1) called **Route Target**.
 
-> **RFC 4364. Route Target definition**
+{{< admonition type=info title="RFC 4364. Route Target definition" open=false >}}
+Every VRF is associated with one or more Route Target (RT) attributes. When a VPN-IPv4 route is created (from an IPv4 route that the PE has learned from a CE) by a PE router, it is associated with one or more Route Target attributes. These are carried in BGP as attributes of the route.
 
-> Every VRF is associated with one or more Route Target (RT) attributes. When a VPN-IPv4 route is created (from an IPv4 route that the PE has learned from a CE) by a PE router, it is associated with one or more Route Target attributes. These are carried in BGP as attributes of the route.
+Any route associated with Route Target T must be distributed to every PE router that has a VRF associated with Route Target T. When such route is received by a PE router, it is eligible to be installed in those of the PE's VRFs that are associated with Route Target T. (Whether it actually gets installed depends upon the outcome of the BGP decision process, and upon the outcome of the decision process of the IGP (i.e., the intra-domain routing protocol) running on the PE/CE interface.)
 
-> Any route associated with Route Target T must be distributed to every PE router that has a VRF associated with Route Target T. When such route is received by a PE router, it is eligible to be installed in those of the PE's VRFs that are associated with Route Target T. (Whether it actually gets installed depends upon the outcome of the BGP decision process, and upon the outcome of the decision process of the IGP (i.e., the intra-domain routing protocol) running on the PE/CE interface.)
+A Route Target attribute can be thought of as identifying a set of sites. (Though it would be more precise to think of it as identifying a set of VRFs.) Associating a particular Route Target attribute with a route allows that route to be placed in the VRFs that are used for routing traffic that is received from the corresponding sites.
 
-> A Route Target attribute can be thought of as identifying a set of sites. (Though it would be more precise to think of it as identifying a set of VRFs.) Associating a particular Route Target attribute with a route allows that route to be placed in the VRFs that are used for routing traffic that is received from the corresponding sites.
-
-> There is a set of Route Targets that a PE router attaches to a route received from site S; these may be called the "Export Targets". And there is a set of Route Targets that a PE router uses to determine whether a route received from another PE router could be placed in the VRF associated with site S; these may be called the "Import Targets". The two sets are distinct, and need not be the same. Note that a particular VPN-IPv4 route is only eligible for installation in a particular VRF if there is some Route Target that is both one of the route's Route Targets and one of the VRF's Import Targets.
+There is a set of Route Targets that a PE router attaches to a route received from site S; these may be called the "Export Targets". And there is a set of Route Targets that a PE router uses to determine whether a route received from another PE router could be placed in the VRF associated with site S; these may be called the "Import Targets". The two sets are distinct, and need not be the same. Note that a particular VPN-IPv4 route is only eligible for installation in a particular VRF if there is some Route Target that is both one of the route's Route Targets and one of the VRF's Import Targets.
+{{< /admonition >}}
 
 
 Usually the RTs are represented as `<AS Number of a client network>:<VRF ID>`:
@@ -389,11 +387,11 @@ Usually the RTs are represented as `<AS Number of a client network>:<VRF ID>`:
                         ext-comm-val   - [0..4294967295]
                         4byte-asnumber - [0..4294967295]
 
-## EXAMPLE ##
+### EXAMPLE ##
 *A:PE1_ALU>config>service>vprn$ vrf-target target:200:20
 ```
 
-# PE<->PE MP-BGP configuration
+## PE<->PE MP-BGP configuration
 
 First thing to accomplish in the L3VPN configuration is the BGP peering inside the provider's core network. We have two Provider Edge routers (PE) and one core provider (P) router in our simple network. Our business goal is to provide the L3VPN service to our beloved JUN and ALU customers. To do so, we need to configure BGP peering between all the PE routers involved in the L3VPN service setup, these two routers are PE1_ALU and PE2_JUN.
 
@@ -443,26 +441,26 @@ Support for the additional address families transforms a classical BGP to a fanc
 
 Both routers announces the capability to exchange **VPN Unicast IPv4** routes in the `BGP OPEN` messages. If a BGP peer sees this capability in an incoming OPEN message, it assumes that the neighbor speaks VPN IPv4 routes.
 
-# Configuring VRFs on PE1_ALU (SROS)
+## Configuring VRFs on PE1_ALU (SROS)
 
 So far we have configured PE-PE relationship which is a foundation for a working L3VPN service. Our next step is a VRF configuration which can be seen as a customers facing dedicated routers inside a singel PE router hardware unit. We will start with PE1_ALU and configure VRFs 20 and 30.
 
-## 1. Ports configuration
+### 1. Ports configuration
 
 At first we should ensure that customer facing ports operate in `access` mode.
 
 ```txt
-## customer router `CE1_ALU` connects to a PE via port 1/1/1
+### customer router `CE1_ALU` connects to a PE via port 1/1/1
 *A:PE1_ALU# configure port 1/1/1 shutdown
 *A:PE1_ALU# configure port 1/1/1 ethernet mode access
 *A:PE1_ALU# configure port 1/1/1 no shutdown
 
-## customer router `CE1_JUN` connects to a PE via port 1/1/3
+### customer router `CE1_JUN` connects to a PE via port 1/1/3
 *A:PE1_ALU# configure port 1/1/3 shutdown
 *A:PE1_ALU# configure port 1/1/3 ethernet mode access
 *A:PE1_ALU# configure port 1/1/3 no shutdown```
 ```
-## 2. Customers creation
+### 2. Customers creation
 
 SROS uses the concept of the `customers` which is similar to the tenants in a virtualization world. I will create two new customers (`Customer 1` is a default one) to map them to the customers we have in our network:
 
@@ -481,38 +479,38 @@ SROS uses the concept of the `customers` which is similar to the tenants in a vi
 ----------------------------------------------
 ```
 
-## 3. VRF configuration
+### 3. VRF configuration
 
 After that I create a VPRN service (which is a fancy SROS name for a L3VPN) for each customer:
 
 ```txt
-## create vprn service
+### create vprn service
 *A:PE1_ALU# configure service vprn 20 customer 20 create
 
-## give it a name
+### give it a name
 *A:PE1_ALU>config>service>vprn$ description "Juniper Site A"
 
-## create route-distinguisher for VRF 20
+### create route-distinguisher for VRF 20
 *A:PE1_ALU>config>service>vprn$ route-distinguisher 10.10.10.1:20
 
-## set route target for this VRF
-## here I configure the use of a single target 
-## for both import and export operations following this form <AS_Num>:<Service_Num>
+### set route target for this VRF
+### here I configure the use of a single target 
+### for both import and export operations following this form <AS_Num>:<Service_Num>
 *A:PE1_ALU>config>service>vprn$ vrf-target target:200:20
 
-## Create an interface in this VRF
+### Create an interface in this VRF
 *A:PE1_ALU>config>service>vprn$ interface toCE1 create
 *A:PE1_ALU>config>service>vprn>if$ address 10.20.99.0/31
 
-## map a port to this interface. SAP here goes for "Service Access Point"
+### map a port to this interface. SAP here goes for "Service Access Point"
 *A:PE1_ALU>config>service>vprn>if$ sap 1/1/3 create
 *A:PE1_ALU>config>service>vprn>if>sap$ back
 *A:PE1_ALU>config>service>vprn>if$ back
 
-## tell a router to resolve Next-Hop address in this VRF with MPLS tunnels
+### tell a router to resolve Next-Hop address in this VRF with MPLS tunnels
 *A:PE1_ALU>config>service>vprn$ auto-bind mpls
 
-## enable VPRN service
+### enable VPRN service
 *A:PE1_ALU>config>service>vprn$ no shutdown
 ```
 
@@ -534,17 +532,17 @@ A:PE1_ALU>config>service# info
 ----------------------------------------------
 ```
 
-## Configuring PE -> CE routing protocols
+### Configuring PE -> CE routing protocols
 
 Ok, our VRFs 20 and 30 are configured on PE1_ALU router and we have customers interfaces attached. What we need to do next is to configure a routing protocol which will propagate customers routes to the PE router. On PE1_ALU router we will use BGP as a routing protocol towards the CE routers, consequently CE routers will use BGP as well. Lets configure BGP instances for VRFs 20 and 30:
 
 BGP configuration for VRF 20:
 ```txt
 /configure service vprn 20 customer 20
-## specify AS number for BGP speaker in VRF 20
+### specify AS number for BGP speaker in VRF 20
             autonomous-system 100
 
-## configure BGP peer and use "as-override" technique
+### configure BGP peer and use "as-override" technique
             bgp
                 group "toCE"
                     as-override
@@ -560,14 +558,14 @@ BGP configuration for VRF 20:
 ----------------------------------------------
 ```
 
-### AS override
+#### AS override
 
 The `as-override` command under the BGP section is used to resolve the issue with AS-PATH loop prevention mechanism.  
 When a BGP UPDATE message goes from CE1_JUN over eBGP to PE1_ALU it has AS-PATH value of `200`. Then this UPDATE message traverses Service Provider's network and as it goes over eBGP session to CE2_JUN its AS-PATH value becomes `"100 200"`. But CE2_JUN is a part of AS `200` itself, so it will silently discard a route update with AS-PATH value containing its AS number (AS PATH loop prevention mechanism makes it so).
 
 `as-override` command placed under the BGP context of the receiving VRF on a PE router replaces the customers AS number with Service Providers own AS number, so AS-PATH string of `"100 200"` will become `"100 100"` and will be accepted by the CE router residing in AS 200 since no loop will be detected.
 
-### Export policies
+#### Export policies
 
 Note, that it is **mandatory** to create an export policy on SROS PE routes for incoming BGP-VPN routes to leave the VRF over the PE -> CE routing protocol to the CE router:
 
@@ -668,7 +666,7 @@ A:PE1_ALU>config>service# info
 ----------------------------------------------
 ```
 
-# Configuring VRFs on PE2_JUN (Juniper)
+## Configuring VRFs on PE2_JUN (Juniper)
 
 Juniper JUNOS does not use concept of network/access ports, thats why you deal with CE-facing interfaces just like you do with the normal ones:
 
@@ -682,20 +680,20 @@ Now the VRF part; VRF is called a routing-instance in JUNOS.
 ```txt
 [edit routing-instances]
 root@PE2_JUN# show | display set 
-## create a routing instance and set its type to VRF
-## in JUNOS its possible to set VRF name like 
-## set routing-instance "Juniper_Site_B" but we will use numerical id for consistency
+### create a routing instance and set its type to VRF
+### in JUNOS its possible to set VRF name like 
+### set routing-instance "Juniper_Site_B" but we will use numerical id for consistency
 set routing-instances 20 instance-type vrf
 
-## give VRF a description
+### give VRF a description
 set routing-instances 20 description "Juniper Site B"
 
-## provision interface to CE router, RT and RD
+### provision interface to CE router, RT and RD
 set routing-instances 20 interface ge-0/0/1.0
 set routing-instances 20 route-distinguisher 10.10.10.3:20
 set routing-instances 20 vrf-target target:200:20
 
-## and for VRF 30
+### and for VRF 30
 set routing-instances 30 description "Alcatel Site B"
 set routing-instances 30 instance-type vrf
 set routing-instances 30 interface ge-0/0/2.0
@@ -705,7 +703,7 @@ set routing-instances 30 vrf-target target:300:30
 
 VRF configuration on Juniper looks almost identical to Nokia. The major difference here is that you don't have to tell JUNOS to resolve VRF's next-hop address via MPLS tunnel. And you don't have to configure an export policy in case you are using eBGP as a PE-CE protocol. Juniper defaults to that behavior.
 
-## PE -> CE configuration on Juniper.
+### PE -> CE configuration on Juniper.
 
 Note, that with Juniper we omit the explicit AS number configuration under the BGP configuration. In that case the globally configured AS number will be used.
 
@@ -743,7 +741,7 @@ policy-options {
 Then configure PE-CE OSPF protocol with the export policy applied:
 
 ```txt
-## optionally set router-id for OSPF process to use
+### optionally set router-id for OSPF process to use
 routing-options {
     router-id 100.100.100.100;
 }
@@ -759,7 +757,7 @@ protocols {
     }
 }
 
-## DISPLAY SET
+### DISPLAY SET
 set routing-instances 30 routing-options router-id 100.100.100.100
 set routing-instances 30 protocols ospf export MP-BGP_to_CE_via_OSPF
 set routing-instances 30 protocols ospf area 0.0.0.0 interface ge-0/0/2.0 interface-type p2p```
@@ -809,7 +807,7 @@ root@PE2_JUN# show
 }
 ```
 
-# CE -> PE routing protocol configuration
+## CE -> PE routing protocol configuration
 
 Now it is time to connect our customers to the service provider's network via VRFs created earlier and finally add some VPN routes. CE routers completely unaware of a complex L3VPN configuration on the PE routers, what they need to do is just setup a routing protocol over which customers routes could be delivered to (and received from) the Service Provider. 
 
@@ -819,11 +817,11 @@ Starting with Juniper CE1_JUN and CE2_JUN that run eBGP with PE routers:
 CE1_JUN:
 ```txt
 root@CE1_JUN# show 
-## Last changed: 2015-10-28 17:40:05 UTC
+### Last changed: 2015-10-28 17:40:05 UTC
 version 14.1R1.10;
 <... omitted ...>
 
-## 1. configure PE-facing interface
+### 1. configure PE-facing interface
 interfaces {
     ge-0/0/0 {
         mac 50:01:00:06:00:02;
@@ -833,7 +831,7 @@ interfaces {
             }
         }
     }
-## 2. dont forget about loopback, this address will be exported to remote site
+### 2. dont forget about loopback, this address will be exported to remote site
     lo0 {
         unit 0 {
             family inet {
@@ -843,12 +841,12 @@ interfaces {
     }
 }
 
-## 3. AS number is a mandatory for eBGP session to run
+### 3. AS number is a mandatory for eBGP session to run
 routing-options {
     autonomous-system 200;
 }
 
-## 4. and a simple eBGP configuration
+### 4. and a simple eBGP configuration
 protocols {
     bgp {
         group toPE {
@@ -862,7 +860,7 @@ protocols {
     }
 }
 
-## 6. policy to export loopback address
+### 6. policy to export loopback address
 policy-options {
     prefix-list loopback {
         1.1.1.1/32;
@@ -881,10 +879,10 @@ policy-options {
 CE2_JUN:
 ```txt
 root@CE2_JUN# show 
-## Last changed: 2015-10-28 16:50:23 UTC
+### Last changed: 2015-10-28 16:50:23 UTC
 version 14.1R1.10;
 
-## 1. configure PE-facing interface
+### 1. configure PE-facing interface
 interfaces {
     ge-0/0/0 {
         unit 0 {
@@ -893,7 +891,7 @@ interfaces {
             }
         }
     }
-## 2. dont forget about loopback, this address will be exported to remote site
+### 2. dont forget about loopback, this address will be exported to remote site
     lo0 {
         unit 0 {
             family inet {
@@ -903,12 +901,12 @@ interfaces {
     }
 }
 
-## 3. AS number is a mandatory for eBGP session to run
+### 3. AS number is a mandatory for eBGP session to run
 routing-options {
     autonomous-system 200;
 }
 
-## 4. and a simple eBGP configuration
+### 4. and a simple eBGP configuration
 protocols {
     bgp {
         group toPE {
@@ -925,7 +923,7 @@ protocols {
     }
 }
 
-## 6. policy to export loopback address
+### 6. policy to export loopback address
 policy-options {
     prefix-list loopback {
         2.2.2.2/32;
@@ -949,7 +947,7 @@ CE1_ALU:
 A:CE1_ALU>config>router# info
 ----------------------------------------------
 
-## 1. Interfaces and AS Num config
+### 1. Interfaces and AS Num config
 
 #--------------------------------------------------
 echo "IP Configuration"
@@ -965,7 +963,7 @@ echo "IP Configuration"
         exit
         autonomous-system 300
 
-## 2. Policy for exporting loopback address
+### 2. Policy for exporting loopback address
 #--------------------------------------------------
 echo "Policy Configuration"
 #--------------------------------------------------
@@ -1020,7 +1018,7 @@ echo "IP Configuration"
         exit
         autonomous-system 300
 
-## we running OSPF as PE-CE protocol
+### we running OSPF as PE-CE protocol
 #--------------------------------------------------
 echo "OSPFv2 Configuration"
 #--------------------------------------------------
@@ -1039,7 +1037,7 @@ echo "OSPFv2 Configuration"
 ----------------------------------------------
 ```
 
-# Control plane walkthrough
+## Control plane walkthrough
 
 We are done with the configuration, all in all it was not a complex task, what is more important is to understand what's going on with control and data planes. I believe you will like this step-by-step walkthrough via every node in the network.
 
@@ -1050,18 +1048,18 @@ I will start with dissection of a control plane operation from the point where M
 
 [![l3_vpn_control_plane](http://img-fotki.yandex.ru/get/31082/21639405.11c/0_86308_2af39052_orig.png)](http://img-fotki.yandex.ru/get/31082/21639405.11c/0_86308_2af39052_orig.png)
 
-## Step 1
+### Step 1
 CE1_JUN router has an export policy `export_loopback` configured which is used by BGP to construct the BGP UPDATE message with `lo0` prefix as an NLRI.
 
-## Step 2
+### Step 2
 CE1_JUN sends a regular BGP UPDATE message to its eBGP peer PE1_ALU.
 
 [![l3vpn_control_plane](http://img-fotki.yandex.ru/get/17849/21639405.11c/0_86309_b4edb4e4_orig.png)](http://img-fotki.yandex.ru/get/17849/21639405.11c/0_86309_b4edb4e4_orig.png)
 
-## Step 3
+### Step 3
 PE1_ALU router receives this update via its interface `toCE1` configured in `vprn 20` context. PE1_ALU populates its VRF 20 with a route to `1.1.1.1/32` via `10.20.99.1`.
 
-## Step 4
+### Step 4
 
 PE1_ALU router has an established MP-iBGP session with PE2_JUN so it takes a BGP route from VRF 20 and automatically sends an MP-BGP UPDATE message to its peer. Note, that ALU routers will send MP-BGP update automatically only for the connected to VRF routes and the routes received via BGP. If we had OSPF between CE1 and PE1, we would need to configure an export policy to propagate this update over MP-BGP session.
 
@@ -1086,7 +1084,7 @@ In the end of the day, PE1_ALU's update reaches PE2_JUN since it has the IP dest
 
 Notice, that BGP updates traverse Service Provider's network in a form of the simple IP packets, MPLS is out of the picture at this moment. Service Provider's core router - P1_ALU - simply routes IP packets and has no take in BGP at all.
 
-## Step 5
+### Step 5
 PE2_JUN receives the BGP UPDATE with VPN-IPv4 route. Once this route passes validation checks (Nexhop resolvable, no AS Path loop) PE2 submits this route to a specific table named `bgp.l3vpn.0`. This table stores all BGP VPN routes, refer to this figure to examine some of its content:
 
 [![l3vpn_control_plane](http://img-fotki.yandex.ru/get/4121/21639405.11c/0_8630b_e7511a43_orig.png)](http://img-fotki.yandex.ru/get/4121/21639405.11c/0_8630b_e7511a43_orig.png)
@@ -1104,27 +1102,27 @@ PE2 extracts the routing information from this update an based on the Route Targ
 
 Remember that it is mandatory to have an active LSP to the remote PE, since we have to have an MPLS transport to the remote end to carry the data packets.
 
-## Step 6
+### Step 6
 Since we installed the route for the `1.1.1.1/32` IPv4 prefix into VRF 20 and we have an active eBGP peer in VRF 20, we should send an update for this IPv4 prefix to the CE2_JUN router to let the CE2 site to be aware of the remote prefix. This update goes as an ordinary eBGP update.
 
-## Step 7
+### Step 7
 CE2_JUN receives the BGP UPDATE and installs a route into the only table it has for IPv4 routes - `inet.0`.
 
 This completes Control Plane operation regarding the prefix `1.1.1.1/32`, same process goes for the other loopbacks and connected to VRFs link addresses for both Alcatel and Juniper customers.
 
-# Data plane walkthrough
+## Data plane walkthrough
 
 To complete this post we should examine the data plane operations. We will see how data packets destined to `1.1.1.1` propagate through the network using the labels allocated during the control plane operations.
 
 ![l3vpn_dataplane](http://img-fotki.yandex.ru/get/3708/21639405.11c/0_8630c_5f8e9edd_orig.png)
 
 
-## Step 1
+### Step 1
 CE2_JUN wants to send a data packet to CE1_JUN via L3VPN service provided by our network. CE2 has an active route in its route table `inet.0` that says that it can reach `1.1.1.1/32` via `10.20.99.2` address via the `ge-0/0/0` interface. CE2 has a MAC address for `10.20.99.2` so it constructs the whole frame and puts it on the wire.
 
 [![l3vpn_dataplane](http://img-fotki.yandex.ru/get/6416/21639405.11c/0_8630d_cdb63a28_orig.png)](http://img-fotki.yandex.ru/get/6416/21639405.11c/0_8630d_cdb63a28_orig.png)
 
-## Step 2
+### Step 2
 PE2_JUN receives the Ethernet frame on its interface `ge-0/0/1` which belongs to VRF 20, that is how PE2 decides to associate this packet with VRF 20. PE2 consults with the VRF 20 routing table and sees that it has to use the LSP `toPE1` to send the incoming data packet further.  
 Then PE2 gets MPLS label which it received earlier from its RSVP neighbor P1_ALU during the LSP signalization process.
 
@@ -1139,17 +1137,17 @@ Now PE2 has everything it needs:
 
 and thus it constructs a packet with two labels stacked and fires it off.
 
-## Step 3
+### Step 3
 P1_ALU is totally unaware of the whole services and customers mess, it just switches MPLS packets by replacing the incoming transport label with the outgoing one.
 
-## Step 4
+### Step 4
 PE1_ALU receives an MPLS packet from P1_ALU. It pops out the transport label (_fig. 4.1_) and examines the enclosed MPLS label. This label value `131068` was signalled by PE1_ALU via MP-BGP during the Control Plane operation. So PE1 knows that it has to pop this label and associate the enclosed packet with the VPRN 20 (VRF 20) (_fig. 4.2_)
 
 [![l3vpn_dataplane](http://img-fotki.yandex.ru/get/5907/21639405.11c/0_8630f_a746c430_orig.png)](http://img-fotki.yandex.ru/get/5907/21639405.11c/0_8630f_a746c430_orig.png)
 
 VRF's 20 routing table says that packets destined to `1.1.1.1` should be forwarded to `10.20.99.3` address (_fig. 4.3_), which is a connected network leading to CE1_JUN (_fig. 4.4_). PE1_ALU constructs the packet and moves it via Ethernet out of the 1/1/2 port (_fig. 4.5_).
 
-## Step 5
+### Step 5
 CE2_JUN receives an ordinary IP packet with a destination address matching its interface. It decapsulates ICMP echo request and sends back the echo reply.
 
 This concludes the control and data plane operations walk through. If you followed along the explanations and practiced the configuration steps, you should be in a good shape to implement the basic L3VPN services and also should have a pretty solid understanding of the service establishment mechanics.

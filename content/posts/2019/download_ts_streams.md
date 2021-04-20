@@ -3,7 +3,6 @@ title: How to download an M3U/M3U8 playlist (stream) without a special software
 date: 2019-06-20T10:00:07+00:00
 author: Roman Dodin
 draft: false
-comment_id: m3u8 download
 keys:
   - m3u8
   - video
@@ -29,7 +28,7 @@ The dynamic playlist format - M3U/M3U8 - is a way to tell the browser how to dow
 1. Get the m3u8 link
 2. Download every file from that playlist and glue them into a single video.
 
-# Getting the playlist URL
+## Getting the playlist URL
 Now the first part is easy, you go to the page where a vide player is rendered and search for the `m3u8` file using the developers tools console of your browser.
 
 ![m3u8](https://gitlab.com/rdodin/pics/-/wikis/uploads/d93e36091a2753714bdb6e56ba796a70/image.png)
@@ -50,8 +49,8 @@ https://manifest.prod.boltdns.net/...
 
 The first cropped link is for the playlist with 720x294 resolution, whereas the second one is a HQ version with "1200x490" stream. If you see that for some reason you are downloading the low quality stream, extract the HQ stream URL and use it instead of the master playlist URL.
 
-# Downloading the files
-## with VLC
+## Downloading the files
+### with VLC
 The title of this post says "... with no special software", yet we will use the [VLC](https://www.videolan.org/vlc/) player here which I deliberately categorize as a software that everyone can get on every platform, so its not a special software.
 
 What you need to do next is to choose **File -> Open Network** dialog and paste the URL of the m3u8 playlist from the prev. step. Now you can either play it in the VLC right away, or check the **Stream Output** checkbox and click **Settings**.
@@ -68,7 +67,7 @@ This will open a new dialog where you can choose:
 
 Click **Ok** and the files will start to download and encode in your resulting video container by the path you specified. This is not a particularly fast process, so just wait till the progress bar reaches its end and enjoy the video!
 
-## with youtube-dl
+### with youtube-dl
 The VLC-way is good for a one-time quick download, but if you have a list of playlists you want to download, then [youtube-dl](https://github.com/ytdl-org/youtube-dl/blob/master/README.md#readme) python tool is just unmatched. Judging by the name, the tool was developed for youtube downloads originally but outgrew it quickly enough to be a swiss knife for online video downloads.
 
 You can install it as a python package or as a pre-compiled binary, so the installation is really a breeze and won't take long. Additionally, the tool brings an endless amount of features:

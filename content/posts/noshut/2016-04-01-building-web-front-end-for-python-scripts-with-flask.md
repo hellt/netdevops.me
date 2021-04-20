@@ -35,9 +35,9 @@ By hitting `submit` data goes to the back-end part, where the chosen python scri
 
 Obviously, one will need some front-end technologies to build the web layer and some back-end to process the incoming data.
 
-# Tools & Technologies
+## Tools & Technologies
 
-## Front-end
+### Front-end
 
 To build a fairly fresh-looking (_fresh_ as in 2016yr), dynamic web view we need a web framework to leverage. I used [Bootstrap](http://getbootstrap.com) package (CSS and JS) as it is well documented and have tons of implementations and examples.
 
@@ -49,7 +49,7 @@ What tastes good with Bootstrap - [JQuery](http://jquery.com), of course. JQuery
   4. [Bootsnipp.com](http://bootsnipp.com/) - crowdsource collection of snippets written with Bootstrap. I grabbed my side menu from it. Another useful section from this site is [Form Builder](http://bootsnipp.com/forms).
   5. [Formden](https://formden.com/form-builder/) - another form builder.
 
-## Back-end
+### Back-end
 
 The heavy lifting in the back is done by the gorgeous [Flask](http://flask.pocoo.org/), which is a micro framework for writing web applications. It includes a web-server, [Jinja2](http://jinja.pocoo.org/docs/dev/) templating engine and lots of features to make back-end easy even for dummies like me.
 
@@ -60,7 +60,7 @@ As to the Flask related resources I cherry-picked the following:
   3. [Official documentation](https://flask.palletsprojects.com/en/1.1.x/quickstart/#quickstart) of course!
   4. Another good post on [AJAX+Flask interaction](http://www.giantflyingsaucer.com/blog/?p=4310) from giantflyingsaucer.com
 
-# Project structure overview
+## Project structure overview
 
 Having frameworks set and tools figured out I started to outline the project's high-level structure.
 
@@ -86,7 +86,7 @@ Although the comments above give enough information about the structure, let's g
   4. HTML pages are in the `templates` directory.
   5. And the pythonic scripts with all the relevant files (unique HTML templates for input forms, additional front-end Javascript code, etc) are living inside the `scripts_bank` directory.
 
-# Configuring Flask
+## Configuring Flask
 
 Once you have Flask installed and got familiar with its basics (either through official quick start guide or tons of tutorials) it is time to configure it. There are [several](https://flask.palletsprojects.com/en/1.1.x/config/) [ways](https://exploreflask.com/configuration.html) to configure a Flask application. The basic one is to specify the configuration statements as the arguments to your `app` instance:
 
@@ -243,7 +243,7 @@ class InvalidOperationException(Exception):
     pass
 ```
 
-# Setting up front-end
+## Setting up front-end
 
 Good, Flask app has been configured and is ready to render some pages, so let's go and prepare out front-end to display projects' web pages. Download [Bootstrap](http://getbootstrap.com), [JQuery](http://jquery.com), [Fontawesome](https://fortawesome.github.io/Font-Awesome/) and store theirs minified `min.css` and `min.js` artifacts in the `static` directory of the project. This is how it should look like:
 
@@ -274,7 +274,7 @@ Good, Flask app has been configured and is ready to render some pages, so let's 
 │       └── validator.min.js       # form validation JS code
 ```
 
-## Layout
+### Layout
 
 Before diving into HTML it is advised to think about pages layout. I recommend you to get familiar with [Bootstrap CSS rules](https://getbootstrap.com/css/) and choose a layout that fits your project. I decided to go with a 3+9 scheme. Three parts are for side menu and nine parts are for a content area with a navigation bar at the top of the page.
 
@@ -284,9 +284,9 @@ I composed a sketch of the page depicting how I would like to see my projects we
 
 Follow the [link](http://codepen.io/hellt/pen/PNJwxq) to see my script's page template on codepen and see how things interact. Do not worry if you can't pick rock solid layout right now, you will be able to modify it on-the-fly and decide what suits your needs better.
 
-# Flask routes & templates
+## Flask routes & templates
 
-## Routes
+### Routes
 
 Flask uses [routes](https://flask.palletsprojects.com/en/1.1.x/quickstart/#routing) to create URL's for the web pages. If we need to show the main page for example for the URL `abc.com` we need to define the root route - `/` - like this:
 
@@ -305,7 +305,7 @@ def index():
 
 My `index()` function does one simple thing, it asks Flask to render specific template - `index.html`.
 
-## Templates
+### Templates
 
 You might guess that a [template](https://flask.palletsprojects.com/en/1.1.x/quickstart/#rendering-templates) has to do something with the HTML content rendered by a browser. Yes, it has, but it is far more powerful than a static HTML file.
 
@@ -350,7 +350,7 @@ And this is how it gets rendered:
 
 [Dynamic version](http://codepen.io/hellt/pen/ONjwYY) of the index page can be found on the codepen as well. The trick behind that magic `template->rendered page` transformation is in the first two lines. This is [template inheritance](https://flask.palletsprojects.com/en/1.1.x/patterns/templateinheritance/) magic - `{% extends 'base.html' %}` - and that is what makes templating so powerful.
 
-### Template inheritance
+#### Template inheritance
 
 Inheritance drill [described briefly](https://flask.palletsprojects.com/en/1.1.x/patterns/templateinheritance/) in the official documentation and the main part of it sounds like this:
 
@@ -359,7 +359,7 @@ Inheritance drill [described briefly](https://flask.palletsprojects.com/en/1.1.x
 
 Apart from the official docs, you can watch [this video](https://www.youtube.com/watch?v=hNzruwVPtCE&feature=youtu.be) from the _&#8220;Discover Flask&#8221;_ series to better understand how does template inheritance work.
 
-### Main template
+#### Main template
 
 One of the best practices regarding template inheritance is to compose a `base template` or a layout for the whole site so every other template will inherit from it. My "main" template is called `base.html` and it describes the logical parts for each page in this project.
 
@@ -516,7 +516,7 @@ The main template consists of the static parts like Navbar, side menu, it also c
 
 I marked the lines on which child template insertion occurs. Once again, read the docs on templating, read some blogs and you will catch it quickly.
 
-### Child template
+#### Child template
 
 Once you have the base template figured out you are ready to create it's successors - child templates. A while back I showed you the `/templates/index.html` template where the following construct
 
@@ -529,7 +529,7 @@ Once you have the base template figured out you are ready to create it's success
 
 effectively told Flask to extend `base.html` content section with some code relevant to this particular `index.html` page.
 
-### Intermediate templates and multiple inheritances
+#### Intermediate templates and multiple inheritances
 
 It is also possible to inherit more than once. See what I did for the pages with actual python scripts input and output forms:
 
@@ -726,7 +726,7 @@ Rendered page:
 
 Dynamic template: http://codepen.io/hellt/pen/PNJwxq
 
-# Flask Blueprints
+## Flask Blueprints
 
 Another project's major building block is [Blueprint](https://flask.palletsprojects.com/en/1.1.x/blueprints/). Blueprints are important and actually making it possible to isolate various scripts in their appropriate sandboxes. And by sandbox I mean separate directory which hosts all the files linked to the script.
 
@@ -747,7 +747,7 @@ Take a look inside `scripts_bank` directory which will host all the scripts-rela
 
 It's the blueprints which allow us to modularize the app by storing some of it's components in the different directories and still be able to link them up to the main Flask app. See how elegantly JS code along with CSS styles needed only by this particular application `get_vmrc_links` found their's place in a separate directory - `/scripts_bank/vmware/get_vmrc_links/`!
 
-## Blueprint creation
+### Blueprint creation
 
 To create a Blueprint I placed this code in the `get_vmrc_links.py`:
 
@@ -764,7 +764,7 @@ When I created a blueprint I defined it's `static_url_path` to `/get_vmrc_links/
 
 Once we have Blueprint created we need to bind it to the route (line 4 in the snippet above). And again the route `/get_vmrc_links` will have it's root at the directory where Blueprint will be registered later.
 
-## Register a blueprint
+### Register a blueprint
 
 To register the blueprint navigate to the main `app.py` and add the following lines:
 
@@ -779,7 +779,7 @@ Registration is easy! Have you spotted the `url_prefix='/vmware'` part? This is 
   2. It's static directory path is `/get_vmrc_links/static` which turns to `/vmware + /get_vmrc_links/static == /vmware/get_vmrc_links/static`
   3. The Flask route `/get_vmrc_links` transforms to `/vmware/get_vmrc_links` and by following this URL the script's page will be rendered
 
-# Front-end<->back-end data exchange
+## Front-end<->back-end data exchange
 
 To pass data back and forth between front-end and back-end we need to:
 
@@ -788,7 +788,7 @@ To pass data back and forth between front-end and back-end we need to:
   3. **(@back-end)** receive data, make calculations, construct a response, send it
   4. **(@front-end)** receive a response and render it in the output form, handle errors
 
-## Serializing input data
+### Serializing input data
 
 Serializing is not hard at all. Since it is a front-end's task it is done by the JS code which is also stored in a separate file unique to this particular script `/scripts_bank/vmware/get_vmrc_links/static/get_vmrc_links.js`.
 
@@ -831,7 +831,7 @@ $(function() {
 
 String `data: $('form').serialize()` produces a string of [serialized](https://api.jquery.com/serialize/) data with all `<form>`'s input elements IDs and their values. Along with serialization task, this JS file contains additional things like showing "Loading" overlay and filling the `inputs` with the predefined data from `select` object.
 
-## Sending serialized data to the back-end
+### Sending serialized data to the back-end
 
 Serialized data goes via `POST` method to the back-end via an `url` you specify.
 
@@ -843,7 +843,7 @@ $.ajax({
             type: 'POST',
 ```
 
-## Receiving data by the back-end and processing
+### Receiving data by the back-end and processing
 
 To receive serialized data you need to create a `POST` requests handler:
 
@@ -887,7 +887,7 @@ vmrc_links['collected_vm_info'] += "Path       : " + vm_summary.config.vmPathNam
 
 See these `<pre>`, `<p>` and `<strong>` tags I used? It'd done exactly to get rich formatting.
 
-## Passing the results back to the front-end
+### Passing the results back to the front-end
 
 One of the goals of this project was to make script's output look more readable. Thanks to modern front-end techniques and frameworks you could render whatever/however you like, your skills are the limit. At this time, my scripts produce just some text which I can render in various ways with HTML. But how do I actually pass this data to the front-end engine and in a what form?
 
@@ -948,9 +948,9 @@ $(function() {
 
 On a successful return, I check if output has any errors and if it has - put an error message in the `#output_div` block. If things went smooth I put collected results in this block instead.
 
-# Adding new script is easy
+## Adding new script is easy
 
-## 1. Create the file structure
+### Create the file structure
 
 It's very easy to add a new script. Walk with me and see how easily I add completely separate script called `SAM-O XML API Tester`.
 
@@ -970,7 +970,7 @@ Do not forget to create empty `__init.py__` files inside directories of the scri
 │  ├── __init__.py
 ```
 
-## 2. Create HTML files
+### Create HTML files
 
 Now it's user-facing HTML template's turn. I created `sam-o_xml_api_tester.html` file in `SAM-O_XML_API_Tester/templates` dir leveraging sandbox environment. See, this makes individual script management very convenient, one directory stores em all.
 
@@ -1040,7 +1040,7 @@ noshut.ru
 {% endblock %}
 ```
 
-## 3. Create & register a Blueprint
+### Create & register a Blueprint
 
 Now it's time to write few lines for back-end part. Create a python file which will hold blueprint for this script we've been adding and back-end activities:
 
@@ -1074,11 +1074,11 @@ app.register_blueprint(sam_api_tester_bp, url_prefix='/5620sam')
 
 And you are good to go!
 
-# How to test PLAZA?
+## How to test PLAZA?
 
 Apart from traditional way of cloning a [repo](https://github.com/hellt/PLAZA) and building a virtual environment, you can use a [docker container](https://hub.docker.com/r/hellt/plaza-demo/).
 
-# What's next?
+## What's next?
 
 Tons of useful things are missing at the moment - no search, no active tags, no login-based system, no tests, etc. I will probably add some of this features later, but you are welcome to suggest, blame, and pull-request. Yeah, the code `as is` can be grabbed from [GitHub](https://github.com/hellt/PLAZA).
 
