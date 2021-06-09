@@ -259,3 +259,17 @@ func main() {
 	d.Close()
 }
 ```
+
+Output:
+```
+❯ go run main_fsm.go
+Version: B-20.10.R3
+Uptime: 8 days, 03:07:43.25 (hr:min:sec)
+```
+
+Easy-peasy! All thanks to the textFSM integration that scrapligo recently added!
+
+## PS
+Regardless which network/vendor/consulancy firm you employed with, you won't be able to avoid CLI parsing activities at all times. The legacy gear is out there, with no other management interface but SSH/SNMP.
+
+Before scrapligo it was quite tedious (I'd claim not worth it even) to automate network activities over SSH. Now the module packs almost everything you need to efficiently get going and write some nice automation programs or CLI tools.
