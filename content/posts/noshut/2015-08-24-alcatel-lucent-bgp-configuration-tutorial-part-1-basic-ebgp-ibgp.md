@@ -2076,10 +2076,3 @@ echo "BGP Configuration"
 
 exit all
 ```
-
-And for those of you who's motto is _"pcap or it didnt happen"_ I share the wireshark dumps for these links:
-
-  * [R1 - R3](https://drive.google.com/file/d/0BwGlWrU8lplrMkhiZUwxeVIyQmM/view?usp=sharing) (eBGP operation)
-  * [R2 - R4](https://drive.google.com/file/d/0BwGlWrU8lplrOTFZcnBZZkxPSkk/view?usp=sharing) (eBGP operation)
-  * [R1 - R5](https://drive.google.com/file/d/0BwGlWrU8lplrSE4xU2JQYi1hdVU/view?usp=sharing) (iBGP operation)
-

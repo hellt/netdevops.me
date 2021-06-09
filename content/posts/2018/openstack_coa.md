@@ -14,7 +14,7 @@ title: Prepping up for and passing the Certified Openstack Administrator Exam
 Shortly after I passed [AWS CSA]({{<relref "aws_csa_certification.md">}}) exam I went on a hunt for the next certification to claim. Decided to tackle the [Openstack COA](https://www.openstack.org/coa) certification first saving the Docker/Kubernetes certification for a later occasion.
 
 There is a common joke floating around: _"Oh, is Openstack still a thing?"_ - yes, its pretty much still a thing, especially in the Telecom area where VMs are the only viable option for the most of the cases (think VNFs).  
-Openstack also powers our teams public SDN lab - [NuageX](https://nuagex.io) - that allows to provision a fully functional Nuage environment in a matter of minutes. So I wanted to get a better operational knowledge of Openstack to be able to support and tune the platform if necessary.
+Openstack also powers our teams public SDN lab that allows to provision a fully functional Nuage environment in a matter of minutes. So I wanted to get a better operational knowledge of Openstack to be able to support and tune the platform if necessary.
 
 Disclaimer: I took the recently updated COA exam which is based on the Openstack Pike release, although I did not face any Pike-specific questions during the exam. This does not mean that the exam content will stay the same throughout the course evolution, so watch out for the updates.
 

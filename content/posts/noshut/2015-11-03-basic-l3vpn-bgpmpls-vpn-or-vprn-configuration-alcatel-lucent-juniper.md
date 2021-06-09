@@ -435,7 +435,7 @@ bgp {
 
 As you see, the only part which is related to L3VPN is this new VPN address family.
 
-Support for the additional address families transforms a classical BGP to a fancy Multi-Protocol BGP ([RFC 4760](https://tools.ietf.org/html/rfc4760)). Lets see how this family is communicated in the BGP messages ([wireshark dump](https://drive.google.com/file/d/0BwGlWrU8lplrWlRWdzNvMVdCMW8/view?usp=sharing)):
+Support for the additional address families transforms a classical BGP to a fancy Multi-Protocol BGP ([RFC 4760](https://tools.ietf.org/html/rfc4760)). Lets see how this family is communicated in the BGP messages:
 
 [![pic](http://img-fotki.yandex.ru/get/3913/21639405.11c/0_86304_6385a76b_orig.png)](http://img-fotki.yandex.ru/get/3913/21639405.11c/0_86304_6385a76b_orig.png)
 
