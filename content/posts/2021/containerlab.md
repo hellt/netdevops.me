@@ -13,7 +13,6 @@ keywords:
   - cisco
   - arista
 tags:
-keywords:
   - containerlab
   - srlinux
   - ceos
