@@ -98,7 +98,7 @@ The main goal of the portal is to introduce you to the SR Linux by means of the 
 
 The lab scenarios are deployed with [containerlab](https://containerlab.srlinux.dev) so both the tutorial authors and the readers follow along the same path and can reproduce the whole tutorial.
 
-We start with explaining how to actually [run SR Linux container](https://containerlab.srlinux.dev/get-started/) and build arbitrary topologies, and then offer you to follow one of the use-cases centric tutorials.
+We start with explaining how to actually [run SR Linux container](https://containerlab.srlinux.dev/quickstart/) and build arbitrary topologies, and then offer you to follow one of the use-cases centric tutorials.
 
 ### Not your usual tutorials
 One of the objectives for the tutorials that we put on this portal was to make them stand out, and this is achieved with the following:
@@ -123,7 +123,7 @@ One of the objectives for the tutorials that we put on this portal was to make t
 ## Always-ON SR Linux
 Although it is extremely easy to run SR Linux on your own system, it is always nice to have a system running on the Internet which you can access.
 
-Please welcome, an [**Always ON SR Linux instance**](https://learn.srlinux.dev/tutorials/alwayson/).
+Please welcome, an [**Always ON SR Linux instance**](https://learn.srlinux.dev/alwayson/).
 
 <div class="mxgraph" style="max-width:100%;border:1px solid transparent;margin:0 auto; display:block;" data-mxgraph="{&quot;page&quot;:1,&quot;zoom&quot;:2,&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;check-visible-state&quot;:true,&quot;resize&quot;:true,&quot;url&quot;:&quot;https://raw.githubusercontent.com/learn-srlinux/site/diagrams/alwayson&quot;}"></div>
 
