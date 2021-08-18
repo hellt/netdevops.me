@@ -1,0 +1,276 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Using scrapligo with kubectl exec |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="Using scrapligo with kubectl exec"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="Using scrapligo with kubectl exec"><meta property="og:description" content="As the networking industry is (slowly) moving towards forklifting networking functions to the cloud-native space we often become the witnesses of mixing decade old tools with cloud-native approaches and architectures.
+This post is about one such crazy mixture of using screen scraping library scrapligo with kubectl exec and docker exec commands.
+What and Why?I can imagine that for some readers the previous sentence makes no sense, why do you need a screen scraping library when working with standalone containers or kubernetes workloads?"><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2021/using-scrapligo-with-kubectl-exec/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-08-17T06:00:00+00:00"><meta property="article:modified_time" content="2021-08-18T10:16:16+03:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2021/using-scrapligo-with-kubectl-exec/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Using scrapligo with kubectl exec","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2021\/using-scrapligo-with-kubectl-exec\/"},"genre":"posts","keywords":"scrapli, docker, kubernetes, go","wordCount":1748,"url":"https:\/\/netdevops.me\/2021\/using-scrapligo-with-kubectl-exec\/","datePublished":"2021-08-17T06:00:00+00:00","dateModified":"2021-08-18T10:16:16+03:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg"><img loading=lazy decoding=async class=logo src=/android-chrome-192x192.png alt=/android-chrome-192x192.png title=/android-chrome-192x192.png></a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo><img loading=lazy decoding=async class=logo src=/android-chrome-192x192.png alt=/android-chrome-192x192.png title=/android-chrome-192x192.png></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>Using scrapligo with kubectl exec</li></ol></nav><h1 class="single-title flipInX">Using scrapligo with kubectl exec</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2021-08-17>2021-08-17</time>
+</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>1748 words</span>
+<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>9 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#what-and-why>What and Why?</a></li><li><a href=#scrapligo-and-kubectl-exec>scrapligo and <code>kubectl exec</code></a></li><li><a href=#lab-deployment>Lab deployment</a><ul><li><a href=#deploy-containers>Deploy containers</a></li><li><a href=#check-gnmi>Check gNMI</a></li></ul></li><li><a href=#code-walkthrough>Code walkthrough</a><ul><li><a href=#network-driver-creation>Network driver creation</a></li><li><a href=#setting-open-command>Setting Open command</a></li><li><a href=#configuring-certificates-and-gnmi>Configuring certificates and gNMI</a></li></ul></li><li><a href=#running-the-program>Running the program</a></li><li><a href=#summary>Summary</a></li></ul></nav></div></div><div style="margin:20px 0"><span class=post-update><span class=s>Updated on 2021-08-18</span></span></div><script type=text/javascript src=https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js async></script><p>As the networking industry is (slowly) moving towards forklifting networking functions to the cloud-native space we often become the witnesses of mixing decade old tools with cloud-native approaches and architectures.</p><p>This post is about one such crazy mixture of using screen scraping library <a href=https://github.com/scrapli/scrapligo target=_blank rel="noopener noreffer">scrapligo</a> with <code>kubectl exec</code> and <code>docker exec</code> commands.</p><h2 id=what-and-why class=headerLink><a href=#what-and-why class=header-mark></a>What and Why?</h2><p>I can imagine that for some readers the previous sentence makes no sense, why do you need a screen scraping library when working with standalone containers or kubernetes workloads? Shouldn&rsquo;t it be all covered with various APIs already?</p><p>It should, yes, but when networking workloads are being moved into <em>the cloud</em> it is more often than not results in a compromised architecture which is not fully aligned with the behavior of the containerized workloads.</p><ul><li><p>For example, when deploying a network function on kubernetes you might realize that the container image doesn&rsquo;t use the IP address that container runtime provisions for its <code>eth0</code> interface.</p></li><li><p>Or you might want to add some basic configuration to a Network OS running as a k8s pod without creating a service for its SSH/NETCONF/etc server.</p></li><li><p>Or you need to generate self-signed certificates on the NOS side to enable programmable access via gNMI or HTTPS.</p></li></ul><p>In all these cases you often resort to <code>kubectl/docker exec</code> commands to connect to a shell/CLI and do some CLI based configuration over that terminal interface. This makes <code>kubectl exec</code> pretty much a modern day Telnet.</p><p>Since these operations over a terminal interface allocated by <code>exec</code> commands are almost inevitable, it makes a lot of sense to be able to automate interactions over it.</p><h2 id=scrapligo-and-kubectl-exec class=headerLink><a href=#scrapligo-and-kubectl-exec class=header-mark></a>scrapligo and <code>kubectl exec</code></h2><p>Scrapligo, which is a <a href=https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/ target=_blank rel="noopener noreffer">Go version of the famous Scrapli library</a>, is now able to handle CLI based interactions over the terminal interface offered by <code>docker exec</code> or <code>kubectl exec</code> (or any other command that exposes a PTY actually).</p><div class=mxgraph style="max-width:100%;border:1px solid transparent;margin:0 auto;display:block" data-mxgraph='{"page":0,"zoom":2,"highlight":"#0000ff","nav":true,"check-visible-state":true,"resize":true,"url":"https://raw.githubusercontent.com/hellt/diagrams.net/master/scrapligo-exec.drawio"}'></div><p>This is especially cool in conjunction with <code>kubectl exec</code>, since you might have your networking workloads live in a remote cluster and without any k8s services you could get programmatic access to the shell/CLI of the Network OS to perform some bootstrap or validation.</p><p>An approach like that can hugely simplify the operations of networking workloads in the remote clusters, and believe me, the tasks that you can&rsquo;t carry out otherwise still exist&mldr;</p><h2 id=lab-deployment class=headerLink><a href=#lab-deployment class=header-mark></a>Lab deployment</h2><p>To demonstrate this new scrapligo capability I will use the following user story.</p><p>A user deployed a networking lab with Nokia SR Linux nodes on a remote k8s cluster. They intend to manage the nodes with gNMI interface, but in order to do that, a TLS certificate must be provisioned on a device which gNMI will use to secure the transport layer.</p><div class=mxgraph style="max-width:100%;border:1px solid transparent;margin:0 auto;display:block" data-mxgraph='{"page":1,"zoom":3,"highlight":"#0000ff","nav":true,"check-visible-state":true,"resize":true,"url":"https://raw.githubusercontent.com/hellt/diagrams.net/master/scrapligo-exec.drawio"}'></div><div class="details admonition info open"><div class="details-summary admonition-title admonition-title-none"></div><div class=details-content><div class=admonition-content>I am using SR Linux containers here because they are <a href=https://netdevops.me/2021/nokia-sr-linux-goes-public/ target=_blank rel="noopener noreffer">available for pulling for everyone</a>, but you can swap it with Arista cEOS or any other NOS easily.</div></div></div><p>For various reasons, it is not possible to configure an Ingress service to enable external access for SR Linux workload, but cluster management is possible via <code>kubectl</code>. So we could configure TLS certificates over <code>kubectl exec</code>, and that is what we will do, but programmatically.</p><p>To replicate this scenario we will deploy two docker containers on a host</p><ul><li>the container named <code>gnmi</code> that hosts the <a href=https://gnmic.kmrd.dev target=_blank rel="noopener noreffer"><code>gnmic</code></a> tool to test gNMI access</li><li>and <code>srlinux</code> container that is our Network OS of choice.</li></ul><p>On the docker host side we will run a <a href=https://github.com/hellt/scrapligo-pty-demo target=_blank rel="noopener noreffer"><code>scrapligo</code> program</a> that will provision TLS certificates and gNMI service over <code>docker exec</code> command (step 1).</p><p>Then container with <code>gnmic</code> inside will be able to use gNMI service on the srlinux container (step 2).</p><div class="details admonition info open"><div class="details-summary admonition-title admonition-title-none"></div><div class=details-content><div class=admonition-content>For simplicity we use <code>docker exec</code> and plain containers, but the same will work with <code>kubectl exec</code> without any deviations.</div></div></div><h3 id=deploy-containers class=headerLink><a href=#deploy-containers class=header-mark></a>Deploy containers</h3><p>First, start an srlinux container named <code>srlinux</code> in daemon mode, which is as easy as:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>docker run -t -d --rm --privileged <span class=se>\
+</span><span class=se></span>  -u <span class=k>$(</span>id -u<span class=k>)</span>:<span class=k>$(</span>id -g<span class=k>)</span> <span class=se>\
+</span><span class=se></span>  --name srlinux ghcr.io/nokia/srlinux <span class=se>\
+</span><span class=se></span>  sudo bash /opt/srlinux/bin/sr_linux
+</code></pre></td></tr></table></div></div><p>Then add gnmi container:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>docker run --rm -it --privileged <span class=se>\
+</span><span class=se></span>  --name gnmic ghcr.io/hellt/network-multitool <span class=se>\
+</span><span class=se></span>  bash
+</code></pre></td></tr></table></div></div><h3 id=check-gnmi class=headerLink><a href=#check-gnmi class=header-mark></a>Check gNMI</h3><p>To ensure we are not cheating, let&rsquo;s verify that gNMI service is not configured on SR Linux, and we can&rsquo;t use it.</p><p>Since SR Linux cli is a process inside the container, we can provide a CLI command to that process and get its output:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>docker <span class=nb>exec</span> srlinux sr_cli <span class=s2>&#34;info system gnmi-server&#34;</span>
+    system <span class=o>{</span>
+        gnmi-server <span class=o>{</span>
+        <span class=o>}</span>
+    <span class=o>}</span>
+</code></pre></td></tr></table></div></div><p>The gNMI config is indeed empty, as well as the TLS server profiles:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell><span class=c1># provides empty output</span>
+docker <span class=nb>exec</span> srlinux sr_cli <span class=s2>&#34;info system tls&#34;</span>
+    system <span class=o>{</span>
+        tls <span class=o>{</span>
+        <span class=o>}</span>
+    <span class=o>}</span>
+</code></pre></td></tr></table></div></div><h2 id=code-walkthrough class=headerLink><a href=#code-walkthrough class=header-mark></a>Code walkthrough</h2><p>Now it is time to run the Go program that will leverage scrapligo&rsquo;s abilities to execute commands over a terminal offered by <code>docker exec</code>.</p><p>On your host, clone <a href=https://github.com/hellt/scrapligo-pty-demo target=_blank rel="noopener noreffer">hellt/scrapligo-pty-demo</a> and explore its <code>main.go</code> file.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>git clone https://github.com/hellt/scrapligo-pty-demo.git
+</code></pre></td></tr></table></div></div><p>The whole program is contained within the <a href=https://github.com/hellt/scrapligo-pty-demo/blob/master/main.go target=_blank rel="noopener noreffer"><code>main.go</code></a> file, let&rsquo;s cover the main pieces of this short program.</p><h3 id=network-driver-creation class=headerLink><a href=#network-driver-creation class=header-mark></a>Network driver creation</h3><p>We first start by creating an SR Linux driver, using <a href=https://github.com/srl-labs/srlinux-scrapli target=_blank rel="noopener noreffer">srlinux-scrapli package</a> providing scrapligo support for SR Linux.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+	<span class=nx>contName</span> <span class=o>:=</span> <span class=s>&#34;srlinux&#34;</span>
+	<span class=nx>tlsProfileName</span> <span class=o>:=</span> <span class=s>&#34;demo&#34;</span>
+
+	<span class=nx>d</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>srlinux</span><span class=p>.</span><span class=nf>NewSRLinuxDriver</span><span class=p>(</span>
+		<span class=nx>contName</span><span class=p>,</span>
+		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthStrictKey</span><span class=p>(</span><span class=kc>false</span><span class=p>),</span>
+		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthBypass</span><span class=p>(</span><span class=kc>true</span><span class=p>),</span>
+	<span class=p>)</span>
+</code></pre></td></tr></table></div></div><p>We also set the container name our srlinux container has - <code>srlinux</code> - as well as set the name for the TLS profile we want to configure along the way.</p><p>The important part is <code>base.WithAuthBypass(true)</code>, this option disables the authentication that would normally happen should you try to SSH into the device. With <code>exec</code> command the authentication is not needed, as we execute the process directly inside the container.</p><div class="details admonition info open"><div class="details-summary admonition-title admonition-title-none"></div><div class=details-content><div class=admonition-content>Note, that no IP/DNS address is present, that is because we are not using SSH to access the node, instead we provide a container name that we will refer later within <code>docker exec</code> command.</div></div></div><h3 id=setting-open-command class=headerLink><a href=#setting-open-command class=header-mark></a>Setting Open command</h3><p>When we initialized our Network Driver we implicitly said to scrapligo that we would like to use the <code>System</code> transport.</p><p>The way <code>System</code> transport works is that it calls <code>ssh</code> program on your host and then works with the pseudo terminal the openssh offers.</p><p>In <code>docker exec</code> case what we need to do is to actually overwrite the default command that is used to call the <code>ssh</code> program and tell scrapligo to use <code>docker exec</code> instead. This is how its done:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=nx>transport</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>d</span><span class=p>.</span><span class=nx>Transport</span><span class=p>.(</span><span class=o>*</span><span class=nx>transport</span><span class=p>.</span><span class=nx>System</span><span class=p>)</span>
+<span class=nx>transport</span><span class=p>.</span><span class=nx>ExecCmd</span> <span class=p>=</span> <span class=s>&#34;docker&#34;</span>
+<span class=nx>transport</span><span class=p>.</span><span class=nx>OpenCmd</span> <span class=p>=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;exec&#34;</span><span class=p>,</span> <span class=s>&#34;-u&#34;</span><span class=p>,</span> <span class=s>&#34;root&#34;</span><span class=p>,</span> <span class=s>&#34;-it&#34;</span><span class=p>,</span> <span class=nx>contName</span><span class=p>,</span> <span class=s>&#34;sr_cli&#34;</span><span class=p>}</span>
+</code></pre></td></tr></table></div></div><p>Notice, that we simply state the CLI command that you would normally use in your terminal. That is exactly how <code>System</code> transport works, it calls the specified command an expects to be able to connect a pseudo terminal to the called process.</p><h3 id=configuring-certificates-and-gnmi class=headerLink><a href=#configuring-certificates-and-gnmi class=header-mark></a>Configuring certificates and gNMI</h3><p>The rest of the code is not interesting at all, as all that happens next is just some tinkering with CLI commands to tell SR Linux to generate TLS certificates and use them for gNMI.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=nx>err</span> <span class=p>=</span> <span class=nx>srlinux</span><span class=p>.</span><span class=nf>AddSelfSignedServerTLSProfile</span><span class=p>(</span><span class=nx>d</span><span class=p>,</span> <span class=nx>tlsProfileName</span><span class=p>,</span> <span class=kc>false</span><span class=p>)</span>
+<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+	<span class=nx>os</span><span class=p>.</span><span class=nf>Exit</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+<span class=p>}</span>
+
+<span class=nx>d</span><span class=p>.</span><span class=nf>AcquirePriv</span><span class=p>(</span><span class=s>&#34;configuration&#34;</span><span class=p>)</span>
+
+<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Enabling gNMI...&#34;</span><span class=p>)</span>
+<span class=nx>gnmiCfg</span> <span class=o>:=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span>
+	<span class=s>&#34;set / system gnmi-server admin-state enable&#34;</span><span class=p>,</span>
+	<span class=s>&#34;set / system gnmi-server timeout 7200&#34;</span><span class=p>,</span>
+	<span class=s>&#34;set / system gnmi-server rate-limit 60&#34;</span><span class=p>,</span>
+	<span class=s>&#34;set / system gnmi-server session-limit 20&#34;</span><span class=p>,</span>
+	<span class=s>&#34;set / system gnmi-server network-instance mgmt admin-state enable&#34;</span><span class=p>,</span>
+	<span class=s>&#34;set / system gnmi-server network-instance mgmt use-authentication true&#34;</span><span class=p>,</span>
+	<span class=s>&#34;set / system gnmi-server network-instance mgmt port 57400&#34;</span><span class=p>,</span>
+	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Sprintf</span><span class=p>(</span><span class=s>&#34;set / system gnmi-server network-instance mgmt tls-profile %s&#34;</span><span class=p>,</span> <span class=nx>tlsProfileName</span><span class=p>),</span>
+	<span class=s>&#34;commit save&#34;</span><span class=p>,</span>
+<span class=p>}</span>
+
+<span class=nx>_</span><span class=p>,</span> <span class=nx>err</span> <span class=p>=</span> <span class=nx>d</span><span class=p>.</span><span class=nf>SendConfigs</span><span class=p>(</span><span class=nx>gnmiCfg</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div><h2 id=running-the-program class=headerLink><a href=#running-the-program class=header-mark></a>Running the program</h2><p>Now all is ready to run that program that should result in configuring the TLS certs and gNMI service over <code>docker exec</code> on srlinux container.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>❯ go run main.go
+Configuring TLS certificate...
+Enabling gNMI...
+</code></pre></td></tr></table></div></div><p>Let&rsquo;s see if TLS certs are now in place:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>❯ docker exec srlinux sr_cli &#34;info system tls&#34;
+    system {
+        tls {
+            server-profile demo {
+                key $aes$7PkycPYrUtfg=$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
+                certificate &#34;-----BEGIN CERTIFICATE-----
+MIIE+zCCAuOgAwIBAgIUPydqw851/QfI/nSER+MYsD457egwDQYJKoZIhvcNAQEL
+BQAwDTELMAkGA1UEBhMCVVMwHhcNMjEwODE3MTQ1MjQzWhcNMjIwODE3MTQ1MjQz
+WjANMQswCQYDVQQGEwJVUzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB
+AM1wPwXpvoakWZFhtzrBVJ1qsO0qmsdEzZJBeZ0PQjL9xkM5JsS/rrybPXu5WNqa
+dWMLB3OtWLuaJ+uchdt0rF1os6ALsNlHl4cZyrU2b+0tZkF+E7q/nz0E0NSjoT9O
+U9Si10eWwRj1jI/DsUwJr+d9lDtjHGWG7SquF7b8423pDlhSrdtSTXb2Eh8g2Yrg
+fKwvoqDsMrnLN4dtYb192NpjKo6SJFJozzrweICVqdNKcx5BaUredxA5FpdIZOmQ
+Ec5K9eEBxpxAmmXoW1U1GEAUiqf9diJ6HPw5sXltjj87Fxher8NnT5R0bj0HlctY
+KM+RWMxJzKZqs/FWGdpnti71v1bynT/O8LUiULk/6Ms1bSS1pe9sd3Co9HiZLnp1
+LWTGFAmtjpFYq3lXYql/rwx4v9xqSVqMLyjDtVRXDxjaVLFNyQZsR4U+nlJ6tq6v
+DIYj6h05MBAejXIo7YeEUkTZJDL7+cHgJU6YjPQKDw3p9keLJsPYA62AKikgnAfX
+PAYll7kZxNT/rGM5emj0Kkr3cgJY22bowqvo36/GcJrte+It/27IwE5Lb53PD5BT
+DiBo21BCYPFe8qX2dN10vDAm08naD59vA68FfmBXhM6voRGGcovK6itRuR6xSJWX
+TRI4kP+E+9sGiGX5rMlWX1PjATWx+ygqLIfBxLMtFyhbAgMBAAGjUzBRMB0GA1Ud
+DgQWBBTcUql90C5AYyryIncoCdOwvGPcxzAfBgNVHSMEGDAWgBTcUql90C5AYyry
+IncoCdOwvGPcxzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQBo
+4Lr2gJQBQukNwEr8fSZNNhvuveo69nOvQRbQbAaMbWtyZlL4LKIfOg5vh6aD7Lcr
+WbQK+4xNwvFoyKwa3DTqYUu2xO8DKPbP+Fnfv3WP4geYc3hexsjveE+64oAM/Te3
+pzSW3bx1gLgS3LCRF8NT1ZBP+xwfs57tAXypoSbLr8y35cynFQkgd3Phwb6koUxg
+j5OrsTrf8hOMvigJ6dSiwGwYZ77kyDsoHdQTaoQQoxhdz8RZWbvCr1JuCMXfqCSg
+J1biwqTF8mpJ0EGUSlz2D1RKnxjsKZ5EgZ3X0s2v23A4GiMqCJDEyAA+rFzCq/ov
+PmuNAXsioMdPk6C2VMNzyxq2GCSTweJnSMa+jpk/WkQok39jnx4kW7LoW555cT3+
+weuT1pK1Kg1z1S1ytkn7q+AjNfaYZgRtKQ/FWaww97LCXrEoZQw0VMiuhTxFajyJ
+iv5a6771qvnDbWSkZFqL08PU/24m6OrpNOfXzp9KMYBi7O83flCQbuvnpdAlDOEA
+WyNOXHiIQ+jrfETSCWwD2ncKeucGlZqj3uZk1n+yEdMLuoFzOKfLg+OG5Lx+zU2D
+lZ5hmj9IiQ7NSDXbSnDTUJ56XbKx92kkVOdKAKhML8mgtLFJMK2fy5K3ahinoLOK
+8k4fIE+zVn7ld/LLf7MXdh1SvFLOF4/kxKUw9pRoEQ==
+-----END CERTIFICATE-----&#34;
+                authenticate-client false
+            }
+        }
+    }
+</code></pre></td></tr></table></div></div><p>And gNMI server has been configured to use the <code>tls-profile</code> that the program created:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>❯ docker exec srlinux sr_cli &#34;info system gnmi-server&#34;
+    system {
+        gnmi-server {
+            admin-state enable
+            timeout 7200
+            rate-limit 60
+            session-limit 20
+            network-instance mgmt {
+                admin-state enable
+                use-authentication true
+                port 57400
+                tls-profile demo # &lt;- references the created TLS profile which has the generated cert/key
+            }
+        }
+    }
+</code></pre></td></tr></table></div></div><p>All points out that we can now use gNMI service with a secured transport. To check that, let&rsquo;s go back to our gnmic container that we launched and try and get some data via gNMI.</p><div class="details admonition info open"><div class="details-summary admonition-title admonition-title-none"></div><div class=details-content><div class=admonition-content><p>Before doing that, we need to see which IP address the srlinux has on its management interface. It can be queried with the following show command:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>❯ docker exec srlinux sr_cli &#34;show interface mgmt0.0&#34;
+===============================================================
+  mgmt0.0 is up
+    Network-instance: mgmt
+    Encapsulation   : null
+    Type            : None
+    IPv4 addr    : 172.17.0.2/16 (dhcp, preferred)
+    IPv6 addr    : fe80::42:acff:fe11:2/64 (link-layer, preferred)
+===============================================================
+</code></pre></td></tr></table></div></div></div></div></div><p>Now in the bash shell of the gnmic container, craft the <a href=https://gnmic.kmrd.dev target=_blank rel="noopener noreffer"><code>gnmic</code></a> command to get some data over gNMI:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>gnmic -a 172.17.0.2 -u admin -p admin --skip-verify -e json_ietf \
+      get --path /system/information/version
+</code></pre></td></tr></table></div></div><p>and that returns the version of the SR Linux NOS, yay!</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>[
+  {
+    &#34;timestamp&#34;: 1629268834502587033,
+    &#34;time&#34;: &#34;2021-08-18T06:40:34.502587033Z&#34;,
+    &#34;updates&#34;: [
+      {
+        &#34;Path&#34;: &#34;srl_nokia-system:system/srl_nokia-system-info:information/version&#34;,
+        &#34;values&#34;: {
+          &#34;srl_nokia-system:system/srl_nokia-system-info:information/version&#34;: &#34;v21.6.1-250-g433be28615&#34;
+        }
+      }
+    ]
+  }
+]
+</code></pre></td></tr></table></div></div><h2 id=summary class=headerLink><a href=#summary class=header-mark></a>Summary</h2><p><code>kubectl exec</code> is the modern day&rsquo;s Telnet, it allows to get terminal access to applications running in k8s cluster, without having network access exposed on the workloads themselves.</p><p>Scrapligo (and later scrapli) allows us to programmatically use this terminal interfaces exposed by commands like <code>kubectl exec/docker exec/etc</code> to configure/interrogate the workloads over this OOB character based interface.</p><p>The approach demonstrated above is especially useful in the current days when networking workloads may still require some bootstrapping steps in order to come up ready to be managed.</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2021/using-scrapligo-with-kubectl-exec/ data-title="Using scrapligo with kubectl exec" data-via=ntdvps data-hashtags=scrapli,docker,kubernetes,go><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2021/using-scrapligo-with-kubectl-exec/ data-hashtag=scrapli><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2021/using-scrapligo-with-kubectl-exec/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/scrapli/ class=tag>scrapli</a><a href=/tags/docker/ class=tag>Docker</a><a href=/tags/kubernetes/ class=tag>kubernetes</a><a href=/tags/go/ class=tag>go</a></div></div></footer></div><div id=toc-final></div></div></article><aside class=article-post><div class="content-block content-block-position block-donate"><div class=post><div class=title><div style=text-align:center><svg width="90" height="90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M376 30c-27.783.0-53.255 8.804-75.707 26.168-21.525 16.647-35.856 37.85-44.293 53.268-8.437-15.419-22.768-36.621-44.293-53.268C189.255 38.804 163.783 30 136 30 58.468 30 0 93.417.0 177.514c0 90.854 72.943 153.015 183.369 247.118l62.099 53.414C248.38 480.596 252.12 482 256 482s7.62-1.404 10.532-3.953l62.111-53.425C439.057 330.529 512 268.368 512 177.514 512 93.417 453.532 30 376 30z"/></svg></div><div style=text-align:center;margin-top:20px><span class=title>If any of my work was helpful, you can:</span></div></div><div class=donate-text><ul><li>✉️ Share this post with your colleagues</li><li>💬 Comment, ask questions and report any issues/typos found</li><li>💰 Make a one-time or recurring donation to support my work</li></ul></div><div class=donate-button><a href=https://github.com/sponsors/hellt class="button button-big button-white">Donate</a></div></div></div></aside><section class="page single comments content-block-position"><h1 class=display-hidden>Комментарии</h1><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></section></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2021</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},comment:{utterances:{darkTheme:"github-dark",issueTerm:"pathname",label:"comment",lightTheme:"github-light",repo:"hellt/netdevops.me"}},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>
