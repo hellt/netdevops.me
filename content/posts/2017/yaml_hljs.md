@@ -33,7 +33,7 @@ Look at this greyish snippet, looks ugly.
       include_vars: main.yml
 ```
 
-Luckily, we can add _custom_ languages using [Cloudflare CDN collection](https://cdnjs.com/libraries/highlight.js/) of pre-built packages.
+Luckily, we can add _custom_ languages using [Cloudflare CDN collection](https://cdnjs.com) of pre-built packages.
 
 To do so, add [this config portion](https://gitlab.com/rdodin/netdevops.me/commit/d26866ee4b21f7ad8a590e466f92354487ace6ed) to your Hugo' `config.toml`:
 ```ini
