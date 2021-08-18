@@ -271,7 +271,7 @@ Now let me zip this all to a single sentence:
 
 > Cisco routers successfully form neighbor relationships even if OSPF interfaces configured with different types, however no OSPF routes will be installed into routing tables since OSPF database information is inconsistent.
 
-This was a totally strange behavior for me to see, yet Cisco didn't brake any rules. [RFC 2328 OSPFv2](https://tools.ietf.org/html/rfc2328) does not explicitly restrict to form adjacency for different network types, I think that authors thought it would be obvious not to mix different types on a single network segment. Moreover, OSPF _Hello_ message does not contain any field for interface type, so routers do not know what interface type is on the other side.
+This was a totally strange behavior for me to see, yet Cisco didn't brake any rules. [RFC 2328 OSPFv2](https://datatracker.ietf.org/doc/html/rfc2328) does not explicitly restrict to form adjacency for different network types, I think that authors thought it would be obvious not to mix different types on a single network segment. Moreover, OSPF _Hello_ message does not contain any field for interface type, so routers do not know what interface type is on the other side.
 
 # And what about Alcatel-Lucent and Juniper?
 
@@ -467,6 +467,6 @@ Jun 11 10:14:57.782075 OSPF packet ignored: configuration mismatch from 10.1.2.2
 
 # Links
 
-  * [OSPF Version 2](http://tools.ietf.org/html/rfc2328) (RFC)
+  * [OSPF Version 2](https://datatracker.ietf.org/doc/html/rfc2328) (RFC)
   * [What is your OSPF neighbor doing? Adjacency problems in OSPF](https://inetzero.com/what-is-your-ospf-neighbor-doing-adjancency-problems-in-ospf/) (https://inetzero.com)
 
