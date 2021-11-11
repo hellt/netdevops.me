@@ -70,7 +70,7 @@ Click **Ok** and the files will start to download and encode in your resulting v
 ### with youtube-dl
 The VLC-way is good for a one-time quick download, but if you have a list of playlists you want to download, then [youtube-dl](https://github.com/ytdl-org/youtube-dl/blob/master/README.md#readme) python tool is just unmatched. Judging by the name, the tool was developed for youtube downloads originally but outgrew it quickly enough to be a swiss knife for online video downloads.
 
-You can install it as a python package or as a pre-compiled binary, so the installation is really a breeze and won't take long. Additionally, the tool brings an endless amount of features:
+You can use a container image or install it as a python package or as a pre-compiled binary, so the installation is really a breeze and won't take long. Additionally, the tool brings an endless amount of features:
 
 * automatically detect playlist URL by crawling the HTML page (no need to manually look for m3u8 URL)
 * cli interface to scriptify bulk downloads
@@ -110,3 +110,15 @@ Then you still need to manually fetch the m3u8 link and feed it to the `youtube-
 
 Note, you also might need to download the `ffmpeg` for youtube-dl to merge the different streams in a single container. Anyway, `youtube-dl` will tell you if its the case for you.
 
+Leveraging containers is my preferred way of working with tools, since all the pesky deps are packaged neatly inside, for youtube-dl you can use [`mikenye/youtube-dl`](https://hub.docker.com/r/mikenye/youtube-dl) image, which will make using youtube-dl a breeze:
+
+```bash
+❯ alias yt-dl='docker run \
+                  --rm -i \
+                  -e PGID=$(id -g) \
+                  -e PUID=$(id -u) \
+                  -v "$(pwd)":/workdir:rw \
+                  mikenye/youtube-dl'
+
+❯ yt-dl -o 'test.%(ext)s' --merge-output-format mkv http://example.com/vid/test.m3u8
+```
