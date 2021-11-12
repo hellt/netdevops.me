@@ -8,6 +8,7 @@ IgnoreURLs:
   - goreleaser.com
   - pbs.twimg.com
   - codepen.io/hellt/pen
+  - https://github.com/orgs/nokia/packages/container/package/srlinux
 IgnoreDirectoryMissingTrailingSlash: true
 IgnoreAltMissing: true
 IgnoreSSLVerify: true
@@ -15,3 +16,7 @@ IgnoreDirs:
   - overrides
   - page
 IgnoreInternalEmptyHash: true
+ExternalTimeout: 60
+HTTPHeaders:
+  "Range": "bytes=0-10"
+  "Accept": "*/*"
