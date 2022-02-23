@@ -25,7 +25,7 @@ Its worth to mention that prior the preparation to this exam I had a little hand
 > **A:** no, you can pass it without having a real hands on, for instance by reading the AWS Study Guide alone. Though, the Free Tier offering by AWS will make the costs for AWS practice really close to $0. Without laying your hands on basic configuration stuff it could be challenging to pass the exam.
 
 ### Main course
-Since I have an active [Linux Academy](https://linuxacademy.com/) subscription I took theirs [certification prep course](https://linuxacademy.com/amazon-web-services/training/course/name/aws-certified-solutions-architect-associate) which I found rather complete and well composed. Its the 20hrs length course with interactive quizzes and the real Hands On Labs. Labs are a great way to gain practice by having the access to AWS Console provided by the Linux Academy.
+Since I have an active Linux Academy subscription (is now A Cloud Guru) I took theirs certification prep course which I found rather complete and well composed. Its the 20hrs length course with interactive quizzes and the real Hands On Labs. Labs are a great way to gain practice by having the access to AWS Console provided by the Linux Academy.
 
 > ![pic](https://gitlab.com/rdodin/netdevops.me/uploads/46cf4e24404023a8a254b014d10b37ce/image.png)
 > <center><small>Each section will test you on the outlined concepts. Most of them have real Labs</small></center>

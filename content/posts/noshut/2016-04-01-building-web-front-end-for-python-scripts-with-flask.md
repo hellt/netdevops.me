@@ -245,7 +245,7 @@ class InvalidOperationException(Exception):
 
 ## Setting up front-end
 
-Good, Flask app has been configured and is ready to render some pages, so let's go and prepare out front-end to display projects' web pages. Download [Bootstrap](http://getbootstrap.com), [JQuery](http://jquery.com), [Fontawesome](https://fortawesome.github.io/Font-Awesome/) and store theirs minified `min.css` and `min.js` artifacts in the `static` directory of the project. This is how it should look like:
+Good, Flask app has been configured and is ready to render some pages, so let's go and prepare out front-end to display projects' web pages. Download [Bootstrap](http://getbootstrap.com), [JQuery](http://jquery.com), [Fontawesome](https://fontawesome.com/) and store theirs minified `min.css` and `min.js` artifacts in the `static` directory of the project. This is how it should look like:
 
 ```bash
 ├── static
