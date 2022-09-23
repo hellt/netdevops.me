@@ -56,7 +56,7 @@ theme:
     logo: fontawesome/solid/code
     repo: fontawesome/brands/github
     edit: material/file-edit-outline
-  favicon: images/flask.svg
+  favicon: assets/images/code.svg
 
 # Plugins
 plugins:
