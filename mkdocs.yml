@@ -9,9 +9,11 @@ repo_url: https://github.com/hellt/netdevops.me
 site_url: "https://netdevops.me/"
 edit_uri: "edit/main/docs/"
 
+docs_dir: blog
+
 theme:
   name: material
-  custom_dir: docs/overrides
+  custom_dir: blog/overrides
 
   # 404 page
   static_templates:

@@ -1,19 +1,23 @@
 ---
 date: 2022-01-26
 comments: true
-keywords:
-  - netrel
-  - yang
 tags:
   - netrel
   - yang
-
-title: DIY YANG Browser
 ---
+
+# DIY YANG Browser
 
 Here comes the second episode of the NetRel show: **NetRel episode 002 - DIY YANG Browser**. Be ready to dive into the paths we took to create a [YANG Browser for Nokia SR Linux platform](https://yang.srlinux.dev).
 
-{{< youtube _d4hL7I2h1w >}}
+<center>
+<iframe type="text/html"
+    width="80%"
+    height="465"
+    src="https://www.youtube.com/embed/_d4hL7I2h1w"
+    frameborder="0">
+</iframe>
+</center>
 
 YANG data models are the map one should use when looking for their way to configure or retrieve any data on SR Linux system. A central role that is given to YANG in SR Linux demands a convenient interface to browse, search through, and process these data models.
 
