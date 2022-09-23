@@ -1,6 +1,6 @@
 ---
 date: 2018-11-23
-comment_id: ftp-saturation
+comments: true
 keywords:
 - FTP
 - vsftpd
@@ -21,6 +21,7 @@ It turns out, you can use the in-memory devices in the FTP communication path `/
 Software-wise my setup consisted of a single FTP server `vsftpd` and the FTP client `ftp` all running on Centos7-based VMs. These VMs were equipped with a network namespace `ns-data` which host the datapath interface `eth1`.
 
 ## /dev/zero -> /dev/null
+
 I found this ["ftp to dev null to test bandwidth"](https://fordodone.com/2013/11/13/ftp-to-dev-null-to-test-bandwidth/) blog post explaining how to use `/dev/zero` as a source file and `/dev/null` as a destination within a running FTP session.
 
 The example there (executed on the FTP client side) demonstrates the following technique:
@@ -35,9 +36,11 @@ put "|dd if=/dev/zero bs=32k" /dev/null
 bye
 END
 ```
+
 So this example did not work for me right out of the box so let me augment it with the few findings I came across while trying to make this one work.
 
 ## vsftpd configuration
+
 The `put "|dd if=/dev/zero bs=32k" /dev/null` command is the transfer operation from the client to the server. On the server side the data that comes from the client is saved in `/dev/null` device.
 
 First thing to check there is that your FTP server configuration allows a client to use the `dev/null` device as the destination. I used the `vsftpd` as a server, so the config that worked for me (using the local user authentication) is as follows:
@@ -76,6 +79,7 @@ tcp_wrappers=YES
 This enables me to authenticate using the local user credentials on the server and write the data to the `/dev/null` device.
 
 ## 500 OOPS: ftruncate
+
 Once I found the workable vsftpd config, I run the script and received `500 OOPS: ftruncate` error from the server. This problem, as it seems, only affects RHEL-based distros, and as explained [here](https://access.redhat.com/solutions/776843) the workaround is to use `append` command instead of a `put`.
 
 This brings me to the final version of the script I used:
@@ -93,6 +97,7 @@ END
 ```
 
 And the result I got on the 10Mbps uplinks:
+
 ```bash
 $ sudo bash ftp.sh
 Verbose mode on.
@@ -112,5 +117,5 @@ waiting for remote to finish abort
 8986624 bytes sent in 7.03 secs (1278.00 Kbytes/sec)
 221 Goodbye.
 ```
-And this saturates my uplinks completely.
 
+And this saturates my uplinks completely.

@@ -1,6 +1,6 @@
 ---
 date: 2017-07-18
-comment_id: virsh-remove
+comments: true
 keywords:
 - virsh
 - kvm

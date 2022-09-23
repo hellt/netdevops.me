@@ -1,6 +1,6 @@
 ---
 date: 2020-04-29
-comment_id: nokia yang tree
+comments: true
 url: nokia-yang-tree
 keywords:
 - nokia

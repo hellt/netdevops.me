@@ -1,6 +1,6 @@
 ---
 date: 2021-07-21
-comment_id: csrl
+comments: true
 keywords:
   - srlinux
   - containerlab

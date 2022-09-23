@@ -1,6 +1,6 @@
 ---
 date: 2020-02-01
-comment_id: netconf-xml-skeleton
+comments: true
 keywords:
 - netconf
 - docker

@@ -2,7 +2,7 @@
 title: Building Web front end for Python scripts with Flask
 date: 2016-04-01
 author: Roman Dodin
-comment_id: plaza-web-frontend
+comments: true
 url: /2016/04/building-web-front-end-for-python-scripts-with-flask/
 tags:
   - Bootstrap

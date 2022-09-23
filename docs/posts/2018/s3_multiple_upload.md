@@ -1,6 +1,6 @@
 ---
 date: 2018-03-25
-comment_id: s3-multiupload
+comments: true
 keywords:
 - AWS
 tags:
@@ -66,19 +66,21 @@ $ find . -type f -print0 | xargs -0 ls -l | awk '{size[int(log($5)/log(2))]++}EN
 ```
 
 ### 1. AWS Management Console
+
 As a normal human being I selected all these 100 files in the file dialog of the AWS Management Console and waited for **5 minutes** to upload 100 of them. Horrible.
 
 > The rest of the tests were run on an old 2012 MacBook Air with 4vCPUs.
 
 ### 2. aws s3 sync
+
 A `aws s3 sync` command is cool when you only want to upload the missing files or make the remote part in sync with a local one. In case when a bucket is empty a sequential upload will happen, but will it be fast enough?
 
 ```bash
 time aws s3 sync . s3://test-ntdvps
 
-real	0m10.124s
-user	0m1.470s
-sys	0m0.273s
+real 0m10.124s
+user 0m1.470s
+sys 0m0.273s
 ```
 
 10 seconds! Not bad at all!
@@ -105,6 +107,7 @@ ls -1 | time parallel -j60 -I % aws s3 cp % s3://test-ntdvps --profile rdodin-cn
 ~40 seconds, better than `xargs` and worse than `aws s3 sync`. With an increasing number of the files `aws s3 sync` starts to win more, and the reason is probably because `aws s3 sync` uses one tcp connection, while `aws s3 cp` opens a new connection for an each file transfer operation.
 
 ### 5. What if I had some more CPU cores?
+
 You can increase the number of the workers, and if you have a solid amount of threads available you might win the upload competition:
 
 ```
@@ -116,7 +119,6 @@ aws s3 cp with parallel and 128 jobs: 4.5 seconds
 # now 1000 files 4KB each
 aws s3 sync: 40 seconds
 aws s3 cp with parallel and 252 jobs: 21.5 seconds
-``` 
+```
 
 So you see that the `aws s3 cp` with `parallel` might come handy if you have enough of vCPUs to handle that many parallel workers. But if you are sending your files from a regular notebook/PC the `aws s3 sync` command will usually be of a better choice.
-

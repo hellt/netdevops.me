@@ -4,7 +4,7 @@ date: 2015-08-24
 author: Roman Dodin
 url: /2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/
 draft: false
-comment_id: bgp-basic
+comments: true
 tags:
   - Nokia
   - SROS

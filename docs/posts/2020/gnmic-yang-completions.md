@@ -1,6 +1,6 @@
 ---
 date: 2020-10-22
-comment_id: gnmic-yang-completions
+comments: true
 keywords:
 - gnmi
 - openconfig

@@ -1,6 +1,6 @@
 ---
 date: 2017-08-04
-comment_id: hugo-gitlab-cloudflare
+comments: true
 keywords:
 - Hugo
 - Gitlab

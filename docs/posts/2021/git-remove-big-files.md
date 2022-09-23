@@ -1,6 +1,6 @@
 ---
 date: 2021-02-01
-comment_id: git-remove-big-files
+comments: true
 keywords:
 - git
 tags:

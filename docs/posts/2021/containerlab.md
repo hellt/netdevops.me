@@ -1,6 +1,6 @@
 ---
 date: 2021-04-01
-comment_id: containerlab
+comments: true
 keywords:
   - containerlab
   - srlinux

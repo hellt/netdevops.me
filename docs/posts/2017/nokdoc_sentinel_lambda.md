@@ -1,6 +1,6 @@
 ---
 date: 2017-07-24
-comment_id: nokdoc-sentinel
+comments: true
 keywords:
 - AWS
 - AWS Lambda

@@ -1,6 +1,6 @@
 ---
 date: 2020-05-17
-comment_id: remote_capture_eveng
+comments: true
 keywords:
 - wireshark
 - eve-ng

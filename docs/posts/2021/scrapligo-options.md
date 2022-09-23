@@ -1,6 +1,6 @@
 ---
 date: 2021-06-09
-comment_id: scrapligo-options
+comments: true
 keywords:
   - scrapli
   - textfsm

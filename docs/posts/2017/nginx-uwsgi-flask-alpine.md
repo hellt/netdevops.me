@@ -1,6 +1,6 @@
 ---
 date: 2017-11-09
-comment_id: nginx-uwsgi-flask
+comments: true
 keywords:
 - Flask
 - nginx

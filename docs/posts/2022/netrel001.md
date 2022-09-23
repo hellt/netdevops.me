@@ -1,6 +1,6 @@
 ---
 date: 2022-01-18
-comment_id: netrel001
+comments: true
 keywords:
   - netrel
   - gnmi

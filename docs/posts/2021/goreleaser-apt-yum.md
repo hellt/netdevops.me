@@ -1,6 +1,6 @@
 ---
 date: 2021-02-23
-comment_id: furyio
+comments: true
 keywords:
   - gemfury
   - apt

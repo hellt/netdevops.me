@@ -1,6 +1,6 @@
 ---
 date: 2019-06-30
-comment_id: gcp-function
+comments: true
 keywords:
 - GCP
 - GCP Function

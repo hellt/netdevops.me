@@ -3,7 +3,7 @@ title: Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent
 date: 2015-11-03
 author: Roman Dodin
 url: /2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/
-comment_id: l3vpn-tutor
+comments: true
 keys:
   - Nokia
   - Juniper

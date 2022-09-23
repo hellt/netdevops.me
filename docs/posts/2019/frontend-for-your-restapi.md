@@ -2,7 +2,7 @@
 title: Creating a Bootstrap based front-end for your simple REST service
 date: 2019-07-28
 author: Roman Dodin
-comment_id: frontend-for-rest
+comments: true
 keys:
   - javascript
   - frontend

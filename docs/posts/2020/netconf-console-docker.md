@@ -1,6 +1,6 @@
 ---
 date: 2020-01-28
-comment_id: netconf-console-docker
+comments: true
 keywords:
 - netconf
 - docker

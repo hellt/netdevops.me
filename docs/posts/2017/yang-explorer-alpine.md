@@ -1,6 +1,6 @@
 ---
 date: 2017-08-10
-comment_id: yang-explorer
+comments: true
 keywords:
 - Docker
 - Yang Explorer

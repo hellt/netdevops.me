@@ -1,6 +1,6 @@
 ---
 date: 2020-07-08
-comment_id: gnmic
+comments: true
 keywords:
 - gnmi
 - openconfig

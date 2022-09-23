@@ -1,6 +1,6 @@
 ---
 date: 2017-08-20
-comment_id: py3-aws
+comments: true
 keywords:
 - AWS
 - python

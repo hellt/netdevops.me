@@ -1,6 +1,6 @@
 ---
 date: 2021-02-18
-comment_id: uksm
+comments: true
 keywords:
   - uksm
   - ubuntu
@@ -39,7 +39,8 @@ Now if you want to bring UKSM to your hypervisor you will need to jump through s
 
 #### 0 TL;DR
 
-* Download UKSM patches
+- Download UKSM patches
+
 - Download kernel source
 - Apply UKSM patch
 - Build kernel

@@ -1,6 +1,6 @@
 ---
 date: 2021-08-17
-comment_id: scrapligo-kubectl
+comments: true
 keywords:
   - scrapli
   - docker
@@ -62,6 +62,7 @@ I am using SR Linux containers here because they are [available for pulling for 
 For various reasons, it is not possible to configure an Ingress service to enable external access for SR Linux workload, but cluster management is possible via `kubectl`. So we could configure TLS certificates over `kubectl exec`, and that is what we will do, but programmatically.
 
 To replicate this scenario we will deploy two docker containers on a host
+
 - the container named `gnmi` that hosts the [`gnmic`](https://gnmic.kmrd.dev) tool to test gNMI access
 - and `srlinux` container that is our Network OS of choice.
 

@@ -1,6 +1,6 @@
 ---
 date: 2020-07-25
-comment_id: gnmi-arista
+comments: true
 keywords:
 - gnmi
 - openconfig
@@ -267,6 +267,7 @@ The other popular subscription mode is ON_CHANGE where the router pushes the dat
 A popular use case for ON_CHANGE subscriptions is to subscribe to oper/admin state of control plane protocols to get notified when the state changes (aka trap).
 
 To demonstrate this behavior we will
+
 - configure BGP process on vEOS
 - subscribe with ON_CHANGE mode to the BGP AS leaf effectively watching its value.
 

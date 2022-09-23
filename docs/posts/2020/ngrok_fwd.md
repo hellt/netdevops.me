@@ -1,6 +1,6 @@
 ---
 date: 2020-04-25
-comment_id: ngrok_fwd
+comments: true
 keywords:
 - ngrok
 - fwd

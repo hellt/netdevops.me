@@ -1,6 +1,6 @@
 ---
 date: 2017-11-24
-comment_id: yaml-hl
+comments: true
 keywords:
 - highlightjs
 - yaml
@@ -23,6 +23,7 @@ But still, YAML syntax highlighting is not a part of the Common languages shippe
 [Hugo](https://netdevops.me/2017/setting-up-a-hugo-blog-with-gitlab-and-cloudflare/) also uses the hljs to colorize code snippets, but it uses the default pack of languages that lacks YAML support.
 
 Look at this greyish snippet, looks ugly.
+
 ```plain
 ---
 - name: Prepare linux virt host
@@ -36,6 +37,7 @@ Look at this greyish snippet, looks ugly.
 Luckily, we can add _custom_ languages using [Cloudflare CDN collection](https://cdnjs.com) of pre-built packages.
 
 To do so, add [this config portion](https://gitlab.com/rdodin/netdevops.me/commit/d26866ee4b21f7ad8a590e466f92354487ace6ed) to your Hugo' `config.toml`:
+
 ```ini
 # double check, that you have 
 # syntaxHighlighter = "highlight.js" in your config.toml
@@ -48,7 +50,9 @@ To do so, add [this config portion](https://gitlab.com/rdodin/netdevops.me/commi
       async = true
       defer = true
 ```
+
 And now our YAML looks a bit better:
+
 ```yaml
 ---
 - name: Prepare linux virt host
@@ -60,6 +64,7 @@ And now our YAML looks a bit better:
 ```
 
 I changed the `style-*-.min.css` property to highlight string portions in green, instead of dark blue. A proper way would be to use a custom HLjs theme, but building it in Tranquilpeak theme [is kinda tedious](https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#change-code-coloration-highlightjs-theme), so I picked up a shortcut changing the [compiled css](https://gitlab.com/rdodin/netdevops.me/blob/master/themes/hugo-tranquilpeak-theme/static/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css) instead:
+
 ```bash
 # change the color code for this class
 # in my case I changed to #a5c261

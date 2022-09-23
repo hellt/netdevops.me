@@ -1,6 +1,6 @@
 ---
 date: 2017-10-26
-comment_id: vif-move
+comments: true
 keywords:
 - virsh
 tags:
@@ -24,6 +24,7 @@ Apparently there is no such `virsh` command that will allow you to change bridge
 <!--more-->
 
 You know network interface device definition grepped from Libvirt XML format holds bridge association:
+
 ```xml
 <!-- OMITTED -->
   <devices>

@@ -1,6 +1,6 @@
 ---
 date: 2018-05-11
-comment_id: aws-csa-cert
+comments: true
 keywords:
 - AWS
 - Certification

@@ -1,6 +1,6 @@
 ---
 date: 2020-06-28
-comment_id: gnmi-map
+comments: true
 keywords:
 - gnmi
 - openconfig

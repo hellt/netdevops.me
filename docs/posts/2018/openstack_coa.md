@@ -1,6 +1,6 @@
 ---
 date: 2018-11-11
-comment_id: coa-cert
+comments: true
 keywords:
 - Openstack
 - Certification

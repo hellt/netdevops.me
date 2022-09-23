@@ -1,6 +1,6 @@
 ---
 date: 2017-07-25
-comment_id: git-repo-lines
+comments: true
 tags:
 - git
 
