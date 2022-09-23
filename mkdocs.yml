@@ -128,3 +128,4 @@ markdown_extensions:
 nav:
   - Blog:
       - index.md
+  - Tags: tags.md
