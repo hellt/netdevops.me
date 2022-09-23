@@ -1,5 +1,5 @@
 ---
-date: 2020-06-28T06:00:00Z
+date: 2020-06-28
 comment_id: gnmi-map
 keywords:
 - gnmi
@@ -30,7 +30,6 @@ allowing you to quickly jump either to the explanation paragraph of the spec or 
 
 Currently the latest gNMI version (0.7.0.) has been "mapped", my intention is to release another map when a new version of the gNMI will be available, keeping the old ones versioned. That will allow having a map for each release after 0.7.0.
 
-The map comes in a PDF format and is stored at [hellt/gnmi-map](https://github.com/hellt/gnmi-map), you can quickly access the latest version with a shortcut: https://bit.ly/gnmi-map.
+The map comes in a PDF format and is stored at [hellt/gnmi-map](https://github.com/hellt/gnmi-map), you can quickly access the latest version with a shortcut: <https://bit.ly/gnmi-map>.
 
 Happy mapping!
-

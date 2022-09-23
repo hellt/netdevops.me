@@ -1,5 +1,5 @@
 ---
-date: 2021-04-01T06:00:00Z
+date: 2021-04-01
 comment_id: containerlab
 keywords:
   - containerlab
@@ -33,28 +33,28 @@ With the growing number of containerized Network Operating Systems (NOS) grows t
 
 {{< youtube xdi7rwdJgkg >}}
 
-
 Containerlab focuses on containerized Network Operating Systems such as:
 
-* [Nokia SR-Linux](https://www.nokia.com/networks/products/service-router-linux-NOS/)
-* [Arista cEOS](https://www.arista.com/en/products/software-controlled-container-networking)
-* [Azure SONiC](https://azure.github.io/SONiC/)
-* [Juniper cRPD](https://www.juniper.net/documentation/en_US/crpd/topics/concept/understanding-crpd.html)
-* [FRR](http://docs.frrouting.org/en/latest/overview.html)
+- [Nokia SR-Linux](https://www.nokia.com/networks/products/service-router-linux-NOS/)
+- [Arista cEOS](https://www.arista.com/en/products/software-controlled-container-networking)
+- [Azure SONiC](https://azure.github.io/SONiC/)
+- [Juniper cRPD](https://www.juniper.net/documentation/en_US/crpd/topics/concept/understanding-crpd.html)
+- [FRR](http://docs.frrouting.org/en/latest/overview.html)
 
 In addition to native containerized NOSes, containerlab can launch traditional virtual-machine based routers using [vrnetlab integration](https://containerlab.srlinux.dev/manual/vrnetlab/):
 
-* Nokia virtual SR OS (vSim/VSR)
-* Juniper vMX
-* Cisco IOS XRv
-* Arista vEOS
+- Nokia virtual SR OS (vSim/VSR)
+- Juniper vMX
+- Cisco IOS XRv
+- Arista vEOS
 
 And, of course, containerlab is perfectly capable of wiring up arbitrary linux containers which can host your network applications, virtual functions or simply be a test client. With all that, containerlab provides a single IaaC interface to manage labs which can span contain all the needed variants of nodes:
 
 <div class="mxgraph" style="max-width:100%;border:1px solid transparent;margin:0 auto; display:block;" data-mxgraph="{&quot;page&quot;:1,&quot;zoom&quot;:1.5,&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;check-visible-state&quot;:true,&quot;resize&quot;:true,&quot;url&quot;:&quot;https://raw.githubusercontent.com/srl-wim/container-lab/diagrams/index.md&quot;}"></div>
 
 ## The WHY
-As it often happens, https://containerlab.srlinux.dev was created by engineers to address their needs.
+
+As it often happens, <https://containerlab.srlinux.dev> was created by engineers to address their needs.
 
 In containerlab's case the need was simple - to be able to create networking topologies with containerized Network Operating Systems
 
@@ -63,6 +63,7 @@ As you might know, the off-the-shelf tools like docker-compose are not really fi
 Containerlab solves this, and helps many other pain points you might have seen while running your labs.
 
 ## The WHAT
+
 Containerlab is what docker-compose would be if it was created with networking topologies in mind.
 
 We use so-called `clab files` to define a topology that is then deployed by containerlab anywhere, where docker runs without any 3rd party dependencies.
@@ -91,6 +92,7 @@ topology:
 ```
 
 ## The HOW
+
 This `clab file` is all that is needed to spin up a lab of the two interconnected nodes - Nokia SR Linux and Arista cEOS.
 
 Yes, that is all that's needed. No bulky emulators, no bespoke datapaths. A pure container-based lab powered by linux networking primitives.
@@ -111,7 +113,9 @@ Tell containerlab which interfaces you want to be interconnected, and it will cr
 And surely enough, that is just the tip of an iceberg, containerlab packs a ton of features which I won't repeat here, as they are all mentioned in the [docs site](https://containerlab.srlinux.dev/#features) we carefully maintain.
 
 ## Multivendor capabilities
+
 ### Arista cEOS
+
 Although containerlab was born in Nokia, it is now truly multivendor.
 
 Arista folks reading this? Here is a full blown support for [cEOS](https://containerlab.srlinux.dev/manual/kinds/ceos/)
@@ -120,13 +124,14 @@ Run cEOS as a first class citizen, it even makes cEOS to respect the docker assi
 
 <center>{{< tweet 1377514634962464769>}}</center>
 
-
 ### Juniper cRPD
+
 We don't pick sides in our choice of containerized NOS support, so [Juniper cRPD](https://containerlab.srlinux.dev/manual/kinds/crpd/) is as welcome as any other NOS.
 
 ![p4](https://pbs.twimg.com/media/Ex1Q0URXAAM5UsR?format=jpg&name=large)
 
 ### SONiC
+
 Yes, [SONiC](https://containerlab.srlinux.dev/manual/kinds/sonic-vs/) is there as well and we spent some time to make it beautifully integrated and start up just as any other NOS.
 
 A perfect candidate to be paired with Nokia SR Linux and see a modern DC interop use cases through and through.
@@ -134,6 +139,7 @@ A perfect candidate to be paired with Nokia SR Linux and see a modern DC interop
 ![p5sonic](https://gitlab.com/rdodin/pics/-/wikis/uploads/4dc93d33005a5b005b72fde2645e70de/image.png)
 
 ### FRR
+
 Coming from the free OSS NOS camp? FRR [is also under containerlab](https://containerlab.srlinux.dev/lab-examples/srl-frr/) umbrella.
 
 Basically, any Linux based NOS that you can image will be able to be run by containerlab, as it is agnostic to the packages inside the linux container.
@@ -141,12 +147,13 @@ Basically, any Linux based NOS that you can image will be able to be run by cont
 Containerlab is extensible, and if anything that is dear to your heart is missing it definitely can be added.
 
 ## Network node + regular containers
+
 Also remember that the same clab file can really be like docker-compose file.
 
-* ✅ Need to bind mount files/dirs to your network node
-* ✅ Want to expose a port to a container host
-* ✅ Maybe set ENV vars
-* ✅ Or change/augment the CMD the node runs
+- ✅ Need to bind mount files/dirs to your network node
+- ✅ Want to expose a port to a container host
+- ✅ Maybe set ENV vars
+- ✅ Or change/augment the CMD the node runs
 
 I am repeating myself, but can't stress this enough, containerlab clab files are a mix of a docker-compose and some networking stardust.
 That means that you can define a topology that will have both linux containers and network nodes.
@@ -160,6 +167,7 @@ The above topology is defined in [a single clab file](https://github.com/srl-lab
 A single gittable, versionable lightweight text file defines a ready-made topology that is spinnable in 15 seconds.
 
 ## What about my VM-based routers?
+
 I can imagine how @ioshints says that this container-ish thingy can't stand a chance vs real-deal qcow2 packaged VMs.
 
 Yes, a valid concern, but we are lucky that guys like @plajjan did some splendid work that we leveraged in containerlab.
@@ -168,7 +176,7 @@ Watch my hands.
 
 Containerlab can run classic VMs like Nokia SR OS, Cisco IOS-XR, Juniper vMX, Arista vEOS in the container packaging. Yes, defined in the same clab file.
 
-This is possible by using our adapted version of vrnetlab project - https://github.com/hellt/vrnetlab
+This is possible by using our adapted version of vrnetlab project - <https://github.com/hellt/vrnetlab>
 
 ![vr](https://pbs.twimg.com/media/Ex1Wq4FWQAQZrzo?format=jpg&name=4096x4096)
 
@@ -202,13 +210,14 @@ The benefits of treating a router VM as a container are quite compelling.
 <center>{{< tweet 1377514683947696128>}}</center>
 
 ## Sharing lab access
+
 Ok, so in the same containerlab file we can
 
-* run any linux container
-* run most popular containerized NOSes
-* run VM-based routers
+- run any linux container
+- run most popular containerized NOSes
+- run VM-based routers
 
-what else? 
+what else?
 
 Globe with meridians here goes the story about our collab with @atoonk and his @mysocketio service
 
@@ -227,6 +236,7 @@ Just like this, adding a single line to your node definition, you make it availa
 ![mysock](https://pbs.twimg.com/media/Ex3lFm0XEAAz4De?format=jpg&name=4096x4096)
 
 ## What are the use cases?
+
 The usecases where containerlab can shine are not only limited to labs.
 
 It is a perfect demo tool, you have a guarantee that your lab will run just like it always was thanks to strict versioning and immutable container images. With a very small footprint, requiring only Docker
@@ -237,14 +247,16 @@ Github Actions and Gitlab CI both have docker installed on their runners, so you
 ![ci](https://pbs.twimg.com/media/Ex3ns2hWYAIfshN?format=jpg&name=4096x4096)
 
 ## Any examples?
-Definitely, we also launched a satellite repo for containerlab based labs - https://clabs.netdevops.me
+
+Definitely, we also launched a satellite repo for containerlab based labs - <https://clabs.netdevops.me>
 
 This catalog is meant to be an open collection of labs built with containerlab.
 Anything you build with containerlab I will gladly feature there with full attribution to an author.
 
-You will likely find more use cases that fit your need, so give https://containerlab.srlinux.dev a nice spin and let us know how it goes.
+You will likely find more use cases that fit your need, so give <https://containerlab.srlinux.dev> a nice spin and let us know how it goes.
 
 ## Special thanks
+
 I want to thank @WHenderickx and @Karimtw_ who started this thing and created the core architecture.
 
 Then our internal users and contributors for always providing feedback and thus making containerlab better. It was a truly team work.
@@ -252,15 +264,12 @@ Then our internal users and contributors for always providing feedback and thus 
 A special kudos goes to @networkop1 who is always ahead of time and had a similar tool (docker-topo) created years ago.
 We took inspiration from it when were creating the containerlab topo file schema.
 
-Found this awesome, do not hesitate to star our repo - https://github.com/srl-labs/containerlab as a way of saying thanks.
+Found this awesome, do not hesitate to star our repo - <https://github.com/srl-labs/containerlab> as a way of saying thanks.
 
 Want to contribute? That is awesome and appreciated!
 
 PS. The original announcement was made via this tweet-series.
 
 <center>{{< tweet 1377514559653748737>}}</center>
-
-
-
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js" async></script>

@@ -1,5 +1,5 @@
 ---
-date: 2018-05-11T12:00:00Z
+date: 2018-05-11
 comment_id: aws-csa-cert
 keywords:
 - AWS
@@ -19,12 +19,14 @@ Disclaimer: I took the original AWS CSA exam, not the one that was launched in F
 <!--more-->
 
 ## Preparation
+
 Its worth to mention that prior the preparation to this exam I had a little hands on experience with AWS and almost no theoretical knowledge. So I approached the preparation course as an AWS noob.
 
 > **Q: Do I need to pay for AWS services if I want to pass this exam?**  
 > **A:** no, you can pass it without having a real hands on, for instance by reading the AWS Study Guide alone. Though, the Free Tier offering by AWS will make the costs for AWS practice really close to $0. Without laying your hands on basic configuration stuff it could be challenging to pass the exam.
 
 ### Main course
+
 Since I have an active Linux Academy subscription (is now A Cloud Guru) I took theirs certification prep course which I found rather complete and well composed. Its the 20hrs length course with interactive quizzes and the real Hands On Labs. Labs are a great way to gain practice by having the access to AWS Console provided by the Linux Academy.
 
 > ![pic](https://gitlab.com/rdodin/netdevops.me/uploads/46cf4e24404023a8a254b014d10b37ce/image.png)
@@ -40,18 +42,22 @@ Linux Academy also had an assessment service called Cloud Assessments, now when 
 > ![img](https://pbs.twimg.com/media/DcB2qEAWsAEM9bX.jpg)
 > <center><small>Cloud Assessments challenge you to solve different practice tasks for each major AWS service</center></small>
 
-#### Main course alternatives 
+#### Main course alternatives
+
 Of course, Linux Academy is not the only service who made these AWS CSA prep courses, the most popular one I saw on the Internet was the [A Cloud Guru](https://acloud.guru/) course. Their students praise this course rather highly, so you can take that one as well. Check out the pricing and the course offerings to pick up the right provider for you.
 
 ### Additional resources
+
 I hate to break it, but my experience showed that the course alone won't make you pass the exam easily. And not because the courses are not good enough, they are good, but they do not cover all the aspects or do not explain all the details of some service, which you might encounter during the exam.
 
 #### Whitepapers
+
 As a recommended supplement many courses suggest to go over the [AWS Whitepapers](https://aws.amazon.com/certification/certified-solutions-architect-associate/) to get more knowledgeable on the various AWS concepts. I've peered into the two of the papers and left the rest untouched. While the whitepapers are good and useful, they are ~70 pages long and reading them takes quite some time.
 
 But if time allows, you better read them, since they cover a lot of the concepts you will be tested against. I hadn't that much time, so I went reading the Study Guide instead.
 
 #### AWS CSA Official Study Guide
+
 The [Study Guide](https://www.amazon.com/Certified-Solutions-Architect-Official-Study/dp/1119138558) offers the right amount of information to prepare you for the exam. I personally did not read the book, since I had a pretty good understanding of AWS services by finishing the LinuxAcademy course but if you don't want to pay for video course and Labs access, the Guide will do just fine.
 
 I highly recommend to get your hands on this guide since it has a brilliant set of the Exam Essentials chapters and the straight-to-the-point quizzes after each chapter.
@@ -63,19 +69,24 @@ All I did with this book was that I cleared all the quizzes after each chapter a
 The quizzes in this Study Guide are better/harder than the ones I solved in the LinuxAcademy course, at the same time they are a good addition to the quizzes in the LinuxAcademy course. I must say that the quizzes had the most positive impact for me to clear the exam, since they helped me to discover my weak spots and focus on the topics where I made a lot of mistakes from the first attempt.
 
 #### AWS FAQs
+
 Now few posts on the Internet suggested to go over the FAQ section for each AWS service that is tested in AWS CSA exam. Thats a very good suggestion, since the FAQ section actually quite resembles the questions you might encounter during the exam. I breezed over two or three FAQs for [VPC](https://aws.amazon.com/vpc/faqs/), [RDS](https://aws.amazon.com/rds/faqs/) and SQS to see whats there; due to the time constraints I left other FAQs unread.
 
 #### Catch up with a community
+
 Its a wise move to explore how others mastered the exam and pick theirs preparation practices that might work for you as well. I found this two articles quite good and comprehensive, with lots of useful links and suggestions:
 
-* [My AWS Solution Architect Associate exam experience](https://www.viktorious.nl/2018/01/10/my-aws-solution-architect-associate-exam-experience/) by Viktorious
-* [AWS CSA discussion board on A Cloud Guru](https://acloud.guru/forums/aws-certified-solutions-architect-associate/)
+- [My AWS Solution Architect Associate exam experience](https://www.viktorious.nl/2018/01/10/my-aws-solution-architect-associate-exam-experience/) by Viktorious
+- [AWS CSA discussion board on A Cloud Guru](https://acloud.guru/forums/aws-certified-solutions-architect-associate/)
 
 ### Analyze the weak spots
+
 As I said, quizzed helped me to discover my weak spots. So I watched over some videos again and read few more topics, then I went over the quizzes again to make sure that I understood the problem well enough.
 
 ## Taking the exam
+
 ### What topics should I pay attention to most?
+
 As I mentioned in the beginning, the actual questions I encountered during the exam were not easy-peasy. While, of course, I had a lot of basic questions that tested my ability to identify the key application area for the various AWS services, there were questions that required practical experience or detailed knowledge on the topic.
 
 My point here, is that you will a fair share of questions that you could easily prepare to by reading the "Exam Essentials" topics of the above mentioned Study Guide, but will it be enough to safely pass the exam? Hard to tell.
@@ -104,7 +115,7 @@ At the same time I was caught off guard by hitting quite a few questions dedicat
 - Lambda
 - CloudFormation
 
-My advice would be to pay a bit more attention to these topics, since they seem to appear frequently in the current versions of the CSA exam. And when I say "detailed knowledge", this means that questions were testing some configuration steps or your ability to identify the details about some service. 
+My advice would be to pay a bit more attention to these topics, since they seem to appear frequently in the current versions of the CSA exam. And when I say "detailed knowledge", this means that questions were testing some configuration steps or your ability to identify the details about some service.
 
 Below I mention a few AWS concepts across various services that I did not master and was tested against, you better make sure to get familiar with these topics, since they are not normally stressed enough in the various prep courses.
 
@@ -148,7 +159,7 @@ The CDN concepts is easy to understand, but details might be not articulated wel
 Also make sure that you understand what is CloudFront distribution and [how to configure](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html#GettingStartedCreateDistribution) it. Specifically focus on Cache behaviors and [Path Patterns](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesPathPattern). Note that the order of rules in the Path Patterns is crucial to the CloudFront, the `*` pattern should go after the more specific patterns!
 
 **API Gateway**  
-To see >1 question on that topic (and Lambda) was totally unexpected. I was under the impression that API GW will be tested on the very surface, but do expect some funny questions like [the CORS problem](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html#how-to-cors-console) and the API Gateway 
+To see >1 question on that topic (and Lambda) was totally unexpected. I was under the impression that API GW will be tested on the very surface, but do expect some funny questions like [the CORS problem](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html#how-to-cors-console) and the API Gateway
 
 **Lambda**  
 As with API Gateways, you will most probably see some Lambda questions thanks to the ever emerging Serverless concept. With Labmda its crucial to now about its scalability. Say you have a Lambda function provisioned to do some task with 150Mb of memory provisioned. If they ask you would you need to increase the memory per-function to handle the increased demand for that Lambda, the proper answer would be **No**, since AWS will scale this Lambda accordingly.
@@ -166,16 +177,16 @@ Do know how the role of `user-data` when provisioning EC2 instances and understa
 
 AWS KMS was also on the list with some shady question I couldn't even recall. CloudHSM was not there, but it might be in your exam...
 
-
 ### Passing score for AWS CSA exam
+
 AWS does not disclose what is the passing score, I hit 81% and passed, but seems like the threshold varies quite significantly, check [this topic](https://acloud.guru/forums/aws-certified-sysops-administrator-associate/discussion/-K8gweqRXEr5zmCHPQ9P/passing-score-for-aws-certifications) for various reports of a pass/fail marks. Some passed with 60%, others failed with 70%...
 
 ### Watch out, time could be pressing
-Apparently, 80 minutes for 55 questions could be a problem. I had 20 minutes left when I finished the last question, but I saw lots of comments, when others failed to finish in time. Some questions have lengthy explanation, so you loose time by reading it once/twice, then you could loose some more time on ruling out the right options. 
+
+Apparently, 80 minutes for 55 questions could be a problem. I had 20 minutes left when I finished the last question, but I saw lots of comments, when others failed to finish in time. Some questions have lengthy explanation, so you loose time by reading it once/twice, then you could loose some more time on ruling out the right options.
 
 So my suggestion would be to skip the questions you can't answer in 1.5-2 mins interval. You can come back to skipped questions when you will deal with the rest of them.
 
 Good luck with your exam!
 
 ![cert](https://gitlab.com/rdodin/netdevops.me/uploads/f0669ec7dd096f6b9c4e2a9b1d0894f8/image.png)
-

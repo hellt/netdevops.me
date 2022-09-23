@@ -1,5 +1,5 @@
 ---
-date: 2020-07-03T06:00:00Z
+date: 2020-07-03
 comment_id: subtree-filtering
 keywords:
 - netconf
@@ -13,23 +13,23 @@ If you pick a random NetEng and ask them if they love NETCONF they would likely 
 In this topic we will touch on the NETCONF's subtree filtering capabilities.
 <!--more-->
 
-
 NETCONF's [RFC 6241](https://www.rfcreader.com/#rfc6241) defines two methods for filtering contents on the server (router) side:
 
-* [Subtree filtering](https://www.rfcreader.com/#rfc6241_line867) - mandatory for a NETCONF-enabled device to support
-* [XPATH filtering](https://www.rfcreader.com/#rfc6241_line3008) - an optional capability
+- [Subtree filtering](https://www.rfcreader.com/#rfc6241_line867) - mandatory for a NETCONF-enabled device to support
+- [XPATH filtering](https://www.rfcreader.com/#rfc6241_line3008) - an optional capability
 
 Subtree filtering is powered by the following components:
 
-* Namespace Selection
-* Attribute Match Expressions
-* Containment Nodes
-* Selection Nodes
-* Content Match Nodes
+- Namespace Selection
+- Attribute Match Expressions
+- Containment Nodes
+- Selection Nodes
+- Content Match Nodes
 
 They are very well explained in the RFC, so I won't bother with copy-pasting the definition and the rules these filtering components follow. Instead we will focus on the practical examples and put Selection and Content Match nodes to work in different scenarios.
 
 ### 1 Selection nodes
+
 Selection node allow us to get a node and all its nested elements. Our simple examples will revolve around interactions with local users configuration on a Nokia SR OS which is modelled with the following YANG model:
 
 ```text
@@ -52,6 +52,7 @@ module: nokia-conf
      |  |           +--rw console
                        +--rw member*    ->../aaa/local-profiles…
 ```
+
 If we want to filter all the configuration information related to the local users we could use Selection node `<local-user/>` in our get-config RPC:
 
 ```xml
@@ -78,6 +79,7 @@ If we want to filter all the configuration information related to the local user
 
 If we translate this get-operation command to plain English it would sound like: _Dear router, can you please return everything you have under `local-user` node in the running configuration datastore?_  
 And that is what router replies back:
+
 ```xml
 <rpc-reply xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:f00ec433-17b3-4bcb-9d83-c3557794e56e">
     <data>
@@ -120,6 +122,7 @@ And that is what router replies back:
 The answer satisfies the request we specified. Router dumps everything it has under `local-users`.
 
 #### 1.1 Multiple selection nodes
+
 But what is we don't want to get back all that information about the local users and just interested in the account names and their access methods? That is as well the work for Selection nodes. But instead of referencing a container or a list with the Selection node, we will pinpoint the nodes of interest - `user-name` and `access`:
 
 ```xml
@@ -145,6 +148,7 @@ But what is we don't want to get back all that information about the local users
     </filter>
 </get-config>
 ```
+
 Pay attention that it doesn't matter what type of node we are referencing with a Selection node. It can be a container, a list, a leaf. If a selected node happens to have nested elements they will be returned as well.
 
 In the example above we reference the `user-name`  leaf and the `access` container, as a result we receive back a concrete data stored as the `user-name` node and everything that exists under the `access` container:
@@ -181,6 +185,7 @@ In the example above we reference the `user-name`  leaf and the `access` contain
 ```
 
 #### 1.2 Selection nodes in different containment nodes
+
 It is totally fine to have the Selection nodes under different containment nodes. That allows you to filter the information from different nodes in a single request.
 
 What if we wanted not only to see which users are configured on a box, but also to see how many login attempts each of them made? Thats a perfect example how Selection nodes from different containment nodes play well together.
@@ -219,6 +224,7 @@ What if we wanted not only to see which users are configured on a box, but also 
 ```
 
 Here we used Selection nodes even in two different YANG datastores and getting both configuration and state data in a single reply:
+
 ```xml
 <rpc-reply xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:c622d500-b780-4765-a71e-8f6b354beff4">
     <data>
@@ -261,6 +267,7 @@ Here we used Selection nodes even in two different YANG datastores and getting b
 ```
 
 ### 2 Content Match nodes
+
 In many cases it is needed to filter not only on the node itself (what Selection node does), but also on the value of the referenced leaf. That is a work for [Content Match nodes](https://www.rfcreader.com/#rfc6241_line1017).
 
 Using our local users examples that translates to a need to filter the information of a single user only. Let's get the configuration of the `admin` user only by using the Content Match node semantics:
@@ -320,6 +327,7 @@ Content Match nodes filtering is only applicable to the leafs, in our example th
 ```
 
 #### 2.1 Multiple Content Match nodes
+
 By adding multiple Content Match nodes in your filter request you add an implicit `AND` operand between them. Lets say we want to list the configured users who both have access to netconf and grpc. We can craft such a filter request by using two Content Match nodes expressions:
 
 ```xml
@@ -376,6 +384,7 @@ In the end we get our single user - `admin` - who has access to the subsystems w
 ```
 
 ### 3 Content Match and Selection nodes
+
 Another interesting filtering technique is combining Selection and Content Match nodes. Quite often you want to filter on the content, but at the same time limit the amount of data that router replies back. That might be very expensive for a router to return every sibling when only Content Match node is used, therefore its a good practice to craft a filter that will contain only the needed information.
 
 Talking our local users database me might want to know if `admin` user has access to `netconf` subsystem and we don't care at all about any other configuration that user has. Thats a perfect candidate for a combination of Content Match and Selection nodes:
@@ -434,7 +443,7 @@ And look at what a concise and clear response we got back. It has only the infor
 In the simplified local users database example that might not seem critical, but on a real network element you might filter through hundreds of configuration elements while only cared about a single one. Then it makes all the sense to combine Content Match nodes with Selection nodes to minimize the payload sizes and computation times.
 
 ### Summary
+
 NETCONF Subtree filtering is a powerful mechanism that is both easy to use and reason about. By using Contaiment, Selection and Content Match nodes one can easily filter anything, while maintaining efficiency and cleanliness of the filter construct.
 
 Remember that using Selection nodes with Content Match nodes allow you to follow the beast practices and request only the information that you need, without clutter.
-

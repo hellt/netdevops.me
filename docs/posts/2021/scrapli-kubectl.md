@@ -1,5 +1,5 @@
 ---
-date: 2021-08-17T06:00:00Z
+date: 2021-08-17
 comment_id: scrapligo-kubectl
 keywords:
   - scrapli
@@ -22,21 +22,23 @@ As the networking industry is (slowly) moving towards forklifting networking fun
 This post is about one such crazy mixture of using screen scraping library [scrapligo](https://github.com/scrapli/scrapligo) with `kubectl exec` and `docker exec` commands.
 
 ## What and Why?
+
 I can imagine that for some readers the previous sentence makes no sense, why do you need a screen scraping library when working with standalone containers or kubernetes workloads? Shouldn't it be all covered with various APIs already?
 
 It should, yes, but when networking workloads are being moved into _the cloud_ it is more often than not results in a compromised architecture which is not fully aligned with the behavior of the containerized workloads.
 
-* For example, when deploying a network function on kubernetes you might realize that the container image doesn't use the IP address that container runtime provisions for its `eth0` interface.
+- For example, when deploying a network function on kubernetes you might realize that the container image doesn't use the IP address that container runtime provisions for its `eth0` interface.
 
-* Or you might want to add some basic configuration to a Network OS running as a k8s pod without creating a service for its SSH/NETCONF/etc server.
+- Or you might want to add some basic configuration to a Network OS running as a k8s pod without creating a service for its SSH/NETCONF/etc server.
 
-* Or you need to generate self-signed certificates on the NOS side to enable programmable access via gNMI or HTTPS.
+- Or you need to generate self-signed certificates on the NOS side to enable programmable access via gNMI or HTTPS.
 
 In all these cases you often resort to `kubectl/docker exec` commands to connect to a shell/CLI and do some CLI based configuration over that terminal interface. This makes `kubectl exec` pretty much a modern day Telnet.
 
 Since these operations over a terminal interface allocated by `exec` commands are almost inevitable, it makes a lot of sense to be able to automate interactions over it.
 
 ## scrapligo and `kubectl exec`
+
 Scrapligo, which is a [Go version of the famous Scrapli library](https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/), is now able to handle CLI based interactions over the terminal interface offered by `docker exec` or `kubectl exec` (or any other command that exposes a PTY actually).
 
 <div class="mxgraph" style="max-width:100%;border:1px solid transparent;margin:0 auto; display:block;" data-mxgraph="{&quot;page&quot;:0,&quot;zoom&quot;:2,&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;check-visible-state&quot;:true,&quot;resize&quot;:true,&quot;url&quot;:&quot;https://raw.githubusercontent.com/hellt/diagrams.net/master/scrapligo-exec.drawio&quot;}"></div>
@@ -46,6 +48,7 @@ This is especially cool in conjunction with `kubectl exec`, since you might have
 An approach like that can hugely simplify the operations of networking workloads in the remote clusters, and believe me, the tasks that you can't carry out otherwise still exist...
 
 ## Lab deployment
+
 To demonstrate this new scrapligo capability I will use the following user story.
 
 A user deployed a networking lab with Nokia SR Linux nodes on a remote k8s cluster. They intend to manage the nodes with gNMI interface, but in order to do that, a TLS certificate must be provisioned on a device which gNMI will use to secure the transport layer.
@@ -59,8 +62,8 @@ I am using SR Linux containers here because they are [available for pulling for 
 For various reasons, it is not possible to configure an Ingress service to enable external access for SR Linux workload, but cluster management is possible via `kubectl`. So we could configure TLS certificates over `kubectl exec`, and that is what we will do, but programmatically.
 
 To replicate this scenario we will deploy two docker containers on a host
-* the container named `gnmi` that hosts the [`gnmic`](https://gnmic.kmrd.dev) tool to test gNMI access
-* and `srlinux` container that is our Network OS of choice.
+- the container named `gnmi` that hosts the [`gnmic`](https://gnmic.kmrd.dev) tool to test gNMI access
+- and `srlinux` container that is our Network OS of choice.
 
 On the docker host side we will run a [`scrapligo` program](https://github.com/hellt/scrapligo-pty-demo) that will provision TLS certificates and gNMI service over `docker exec` command (step 1).
 
@@ -71,6 +74,7 @@ For simplicity we use `docker exec` and plain containers, but the same will work
 {{< /admonition >}}
 
 ### Deploy containers
+
 First, start an srlinux container named `srlinux` in daemon mode, which is as easy as:
 
 ```shell
@@ -89,9 +93,11 @@ docker run --rm -it --privileged \
 ```
 
 ### Check gNMI
+
 To ensure we are not cheating, let's verify that gNMI service is not configured on SR Linux, and we can't use it.
 
 Since SR Linux cli is a process inside the container, we can provide a CLI command to that process and get its output:
+
 ```shell
 docker exec srlinux sr_cli "info system gnmi-server"
     system {
@@ -112,6 +118,7 @@ docker exec srlinux sr_cli "info system tls"
 ```
 
 ## Code walkthrough
+
 Now it is time to run the Go program that will leverage scrapligo's abilities to execute commands over a terminal offered by `docker exec`.
 
 On your host, clone [hellt/scrapligo-pty-demo](https://github.com/hellt/scrapligo-pty-demo) and explore its `main.go` file.
@@ -123,17 +130,19 @@ git clone https://github.com/hellt/scrapligo-pty-demo.git
 The whole program is contained within the [`main.go`](https://github.com/hellt/scrapligo-pty-demo/blob/master/main.go) file, let's cover the main pieces of this short program.
 
 ### Network driver creation
+
 We first start by creating an SR Linux driver, using [srlinux-scrapli package](https://github.com/srl-labs/srlinux-scrapli) providing scrapligo support for SR Linux.
+
 ```go
 func main() {
-	contName := "srlinux"
-	tlsProfileName := "demo"
+ contName := "srlinux"
+ tlsProfileName := "demo"
 
-	d, err := srlinux.NewSRLinuxDriver(
-		contName,
-		base.WithAuthStrictKey(false),
-		base.WithAuthBypass(true),
-	)
+ d, err := srlinux.NewSRLinuxDriver(
+  contName,
+  base.WithAuthStrictKey(false),
+  base.WithAuthBypass(true),
+ )
 ```
 
 We also set the container name our srlinux container has - `srlinux` - as well as set the name for the TLS profile we want to configure along the way.
@@ -145,6 +154,7 @@ Note, that no IP/DNS address is present, that is because we are not using SSH to
 {{< /admonition >}}
 
 ### Setting Open command
+
 When we initialized our Network Driver we implicitly said to scrapligo that we would like to use the `System` transport.
 
 The way `System` transport works is that it calls `ssh` program on your host and then works with the pseudo terminal the openssh offers.
@@ -160,34 +170,36 @@ transport.OpenCmd = []string{"exec", "-u", "root", "-it", contName, "sr_cli"}
 Notice, that we simply state the CLI command that you would normally use in your terminal. That is exactly how `System` transport works, it calls the specified command an expects to be able to connect a pseudo terminal to the called process.
 
 ### Configuring certificates and gNMI
+
 The rest of the code is not interesting at all, as all that happens next is just some tinkering with CLI commands to tell SR Linux to generate TLS certificates and use them for gNMI.
 
 ```go
 err = srlinux.AddSelfSignedServerTLSProfile(d, tlsProfileName, false)
 if err != nil {
-	fmt.Println(err)
-	os.Exit(1)
+ fmt.Println(err)
+ os.Exit(1)
 }
 
 d.AcquirePriv("configuration")
 
 fmt.Println("Enabling gNMI...")
 gnmiCfg := []string{
-	"set / system gnmi-server admin-state enable",
-	"set / system gnmi-server timeout 7200",
-	"set / system gnmi-server rate-limit 60",
-	"set / system gnmi-server session-limit 20",
-	"set / system gnmi-server network-instance mgmt admin-state enable",
-	"set / system gnmi-server network-instance mgmt use-authentication true",
-	"set / system gnmi-server network-instance mgmt port 57400",
-	fmt.Sprintf("set / system gnmi-server network-instance mgmt tls-profile %s", tlsProfileName),
-	"commit save",
+ "set / system gnmi-server admin-state enable",
+ "set / system gnmi-server timeout 7200",
+ "set / system gnmi-server rate-limit 60",
+ "set / system gnmi-server session-limit 20",
+ "set / system gnmi-server network-instance mgmt admin-state enable",
+ "set / system gnmi-server network-instance mgmt use-authentication true",
+ "set / system gnmi-server network-instance mgmt port 57400",
+ fmt.Sprintf("set / system gnmi-server network-instance mgmt tls-profile %s", tlsProfileName),
+ "commit save",
 }
 
 _, err = d.SendConfigs(gnmiCfg)
 ```
 
 ## Running the program
+
 Now all is ready to run that program that should result in configuring the TLS certs and gNMI service over `docker exec` on srlinux container.
 
 ```shell
@@ -240,6 +252,7 @@ lZ5hmj9IiQ7NSDXbSnDTUJ56XbKx92kkVOdKAKhML8mgtLFJMK2fy5K3ahinoLOK
 ```
 
 And gNMI server has been configured to use the `tls-profile` that the program created:
+
 ```
 ❯ docker exec srlinux sr_cli "info system gnmi-server"
     system {
@@ -262,6 +275,7 @@ All points out that we can now use gNMI service with a secured transport. To che
 
 {{< admonition type=info open=true >}}
 Before doing that, we need to see which IP address the srlinux has on its management interface. It can be queried with the following show command:
+
 ```
 ❯ docker exec srlinux sr_cli "show interface mgmt0.0"
 ===============================================================
@@ -273,6 +287,7 @@ Before doing that, we need to see which IP address the srlinux has on its manage
     IPv6 addr    : fe80::42:acff:fe11:2/64 (link-layer, preferred)
 ===============================================================
 ```
+
 {{< /admonition >}}
 
 Now in the bash shell of the gnmic container, craft the [`gnmic`](https://gnmic.kmrd.dev) command to get some data over gNMI:
@@ -283,6 +298,7 @@ gnmic -a 172.17.0.2 -u admin -p admin --skip-verify -e json_ietf \
 ```
 
 and that returns the version of the SR Linux NOS, yay!
+
 ```
 [
   {
@@ -301,6 +317,7 @@ and that returns the version of the SR Linux NOS, yay!
 ```
 
 ## Summary
+
 `kubectl exec` is the modern day's Telnet, it allows to get terminal access to applications running in k8s cluster, without having network access exposed on the workloads themselves.
 
 Scrapligo (and later scrapli) allows us to programmatically use this terminal interfaces exposed by commands like `kubectl exec/docker exec/etc` to configure/interrogate the workloads over this OOB character based interface.

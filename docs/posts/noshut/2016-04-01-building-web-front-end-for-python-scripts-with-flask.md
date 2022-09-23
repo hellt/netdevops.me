@@ -1,6 +1,6 @@
 ---
 title: Building Web front end for Python scripts with Flask
-date: 2016-04-01T04:22:27+00:00
+date: 2016-04-01
 author: Roman Dodin
 comment_id: plaza-web-frontend
 url: /2016/04/building-web-front-end-for-python-scripts-with-flask/
@@ -14,9 +14,9 @@ Recently I revived my relationship with Python in an effort to tackle the routin
 
 Thus, I started to build web front-end to the python scripts we used daily with these goals in mind:
 
-  * allow people with a zero knowledge of Python to use the scripts by interacting with them through a simple Web UI;
-  * make script's output more readable by leveraging CSS and HTML formatting;
-  * aggregate all the scripts in one a single repo but in a separate sandboxed directories to maintain code manageability.
+- allow people with a zero knowledge of Python to use the scripts by interacting with them through a simple Web UI;
+- make script's output more readable by leveraging CSS and HTML formatting;
+- aggregate all the scripts in one a single repo but in a separate sandboxed directories to maintain code manageability.
 
 This short demo should give you some taste of what it is:
 
@@ -109,6 +109,7 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///db/sql.db'
 app = Flask(__name__)
 app.config.from_object(__name__)   # get config from this module</pre>
 ```
+
 But the methods discussed so far can't let you have different configurations for Dev and Prod environments (which you'd want to have eventually).
 
 When I was choosing the configuration method for this app I followed a path which consists of these three key points:
@@ -120,8 +121,8 @@ When I was choosing the configuration method for this app I followed a path whic
 > **Detailed explanation of Flask app configuration**
 
 > Going from bottom to top, `.env` is a file, which stores application parameters in a way like classic environment variables do.
-    
-> 
+
+>
 ```bash
 # This file is used to store configuration settings for
 # Dev and Prod environments. PLAZA_SETTINGS value is used by app.py to
@@ -138,7 +139,7 @@ PLAZA_SETTINGS = config.Development
 ```
 
 > Then Flask application initializes and gets configuration from a class, stored in `PLAZA_SETTINGS` variable:
-> 
+>
 ```python
 from flask import Flask, render_template
 import os
@@ -295,6 +296,7 @@ Flask uses [routes](https://flask.palletsprojects.com/en/1.1.x/quickstart/#routi
 def index():
     return 'Index Page'
 ```
+
 This will effectively bind the `index()` function to the route `/` , so when a user navigates to the application's root it will trigger the `index()` function.
 
 ```python
@@ -314,33 +316,34 @@ You might guess that a [template](https://flask.palletsprojects.com/en/1.1.x/qui
 So Flask's template is a Jinja2-based template which allows you to build **dynamic** web-pages instead of a static content. To render a template you can use the [`render_template()`](http://flask.pocoo.org/docs/1.0/api/#flask.render_template) method. All you have to do is to provide the name of the template and the variables you want to pass to the template engine.
 
 You can name your templates as you like, but normally it will have an `.html` extension to reflect their purpose. This is my `index.html` template mentioned earlier bound to the route `/`.
+
 ```html
 {% extends 'base.html' %}
 {% block content %}
-	<h2> Welcome to <span class="text-primary">PLAZA</span>. <small>front-end for python scripts we used to run from console</small></h2>
-	<h3 class="text-primary">
-		What is PLAZA?
-	</h3>
-	<p >
-		PLAZA is a web front-end to python scripts built with these goals in mind:
-		<ul>
-			<li>allow people with zero python knowledge to use the scripts by interaction through simple Web GUI;</li>
-			<li>beautify scripts' output with modern CSS and HTML formatting;</li>
-			<li>aggregate all the scripts in one repo but in a separate sandboxed directories to increase code manageability.</li>
-		</ul>
-	</p>
+ <h2> Welcome to <span class="text-primary">PLAZA</span>. <small>front-end for python scripts we used to run from console</small></h2>
+ <h3 class="text-primary">
+  What is PLAZA?
+ </h3>
+ <p >
+  PLAZA is a web front-end to python scripts built with these goals in mind:
+  <ul>
+   <li>allow people with zero python knowledge to use the scripts by interaction through simple Web GUI;</li>
+   <li>beautify scripts' output with modern CSS and HTML formatting;</li>
+   <li>aggregate all the scripts in one repo but in a separate sandboxed directories to increase code manageability.</li>
+  </ul>
+ </p>
 <h3 class="text-primary">
-		How to use?
-	</h3>
-	<p >
-		Navigate through the side menu to the desired script and follow the instructions.
-	</p>
+  How to use?
+ </h3>
+ <p >
+  Navigate through the side menu to the desired script and follow the instructions.
+ </p>
 <h3 class="text-primary">
-		Contacts
-	</h3>
-	<p >
-		Have any ideas, questions, problems? Visit <a href="/contacts">contacts</a> page for all the details.
-	</p>
+  Contacts
+ </h3>
+ <p >
+  Have any ideas, questions, problems? Visit <a href="/contacts">contacts</a> page for all the details.
+ </p>
 {% endblock %}
 ```
 
@@ -355,7 +358,6 @@ And this is how it gets rendered:
 Inheritance drill [described briefly](https://flask.palletsprojects.com/en/1.1.x/patterns/templateinheritance/) in the official documentation and the main part of it sounds like this:
 
 > Template inheritance allows you to build a base “skeleton” template that contains all the common elements of your site and defines **blocks** that child templates can override.
-
 
 Apart from the official docs, you can watch [this video](https://www.youtube.com/watch?v=hNzruwVPtCE&feature=youtu.be) from the _&#8220;Discover Flask&#8221;_ series to better understand how does template inheritance work.
 
@@ -523,7 +525,7 @@ Once you have the base template figured out you are ready to create it's success
 ```html
 {% extends 'base.html' %}
 {% block content %}
-	<!-- SOME HTML HERE -->
+ <!-- SOME HTML HERE -->
 {% endblock %}
 ```
 
@@ -542,6 +544,7 @@ That's how `content_template.html` was born. In this template I define blocks wi
 The last bit of this puzzle is the template `<script_name>.html` which extends `content_template.html` and fills in all the data into blocks defined in his parent template. This template will be spawned each time a new script will be added. In the example below I demo the template called `get_vmrc_links.html` that is used for a particular script.
 
 `Content_template.html`:
+
 ```html
 {% extends 'base.html' %}
 {% block content %}
@@ -724,7 +727,7 @@ VMWare, VMRC
 Rendered page:
 ![pic](https://img-fotki.yandex.ru/get/47284/21639405.11c/0_8870c_6ef455c8_orig.png)
 
-Dynamic template: http://codepen.io/hellt/pen/PNJwxq
+Dynamic template: <http://codepen.io/hellt/pen/PNJwxq>
 
 ## Flask Blueprints
 
@@ -797,6 +800,7 @@ This example shows you how you separate one script from another by maintaining a
 Take a look at `get_vmrc_links.js` and pay attention to `$('#submit_form').click(function()`. This function handles things occurring on `on-click` event to the `Submit` button.
 
 `/scripts_bank/vmware/get_vmrc_links/static/get_vmrc_links_scripts.js`:
+
 ```js
 // filling data to the input elements based on selection of predefined hosts
 $('#known_hosts_select').change(function () {
@@ -836,6 +840,7 @@ String `data: $('form').serialize()` produces a string of [serialized](https://a
 Serialized data goes via `POST` method to the back-end via an `url` you specify.
 
 /scripts_bank/vmware/get_vmrc_links/static/get_vmrc_links_scripts.js:
+
 ```js
 $.ajax({
             url: newPathname + '/get_vmrc_links', // url: /vmware/get_vmrc_links
@@ -921,6 +926,7 @@ Once I have a dict with results and errors to show I use Flask's [jsonify](https
 And that's it. Now fast forward to the front-end and see how it processes received data:
 
 /scripts_bank/vmware/get_vmrc_links/static/get_vmrc_links_scripts.js:
+
 ```js
 $(function() {
     $('#submit_form').click(function() {
@@ -977,6 +983,7 @@ Now it's user-facing HTML template's turn. I created `sam-o_xml_api_tester.html`
 Following inheritance model this template inherits markup from the `content-template.html`. As I explained earlier it makes easier to fill in general text information (such as a name of the script, usage guide, author info, etc). Consider this as static or temporary layout for almost every new script.
 
 /scripts_bank/5620sam/SAM-O_XML_API_Tester/templates/sam-o_xml_api_tester.html:
+
 ```html
 {% extends 'content_template.html' %}
 {% block title %}
@@ -1081,4 +1088,3 @@ Apart from traditional way of cloning a [repo](https://github.com/hellt/PLAZA) a
 ## What's next?
 
 Tons of useful things are missing at the moment - no search, no active tags, no login-based system, no tests, etc. I will probably add some of this features later, but you are welcome to suggest, blame, and pull-request. Yeah, the code `as is` can be grabbed from [GitHub](https://github.com/hellt/PLAZA).
-

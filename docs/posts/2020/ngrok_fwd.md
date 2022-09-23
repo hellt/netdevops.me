@@ -1,5 +1,5 @@
 ---
-date: 2020-04-25T06:00:00Z
+date: 2020-04-25
 comment_id: ngrok_fwd
 keywords:
 - ngrok
@@ -36,6 +36,7 @@ My story will be based on the following "network-automation engineer's" requirem
 By the end of this post you will see that we deliver on all of these requirements.
 
 ## You shall (not) pass
+
 You have a router with these shiny management interfaces. But this poor thing is so locked up...
 
 ![locked](https://gitlab.com/rdodin/pics/-/wikis/uploads/a14cab59b1e2f965a6ad256a1809da42/image.png)
@@ -45,6 +46,7 @@ Most of the times there are zero chances you can configure ingress access due to
 There might even not be any EVE-NG or Openstack in the picture, but this BFF9000 fella will be there, and we are about to penetrate it.
 
 ## Enter ngrok
+
 Since opening the ports or configuring the port forwarding is not gonna help us much, we will use the reverse technique: opening the connections in the egress direction. Sending traffic in the egress direction is usually not a problem, we can leverage [ngrok](https://ngrok.io) and expose the needed ports through it:
 
 ![ngrok](https://gitlab.com/rdodin/pics/-/wikis/uploads/61cae41c73bb0878f0ca784e0375d145/image.png)
@@ -58,6 +60,7 @@ That looks like a nice idea and quite a realistic one, but not that many routers
 But we can definitely install ngrok on a machine that can reach our routers. In my case that will be the EVE-NG hypervisor/VM, since it can reach all the routers that run inside of it.
 
 ## Enter fwd
+
 Since `ngrok` is only capable of exposing the ports of the host the client runs on, we would end up with ports of the Linux host exposed, but not the router's. The missing piece is the forwarder process that will stitch the `ngrok`-exposed ports of the linux host with the respective ports of the remote router.
 
 ![fwd](https://gitlab.com/rdodin/pics/-/wikis/uploads/66790fdb54115b1ae1bc364821098345/image.png)
@@ -70,13 +73,16 @@ Let's dissect this two stage process of setting the tunnels up:
 That way we bridge the linux ports exposed with `ngrok` with the ports on the router. If that sounds confusing, lets go through the example.
 
 ## socat vs fwd
+
 If you (as me) will experience some issues with `fwd` reporting broken pipes there is an old-school alternative - `socat`. As with `fwd`, you can concatenate connections in the following way:
+
 ```bash
 # requests coming to localhost:11122 will be forwarded to 10.2.0.11:22
 socat tcp-listen:11122,reuseaddr,fork tcp:10.2.0.11:22
 ```
 
 ## Practical example
+
 We start first with exposing the ports of the machine that runs `ngrok` client and has IP reachability with our router. To expose multiple ports in a quick and easy way, I suggest you leverage the `ngrok` configuration file which can resemble smth like this:
 
 ```yml
@@ -104,6 +110,7 @@ ngrok start -config ngrok_cfg.cfg --all
 ```
 
 And voilá, these ports are now Internet-reachable:
+
 ```text
 ngrok by @inconshreveable
 
@@ -130,6 +137,7 @@ ssh_exchange_identification: Connection closed by remote host
 As we clarified before, nothing listens on these ports, since they are not of router' but of the linux machine running `ngrok` client.
 
 There is one step left. Start the `fwd` processes and stitch the local ports with the router' ports. Since `fwd` cant read (yet) the configuration file, I created a dumb script:
+
 ```bash
 fwd --from localhost:57401 --to 10.1.0.11:57400 &
 fwd --from localhost:11831 --to 10.1.0.11:830 &
@@ -139,6 +147,7 @@ fwd --from localhost:11122 --to 10.1.0.11:22 &
 Thats the missing piece to propagate our tunnels all the way to the router with IP address of `10.1.0.11` in my example. And now we're in business!
 
 **ssh:**
+
 ```text
 $ ssh -p 19968 admin@0.tcp.eu.ngrok.io
 
@@ -151,6 +160,7 @@ A:admin@R1#
 ```
 
 **netconf:**
+
 ```
 $ ssh -p 13621 admin@0.tcp.eu.ngrok.io -s netconf
 
@@ -163,6 +173,7 @@ admin@0.tcp.eu.ngrok.io's password:
 ```
 
 **gNMI:**
+
 ```
 $ myAwesomegNMIClient -a 0.tcp.ngrok.io:16704 -u admin -p admin --insecure cap
 gNMI_Version: 0.7.0
@@ -174,17 +185,17 @@ supported models:
 ```
 
 Now to stop this we simply kill the `fwd` processes and ngrok:
+
 ```
 pkill fwd && pkill ngrok
 ```
 
 ## Summary
 
-* With `ngrok` and `fwd` we have been able to expose the local router' ports with two clicks in the terminal.
-* The tunnels are persistent and free to use.
-* Tear down process is as simple as `pkill fwd && pkill ngrok`
-* you can monitor established tunnels with ngrok console (free)
-* you can try inlets or argo tunnels for similar capabilities
+- With `ngrok` and `fwd` we have been able to expose the local router' ports with two clicks in the terminal.
+- The tunnels are persistent and free to use.
+- Tear down process is as simple as `pkill fwd && pkill ngrok`
+- you can monitor established tunnels with ngrok console (free)
+- you can try inlets or argo tunnels for similar capabilities
 
 What are your ways to reach your routers in a lab, share in the comments?
-

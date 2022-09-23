@@ -1,5 +1,5 @@
 ---
-date: 2022-01-26T06:00:00Z
+date: 2022-01-26
 comment_id: netrel002
 keywords:
   - netrel
@@ -17,7 +17,7 @@ Here comes the second episode of the NetRel show: **NetRel episode 002 - DIY YAN
 
 YANG data models are the map one should use when looking for their way to configure or retrieve any data on SR Linux system. A central role that is given to YANG in SR Linux demands a convenient interface to browse, search through, and process these data models.
 
-To answer these demands, we created a web portal - https://yang.srlinux.dev - it offers:
+To answer these demands, we created a web portal - <https://yang.srlinux.dev> - it offers:
 
 - Fast Path Browser to effectively search through thousands of available YANG paths
 - Beautiful Tree Browser to navigate the tree representation of the entire YANG data model of SR Linux

@@ -1,5 +1,5 @@
 ---
-date: 2021-06-09T06:00:00Z
+date: 2021-06-09
 comment_id: scrapligo-options
 keywords:
   - scrapli
@@ -45,6 +45,7 @@ If we were to send `show system information` command with scrapligo towards a No
 What can we do about it?
 
 ## use NETCONF/gNMI/API
+
 In an ideal world, you would have stopped reading this post, because ALL your devices were equipped with some kind of programmatic interface that returns structured data. Like in the example above we connect to the SR OS node with scrapligo netconf subsystem and retrieve back a result of a NETCONF Get operation.
 
 We then can run a query on this XML document we received and get the data out just nicely.
@@ -53,50 +54,52 @@ We then can run a query on this XML document we received and get the data out ju
 package main
 
 import (
-	"fmt"
-	"strings"
+ "fmt"
+ "strings"
 
-	"github.com/antchfx/xmlquery"
-	"github.com/scrapli/scrapligo/driver/base"
-	"github.com/scrapli/scrapligo/netconf"
-	"github.com/scrapli/scrapligo/transport"
+ "github.com/antchfx/xmlquery"
+ "github.com/scrapli/scrapligo/driver/base"
+ "github.com/scrapli/scrapligo/netconf"
+ "github.com/scrapli/scrapligo/transport"
 )
 
 func main() {
-	d, _ := netconf.NewNetconfDriver(
-		"clab-scrapli-sros",
-		base.WithAuthStrictKey(false),
-		base.WithAuthUsername("admin"),
-		base.WithAuthPassword("admin"),
-		base.WithTransportType(transport.StandardTransportName),
-	)
+ d, _ := netconf.NewNetconfDriver(
+  "clab-scrapli-sros",
+  base.WithAuthStrictKey(false),
+  base.WithAuthUsername("admin"),
+  base.WithAuthPassword("admin"),
+  base.WithTransportType(transport.StandardTransportName),
+ )
 
-	d.Open()
+ d.Open()
 
-	r, _ := d.Get(netconf.WithNetconfFilter(`
-	<state xmlns="urn:nokia.com:sros:ns:yang:sr:state">
-	<system><version><version-number/></version></system>
-	</state>`))
+ r, _ := d.Get(netconf.WithNetconfFilter(`
+ <state xmlns="urn:nokia.com:sros:ns:yang:sr:state">
+ <system><version><version-number/></version></system>
+ </state>`))
 
-	doc, _ := xmlquery.Parse(strings.NewReader(r.Result))
+ doc, _ := xmlquery.Parse(strings.NewReader(r.Result))
 
-	ver := xmlquery.Find(doc, "//version-number")
+ ver := xmlquery.Find(doc, "//version-number")
 
-	fmt.Println(ver[0].InnerText())
+ fmt.Println(ver[0].InnerText())
 
-	d.Close()
+ d.Close()
 }
 ```
 
 Output:
+
 ```
 ❯ go run netconf.go
 B-20.10.R3
 ```
 
-Unfortunately we are not yet there, we have thousands of access devices in Service Providers network which do not have any of the fancy interface. We have Enterprise networks running decade old gear. And we also live in a harsh world where even if the Network OS has one of those fancy interface, the level of information you can query via them is **not on par with what you can do over CLI**. 
+Unfortunately we are not yet there, we have thousands of access devices in Service Providers network which do not have any of the fancy interface. We have Enterprise networks running decade old gear. And we also live in a harsh world where even if the Network OS has one of those fancy interface, the level of information you can query via them is **not on par with what you can do over CLI**.
 
 ## on-box JSON output
+
 The next best thing is to leverage the device's ability to present the output as JSON. Then you can capture this output over SSH and let your JSON parser to do it's thing.
 
 For example, on EOS every show command can be represented as a JSON blob:
@@ -137,36 +140,36 @@ and with this tiny `scrapligo` program you can easily retrieve all the data from
 package main
 
 import (
-	"encoding/json"
-	"fmt"
+ "encoding/json"
+ "fmt"
 
-	"github.com/scrapli/scrapligo/driver/base"
-	"github.com/scrapli/scrapligo/driver/core"
-	"github.com/scrapli/scrapligo/transport"
+ "github.com/scrapli/scrapligo/driver/base"
+ "github.com/scrapli/scrapligo/driver/core"
+ "github.com/scrapli/scrapligo/transport"
 )
 
 func main() {
-	d, _ := core.NewCoreDriver(
-		"clab-scrapli-ceos",
-		"arista_eos",
-		base.WithAuthStrictKey(false),
-		base.WithAuthUsername("admin"),
-		base.WithAuthPassword("admin"),
-		base.WithTransportType(transport.StandardTransportName),
-	)
+ d, _ := core.NewCoreDriver(
+  "clab-scrapli-ceos",
+  "arista_eos",
+  base.WithAuthStrictKey(false),
+  base.WithAuthUsername("admin"),
+  base.WithAuthPassword("admin"),
+  base.WithTransportType(transport.StandardTransportName),
+ )
 
-	d.Open()
-	// send show command and ask to output it as JSON
-	r, _ := d.SendCommand("show inventory | json")
+ d.Open()
+ // send show command and ask to output it as JSON
+ r, _ := d.SendCommand("show inventory | json")
 
-	// imagine, that the structure that this output can be parsed into is unknown to us
-	// thus we will use a map of empty interfaces to dynamically query data after
-	var jOut map[string]interface{}
-	json.Unmarshal(r.RawResult, &jOut)
+ // imagine, that the structure that this output can be parsed into is unknown to us
+ // thus we will use a map of empty interfaces to dynamically query data after
+ var jOut map[string]interface{}
+ json.Unmarshal(r.RawResult, &jOut)
 
-	fmt.Println("number of management ports:", jOut["managementPortCount"])
+ fmt.Println("number of management ports:", jOut["managementPortCount"])
 
-	d.Close()
+ d.Close()
 }
 ```
 
@@ -180,6 +183,7 @@ number of management ports: 1
 That approach is a decent alternative to a missing programmatic interface and sometimes is the best option. But, as it usually happens, it is not universal. Many Network OS'es can not emit JSON for any given command, if at all. That means we need to resort to the parsing of the unstructured data ourselves.
 
 ## good old parsing
+
 And we back to square 1, where we usually get after some reality check. That is where we need to parse the unstructured output ourselves and get the blob of text we receive from a device to be transformed to some data structure which we can use in a program.
 
 Of course, we can simply use Regular Expressions or even brute characters matching a loop, but when dealing with lengthy outputs (usually a product of a `show` command), we often resort to a framework that can simplify the parsing.
@@ -230,37 +234,38 @@ Now when the template is there, we can write the following scrapligo + gotextfsm
 package main
 
 import (
-	"fmt"
+ "fmt"
 
-	"github.com/scrapli/scrapligo/driver/base"
-	"github.com/scrapli/scrapligo/driver/core"
-	"github.com/scrapli/scrapligo/transport"
+ "github.com/scrapli/scrapligo/driver/base"
+ "github.com/scrapli/scrapligo/driver/core"
+ "github.com/scrapli/scrapligo/transport"
 )
 
 func main() {
-	d, _ := core.NewCoreDriver(
-		"clab-scrapli-sros",
-		"arista_eos",
-		base.WithAuthStrictKey(false),
-		base.WithAuthUsername("admin"),
-		base.WithAuthPassword("admin"),
-		base.WithTransportType(transport.StandardTransportName),
-	)
+ d, _ := core.NewCoreDriver(
+  "clab-scrapli-sros",
+  "arista_eos",
+  base.WithAuthStrictKey(false),
+  base.WithAuthUsername("admin"),
+  base.WithAuthPassword("admin"),
+  base.WithTransportType(transport.StandardTransportName),
+ )
 
-	d.Open()
+ d.Open()
 
-	r, _ := d.SendCommand("show system information")
+ r, _ := d.SendCommand("show system information")
 
-	parsedOut, _ := r.TextFsmParse("private/sysinfo.textfsm")
+ parsedOut, _ := r.TextFsmParse("private/sysinfo.textfsm")
 
-	fmt.Printf("Version: %s\nUptime: %s",
-		parsedOut[0]["Version"], parsedOut[0]["SysUpTime"])
+ fmt.Printf("Version: %s\nUptime: %s",
+  parsedOut[0]["Version"], parsedOut[0]["SysUpTime"])
 
-	d.Close()
+ d.Close()
 }
 ```
 
 Output:
+
 ```
 ❯ go run main_fsm.go
 Version: B-20.10.R3
@@ -270,6 +275,7 @@ Uptime: 8 days, 03:07:43.25 (hr:min:sec)
 Easy-peasy! All thanks to the textFSM integration that scrapligo recently added!
 
 ## PS
+
 Regardless which network/vendor/consulancy firm you employed with, you won't be able to avoid CLI parsing activities at all times. The legacy gear is out there, with no other management interface but SSH/SNMP.
 
 Before scrapligo it was quite tedious (I'd claim not worth it even) to automate network activities over SSH. Now the module packs almost everything you need to efficiently get going and write some nice automation programs or CLI tools.

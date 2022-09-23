@@ -1,5 +1,5 @@
 ---
-date: 2018-03-25T12:00:00Z
+date: 2018-03-25
 comment_id: s3-multiupload
 keywords:
 - AWS

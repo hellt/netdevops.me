@@ -1,6 +1,6 @@
 ---
 title: OSPF. Neighbors on a "point-to-broadcast" network
-date: 2015-06-14T11:02:45+00:00
+date: 2015-06-14
 url: /2015/06/ospf-neighbors-on-a-point-to-broadcast-network/
 toc: true
 draft: false
@@ -32,7 +32,7 @@ But before we start, answer the short question:
 
 Take a look at this topology which consists of two directly connected Cisco routers.
 
-<img class="aligncenter" src="http://img-fotki.yandex.ru/get/6827/21639405.11b/0_836e1_87245d32_L.png" alt="" width="500" height="396" /> 
+<img class="aligncenter" src="http://img-fotki.yandex.ru/get/6827/21639405.11b/0_836e1_87245d32_L.png" alt="" width="500" height="396" />
 
 At first, topology seems as simple as a first figure in a CCNA book. But take a closer look at this OSPF interfaces, their types are different. Hm, definitely not a case you would find covered in an everyday OSPF configuration guide.
 
@@ -58,6 +58,7 @@ Neighbor ID     Pri   State           Dead Time   Address         Interface
 Look at this, R1 has a neighbor in FULL state, which means that it has recognized R2 as a valid neighbor and successfully accomplished exchange of _Link State Updates_! As a precaution lets check OSPF interfaces parameters on both routers to confirm that they indeed operate in different types:
 
 On R1:
+
 ```txt
 R1# show ip ospf interface gi1/0
 GigabitEthernet1/0 is up, line protocol is up
@@ -83,6 +84,7 @@ GigabitEthernet1/0 is up, line protocol is up
 ```
 
 On R2:
+
 ```txt
 R2#show ip ospf interface gi1/0
 GigabitEthernet1/0 is up, line protocol is up
@@ -140,6 +142,7 @@ Link ID         ADV Router      Age         Seq#       Checksum
 ```
 
 R2 OSPF DB:
+
 ```
 R2# show ip ospf database
 
@@ -160,6 +163,7 @@ Link ID         ADV Router      Age         Seq#       Checksum
 Both routers (as they must) have identical databases: 2 _Router LSA_ (one from each router) and one _Network LSA_ produced by Designated Router R2. Healthy-looking OSPF database. Now lets see if we have OSPF routes in each router&#8217;s routing table to wrap this case up:
 
 R1's route table:
+
 ```
 R1#show ip route ospf
 Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
@@ -175,6 +179,7 @@ Gateway of last resort is not set
 ```
 
 R2's route table:
+
 ```
 R2#show ip route ospf
 Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
@@ -192,12 +197,13 @@ Gateway of last resort is not set</pre>
 Oops, no OSPF routes in routing tables for both routers, how this even possible if we have just seen OSPF databases? Lets examine them one more time, now with detailed look to neighbor&#8217;s _Router LSA_:
 
 On R1:
+
 ```txt
 R1#show ip ospf database router 2.2.2.2
 
             OSPF Router with ID (1.1.1.1) (Process ID 1)
 
-		Router Link States (Area 0)
+  Router Link States (Area 0)
 
   Adv Router is not-reachable in topology Base with MTID 0
   LS age: 827
@@ -224,12 +230,13 @@ R1#show ip ospf database router 2.2.2.2
 ```
 
 On R2:
+
 ```txt
 R2#show ip ospf database router 1.1.1.1
 
             OSPF Router with ID (2.2.2.2) (Process ID 1)
 
-		Router Link States (Area 0)
+  Router Link States (Area 0)
 
   Adv Router is not-reachable in topology Base with MTID 0
   LS age: 995
@@ -265,7 +272,7 @@ R2#show ip ospf database router 1.1.1.1
 
 Gotcha, look at line #7, both routers tell us that they cant reach advertising router based on their calculated topology! And if we recall that every OSPF router builds its own network diagram based on LSA&#8217;s it received we should understand what happened behind the scenes.
 
-R1 thinks that R2 is its directly connected on point-to-point network to R2, but R2 thinks the other way, that it is connected to a broadcast network. Given that, when Dijkstra algorithm comes in play to build a network topology it literally got lost, because **topology data does not match. **And this is the very reason behind the absence of OSPF routes in R1&R2 tables, SPF algorithm have not produced anything meaningful.
+R1 thinks that R2 is its directly connected on point-to-point network to R2, but R2 thinks the other way, that it is connected to a broadcast network. Given that, when Dijkstra algorithm comes in play to build a network topology it literally got lost, because **topology data does not match.**And this is the very reason behind the absence of OSPF routes in R1&R2 tables, SPF algorithm have not produced anything meaningful.
 
 Now let me zip this all to a single sentence:
 
@@ -277,11 +284,12 @@ This was a totally strange behavior for me to see, yet Cisco didn't brake any ru
 
 But there are other vendors who managed to distinguish between different network interfaces to prevent such a bad situation when adjacency seems to be formed yet no routes are present. And we start with Alcatel-Lucent&#8217;s SR-OS v12.0.R8 (If you are new to ALU routers, check this [OSPF configuration tutorial]({{< ref "2015-06-22-alcatel-lucent-ospf-configuration-tutorial.md" >}})).
 
-<img class="aligncenter" src="http://img-fotki.yandex.ru/get/4314/21639405.11b/0_8372f_119bb606_L.png" alt="" width="500" height="291" /> 
+<img class="aligncenter" src="http://img-fotki.yandex.ru/get/4314/21639405.11b/0_8372f_119bb606_L.png" alt="" width="500" height="291" />
 
 Network topology and routers configuration area the same. Booting up routers simultaneously and checking adjacency right after that several times:
 
 On R1:
+
 ```text
 *A:R1>config>router>ospf# /show router ospf neighbor
 
@@ -328,6 +336,7 @@ No. of Neighbors: 0
 ```
 
 On R2:
+
 ```
 *A:R2>config>router>ospf# /show router ospf neighbor
 
@@ -459,14 +468,13 @@ Jun 11 10:14:57.782075 OSPF packet ignored: configuration mismatch from 10.1.2.2
 
 # Summary
 
-  * Nowadays it is best-practice to configure Ethernet interfaces between directly connected OSPF routers in a point-to-point type to reduce convergence time.
-  * It is possible to configure different interface&#8217;s type on a single network segment between OSPF routers. Especially interesting the case when one interface configured with point-to-point type and the other with broadcast.
-  * Cisco routers form neighbor relationships even if OSPF interfaces configured with different types, however no OSPF routes will be installed into routing tables since OSPF database information is inconsistent.
-  * This Cisco&#8217;s behavior can lead to unnecessary troubleshooting since adjacency seems up yet no OSPF routes will be seen in routing table.
-  * Alcatel-Lucent and Juniper routers effectively prevent adjacency to form in such case. They drop incoming to point-to-point interface Hello packets if they contain DR/BDR IP addresses other then zero.
+- Nowadays it is best-practice to configure Ethernet interfaces between directly connected OSPF routers in a point-to-point type to reduce convergence time.
+- It is possible to configure different interface&#8217;s type on a single network segment between OSPF routers. Especially interesting the case when one interface configured with point-to-point type and the other with broadcast.
+- Cisco routers form neighbor relationships even if OSPF interfaces configured with different types, however no OSPF routes will be installed into routing tables since OSPF database information is inconsistent.
+- This Cisco&#8217;s behavior can lead to unnecessary troubleshooting since adjacency seems up yet no OSPF routes will be seen in routing table.
+- Alcatel-Lucent and Juniper routers effectively prevent adjacency to form in such case. They drop incoming to point-to-point interface Hello packets if they contain DR/BDR IP addresses other then zero.
 
 # Links
 
-  * [OSPF Version 2](https://datatracker.ietf.org/doc/html/rfc2328) (RFC)
-  * [What is your OSPF neighbor doing? Adjacency problems in OSPF](https://inetzero.com/what-is-your-ospf-neighbor-doing-adjancency-problems-in-ospf/) (https://inetzero.com)
-
+- [OSPF Version 2](https://datatracker.ietf.org/doc/html/rfc2328) (RFC)
+- [What is your OSPF neighbor doing? Adjacency problems in OSPF](https://inetzero.com/what-is-your-ospf-neighbor-doing-adjancency-problems-in-ospf/) (<https://inetzero.com>)

@@ -1,5 +1,5 @@
 ---
-date: 2020-07-08T07:00:00Z
+date: 2020-07-08
 comment_id: gnmic
 keywords:
 - gnmi
@@ -19,6 +19,7 @@ I am excited to announce the public release of [`gnmic`](https://gnmic.kmrd.dev/
 <!--more-->
 
 ### Problem statement
+
 I am not exaggerating, there is a shortage of open source gNMI clients one can find. And when I say gNMI clients I mean the CLI clients that allow you to invoke gNMI service RPCs.
 
 Earlier this year I bragged about it, in hope that my google-foo is just broken and the community knows of a gNMI client that I could download and use right away without jumping through hoops:
@@ -27,45 +28,47 @@ Earlier this year I bragged about it, in hope that my google-foo is just broken 
 
 But that was not my google-foo, unfortunately. For the sake of completeness allow me to summarize the landscape of gNMI clients in a pre-gnmic era:
 
-* [OpenConfig gNMI CLI client](https://github.com/openconfig/gnmi) - thats the google search top result one gets when looking for gNMI client. A reference implementation which lacks some essential features:
-    * no documentation, no [usage examples](https://github.com/openconfig/gnmi/issues/7) - you really better know how to read Go code to understand how to use it.
-    * Get requests will require you to [write in proto](https://github.com/openconfig/gnmi/issues/67) syntax instead of a simple `get` command with a path.
-    * additional options like Encoding, Models are not exposed via flags.
-    * no ready-made binaries - you need to have a Go tool chain to build the tool.
-    * no _insecure_ support - you can kiss goodbye your lab installations without PKI.
-* [Google gnxi](https://github.com/google/gnxi) - Googles gNxI tools that include gNMI, gNOI.
-    * the gNMI RPCs are split to different CLI tools which is not convenient
-    * a list of flags is all you got when it comes to documentation
-    * no releases to download, Go toolchain is needed
-* [cisco-gnmi-python](https://github.com/cisco-ie/cisco-gnmi-python#cli-usage) - a Cisco Innovative Edge project that is quite decent and complete, good job! But a few improvements could have been made:
-    * client doesn't allow to use insecure gRPC transport, PKI is mandatory.
-    * Set requests can't set values specified on the command line.
-    * CLI structure is not consistent across the commands
-    * No option exposed to set the Subscription mode.
-* [Telegraf](https://github.com/influxdata/telegraf) and [Ansible gNMI module](https://github.com/nokia/ansible-networking-collections/tree/master/grpc) are not qualified to be considered as CLI tools.
+- [OpenConfig gNMI CLI client](https://github.com/openconfig/gnmi) - thats the google search top result one gets when looking for gNMI client. A reference implementation which lacks some essential features:
+  - no documentation, no [usage examples](https://github.com/openconfig/gnmi/issues/7) - you really better know how to read Go code to understand how to use it.
+  - Get requests will require you to [write in proto](https://github.com/openconfig/gnmi/issues/67) syntax instead of a simple `get` command with a path.
+  - additional options like Encoding, Models are not exposed via flags.
+  - no ready-made binaries - you need to have a Go tool chain to build the tool.
+  - no _insecure_ support - you can kiss goodbye your lab installations without PKI.
+- [Google gnxi](https://github.com/google/gnxi) - Googles gNxI tools that include gNMI, gNOI.
+  - the gNMI RPCs are split to different CLI tools which is not convenient
+  - a list of flags is all you got when it comes to documentation
+  - no releases to download, Go toolchain is needed
+- [cisco-gnmi-python](https://github.com/cisco-ie/cisco-gnmi-python#cli-usage) - a Cisco Innovative Edge project that is quite decent and complete, good job! But a few improvements could have been made:
+  - client doesn't allow to use insecure gRPC transport, PKI is mandatory.
+  - Set requests can't set values specified on the command line.
+  - CLI structure is not consistent across the commands
+  - No option exposed to set the Subscription mode.
+- [Telegraf](https://github.com/influxdata/telegraf) and [Ansible gNMI module](https://github.com/nokia/ansible-networking-collections/tree/master/grpc) are not qualified to be considered as CLI tools.
 
 ### What makes gNMI tool nice to use?
 
 Looking at this landscape, the following essential features a nice gNMI client should have come to mind:
 
-* provide a clean and vendor independent interface to gNMI RPCs
-* expose all configuration options the gNMI RPCs have via flags or file-based configurations
-* allow multi-target operations: i.e. a subscription made to a number of the devices
-* implement both TLS enabled and non-secure transport
-* support different output formats (JSON, proto) and destinations (stdout, file, streaming/messaging buses)
-* be documented
-* provide an easy way to install the tool without requiring a dev toolchain to be present.
+- provide a clean and vendor independent interface to gNMI RPCs
+- expose all configuration options the gNMI RPCs have via flags or file-based configurations
+- allow multi-target operations: i.e. a subscription made to a number of the devices
+- implement both TLS enabled and non-secure transport
+- support different output formats (JSON, proto) and destinations (stdout, file, streaming/messaging buses)
+- be documented
+- provide an easy way to install the tool without requiring a dev toolchain to be present.
 
 With these essential features in mind we started to work on [gnmic](https://gnmic.kmrd.dev/).
 
 ### gNMIc and its features
+
 <p align=center><img src=https://gitlab.com/rdodin/pics/-/wikis/uploads/46e7d1631bd5569e9bf289be9dfa3812/gnmic-headline.svg?sanitize=true/></p>
 
 The work on `gnmic` started with analysis of the existing tools shortcomings coupled with collecting requirements from our fellow engineers and our past user experience.
 
-> For the `gnmic` features run down go to our beautiful documentation portal - https://gnmic.kmrd.dev. In this post I will go a bit deeper on some core features and design choices we made, so please refer to the documentation if you are looking for a basic usage or command reference guide.
+> For the `gnmic` features run down go to our beautiful documentation portal - <https://gnmic.kmrd.dev>. In this post I will go a bit deeper on some core features and design choices we made, so please refer to the documentation if you are looking for a basic usage or command reference guide.
 
 #### Consistent command line interface
+
 It is easy to spot a CLI tool that got some love from its developers by looking at the way it is composed. Since most of the `gnmic` users will use it as a CLI tool we took an extra step and wrote it with a [Cobra](https://github.com/spf13/cobra) framework that adds a great layer of consistency to the command line applications.
 
 With Cobra `gnmic` gets extra powers such as consistent global and local flags, multi-tiered subcommands, auto-generated and accurate help and overall a "proper" CLI behavior.
@@ -92,6 +95,7 @@ Global Flags:
 ```
 
 #### Alignment to gNMI specification
+
 For a tool to be generic it must not deviate from a reference specification. Adhering to that promise, we made `gnmic` commands modelled strictly after the gNMI RPCs. Each RPC has a command with a clear and concise name, and each command's flags are named after the fields of the corresponding proto message. No ambiguous flag names or questionable subcommands, it is clear and guessable what each command and flag does without looking at the documentation:
 
 ```text
@@ -114,6 +118,7 @@ Available Commands:
 Moreover, we tried to expose every configuration knob gNMI specification has to offer. Again, a generic tool should not limit your capabilities, so if you want to, say, restrict the YANG models the gNMI target should use when replying back to the client - there is a [flag](https://gnmic.kmrd.dev/cmd/get/#model) for that!
 
 #### TLS and non-TLS transports
+
 We allowed ourselves to step away from the specification to add one additional generic purpose feature - a [insecure](https://gnmic.kmrd.dev/global_flags/#insecure) transport fo gRPC connection.
 
 The need for the non-secured connections is quite reasonable, its cumbersome in many cases to deal with certificates and keys generation if all one is up to is a quick gNMI test.
@@ -133,6 +138,7 @@ supported encodings:
 ```
 
 #### Flexible configuration options
+
 Due to a sheer amount of configuration options `gnmic` has, it can sometimes be tedious to specify all of them as CLI flags. For such cases we leveraged [viper](https://github.com/spf13/viper) and added support for [file-based configuration](https://gnmic.kmrd.dev/user_guide/configuration_file/) that is consistent with both local and global flags. Its up to a user to choose the configuration file format: YAML, JSON, HCL - all are welcome!
 
 ```yml
@@ -142,12 +148,14 @@ username: admin
 password: admin
 insecure: true
 ```
+
 ```bash
 # now gnmic can read this cfg file and get the params from it
 $ gnmi get --path /configure/system/name
 ```
 
 #### Automation friendly output
+
 Its quite common to use gnmic in a setting where the output it provides is used as an input to another command. The simple example is getting something out of the network element and processing the result with some other tool.
 
 Keeping that case in mind we modelled gnmic output to default to JSON format, so that you can quickly `jq` the results out and feed it to other tools or processes.
@@ -172,6 +180,7 @@ gnmic -a 10.1.0.11:57400 -u admin -p admin --insecure \
 ```
 
 #### Multiple subscriptions
+
 To expand on `gnmic` subscription capabilities and not limiting users to a single subscription per target we added a way to decouple subscriptions from the targets. The [Multiple subscriptions](https://gnmic.kmrd.dev/user_guide/subscriptions/) feature allows to defined as many subscriptions as needed and later associate them to the targets:
 
 ```yaml
@@ -204,11 +213,13 @@ subscriptions:
 With this approach subscriptions stay decoupled from the targets, while being fully configurable.
 
 #### Documentation
+
 Writing documentation is hard, but it felt necessary to provide a full-blown [documentation portal](https://gnmic.kmrd.dev) with basic usage, command reference and advanced use cases examples.
 
 Knowing how problematic it might be for a novice to get started with gNMI, we added a lot of examples to each command `gnmic` has. The documentation portal is built with [mkdocs-material](https://github.com/squidfunk/mkdocs-material) theme and is open, so you can request additions or contribute via [issues](https://gitlab.com/kmrdi/gnmiclient-docs).
 
 #### Distribution via binaries
+
 Not only having documentation is an essential step to break the steep entry barrier, but also the installation process in our opinion must be welcoming and inclusive.
 
 Being written in Go, `gnmic` is distributed as a single binary built for most common architectures and OSes. Our single-command [installation script](https://gnmic.kmrd.dev/install/) makes it extremely easy to install or upgrade.
@@ -218,10 +229,11 @@ curl -sL https://github.com/karimra/gnmic/raw/master/install.sh | sudo bash
 ```
 
 ### Summary
+
 At the end of the day, I tend to believe that `gnmic` will successfully fill the void of standalone gNMI tools available to the public. Starting from a consistent CLI layer with all the gNMI RPCs nicely exposed and finishing with the proper docs and easy installation it checks all the marks I had in mind for a decent gNMI client, and hope it will be to community's satisfaction as well.
 
 Oh, and `gnmic` also has [collection capabilities](https://gnmic.kmrd.dev/user_guide/outputs/output_intro/) allowing you to export the metrics collected via gNMI to Kafka, NATS, Influx, Prometheus. But that is for another post.
 
 ### Authors
-The team behind `gnmic` consists of [Karim Radhouani](https://github.com/karimra) and [Roman Dodin](https://twitter.com/ntdvps), but we are welcome contributors of all sorts. Be it code, documentation, bug reports or feature requests!
 
+The team behind `gnmic` consists of [Karim Radhouani](https://github.com/karimra) and [Roman Dodin](https://twitter.com/ntdvps), but we are welcome contributors of all sorts. Be it code, documentation, bug reports or feature requests!

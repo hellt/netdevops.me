@@ -1,6 +1,6 @@
 ---
 title: LDP. Ordered Label Distribution Control explained
-date: 2015-06-02T10:43:07+00:00
+date: 2015-06-02
 author: Roman Dodin
 # layout: post
 url: /2015/06/ldp-ordered-label-distribution-control-explained/
@@ -14,15 +14,15 @@ tags:
 
 Major network vendors (except Cisco) default to the following modes of Label Distribution Protocol (LDP) operation (as per <a href="https://tools.ietf.org/html/rfc5036" target="_blank">RFC 5036 LDP Specification</a>):
 
-  * Label Distribution (Advertisement): Downstream Unsolicited (section 2.6.3)
-  * Label Control: Ordered (section 2.6.1)
-  * Label Retention: Liberal (section 2.6.2)
+- Label Distribution (Advertisement): Downstream Unsolicited (section 2.6.3)
+- Label Control: Ordered (section 2.6.1)
+- Label Retention: Liberal (section 2.6.2)
 
 This topic focuses on Ordered Label Distribution Control procedure to help you better understand when LSR actually assigns labels and initiates transmission of a label mapping.
 
 <!--more-->
 
-Both [RFC 3031 Multiprotocol Label Switching Architecture](https://tools.ietf.org/html/rfc3031#section-3.19) and <a href="https://tools.ietf.org/html/rfc5036" target="_blank">RFC 5036 LDP Specification</a> give definition for _Ordered Label Distribution Control_ mode:
+Both [RFC 3031 Multiprotocol Label Switching Architecture](https://tools.ietf.org/html/rfc3031#section-3.19) and <a href="https://tools.ietf.org/html/rfc5036" target="_blank">RFC 5036 LDP Specification</a> give definition for_Ordered Label Distribution Control_ mode:
 
 <p style="padding-left: 30px;">
   <strong>RFC 3031:</strong> In Ordered LSP Control, an LSR only binds a label to a particular FEC if it is the egress LSR for that FEC, or if it has already received a label binding for that FEC from its next hop for that FEC.
@@ -258,4 +258,3 @@ That is the answer. LDP speaker should tell its peers about the addresses it has
 With this information provided R2 now can tell for sure that next-hop address it has in its Forwarding Information Base belongs to R1. And that is how R2 can tell that R1 is a downstream router &#8211; by matching its next-hop address from FIB with an IP addresses provided in an Address Message from R1.
 
 And this is all for this time. If you have any questions regarding this topic &#8211; do not hesitate, I will gladly address them.
-

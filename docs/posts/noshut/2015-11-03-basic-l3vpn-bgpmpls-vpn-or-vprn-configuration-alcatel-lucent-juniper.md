@@ -1,6 +1,6 @@
 ---
 title: Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX
-date: 2015-11-03T23:57:19+00:00
+date: 2015-11-03
 author: Roman Dodin
 url: /2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/
 comment_id: l3vpn-tutor
@@ -22,11 +22,11 @@ The topic of this post is **Layer 3 VPN** (L3VPN or VPRN as we call it in SROS) 
 
 The BGP/MPLS VPN ([RFC 4364](https://tools.ietf.org/html/rfc4364)) configuration will undergo the following milestones:
 
-  * PE-PE relationship configuration with VPN IPv4 address family introduction
-  * PE-CE routing configuration with both BGP and OSPF as routing protocols
-  * Export policy configuration for advertising VPN routes on PE routers
-  * AS override configuration
-  * and many more
+- PE-PE relationship configuration with VPN IPv4 address family introduction
+- PE-CE routing configuration with both BGP and OSPF as routing protocols
+- Export policy configuration for advertising VPN routes on PE routers
+- AS override configuration
+- and many more
 
 We'll wrap it up with the Control Plane/Data Plane evaluation diagrams which help a lot with understanding the whole BGP VPN mechanics. Take your seats, and buckle up!
 <!--more-->
@@ -42,6 +42,7 @@ We start off with ISIS (any IGP would suffice) running smoothly in our provider 
 Lets have a look at the relevant configuration blocks on the three routers PE1_ALU, P1_ALU and PE2_JUN
 
 PE1_ALU:
+
 ```txt
 A:PE1_ALU>config>router# info 
 ----------------------------------------------
@@ -144,6 +145,7 @@ Destination           Owner Encap TunnelId  Pref     Nexthop        Metric
 ```
 
 P1_ALU:
+
 ```txt
 A:P1_ALU>config>router# info
 ----------------------------------------------
@@ -227,6 +229,7 @@ echo "MPLS LSP Configuration"
 ```
 
 PE2_JUN:
+
 ```txt
 root@PE2_JUN# show 
 ## Last changed: 2015-10-20 17:08:01 UTC
@@ -370,7 +373,6 @@ A Route Target attribute can be thought of as identifying a set of sites. (Thoug
 There is a set of Route Targets that a PE router attaches to a route received from site S; these may be called the "Export Targets". And there is a set of Route Targets that a PE router uses to determine whether a route received from another PE router could be placed in the VRF associated with site S; these may be called the "Import Targets". The two sets are distinct, and need not be the same. Note that a particular VPN-IPv4 route is only eligible for installation in a particular VRF if there is some Route Target that is both one of the route's Route Targets and one of the VRF's Import Targets.
 {{< /admonition >}}
 
-
 Usually the RTs are represented as `<AS Number of a client network>:<VRF ID>`:
 
 ```txt
@@ -400,6 +402,7 @@ The BGP configuration part for PE1_ALU and PE2_JUN routers follows a simple iBGP
 In Juniper this family is called `inet-vpn`, in SROS it is `vpn-ipv4`, but nonetheless it is just an address family which enables communication of VPN routes between the peers. We will see later how this family differs from a classic IPv4, but for now just look at the BGP configuration part for both PE routers:
 
 PE1_ALU:
+
 ```txt
 *A:PE1_ALU>config>router>bgp# info 
 ----------------------------------------------
@@ -415,6 +418,7 @@ PE1_ALU:
 ```
 
 PE2_JUN:
+
 ```
 bgp {
         group iBGP {
@@ -460,6 +464,7 @@ At first we should ensure that customer facing ports operate in `access` mode.
 *A:PE1_ALU# configure port 1/1/3 ethernet mode access
 *A:PE1_ALU# configure port 1/1/3 no shutdown```
 ```
+
 ### 2. Customers creation
 
 SROS uses the concept of the `customers` which is similar to the tenants in a virtualization world. I will create two new customers (`Customer 1` is a default one) to map them to the customers we have in our network:
@@ -515,6 +520,7 @@ After that I create a VPRN service (which is a fancy SROS name for a L3VPN) for 
 ```
 
 VRF 30 configuration repeats the same steps:
+
 ```txt
 A:PE1_ALU>config>service# info 
 ----------------------------------------------
@@ -537,6 +543,7 @@ A:PE1_ALU>config>service# info
 Ok, our VRFs 20 and 30 are configured on PE1_ALU router and we have customers interfaces attached. What we need to do next is to configure a routing protocol which will propagate customers routes to the PE router. On PE1_ALU router we will use BGP as a routing protocol towards the CE routers, consequently CE routers will use BGP as well. Lets configure BGP instances for VRFs 20 and 30:
 
 BGP configuration for VRF 20:
+
 ```txt
 /configure service vprn 20 customer 20
 ### specify AS number for BGP speaker in VRF 20
@@ -703,7 +710,7 @@ set routing-instances 30 vrf-target target:300:30
 
 VRF configuration on Juniper looks almost identical to Nokia. The major difference here is that you don't have to tell JUNOS to resolve VRF's next-hop address via MPLS tunnel. And you don't have to configure an export policy in case you are using eBGP as a PE-CE protocol. Juniper defaults to that behavior.
 
-### PE -> CE configuration on Juniper.
+### PE -> CE configuration on Juniper
 
 Note, that with Juniper we omit the explicit AS number configuration under the BGP configuration. In that case the globally configured AS number will be used.
 
@@ -809,12 +816,12 @@ root@PE2_JUN# show
 
 ## CE -> PE routing protocol configuration
 
-Now it is time to connect our customers to the service provider's network via VRFs created earlier and finally add some VPN routes. CE routers completely unaware of a complex L3VPN configuration on the PE routers, what they need to do is just setup a routing protocol over which customers routes could be delivered to (and received from) the Service Provider. 
-
+Now it is time to connect our customers to the service provider's network via VRFs created earlier and finally add some VPN routes. CE routers completely unaware of a complex L3VPN configuration on the PE routers, what they need to do is just setup a routing protocol over which customers routes could be delivered to (and received from) the Service Provider.
 
 Starting with Juniper CE1_JUN and CE2_JUN that run eBGP with PE routers:
 
 CE1_JUN:
+
 ```txt
 root@CE1_JUN# show 
 ### Last changed: 2015-10-28 17:40:05 UTC
@@ -877,6 +884,7 @@ policy-options {
 ```
 
 CE2_JUN:
+
 ```txt
 root@CE2_JUN# show 
 ### Last changed: 2015-10-28 16:50:23 UTC
@@ -939,10 +947,10 @@ policy-options {
 }
 ```
 
-
 Now its Nokia time. Pay attention to the CE2_ALU router, since we are using OSPF on CE2-PE2 link configuration it is a little bit different from other CE's configs.
 
 CE1_ALU:
+
 ```txt
 A:CE1_ALU>config>router# info
 ----------------------------------------------
@@ -1001,6 +1009,7 @@ echo "BGP Configuration"
 ```
 
 CE2_ALU:
+
 ```txt
 A:CE2_ALU>config>router# info
 ----------------------------------------------
@@ -1045,18 +1054,20 @@ I will start with dissection of a control plane operation from the point where M
 
 > All the pictures are clickable, to see the full sized pics choose "open an image in a separate tab" option in your browser.
 
-
 [![l3_vpn_control_plane](http://img-fotki.yandex.ru/get/31082/21639405.11c/0_86308_2af39052_orig.png)](http://img-fotki.yandex.ru/get/31082/21639405.11c/0_86308_2af39052_orig.png)
 
 ### Step 1
+
 CE1_JUN router has an export policy `export_loopback` configured which is used by BGP to construct the BGP UPDATE message with `lo0` prefix as an NLRI.
 
 ### Step 2
+
 CE1_JUN sends a regular BGP UPDATE message to its eBGP peer PE1_ALU.
 
 [![l3vpn_control_plane](http://img-fotki.yandex.ru/get/17849/21639405.11c/0_86309_b4edb4e4_orig.png)](http://img-fotki.yandex.ru/get/17849/21639405.11c/0_86309_b4edb4e4_orig.png)
 
 ### Step 3
+
 PE1_ALU router receives this update via its interface `toCE1` configured in `vprn 20` context. PE1_ALU populates its VRF 20 with a route to `1.1.1.1/32` via `10.20.99.1`.
 
 ### Step 4
@@ -1085,6 +1096,7 @@ In the end of the day, PE1_ALU's update reaches PE2_JUN since it has the IP dest
 Notice, that BGP updates traverse Service Provider's network in a form of the simple IP packets, MPLS is out of the picture at this moment. Service Provider's core router - P1_ALU - simply routes IP packets and has no take in BGP at all.
 
 ### Step 5
+
 PE2_JUN receives the BGP UPDATE with VPN-IPv4 route. Once this route passes validation checks (Nexhop resolvable, no AS Path loop) PE2 submits this route to a specific table named `bgp.l3vpn.0`. This table stores all BGP VPN routes, refer to this figure to examine some of its content:
 
 [![l3vpn_control_plane](http://img-fotki.yandex.ru/get/4121/21639405.11c/0_8630b_e7511a43_orig.png)](http://img-fotki.yandex.ru/get/4121/21639405.11c/0_8630b_e7511a43_orig.png)
@@ -1103,9 +1115,11 @@ PE2 extracts the routing information from this update an based on the Route Targ
 Remember that it is mandatory to have an active LSP to the remote PE, since we have to have an MPLS transport to the remote end to carry the data packets.
 
 ### Step 6
+
 Since we installed the route for the `1.1.1.1/32` IPv4 prefix into VRF 20 and we have an active eBGP peer in VRF 20, we should send an update for this IPv4 prefix to the CE2_JUN router to let the CE2 site to be aware of the remote prefix. This update goes as an ordinary eBGP update.
 
 ### Step 7
+
 CE2_JUN receives the BGP UPDATE and installs a route into the only table it has for IPv4 routes - `inet.0`.
 
 This completes Control Plane operation regarding the prefix `1.1.1.1/32`, same process goes for the other loopbacks and connected to VRFs link addresses for both Alcatel and Juniper customers.
@@ -1116,13 +1130,14 @@ To complete this post we should examine the data plane operations. We will see h
 
 ![l3vpn_dataplane](http://img-fotki.yandex.ru/get/3708/21639405.11c/0_8630c_5f8e9edd_orig.png)
 
-
 ### Step 1
+
 CE2_JUN wants to send a data packet to CE1_JUN via L3VPN service provided by our network. CE2 has an active route in its route table `inet.0` that says that it can reach `1.1.1.1/32` via `10.20.99.2` address via the `ge-0/0/0` interface. CE2 has a MAC address for `10.20.99.2` so it constructs the whole frame and puts it on the wire.
 
 [![l3vpn_dataplane](http://img-fotki.yandex.ru/get/6416/21639405.11c/0_8630d_cdb63a28_orig.png)](http://img-fotki.yandex.ru/get/6416/21639405.11c/0_8630d_cdb63a28_orig.png)
 
 ### Step 2
+
 PE2_JUN receives the Ethernet frame on its interface `ge-0/0/1` which belongs to VRF 20, that is how PE2 decides to associate this packet with VRF 20. PE2 consults with the VRF 20 routing table and sees that it has to use the LSP `toPE1` to send the incoming data packet further.  
 Then PE2 gets MPLS label which it received earlier from its RSVP neighbor P1_ALU during the LSP signalization process.
 
@@ -1138,9 +1153,11 @@ Now PE2 has everything it needs:
 and thus it constructs a packet with two labels stacked and fires it off.
 
 ### Step 3
+
 P1_ALU is totally unaware of the whole services and customers mess, it just switches MPLS packets by replacing the incoming transport label with the outgoing one.
 
 ### Step 4
+
 PE1_ALU receives an MPLS packet from P1_ALU. It pops out the transport label (_fig. 4.1_) and examines the enclosed MPLS label. This label value `131068` was signalled by PE1_ALU via MP-BGP during the Control Plane operation. So PE1 knows that it has to pop this label and associate the enclosed packet with the VPRN 20 (VRF 20) (_fig. 4.2_)
 
 [![l3vpn_dataplane](http://img-fotki.yandex.ru/get/5907/21639405.11c/0_8630f_a746c430_orig.png)](http://img-fotki.yandex.ru/get/5907/21639405.11c/0_8630f_a746c430_orig.png)
@@ -1148,7 +1165,7 @@ PE1_ALU receives an MPLS packet from P1_ALU. It pops out the transport label (_f
 VRF's 20 routing table says that packets destined to `1.1.1.1` should be forwarded to `10.20.99.3` address (_fig. 4.3_), which is a connected network leading to CE1_JUN (_fig. 4.4_). PE1_ALU constructs the packet and moves it via Ethernet out of the 1/1/2 port (_fig. 4.5_).
 
 ### Step 5
+
 CE2_JUN receives an ordinary IP packet with a destination address matching its interface. It decapsulates ICMP echo request and sends back the echo reply.
 
 This concludes the control and data plane operations walk through. If you followed along the explanations and practiced the configuration steps, you should be in a good shape to implement the basic L3VPN services and also should have a pretty solid understanding of the service establishment mechanics.
-

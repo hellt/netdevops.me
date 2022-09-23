@@ -1,6 +1,6 @@
 ---
 title: Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP
-date: 2015-08-24T08:51:38+00:00
+date: 2015-08-24
 author: Roman Dodin
 url: /2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/
 draft: false
@@ -17,8 +17,8 @@ There is no way I would leave you without covering configuration steps for one o
 
 BGP is so huge that I had no other option but to write about it in several parts:
 
-  * **Part 1 - basic eBGP and iBGP configuration**
-  * [Part 2 - BGP policies. Community](http://netdevops.me/2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/)
+- **Part 1 - basic eBGP and iBGP configuration**
+- [Part 2 - BGP policies. Community](http://netdevops.me/2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/)
 
 Part 1 is dedicated to basic eBGP/iBGP configuration. We will practice with common BGP configuration procedures at first, then learn how to export routes into BGP process and prevent unnecessary route reflection by means of `split-horizon` over eBGP links.
 
@@ -44,16 +44,15 @@ AS 65510 utilizes `10.10.0.0/16` network for local link addresses, system interf
 
 We will be working with the two customers networks:
 
-  *  `R5_Customer - 10.10.55.0/24` in AS 65510
-  *  `R3_Ext_Customer - 172.16.33.0/24` in AS 65520
+- `R5_Customer - 10.10.55.0/24` in AS 65510
+- `R3_Ext_Customer - 172.16.33.0/24` in AS 65520
 
 As to Interior Gateway Protocol - I chose IS-IS, though you can choose an IGP protocol of your choice - it wont be any different. IS-IS configuration for this tutorial is super straightforward, system and network interfaces are participating in IS-IS process within the relevant ASes (except interfaces between R1-R3, R2-R4 as they are connecting different AS's and we will run BGP there). Inter-router links are all point-to-point type.
 
 IS-IS configuration section for reference:
 
-
-
 R1 (AS 65510):
+
 ```txt
 *A:R1>config>router>isis# info
 ----------------------------------------------
@@ -123,7 +122,9 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
 -------------------------------------------------------------------------------
 No. of Routes: 4
 ```
+
 R3 (AS 65520):
+
 ```txt
 A:R3>config>router>isis# info
 ----------------------------------------------
@@ -216,6 +217,7 @@ Nokia BGP configuration policy **requires** you to configure **at least one peer
 I will guide you through basic eBGP configuration between R1 and R3. R2 and R4 configuration will be just the same.
 
 R1:
+
 ```txt
 ## entering BGP configuration context
 *A:R1# configure router bgp
@@ -250,6 +252,7 @@ R1:
 ```
 
 R3:
+
 ```txt
 ## all the comments are the same as for R1
 
@@ -366,9 +369,9 @@ Now R1 is aware of `10.10.55.0/24`, but this is not sufficient for the BGP proce
 
 Step-by-step plan goes like this:
 
-  * create a _prefix-list_ to match a desired prefix
-  * create a _policy-statement_ accepting prefixes from the prefix-list and delivering it to the BGP process
-  * add customer's network to BGP via `export <policy_statement>` command under peer group context.
+- create a _prefix-list_ to match a desired prefix
+- create a _policy-statement_ accepting prefixes from the prefix-list and delivering it to the BGP process
+- add customer's network to BGP via `export <policy_statement>` command under peer group context.
 
 Lets implement this plan:
 
@@ -463,7 +466,6 @@ Nice, we have sent and received _one_ IPv4 NLRI. It is surprising to see one pre
 > <small>credits: Alcatel-Lucent Service Routing Architect (SRA) Self-Study guide, WILEY</small>  
 > I will refer to these databases from now on as BGP RIB In, BGP Local-RIB and BGP RIB Out.
 
-
 To see what routes are in **BGP RIB In** and BGP Local Routing Information Base (**BGP Local-RIB**) use the `show router bgp routes` command:
 
 ```txt
@@ -493,9 +495,8 @@ Routes : 1
 
 Perfect, `10.10.55.0/24` network made its way into BGP Local-RIB
 
-  * `*` flag means it passed validation checks
-  * `u` tells us that this route is used and is present in the R3 routing table
-
+- `*` flag means it passed validation checks
+- `u` tells us that this route is used and is present in the R3 routing table
 
 ```txt
 A:R3# show router route-table 10.10.55.0
@@ -734,6 +735,7 @@ No Matching Entries Found
 Check the resulting eBGP config that you would have on your routers at this moment:
 
 R1:
+
 ```txt
 A:R1>config>router>bgp# info
 ----------------------------------------------
@@ -809,7 +811,9 @@ Flag  Network                                            LocalPref   MED
 No Matching Entries Found
 ===============================================================================
 ```
+
 R2:
+
 ```txt
 A:R2>config>router>bgp# info
 ----------------------------------------------
@@ -888,7 +892,9 @@ Flag  Network                                            LocalPref   MED
 No Matching Entries Found
 ===============================================================================
 ```
+
 R3:
+
 ```txt
 A:R3>config>router>bgp# info
 ----------------------------------------------
@@ -948,7 +954,9 @@ u*>i  10.10.55.0/24                                      n/a         100
 Routes : 1
 ===============================================================================
 ```
+
 R4:
+
 ```txt
 A:R4>config>router>bgp# info
 ----------------------------------------------
@@ -1366,6 +1374,7 @@ This was accomplished by mutual exchange of the corresponding routes both via eB
 If some of you want to get the full picture - see this configuration snapshot captured on every router of this topology:
 
 R1:
+
 ```txt
 #--------------------------------------------------
 echo "Router (Network Side) Configuration"
@@ -1500,7 +1509,9 @@ echo "BGP Configuration"
 
 exit all
 ```
+
 R2:
+
 ```txt
 #--------------------------------------------------
 echo "Router (Network Side) Configuration"
@@ -1643,7 +1654,9 @@ echo "System Time NTP Configuration"
 
 exit all
 ```
+
 R3:
+
 ```txt
 #--------------------------------------------------
 echo "Router (Network Side) Configuration"
@@ -1770,7 +1783,9 @@ echo "BGP Configuration"
 
 exit all
 ```
+
 R4:
+
 ```txt
 #--------------------------------------------------
 echo "Router (Network Side) Configuration"
@@ -1869,7 +1884,9 @@ echo "BGP Configuration"
 
 exit all
 ```
+
 R5:
+
 ```txt
 #--------------------------------------------------
 echo "Router (Network Side) Configuration"
@@ -1977,7 +1994,9 @@ echo "BGP Configuration"
 
 exit all
 ```
+
 R6:
+
 ```txt
 #--------------------------------------------------
 echo "Router (Network Side) Configuration"

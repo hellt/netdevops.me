@@ -1,5 +1,5 @@
 ---
-date: 2000-01-01T06:00:00Z
+date: 2000-01-01
 title: About me
 url: about
 ---

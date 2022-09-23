@@ -1,5 +1,5 @@
 ---
-date: 2018-11-23T12:00:00Z
+date: 2018-11-23
 comment_id: ftp-saturation
 keywords:
 - FTP

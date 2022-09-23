@@ -1,5 +1,5 @@
 ---
-date: 2020-10-22T06:00:00Z
+date: 2020-10-22
 comment_id: gnmic-yang-completions
 keywords:
 - gnmi
@@ -20,5 +20,3 @@ To our surprise, the very [first external contribution](https://github.com/karim
 I thought that the best way to describe what YANG-completions is showing you a quick demo augmented with some comments. This resulted in this twitter-series:
 
 <center>{{<tweet 1318933113951715334>}}</center>
-
-

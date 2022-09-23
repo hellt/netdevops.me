@@ -1,19 +1,21 @@
 ---
-date: 2022-02-22T06:00:00Z
-comment_id: guestfish-container
-keywords:
-  - guestfish
+date: 2022-02-22
+comments: true
+# categories:
+#   - guestfish
 tags:
   - guestfish
 
-title: Using guestfish container image
 ---
+# Using guestfish container image
 
 Once in a while, one still needs to get down to a VM-land and dust off some guestfish skills.
 
 Like today I got the IPInfusion OcNOS `qcow2` image whose devs decided it is best to use VNC console by default. VNC console for a text-based terminal...
 
 So along come guestfish commands.
+
+<!-- more -->
 
 It is hugely satisfying to modify the VM images using containers, so here are my two commands to modify GRUB settings.
 

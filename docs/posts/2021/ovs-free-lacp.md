@@ -1,5 +1,5 @@
 ---
-date: 2021-02-20T06:00:00Z
+date: 2021-02-20
 comment_id: tc-mirror
 keywords:
   - tc
@@ -24,6 +24,7 @@ One particular thing though we needed to address, and it was the way we intercon
 Vrnetlab uses its own "overlay datapath" to wire up containers by means of an additional "vr-xcon" container that stitches the exposed sockets. Although this approach allows to re-wire containers in different topologies after the start, this was not something that we could use if we wanted use non-vrnetlab containers in our topology. Ideally I wanted to emulate p2p links between the routers (running inside containers) by veth pairs stretched between them, pretty much like docker does when it launches containers. And that is also the way docker-topo works.
 
 ## 1 Linux bridge and "you shall not pass"
+
 Michael Kashin in his docker-topo project wanted to do the same, and he [proposed](https://github.com/plajjan/vrnetlab/pull/188) to add a new connection type to vrnetlab which used linux bridges inside vrnetlab containers, thus allowing to interconnected vrnetlab containers in a docker-way:
 
 ```
@@ -47,6 +48,7 @@ Off we go looking for alternatives.
 > though tc solution is cleaner for the purpose of a point-to-point link.
 
 ## 2 Macvtap
+
 Another approach that Michael tried when he was working on docker-topo was macvtap interface that looked promising on paper.
 
 ![macvtap1](https://pbs.twimg.com/media/EuF4GgyXUAEZ3j5?format=jpg)
@@ -63,6 +65,7 @@ we still tried...
 Macvtaps in bridge mode worked, but they were not passing LACP still. No matter what we tried it became evident that path is a no go.
 
 ## 3 Openvswitch
+
 Most of my colleagues use openvswitch bridges to interconnect classical libvirt/qemu VMs when they need to have support for LACP. With OvS all it takes is a single configuration command:
 
 ```bash
@@ -78,9 +81,10 @@ But with all other options exhausted, I decided to add this datapath option to [
 But there was nothing else to try, or was there? We even wanted to [explore eBPF](https://twitter.com/ntdvps/status/1363038088910495747) path to see if it can help here...
 
 ## 4 tc to the rescue
+
 Then all of a sudden Michael pinged me with the following message:
 
-> @hellt have you seen this? "Using tc redirect to connect a virtual machine to a container network · GitHub" https://gist.github.com/mcastelino/7d85f4164ffdaf48242f9281bb1d0f9b
+> @hellt have you seen this? "Using tc redirect to connect a virtual machine to a container network · GitHub" <https://gist.github.com/mcastelino/7d85f4164ffdaf48242f9281bb1d0f9b>
 
 This gist demonstrated how [`tc mirred`](https://man7.org/linux/man-pages/man8/tc-mirred.8.html) function can be used to solve a task of port mirroring. Isn't this brilliant? That was exactly what we needed, to transparently redirect **all** layer 2 frames between a pair of interfaces. Pretty much like veth works.
 
@@ -127,7 +131,5 @@ and then use this script in qemu:
 ```bash
 -netdev tap,id=XX,ifname=tap1,script=/etc/tc-tap-ifup,downscript=no
 ```
-
-
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js" async></script>

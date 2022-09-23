@@ -1,5 +1,5 @@
 ---
-date: 2017-08-10T12:00:00Z
+date: 2017-08-10
 comment_id: yang-explorer
 keywords:
 - Docker
@@ -21,6 +21,7 @@ So I decided to re-build [an image](https://hub.docker.com/r/hellt/yangexplorer-
 <!--more-->
 
 Just take a look how noob-ish I was to publish a `Dockerfile` like this:
+
 ```Dockerfile
 FROM ubuntu:14.04
 MAINTAINER Roman Dodin <dodin.roman@gmail.com>
@@ -32,7 +33,7 @@ RUN sed -i -e 's/HOST=\x27localhost\x27/HOST=$HOSTNAME/g' start.sh
 CMD ["bash", "start.sh"]
 ```
 
-Several unnecessary layers, using Ubuntu as a base -- these are the Docker-novice errors. 
+Several unnecessary layers, using Ubuntu as a base -- these are the Docker-novice errors.
 
 Few things changed in the [Yang Explorer](https://github.com/CiscoDevNet/yang-explorer) regarding the setup process, now you do not need to install explicitly all the dependencies, they will be installed using the packaged `requirements.txt` file, so our Dockerfile could be as short as this:
 
@@ -63,6 +64,7 @@ In the first `RUN` we write a layer with the tools that are needed to clone the 
 ![Layers disposition](https://lh3.googleusercontent.com/pIf91DS4P8xb3FFuqVxWIjH3VLS3xS6DXp3UXAK3uJCveF9olt-ICnRj6peqqDnIY2k_WH5JEcl6Zc4LdoA476baHWDAywZ2NiSMG8WfQDd1leycyhdqA38s2hjyeN16bX9VGuXfdlc=w676-h397-no)
 
 ## Usage
+
 To use this image:
 
 1. Start the container
@@ -70,17 +72,18 @@ To use this image:
     ```shell
     docker run -p 8088:8088 -d hellt/yangexplorer-docker
     ```
+
 2. Navigate your flash-capable browser to `http://<ip_of_your_docker_host>:8088`
 
 ## Differences with Robert Csapo image
-Main differences are in the size: 
 
-* Compressed = 358Mb vs 588Mb
-* Uncompressed = 1.9Gb vs 2.51Gb
+Main differences are in the size:
+
+- Compressed = 358Mb vs 588Mb
+- Uncompressed = 1.9Gb vs 2.51Gb
 
 ## Links
 
-* [My image on Docker Hub](https://hub.docker.com/r/hellt/yangexplorer-docker/)
-* [Robert' image on Docker hub](https://hub.docker.com/r/robertcsapo/yang-explorer/)
-* [Official Yang Explorer repo](https://github.com/CiscoDevNet/yang-explorer)
-
+- [My image on Docker Hub](https://hub.docker.com/r/hellt/yangexplorer-docker/)
+- [Robert' image on Docker hub](https://hub.docker.com/r/robertcsapo/yang-explorer/)
+- [Official Yang Explorer repo](https://github.com/CiscoDevNet/yang-explorer)

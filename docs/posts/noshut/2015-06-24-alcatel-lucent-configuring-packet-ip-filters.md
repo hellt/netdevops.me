@@ -1,6 +1,6 @@
 ---
 title: Nokia (Alcatel-Lucent). Configuring Packet (IP) Filters
-date: 2015-06-24T16:59:56+00:00
+date: 2015-06-24
 author: Roman Dodin
 url: /2015/06/alcatel-lucent-configuring-packet-ip-filters/
 draft: false
@@ -21,7 +21,7 @@ According to the topology provided we will block SSH access to R1's system IP. T
 
 And the rule we will configure on R2 will be as follows:
 
-  * If R2 receives a packet with a TCP destination port == 22 on interface `to_R4` it must drop it.
+- If R2 receives a packet with a TCP destination port == 22 on interface `to_R4` it must drop it.
 
 Lets begin with testing ssh access before any configuration is done:
 
@@ -192,4 +192,3 @@ In the example above we used one ip address and one port to create our filter, b
 ```
 
 And that's all for this quick IP filter tutorial.
-

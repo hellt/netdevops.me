@@ -1,6 +1,6 @@
 ---
 title: Creating a Bootstrap based front-end for your simple REST service
-date: 2019-07-28T09:00:07+00:00
+date: 2019-07-28
 author: Roman Dodin
 comment_id: frontend-for-rest
 keys:
@@ -22,6 +22,7 @@ This tutorial is based on the task real task of building up a web interface ([py
 <!--more-->
 
 ## 1 Benefits of knowing how to front-end?
+
 Lets me first explain why I think that even a basic experience with any front-end technology is beneficial to virtually anyone.
 
 ### 1.1 Get your tool a web interface
@@ -33,16 +34,19 @@ But quite often the tool can benefit greatly by having its own web interface. Yo
 The [`pycatj`](https://github.com/dbarrosop/pycatj/) is a perfect example of a CLI-first tool that can be conveniently consumed via web as well. Thus I set myself on a journey to create a web facade for it and at the same time reinforcing my very basic web skills.
 
 ### 1.2 Take your pitch or demo to a next level
+
 Not everyone of us is working in an environment where the bosses have engineering background and can equally enjoy a demo of a new service by looking at the terminal full of `curl` requests. Even if your bosses are the ones who contribute to the cutting edge technologies, your customers can easily be made of a different dough.
 
 Therefore it might be equally important to supplement your neat idea with a proper visualization; my experience says that a great tool or a service attracts audience way better when it is wrapped in a shiny package. So having a prototyped web UI might give you some bonus points even if it is not going to be consumed via the Web UI after all.
 
 ### 1.3 Learn how they do it on the other side of a fence
+
 A classic, book-pictured network automation engineer is an all Python-shop customer. Although Python is a natural fit for the network automation activities, it is also important to not less yourself be constrained by a singe language or a toolchain.
 
 Educating yourself on a different technology with a different set of the instruments and/or the views means a lot. Even by scratching the surface of the Javascript, its package managers and the front-end frameworks could make you better understand the pros and cons of the ecosystem you are in.
 
 ## 2 Front-end & Javascript frameworks
+
 ![pic](https://gitlab.com/rdodin/pics/-/wikis/uploads/6e95f9e54f4062d13e314fc1b4d78266/image.png)
 
 So how do one start if they want to learn any of that shiny front-end witchery given that there are so many frameworks around? In spite to answer this question I compiled the following list of options that when I approached the task of making a [`pycatjify`](https://pycatjify.netdevops.me) web service:
@@ -70,6 +74,7 @@ For the [pycatjify.netdevops.me](https://pycatjify.netdevops.me) I decided to us
 > Also I had some past experience with the Bootstrap 3 framework when I worked on [a Web UI for the python scripts](https://netdevops.me/2016/04/building-web-front-end-for-python-scripts-with-flask/) quite some time ago.
 
 ## 3 Mdbootstrap
+
 ![mdb logo](https://mdbootstrap.com/wp-content/uploads/2018/06/logo-mdb-jquery-small.png)
 Mdbootstrap (MDB) offers the Material-UI themed components for the various JS frameworks such as Bootstrap/JQuery, Angular, React and Vue. For the reasons outlined in section 2, I decided to go with a [Bootstrap/JQuery version](https://mdbootstrap.com/docs/jquery/) of the MDB framework as this is the easiest way to put up a simple front-end service for me.
 
@@ -80,6 +85,7 @@ Mdbootstrap (MDB) offers the Material-UI themed components for the various JS fr
 MDB, being based on the Bootstrap 4, obviously follows its ancestors paradigms when it comes to the Grid system, CSS, components, etc. If you worked with the Bootstrap before then the MDB won't be a problem at all. Moreover, the elements I used in this project are not MDB specific, the same components are available in the original Bootstrap library.
 
 ### 3.1 Install the framework
+
 Its extremely easy to "install" mdbootstrap/bootstrap framework, its hardly an installation even, as all you need is to [download](https://mdbootstrap.com/docs/jquery/getting-started/download/) the archive and extract the framework' files. Once done, the framework contents is nothing more than a small number of the folders and files:
 
 ```bash
@@ -97,12 +103,13 @@ Its extremely easy to "install" mdbootstrap/bootstrap framework, its hardly an i
 Yes, thats literally all you need, no packages installation no dependency management, just static files, classy! You can open the `index.html` with your browser and it'll just work.
 
 ### 3.2 Framework structure
+
 The framework comes with the following important components that make it all work in a unison to display the web page built with it:
 
-* CSS files in the `css` folder that define the styling of the framework elements and controls
-* Javascript files in the `js` folder that comprise the dynamic logic that the framework relies on
-* Static images in the `img` folder as well as the fonts in the `font` directory
-* Index HTML file that in a simple case will have all the website contents
+- CSS files in the `css` folder that define the styling of the framework elements and controls
+- Javascript files in the `js` folder that comprise the dynamic logic that the framework relies on
+- Static images in the `img` folder as well as the fonts in the `font` directory
+- Index HTML file that in a simple case will have all the website contents
 
 Take a look at the `index.html` file that comes with a framework:
 
@@ -116,6 +123,7 @@ The `index.html` file that comes with a template has a `div` with a few headers 
 In the [ending](https://gist.github.com/hellt/f0878010813c21837a518d89f36f5e61#file-index-html-L35-L43) of the `<body>` section you would find the `<script>` elements that load the Javascript code the framework relies on. The custom JS code that your service most likely will have will also be added in the body's tail section (see [section 4](#4-hooking-up-the-back-end) for an example).
 
 ### 3.3 Bootstrap components are your lego blocks
+
 The framework's library has a lot of components that might be treated like the lego blocks with which you build the web facade. The benefit of having the pre-created components is huge; you don't need to create these common components yourself from the ground up, just browse the library and pick the right ones.
 
 > ![components](https://gitlab.com/rdodin/pics/-/wikis/uploads/cb491f0ab8842f37bcd76f8557102d72/image.png)
@@ -133,6 +141,7 @@ It looks like a lot of lines of code, but everything was just pasted from the ex
 > <center><small>pycatjify web ui</small></center>
 
 ## 4 Hooking up the back-end
+
 As implied by the name of this post, the communication between the front-end and the back-end is happening using the REST API. In the [previous post](../creating-google-cloud-platform-function-with-python-and-serverless/) I wrote about the way I packaged the [`pycatj`](https://github.com/dbarrosop/pycatj/) tool into a Google Cloud Function which exposes a single API endpoint. Now it is time to make our front-end to be a REST API client that talks to the back-end and displays the results it receives back.
 
 This is a breakdown of a communication logic between the front and back ends:
@@ -143,6 +152,7 @@ This is a breakdown of a communication logic between the front and back ends:
 4. It then sends the transformed data back as a string packed in a JSON body as well.
 
 ### 4.1 REST API client with JQuery/AJAX
+
 There are several ways of making an asynchronous HTTP request from within the front-end service. One approach would be by using the JQuery's [AJAX](https://api.jquery.com/jquery.ajax/) function. Since MDB framework has JQuery as its dependency and this library is already loaded into our page we can use it right away.
 
 Lets add a Javascript file at the `js/pycatjify.js` path that will implement the logic of a REST client.
@@ -168,27 +178,29 @@ $.ajax({
 });
 ```
 
-* With the `url` parameter we say what is the URL of our REST API endpoint
-* `contentType` set to `application/json` narrows down the type of the content we will convey through HTTP messages
-* the `data` that we send with this specific request is contained in the `body` variable computed [before](https://gist.github.com/hellt/93154da758722192beca0fdf80d53b3a#file-pycatjify-js-L14)
-* `dataType: "json"` allows us to treat the returned response as the JSON object, and since our pycatj serverless function returns the JSON it is exactly what we need.
-* the request `type` is `POST`
+- With the `url` parameter we say what is the URL of our REST API endpoint
+- `contentType` set to `application/json` narrows down the type of the content we will convey through HTTP messages
+- the `data` that we send with this specific request is contained in the `body` variable computed [before](https://gist.github.com/hellt/93154da758722192beca0fdf80d53b3a#file-pycatjify-js-L14)
+- `dataType: "json"` allows us to treat the returned response as the JSON object, and since our pycatj serverless function returns the JSON it is exactly what we need.
+- the request `type` is `POST`
 
 If our POST request succeeds and we receive a `response`, we call a function that displays the results received as a JSON. Because of our serverless function returns the data in a `data` field, we select this field with the `response.data` selector in the `$('#out_form').val(response.data)` expression.
 
 ## 5 Hosting the web application
+
 Since our back-end code is hosted by a GCP Function, the front-end itself is nothing more than a bunch of static files (CSS, JS, HTML), and that means that it can easily be hosted **for free** with the beautiful [Gitlab Pages](https://docs.gitlab.com/ee/user/project/pages/) service.
 
 For that I added a [`.gitlab-ci.yml`](https://github.com/hellt/pycatj-web/blob/master/.gitlab-ci.yml) file that has a single `pages` job responsible for copying the web service related files to the `public` directory which, in its turn, tells Gitlab to start serving these files over HTTP.
 
-Now with every push to the master branch Gitlab will restart the web server to ensure that the most recent files are being served. 
+Now with every push to the master branch Gitlab will restart the web server to ensure that the most recent files are being served.
 
 ## 6 Summary
+
 This pretty much concludes the Minimum Viable Product of the web front-end for the simple REST API service:
 
-* by leveraging the Google Cloud PLatform Functions we [deployed](../creating-google-cloud-platform-function-with-python-and-serverless/) a python code that implements a back-end REST API service - **$0**
-* the front-end is built with a simple Bootstrap/JQuery based [MDB](https://mdboostrap.com) framework and hosted with Gitlab Pages - **$0**
-* the wildcard TLS certificate is provided by Cloudflare - **$0**
+- by leveraging the Google Cloud PLatform Functions we [deployed](../creating-google-cloud-platform-function-with-python-and-serverless/) a python code that implements a back-end REST API service - **$0**
+- the front-end is built with a simple Bootstrap/JQuery based [MDB](https://mdboostrap.com) framework and hosted with Gitlab Pages - **$0**
+- the wildcard TLS certificate is provided by Cloudflare - **$0**
 
 As you see, the process of putting a simple front-end service is simple and completely free. It goes without saying, that the example presented in this topic uses a very basic layout and a straightforward design - hence the overall simplicity. For instance the it does not handle any errors and does not perform input validation. Adding the spinner element to the UI to indicate the processing time would also enhance the UX.  
 You can imagine, that adding all of these features increases the complexity of the code base and might require additional components and/or libraries.
@@ -196,4 +208,3 @@ You can imagine, that adding all of these features increases the complexity of t
 I hope this "how to create a front-end being not a front-ender" post helps you with the basics of a simple front-end machinery. Remember, its important to start, and its easier to start small, you can always grow later. And I think the Bootstrap-like frameworks are a good choice for that.
 
 Checkout the [project's source code](https://github.com/hellt/pycatj-web) and leave the comments or ask questions below if I missed something.
-

@@ -1,5 +1,5 @@
 ---
-date: 2017-07-18T12:00:00Z
+date: 2017-07-18
 comment_id: virsh-remove
 keywords:
 - virsh
@@ -60,10 +60,11 @@ $ rm -rf /var/lib/libvirt/images/4010_DEMO_1upl_testNSGI2
 
 Too much typing for a simple task... Lets see how `xargs` comes into play!
 
-# grep and xargs!
+# grep and xargs
+
 What we need to do is to filter out the target domain names and pass these names to the `virsh destroy && virsh undefine && rm -rf` commands.
 
-First things first, lets get the names of the domains. `grep` is the tool of choice. 
+First things first, lets get the names of the domains. `grep` is the tool of choice.
 
 ```
 # grep flags:

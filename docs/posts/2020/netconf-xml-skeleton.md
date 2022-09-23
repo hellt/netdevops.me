@@ -1,5 +1,5 @@
 ---
-date: 2020-02-01T06:00:00Z
+date: 2020-02-01
 comment_id: netconf-xml-skeleton
 keywords:
 - netconf
@@ -19,6 +19,7 @@ And even in these human friendly formats you can't find all the answers; for exa
 <!--more-->
 
 # Problem statement
+
 Getting the XML data sample of a given leaf? What is this, why might I need it?
 
 Lets work through a real-life example that should make a perfect point. Suppose you need to get a list of configured users from a given network element (NE). You would normally do this by leveraging `<get-config>` operation, but in order to get only the users portion of the configuration, you would need to augment your request with a filter.
@@ -51,6 +52,7 @@ Actually, that post is a feedback to the question that popped up in my twitter r
 <center>{{<tweet 1223087371299753984>}}</center>
 
 # Solving the problem with PYANG
+
 Rafael asked a very practical question that every NETCONF user encounters; ours example follows the same question by asking **how do I know which XML data to use in my subtree filter to get users config, are there aby tools for that?**
 
 It didn't take Rafael long to come up with a solution to his own question, which he explained in the same thread:
@@ -80,6 +82,7 @@ To our grief, PYANG cant digest the path that it produces in its Path column of 
 
 > **SR OS PRO TIP that makes competition angry**  
 > You can get the model path right out from the box when you navigate to the context of interest
+
 ```text
 *(ex)[]
 A:admin@R1# configure system security user-params local-user user del
@@ -89,6 +92,7 @@ A:admin@R1# pwc model-path
 Present Working Context:
 /nokia-conf:configure/system/security/user-params/local-user/user=del
 ```
+
 > Now all you need is to copy that path and remove the user key.
 
 Having the model path without the context we can generate the XML data using the [`sample-xml-skeleton`](https://manned.org/pyang/195e05d7#head15) output of PYANG.
@@ -143,6 +147,7 @@ In our case we can cut everything that sits under the `<user>` node and get the 
 ```
 
 This is a `get-config` template XML envelope:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <rpc message-id="getBGPNBRstate" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
@@ -218,6 +223,7 @@ Now its ready to be tested (using [netconf-console in a docker container](https:
 Works!
 
 # Automating the solution
+
 Seeing this in action got me itching; I wanted to automate this process so it would be generic and less manual. For that reason I enriched my [Pyang-docker](https://github.com/hellt/pyang-docker) tool with a tiny shell script that will:
 
 1. Automatically strip the path prefix from the string copied from HTML representation of a model
@@ -245,4 +251,3 @@ $ docker run --rm -v $(pwd):/yang hellt/pyang xmlsk.sh "/conf:configure/conf:sys
   </configure>
 </data>
 ```
-

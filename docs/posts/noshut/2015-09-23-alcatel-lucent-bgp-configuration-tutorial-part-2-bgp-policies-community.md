@@ -1,6 +1,6 @@
 ---
 title: Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities
-date: 2015-09-23T16:41:58+00:00
+date: 2015-09-23
 author: Roman Dodin
 comment_id: bgp-communities
 url: /2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/
@@ -14,9 +14,9 @@ In the [first part of this BGP tutorial](http://netdevops.me/2015/08/alcatel-luc
 
 In this part we will discuss and practice:
 
-  * BGP export/import policies for route advertisement/filtering
-  * BGP communities operations
-  * BGP routes aggregation: route summarization and the corresponding `aggregate` and `atomic-aggregate` path attributes
+- BGP export/import policies for route advertisement/filtering
+- BGP communities operations
+- BGP routes aggregation: route summarization and the corresponding `aggregate` and `atomic-aggregate` path attributes
 
 <!--more-->
 
@@ -32,19 +32,19 @@ In BGP you can define two types of policies: Import and Export. To demonstrate w
 
 **Export polices** are used for:
 
-  * export routes from different protocols to BGP (like IGP routes being exported to BGP in [Part 1](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/))
-  * granular control of the advertised routes
-      * prohibit unwanted prefixes advertising
-      * set the path attributes to a desired NLRI
-  * reducing control plane traffic by advertising aggregate routes
+- export routes from different protocols to BGP (like IGP routes being exported to BGP in [Part 1](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/))
+- granular control of the advertised routes
+  - prohibit unwanted prefixes advertising
+  - set the path attributes to a desired NLRI
+- reducing control plane traffic by advertising aggregate routes
 
 **Import policies** are used for:
 
-  * filtering unwanted NLRI 
-      * by prefix, prefix-length, community value
-  * manipulation with the outbound traffic
-      * applying `Local-Pref` attribute to desired prefixes
-      * modifying/setting `MED` value or any other transitive attribute
+- filtering unwanted NLRI
+  - by prefix, prefix-length, community value
+- manipulation with the outbound traffic
+  - applying `Local-Pref` attribute to desired prefixes
+  - modifying/setting `MED` value or any other transitive attribute
 
 In SROS BGP policy configuration takes place in a router's policy-options context - `configure router policy-options`.
 
@@ -60,19 +60,17 @@ Lets statr with _BGP communities_ introduction. A BGP community (not [extended](
 
 I like to think of a community as _a label (or a tag)_ which BGP speaker puts on a NLRI to give it a context. These labels could serve different purposes, for example:
 
-* to mark/identify the prefixes originated from a specific geographic region, customer or service,
-* or to indicate that a specific treatment is desired like for the prefixes with the use of `no-export` or `no-advertise` community values
-* or could mean any other property which BGP speaker wants to communicate within an NLRI.
+- to mark/identify the prefixes originated from a specific geographic region, customer or service,
+- or to indicate that a specific treatment is desired like for the prefixes with the use of `no-export` or `no-advertise` community values
+- or could mean any other property which BGP speaker wants to communicate within an NLRI.
 
 BGP Communities are just the means to augment the specific prefixes with the metadata, they are useless until you bind some actions to them.  
 For example, you tag some prefixes with a `community A` value and others with a `community B`; then you could tell your BGP peers to, say, set the `Local Preference 200` attribute for the prefixes that have `community A` value and leave Local Preference intact for the ones marked with `community B` value. In this examples communities allowed us to set a specific action based on the community value associated with the prefixes.
 
 Communities are represented by a **community string** which is a 32 bit value. **First two bytes** of a community attribute **have to** be encoded with an AS number where community was born, and the other two bytes are set by an AS network engineer as he pleases (or in other words, the community string follows this template `<2byte-asnumber:community-value>`).
 
-
 > The community attribute values range from `0x0000000 (0:0)` through `0x0000FFFF (0:65535)`.  
 > The range from `0xFFFF0000 (65535:0)` through `0xFFFFFFFF (65535:65535)` is reserved.
-
 
 Lets run our lab and refer to the following diagram before we start configuring community attributes:
 
@@ -80,18 +78,19 @@ Lets run our lab and refer to the following diagram before we start configuring 
 
 We will introduce three different communities for our customer routes:
 
-  * `65510:100` - community for every route originated from the West side of AS 65510
-  * `65510:200` - community for every route originated from the East side of our AS 65510
-  * `65510:2` - community for the `Customer_2` routes
+- `65510:100` - community for every route originated from the West side of AS 65510
+- `65510:200` - community for every route originated from the East side of our AS 65510
+- `65510:2` - community for the `Customer_2` routes
 
 ## Adding community
 
-Community strings are configured under the `policy-options` context. Before we will be able to add communities to the prefixes, we need to: 
+Community strings are configured under the `policy-options` context. Before we will be able to add communities to the prefixes, we need to:
 
 1. Specify the `prefix-lists` for our the routes we would like to mark with a community
 2. Declare the community strings we want to refer later to.
 
 R5 policy config:
+
 ```txt
 *A:R5>config>router>policy-options# info
 ----------------------------------------------
@@ -159,6 +158,7 @@ Consider the following `policy-statement "Adv_Customers_nets"` that is configure
             exit
 ----------------------------------------------
 ```
+
 The same policy statement configuration should be created on R6 router.
 
 In the example above we added the community string using the `community add` operation; SROS also has additional operations provided for the community strings:
@@ -201,6 +201,7 @@ Neighbor
                           592    0
 -------------------------------------------------------------------------------
 ```
+
 The BGP summary output does not disclose if any community attributes were applied to the NLRIs a BGP speaker sent or received, to verify that we should ask for a specific prefix details.
 
 ## Show communities
@@ -333,9 +334,9 @@ And of course you can use `show router bgp routes <prefix> hunt` to see the verb
 
 [RFC 1997](https://tools.ietf.org/html/rfc1997) specifies the following well-known communities as the well-known communities:
 
-* `NO_EXPORT (0xFFFFFF01)` All routes received carrying a communities attribute containing this value MUST NOT be advertised outside a BGP confederation boundary (a stand-alone autonomous system that is not part of a confederation should be considered a confederation itself).
-* `NO_ADVERTISE (0xFFFFFF02)` All routes received carrying a communities attribute containing this value MUST NOT be advertised to other BGP peers.
-* `NO_EXPORT_SUBCONFED (0xFFFFFF03)` All routes received carrying a communities attribute containing this value MUST NOT be advertised to external BGP peers (this includes peers in other members autonomous systems inside a BGP confederation).
+- `NO_EXPORT (0xFFFFFF01)` All routes received carrying a communities attribute containing this value MUST NOT be advertised outside a BGP confederation boundary (a stand-alone autonomous system that is not part of a confederation should be considered a confederation itself).
+- `NO_ADVERTISE (0xFFFFFF02)` All routes received carrying a communities attribute containing this value MUST NOT be advertised to other BGP peers.
+- `NO_EXPORT_SUBCONFED (0xFFFFFF03)` All routes received carrying a communities attribute containing this value MUST NOT be advertised to external BGP peers (this includes peers in other members autonomous systems inside a BGP confederation).
 
 You will encounter `no-export` and `no-advertise` communities quite often, as they are naturally used for route advertisement manipulations.
 
@@ -362,6 +363,7 @@ A:R7>config>router>bgp# info
 As a result of this configuration it receives **all** BGP routes that R3 has in its BGP Rib-Out database:
 
 R3 BGP routes:
+
 ```txt
 A:R3# show router bgp routes 
 ===============================================================================
@@ -409,6 +411,7 @@ Routes : 8
 ```
 
 R7 BGP routes:
+
 ```txt
 A:R7# show router bgp routes 
 ===============================================================================
@@ -682,9 +685,9 @@ R3 receives and uses this prefix with the `no-export` community!
 
 Before we jump to R7 let the dust to settle and think about the propagation path of the examined prefix.
 
-* R5 originates this prefix and sets community `West "65510:100"`.
-* R5 then advertise via its _BGP UPDATE_ message this prefix with this community to all of its iBGP peers (R1, R2 and R6 are the iBGP peers of R5).
-* R1 (since we configured it this way) replaces community `West` with `no-export` for its eBGP peer R3, but **R2 does not**.
+- R5 originates this prefix and sets community `West "65510:100"`.
+- R5 then advertise via its _BGP UPDATE_ message this prefix with this community to all of its iBGP peers (R1, R2 and R6 are the iBGP peers of R5).
+- R1 (since we configured it this way) replaces community `West` with `no-export` for its eBGP peer R3, but **R2 does not**.
 
 This leads to an interesting situation when R2 advertises `10.10.55.0/24` prefix with its original community `West "65510:100"` so R4 selects this route as the best (because R4 prefers eBGP routes over iBGP):
 
@@ -865,6 +868,7 @@ To filter all the routes with a community string `65510:2` we could use prefix l
 Now R2 selects the routes with the community value of `65510:2` and removes it before sending it to its eBGP peer R4:
 
 The following output verifies this behavior:
+
 ```txt
 *A:R2# show router bgp routes 172.10.55.0/24 hunt
 ===============================================================================
@@ -1007,6 +1011,7 @@ The whole thing with the communities is about performing the actions against the
 How can you pick the routes with the different communities and modify them altogether? One way would be to write multiple policy-statements with the same action and different `from community <name>` statements. This is a bruteforce. There are far more elegant techniques we are going to explore.
 
 ### "AND" and "OR" operators
+
 To create a community that matches some of the community values you can use the `|` operator like that: `community West_or_Customer_2 members 65510:2|65510:100`. This community statement will match prefixes with the community strings like `65510:2`, `65510:2 65510:100` or `65510:2 63300:2 54487:200`.
 
 To create a community statement that will match on a string that has multiple community values (aka `AND` operator) you can compose the following community statement: `community "A_and_B" members "65510:2" "65510:100"`. This community will match `65510:2 65510:100` or `100:100 200:200 65510:2 65510:100` but **not** `65510:2` or `100:100 65510:2`.
@@ -1077,6 +1082,7 @@ Of course you can create a far more complex regexps, check the table of the supp
 As usual, check out the full config that you will have at the end of this tutorial:
 
 R1:
+
 ```txt
 A:R1>config>router# info
 ----------------------------------------------
@@ -1190,6 +1196,7 @@ echo "BGP Configuration"
 ```
 
 R2:
+
 ```
 A:R2>config>router# info
 ----------------------------------------------
@@ -1287,6 +1294,7 @@ echo "BGP Configuration"
 ```
 
 R3:
+
 ```txt
 A:R3>config>router# info
 ----------------------------------------------
@@ -1371,6 +1379,7 @@ echo "BGP Configuration"
 ```
 
 R4:
+
 ```txt
 A:R4>config>router# info
 ----------------------------------------------
@@ -1437,6 +1446,7 @@ echo "BGP Configuration"
 ```
 
 R5:
+
 ```txt
 A:R5>config>router# info
 ----------------------------------------------
@@ -1557,6 +1567,7 @@ echo "BGP Configuration"
 ```
 
 R6:
+
 ```txt
 A:R6>config>router# info
 ----------------------------------------------
@@ -1677,6 +1688,7 @@ echo "BGP Configuration"
 ```
 
 R7:
+
 ```txt
 A:R7>config>router# info
 #--------------------------------------------------
@@ -1707,4 +1719,3 @@ echo "BGP Configuration"
         exit
 ----------------------------------------------
 ```
-

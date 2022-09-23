@@ -1,6 +1,6 @@
 ---
 title: Nokia (Alcatel-Lucent) SROS OSPF configuration tutorial
-date: 2015-06-22T18:45:53+00:00
+date: 2015-06-22
 author: Roman Dodin
 url: /2015/06/alcatel-lucent-ospf-configuration-tutorial/
 # toc: true
@@ -29,21 +29,22 @@ Basic OSPF protocol configuration in a single area consists of the following ste
 
 The following network topology will be used throughout this tutorial:
 
-<img class="aligncenter" src="http://img-fotki.yandex.ru/get/9739/21639405.11b/0_83cb2_d11bc8dc_XL.png" alt="" width="530" height="705" /> 
+<img class="aligncenter" src="http://img-fotki.yandex.ru/get/9739/21639405.11b/0_83cb2_d11bc8dc_XL.png" alt="" width="530" height="705" />
 
 ## Enabling OSPF
 
 To enable OSPF on a router simply issue `configure router ospf` command. This will start OSPF process #0 on a router. If you would like to run another separate OSPF process on the same router, use  `configure router ospf <N>`, where _N_ is a decimal number of the desired OSPF process.
 
 ## Router ID
+
 Each router running OSPF should have an unique 32-bit identifier, namely **Router ID**. This identifier will be equal to the first configured value in the following prioritized:
 
-  1. `router-id` value configured globally for a router 
-  2. `system` interface IPv4 address value 
+  1. `router-id` value configured globally for a router
+  2. `system` interface IPv4 address value
   3. the last 32 bits of the chassis MAC address
 
-
 Configuring router-id explicitly:
+
 ```
 *A:R1# configure router router-id
   - no router-id
@@ -70,7 +71,9 @@ OSPF Oper Status             : Enabled    # OSPF is operating
 
 <output omitted>
 ```
+
 ## Configuring Backbone Area
+
 Are configuration is done in the OSPF configuration context with `area` command:
 
 ```
@@ -162,6 +165,7 @@ No. of OSPF Interfaces: 2
 Repeat the same configuration steps to include all interfaces to _OSPF Area 0_ for the other backbone routers R2, R3, R4 and you will end up with a fully configured _OSPF Backbone Area_.
 
 ## Verification
+
 Finally its time to check that our routers have established the neighboring relationships:
 
 ```
@@ -202,6 +206,7 @@ No. of LSAs: 4
 ```
 
 You can query OSPF database for a specific LSAs by augmenting the above mentioned command:
+
 ```
 A:R1# show router ospf database
   - database [type {router|network|summary|asbr-summary|external|nssa|all}]
@@ -216,17 +221,17 @@ A:R1# show router ospf database
 ```
 
 # Multi-area OSPF
-Basic Multi-area OSPF configuration is straightforward as well. I added two more routers to the topology and introduced two areas: Area 1 and Area 2.
 
+Basic Multi-area OSPF configuration is straightforward as well. I added two more routers to the topology and introduced two areas: Area 1 and Area 2.
 
 ![pic](http://img-fotki.yandex.ru/get/6828/21639405.11b/0_83cb9_73aa3ab3_orig.png)
 
 <small>I mistyped the port numbers for R5-R1 and R6-R2 pairs, it should be 1/1/4. Though this wont affect the course of this tutorial in anyway.</small>
 
-
 We will start by configuring `Area 1` on routers R5 and R1 using the same commands we used for single-area OSPF configuration.
 
 R5 configuration:
+
 ```dockerfile
 # Creating Area 1 on R5 and adding "system" and "toR1" interfaces
 A:R5# configure router ospf area 1
@@ -250,6 +255,7 @@ No. of OSPF Interfaces: 2
 ```
 
 R1 configuration
+
 ```dockerfile
 # Creating Area 1 on R1 (ABR) and adding "toR5" interface to it.
 
@@ -277,6 +283,7 @@ No. of OSPF Interfaces: 4
 Adding one more _Area_ (besides backbone Area 0) on R1 makes it _Area Border Router._ So R1 will form and maintain another neighbor relationships with R5 in Area 1. We will check if its true:
 
 R5 verification:
+
 ```
 *A:R5# show router ospf neighbor
 
@@ -294,6 +301,7 @@ No. of Neighbors: 1
 ```
 
 R1 verification:
+
 ```
 *A:R1# show router ospf neighbor
 
@@ -321,6 +329,7 @@ I repeated same configuration steps on R6: added it to Area 2 and neighbored wit
 Since we configured multi-area OSPF we should expect to see some new LSA in our Link State Database:
 
 On R1:
+
 ```
 A:R1# show router ospf database
 
@@ -353,7 +362,9 @@ Summary 0.0.0.1         10.3.4.0        1.1.1.1         1056 0x80000003 0x4e2f
 No. of LSAs: 20
 ===============================================================================
 ```
+
 On R5:
+
 ```
 A:R5# show router ospf database
 
@@ -388,6 +399,7 @@ R5 has only Area 1 LSAs, since R5 "lives" exactly in a single area - Area 1.
 To ensure that OSPF routers exchanged OSPF routes lets check R5 and R1 routing tables:
 
 On R1 (ABR):
+
 ```dockerfile
 # Checking routes that have been received via OSPF
 
@@ -468,6 +480,7 @@ Flags: n = Number of times nexthop is repeated
 ```
 
 On R5:
+
 ```dockerfile
 *A:R5# show router route-table protocol ospf
 
@@ -661,6 +674,7 @@ Flags: n = Number of times nexthop is repeated
 We will configure route summarization on Area Border Router (R1), so it will advertise **only one** summary route `192.168.3.0/30` instead of three specific routes.
 
 Configuration steps:
+
 ```
 A:R1# configure router ospf area 0
 A:R1>config>router>ospf>area# area-range 192.168.3.0/30
@@ -941,8 +955,8 @@ The next step is to configure R5 router as an **ASBR** and to apply the created 
 
 Now, our R5 router is now configured as an ASBR and the local routes should get exported into OSPF process. These changes allow other routers in OSPF domain to receive these routes by means of _Type 4 ASBR Summary LSA_ and _Type 5 AS External LSA_:
 
-
 R5:
+
 ```
 *A:R5# show router ospf database
 
@@ -971,7 +985,9 @@ AS Ext  n/a             192.168.5.3     5.5.5.5         506  0x80000001 0x4ffc
 No. of LSAs: 16
 ===============================================================================
 ```
+
 R1:
+
 ```
 A:R1# show router ospf database
 
@@ -1009,7 +1025,9 @@ AS Ext  n/a             192.168.5.3     5.5.5.5         843  0x80000001 0x4ffc
 No. of LSAs: 25
 ===============================================================================
 ```
+
 R3:
+
 ```
 A:R3# show router ospf database
 
@@ -1034,7 +1052,9 @@ AS Ext  n/a             192.168.5.3     5.5.5.5         870  0x80000001 0x4ffc
 No. of LSAs: 12
 ===============================================================================
 ```
+
 R6:
+
 ```
 A:R6# show router ospf database
 
@@ -1083,6 +1103,7 @@ No. of Routes: 3
 ```
 
 # OSPF Stub Area
+
 OSPF Stub Areas help to optimize LSDB and routing tables of the routers. We will configure **Area 2** as a stub area and this will tell ABR (R2) to not distribute any _External_ routes and send a default route into Area 2 instead. To configure Area 2 as stub you need to configure **all OSPF routers inside this area**:
 
 ![pic](http://img-fotki.yandex.ru/get/6504/21639405.11b/0_83cbb_ffa2879e_orig.png)
@@ -1100,6 +1121,7 @@ A:R6# configure router ospf area 2 stub
 The following "before/after" comparison shows that **after** configuring Area 2's routers as _stub_, R6 router no longer receives _ASBR Summary LSA_ and _AS External LSA_ nor it has routes 192.168.5.1-3/32. Instead it has a new _Summary LSA_ from the ABR with the _Link State ID_ 0.0.0.0 which means **default route**.
 
 R6 before stub area configuration:
+
 ```
 A:R6# show router ospf database
 
@@ -1147,7 +1169,9 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
 -------------------------------------------------------------------------------
 No. of Routes: 3
 ```
+
 R6 after stub area configuration:
+
 ```
 *A:R6# show router ospf database
 
@@ -1216,7 +1240,7 @@ No. of Routes: 13
 
 [<img class="aligncenter" src="http://img-fotki.yandex.ru/get/6847/21639405.11b/0_83cbd_8d766fa0_XL.png" alt="" width="800" height="427" />](http://img-fotki.yandex.ru/get/6847/21639405.11b/0_83cbd_8d766fa0_orig.png)
 
-ABR router participating in a _Totally stub_ area blocks not only _Type 4 ASBR Summary_ and _Type 5 AS External LSA_ but also _Type 3 Summary LSA_. This drastically reduces LSDB and route tables on Area 2 routers. As of this moment we have Area 2 configured as s_tub_ area, lets configure it to be _totally stub_. To make Area 2 _totally stub_ we need to configure ABR (R2) with keyword `no summaries` option:
+ABR router participating in a _Totally stub_ area blocks not only _Type 4 ASBR Summary_ and _Type 5 AS External LSA_ but also _Type 3 Summary LSA_. This drastically reduces LSDB and route tables on Area 2 routers. As of this moment we have Area 2 configured as s_tub_area, lets configure it to be_totally stub_. To make Area 2_totally stub_ we need to configure ABR (R2) with keyword `no summaries` option:
 
 ```txt
 *A:R2# configure router ospf area 2 stub no summaries</pre>
@@ -1333,6 +1357,7 @@ No. of Neighbors: 1
 Now when R1 and R5 are neighbors again lets see what has changed in their LSDBs:
 
 R5 LSDB prior to NSSA config:
+
 ```
 A:R5# show router ospf database
 
@@ -1361,7 +1386,9 @@ AS Ext  n/a             192.168.5.3     5.5.5.5         934  0x80000003 0x4bfe
 No. of LSAs: 16
 ===============================================================================
 ```
+
 R5 LSDB after NSSA config:
+
 ```
 *A:R5# show router ospf database
 
@@ -1391,7 +1418,6 @@ No. of LSAs: 16
 ===============================================================================
 ```
 
-
 As we see, all _Type 5 AS External LSA_ were substituted by _Type 7 NSSA LSA_. And if we had any other external routes we wouldn't see them in R5 database, since NSSA areas can not contain External routes.
 
 # Totally NSSA
@@ -1402,6 +1428,7 @@ As we see, all _Type 5 AS External LSA_ were substituted by _Type 7 NSSA LSA_. A
 As with totally stubby areas, NSSA could be configured in a way that no _Type 3 Summary LSA_ will present in such area. Totally NSSA configuration adds two additional commands on ABR:
 
 On R1:
+
 ```txt
 *A:R1>config>router>ospf>area# info
 ----------------------------------------------
@@ -1416,7 +1443,9 @@ On R1:
 # Configuring NSSA to be totally NSSA
 *A:R1>config>router>ospf>area# nssa no summaries</pre>
 ```
+
 On R5:
+
 ```txt
 # As a result - no Type 3 Summary LSA are present in R5's database
 
@@ -1436,7 +1465,6 @@ NSSA    0.0.0.1         192.168.5.3     5.5.5.5         816  0x80000002 0xd15d
 No. of LSAs: 5
 ===============================================================================
 ```
-
 
 ABR configured with _Totally NSSA_ area filters Type 3 LSA as totally stubby area does. But notice one major difference - there is **no default route** injected by ABR. This is the cause of ping failure to any _Area 0_ address:
 
@@ -1559,4 +1587,3 @@ Now the problem is clear - incoming OSPF packet came in with Hello timer set to 
 This debug technique should indicate every discrepancy in OSPF values that should match, be it authentication mismatch or Area ID mismatch.
 
 And that is all for the moment.
-

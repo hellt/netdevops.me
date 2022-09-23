@@ -1,5 +1,5 @@
 ---
-date: 2017-08-20T12:00:00Z
+date: 2017-08-20
 comment_id: py3-aws
 keywords:
 - AWS
@@ -30,4 +30,3 @@ sudo pip-3.5 install --upgrade pip
 ```
 
 And that is it!
-

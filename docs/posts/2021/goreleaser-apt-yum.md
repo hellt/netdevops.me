@@ -1,5 +1,5 @@
 ---
-date: 2021-02-23T06:00:00Z
+date: 2021-02-23
 comment_id: furyio
 keywords:
   - gemfury
@@ -22,6 +22,7 @@ But once the artifacts are built and published, the next important step is to ma
 The "challenge" with deb/rpm packages comes to light when project owners want to add those packages to Apt/Yum repositories. Goreleaser doesn't provide any integrations with 3rd party repositories nor there are Apt/Yum repositories which are free and provide an API to upload artifacts. Or are there?
 
 ## Gemfury aka Fury.io
+
 Actually there is at least one - the [gemfury.io](https://gemfury.com/) project that does just that (and even more).
 
 ![fury](https://gitlab.com/rdodin/pics/-/wikis/uploads/f329ec478f16c4b2c0dce0108a51be75/image.png)
@@ -35,7 +36,9 @@ Among other repositories, Fury provides a Yum/Apt repo for pre-built deb/rpm pac
 Just register within the service and generate a [push token](https://gemfury.com/help/tokens/#push-tokens-to-upload-packages), and you are good to go leveraging Goreleaser to push your artifacts to Fury.
 
 ## Using Goreleaser with Fury
+
 #### Step 1: Adding Fury' token
+
 Once you have a Fury' push token, it is a matter of a few lines of code on the Goreleaser side.
 
 I am using Goreleaser' Github action to build and publish artifacts, therefore I added push token to repo's secrets and added it as another environment variable of a goreleaser action:
@@ -73,6 +76,7 @@ jobs:
 This will make our `FURYPUSHTOKEN` secret value to be available inside the Goreleaser' Env vars under the `FURY_TOKEN` name.
 
 #### Step 2: Add ID for NFPM builds
+
 In the `nfpm` section of your `.goreleaser.yml` file add `id` field. This identification string will be used in Step 3 to scope which artifacts will be pushed to Fury. Since Fury will be used exclusively for dep/rpm artifacts, by using the `id` related to them we will skip artifacts which are generated in the `build` section of goreleaser (aka archives).
 
 ```yaml
@@ -85,6 +89,7 @@ nfpms:
 ```
 
 #### Step 3: Add custom publisher
+
 Now we need to tell Goreleaser to actually push those deb/rpm files it produced to a Fury repo. This is easily done with the [custom publishers](https://goreleaser.com/customization/publishers/) feature.
 
 ```yaml
@@ -101,5 +106,3 @@ publishers:
 Look how easy it is. Now on every goreleaser' build, artifacts from nfpm will be concurrently uploaded to Fury and immediately available to the users of those Apt/Yum repositories. Do note, that by default pushed artifacts have a private scope, so don't forget to visit Fury' account dashboard and make them public.
 
 Did I say that Goreleaser is a great tool? I bet I did, so consider supporting it if you have a chance.
-
-

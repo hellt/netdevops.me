@@ -1,5 +1,5 @@
 ---
-date: 2020-01-28T06:00:00Z
+date: 2020-01-28
 comment_id: netconf-console-docker
 keywords:
 - netconf
@@ -37,6 +37,7 @@ netconf> rpc confirm.xml
 ```
 
 ## Containerize
+
 I've been spoiled by Rust/Go tools that are self-contained, dependency-free and almost platform-agnostic. To achieve the same level of hassle-free for python tool I practice containerization.
 
 So I decided to put `netconf-console` in a whale protected cage by building a multi-stage docker image. Even though there are [some](https://hub.docker.com/search?q=netconf%20console&type=image) images for the netconf-console, they are all outdated, based on an old version of the tool and use python2 under the hood. Its 2020 here, so I wanted to create a fresh, small image based off of the recent netconf-console code and running with python3.
@@ -47,9 +48,11 @@ So here it is, a multi-stage build [Dockerfile](https://github.com/hellt/netconf
 The result of this build can be found at the relevant [docker hub page](https://hub.docker.com/repository/docker/hellt/netconf-console).
 
 ### Tags
+
 The docker image will be tagged in accordance with the release version numbers of the `netconf-console`; at the time of this writing, the latest version is `2.2.0`, hence you will find the image with the corresponding tag. Also, the `latest` tag will point to the most recent version.
 
 ## Installation
+
 As with any other docker image, all it takes is to make a pull:
 
 ```
@@ -57,7 +60,9 @@ docker pull hellt/netconf-console
 ```
 
 ## Usage examples
+
 The entry point of the docker image is the netconf-console itself, therefore you can run it almost in the same way as you'd do with a standalone installation - by providing the arguments to the callable.
+
 ```bash
 # verify that the tool is properly working,
 docker run --rm -it hellt/netconf-console --help
@@ -114,8 +119,8 @@ $ cat test.xml
           <security>
             <user-params>
               <local-user>
-		            <user/>
-	            </local-user>
+              <user/>
+             </local-user>
             </user-params>
           </security>
         </system>
@@ -124,6 +129,7 @@ $ cat test.xml
   </get>
 </rpc>
 ```
+
 ```xml
 $ docker run -it --rm -v $(pwd):/rpc hellt/netconf-console --host=10.1.0.11 --port=830 -u admin -p admin test.xml
 <?xml version='1.0' encoding='UTF-8'?>
@@ -160,4 +166,3 @@ $ docker run -it --rm -v $(pwd):/rpc hellt/netconf-console --host=10.1.0.11 --po
 > Note that the WORKDIR of the container image is set to `/rpc`, therefore mounting the directory with your RPCs to that mountpoint will allow to refer to the file names directly.
 
 And you can create pretty complex ad-hoc RPCs with locking the datastore, committing and discarding the changes effortlessly.
-

@@ -1,16 +1,9 @@
-
 ---
-date: 2020-10-30T06:00:00Z
-comment_id: projectdocs
-keywords:
-- documentation
-- mkdocs-material
+date: 2020-10-30
 
 tags:
 - documentation
 - mkdocs-material
-
-title: How I create documentation sites for my projects?
 ---
 
 I am a firm believer that documentation is an integral part of the project. A terse, twisted, incomplete or sometimes even missing documentation penalizes your projects success.

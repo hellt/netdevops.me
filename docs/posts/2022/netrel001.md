@@ -1,5 +1,5 @@
 ---
-date: 2022-01-18T06:00:00Z
+date: 2022-01-18
 comment_id: netrel001
 keywords:
   - netrel
@@ -22,6 +22,7 @@ Please welcome the **NetRel episode 001 - Decoding gNMI with Wireshark**, it is 
 I won't spend your time explaining the first episode; instead, let me tell you what I want the NetRel series to be about. I am interested in covering the aspects of network automation that are not widely covered.
 
 Luckily, my main line of work often offers me chances to work with the technologies relevant for webscalers. Hence, I will focus on the advanced content and not waste effort on the beginners' videos. A few broad topics that I wish to cover along the way:
+
 - Go for network automation
 - YANG based automation and programmable interfaces
 - k8s as a network control plane

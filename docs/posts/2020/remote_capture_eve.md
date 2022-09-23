@@ -1,5 +1,5 @@
 ---
-date: 2020-05-17T06:00:00Z
+date: 2020-05-17
 comment_id: remote_capture_eveng
 keywords:
 - wireshark
@@ -42,4 +42,3 @@ So, you are perfectly capable of sniffing on packets running in EVE by having Wi
 6. Start capturing!
 
 It might look like a lot of manual steps from the first sight, but it takes actually 10 seconds, since you only need to memorize the link name and type it once in the wireshark interface.
-
