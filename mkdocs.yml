@@ -1,0 +1,124 @@
+site_name: netdevops.me
+
+site_author: Roman Dodin
+site_description: >-
+  Applying DevOps to networking.
+# Repository
+repo_name: hellt/netdevops.me
+repo_url: https://github.com/hellt/netdevops.me
+site_url: "https://netdevops.me/"
+edit_uri: "edit/main/docs/"
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+
+  # 404 page
+  static_templates:
+    - 404.html
+
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+
+  features:
+    - navigation.top
+    - navigation.instant
+    - navigation.tabs
+    - search.suggest
+    - content.code.annotate
+    - toc.follow
+    - content.tooltips
+    - navigation.indexes
+
+  language: en
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: cyan
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: cyan
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  font:
+    text: Google Sans
+    code: Fira Mono
+  icon:
+    logo: fontawesome/solid/flask
+    repo: fontawesome/brands/github
+    edit: material/file-edit-outline
+  favicon: images/flask.svg
+
+# Plugins
+plugins:
+  - blog:
+      blog_dir: .
+  - search:
+      separator: '[\s\-\_]'
+  - minify:
+      minify_html: true
+  - redirects:
+      redirect_maps:
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/hellt
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/ntdvps
+  analytics:
+    provider: google
+    property: G-333724268
+
+extra_css:
+  - stylesheets/extra.css
+
+# Extensions
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.attr_list
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: "#"
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      linenums_style: pymdownx-inline
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: srl-labs
+      repo: containerlab
+  - pymdownx.mark
+  - pymdownx.smartsymbols:
+      fractions: false
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
