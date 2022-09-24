@@ -62,6 +62,7 @@ theme:
 
 # Plugins
 plugins:
+  - meta
   - blog:
       blog_dir: .
   - tags:
