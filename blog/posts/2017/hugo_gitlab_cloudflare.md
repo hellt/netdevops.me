@@ -6,9 +6,9 @@ keywords:
 - Gitlab
 - Cloudflare
 tags:
-- Hugo
-- Gitlab
-- Cloudflare
+- hugo
+- gitlab
+- cloudflare
 
 ---
 

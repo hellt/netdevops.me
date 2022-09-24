@@ -3,9 +3,8 @@ date: 2015-06-24
 # url: /2015/06/alcatel-lucent-configuring-packet-ip-filters/
 comments: true
 tags:
-  - SROS
-  - Nokia
-  - IP Filter
+  - sr os
+  - nokia
 ---
 # Nokia (Alcatel-Lucent). Configuring Packet (IP) Filters
 

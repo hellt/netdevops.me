@@ -5,7 +5,7 @@ keywords:
 - AWS
 - python
 tags:
-- AWS
+- aws
 - python
 
 ---

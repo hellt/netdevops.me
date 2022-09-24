@@ -4,7 +4,7 @@ comments: true
 keywords:
 - AWS
 tags:
-- AWS
+- aws
 
 ---
 

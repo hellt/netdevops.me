@@ -3,9 +3,9 @@ date: 2016-04-01
 comments: true
 # url: /2016/04/building-web-front-end-for-python-scripts-with-flask/
 tags:
-  - Bootstrap
-  - Flask
-  - Python
+  - bootstrap
+  - flask
+  - python
 ---
 # Building Web front end for Python scripts with Flask
 

@@ -4,9 +4,9 @@ date: 2015-08-24
 draft: false
 comments: true
 tags:
-  - Nokia
-  - SROS
-  - BGP
+  - nokia
+  - sr os
+  - bgp
 ---
 # Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP
 

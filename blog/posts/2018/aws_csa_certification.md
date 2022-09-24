@@ -5,8 +5,8 @@ keywords:
 - AWS
 - Certification
 tags:
-- AWS
-- Certification
+- aws
+- certification
 
 ---
 

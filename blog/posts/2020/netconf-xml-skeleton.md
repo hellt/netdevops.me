@@ -6,9 +6,9 @@ keywords:
 - docker
 - yang
 tags:
-- Netconf
-- Docker
-- YANG
+- netconf
+- docker
+- yang
 
 ---
 # Getting XML data sample for a given leaf in a YANG model

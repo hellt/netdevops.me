@@ -3,9 +3,9 @@ date: 2015-06-22
 # url: /2015/06/alcatel-lucent-ospf-configuration-tutorial/
 comments: true
 tags:
-  - SROS
-  - Nokia
-  - OSPF
+  - sr os
+  - nokia
+  - ospf
 ---
 # Nokia (Alcatel-Lucent) SROS OSPF configuration tutorial
 

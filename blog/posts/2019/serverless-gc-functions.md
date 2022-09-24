@@ -7,10 +7,10 @@ keywords:
 - Python
 - Serverless
 tags:
-- GCP
-- GCP Function
-- Python
-- Serverless
+- gcp
+- gcp function
+- python
+- serverless
 
 ---
 

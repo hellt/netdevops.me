@@ -7,10 +7,10 @@ keywords:
 - uWSGI
 - Docker
 tags:
-- Flask
+- flask
 - nginx
-- uWSGI
-- Docker
+- uwsgi
+- docker
 
 ---
 # Flask application in a production-ready container

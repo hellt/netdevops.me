@@ -6,8 +6,8 @@ keywords:
 - Nokia
 - 7750SR
 tags:
-- SROS
-- Nokia
+- sr os
+- nokia
 ---
 
 # SR OS Rootifier or how to flatten 7750 SR config

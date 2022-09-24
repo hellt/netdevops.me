@@ -3,7 +3,7 @@ date: 2015-06-14
 # url: /2015/06/ospf-neighbors-on-a-point-to-broadcast-network/
 comments: true
 tags:
-  - OSPF
+  - ospf
 ---
 # OSPF. Neighbors on a "point-to-broadcast" network
 

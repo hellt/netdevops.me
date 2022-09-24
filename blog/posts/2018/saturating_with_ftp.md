@@ -6,7 +6,7 @@ keywords:
 - vsftpd
 tags:
 - vsftpd
-- FTP
+- ftp
 
 ---
 

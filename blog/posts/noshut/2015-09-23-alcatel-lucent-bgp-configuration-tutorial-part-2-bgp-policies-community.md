@@ -3,9 +3,9 @@ date: 2015-09-23
 comments: true
 # url: /2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/
 tags:
-  - Nokia
-  - SROS
-  - BGP
+  - nokia
+  - sr os
+  - bgp
 ---
 # Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities
 

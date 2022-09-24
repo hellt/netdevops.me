@@ -5,8 +5,8 @@ keywords:
 - Golang
 - VSCode
 tags:
-- Golang
-- VSCode
+- go
+- vs code
 
 ---
 

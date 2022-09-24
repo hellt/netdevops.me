@@ -9,11 +9,11 @@ keys:
   - VPRN
   - BGP
 tags:
-  - Nokia
-  - Juniper
-  - L3VPN
-  - VPRN
-  - BGP
+  - nokia
+  - juniper
+  - l3vpn
+  - vprn
+  - bgp
 ---
 # Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX
 

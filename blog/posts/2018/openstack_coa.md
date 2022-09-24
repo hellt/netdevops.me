@@ -5,8 +5,8 @@ keywords:
 - Openstack
 - Certification
 tags:
-- Openstack
-- Certification
+- openstack
+- certification
 
 ---
 # Prepping up for and passing the Certified Openstack Administrator Exam

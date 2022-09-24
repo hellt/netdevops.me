@@ -10,11 +10,11 @@ keywords:
 - Python
 - Serverless
 tags:
-- AWS
-- AWS Lambda
-- Boto3
-- Python
-- Serverless
+- aws
+- aws lambda
+- boto3
+- python
+- serverless
 ---
 
 # Building AWS Lambda with Python, S3 and serverless

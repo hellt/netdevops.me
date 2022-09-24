@@ -65,6 +65,9 @@ plugins:
   - meta
   - blog:
       blog_dir: .
+      post_url_date_format: yyyy/
+      archive: false
+      categories: false
   - tags:
       tags_file: tags.md
   - search:
@@ -86,7 +89,7 @@ extra:
     property: G-333724268
 
 extra_css:
-  - stylesheets/extra.css
+  # - stylesheets/extra.css
 
 # Extensions
 markdown_extensions:

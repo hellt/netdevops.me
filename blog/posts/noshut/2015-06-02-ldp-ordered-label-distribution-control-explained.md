@@ -4,8 +4,8 @@ date: 2015-06-02
 # url: /2015/06/ldp-ordered-label-distribution-control-explained/
 comments: true
 tags:
-  - LDP
-  - MPLS
+  - ldp
+  - mpls
 ---
 # LDP. Ordered Label Distribution Control explained
 

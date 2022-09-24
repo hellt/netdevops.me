@@ -5,8 +5,8 @@ keywords:
 - netconf
 - docker
 tags:
-- Netconf
-- Docker
+- netconf
+- docker
 
 ---
 # NETCONF console in a docker container
