@@ -11,14 +11,15 @@ tags:
 - Yang Explorer
 - Alpine
 
-title: Yang Explorer in a docker container based on Alpine
 ---
+
+# Yang Explorer in a docker container based on Alpine
 
 I wrote about the Yang Explorer in a docker quite some time ago, Yang Explorer was v0.6 at that time. Back then the motivation to create a docker image was pretty simple -- installation was a pain in **v0.6**, it is still a pain, but the official version bumped to **0.8(beta)**.
 
 So I decided to re-build [an image](https://hub.docker.com/r/hellt/yangexplorer-docker/), now using Alpine Linux as a base image to reduce the size.
 
-<!--more-->
+<!-- more -->
 
 Just take a look how noob-ish I was to publish a `Dockerfile` like this:
 

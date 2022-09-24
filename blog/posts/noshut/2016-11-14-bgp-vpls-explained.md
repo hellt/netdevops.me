@@ -1,15 +1,15 @@
 ---
-title: BGP VPLS deep dive. Nokia SR OS & Juniper
 date: 2016-11-14
-author: Roman Dodin
 comments: true
-url: /2016/11/bgp-vpls-explained-nokia-juniper/
+# url: /2016/11/bgp-vpls-explained-nokia-juniper/
 tags:
   - bgp
   - vpls
   - nokia
   - juniper
 ---
+
+# BGP VPLS deep dive. Nokia SR OS & Juniper
 
 It may very well be that VPLS days are numbered and EVPN is to blame. Nevertheless, it would be naive to expect VPLS extinction in the near future. With all its shortcomings VPLS is still very well standardized, interop-proven and has a huge footprint in MPLS networks of various scale.
 
@@ -20,7 +20,7 @@ In this topic the following SW releases were used:
 - Nokia (Alcatel-Lucent) VSR 14.0.R4
 - Juniper vMX 14.1R1.10
 
-<!--more-->
+<!-- more -->
 
 ### BGP VPLS Basics
 

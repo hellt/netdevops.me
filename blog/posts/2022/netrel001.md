@@ -9,17 +9,26 @@ tags:
   - netrel
   - gnmi
   - gnmic
-
-title: Decoding gNMI with Wireshark
 ---
+
+# Decoding gNMI with Wireshark
 
 Okay, here goes my first attempt fitting the shoes of a content creator.
 
 Please welcome the **NetRel episode 001 - Decoding gNMI with Wireshark**, it is a 35min journey of using Wireshark to parse the gNMI traffic (both non-secured and secured).
 
-{{< youtube gRqBMTRKDfE >}}
+<center>
+<iframe type="text/html"
+    width="80%"
+    height="465"
+    src="https://www.youtube.com/embed/gRqBMTRKDfE"
+    frameborder="0">
+</iframe>
+</center>
 
 I won't spend your time explaining the first episode; instead, let me tell you what I want the NetRel series to be about. I am interested in covering the aspects of network automation that are not widely covered.
+
+<!-- more -->
 
 Luckily, my main line of work often offers me chances to work with the technologies relevant for webscalers. Hence, I will focus on the advanced content and not waste effort on the beginners' videos. A few broad topics that I wish to cover along the way:
 

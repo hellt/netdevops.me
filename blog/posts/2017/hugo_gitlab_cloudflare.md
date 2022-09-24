@@ -10,9 +10,9 @@ tags:
 - Gitlab
 - Cloudflare
 
-title: Setting up a Hugo blog with GitLab and CloudFlare
-
 ---
+
+# Setting up a Hugo blog with GitLab and CloudFlare
 
 [Hugo](https://gohugo.io/) gets a lot of [attention](https://www.staticgen.com/hugo) these days, it is basically snapping at the Jekyll' heels which is still the king of the hill! I don't know if Hugo' popularity coupled with **the fastest static-site-generator** statement, but for me "speed" is not the issue at all. A personal blog normally has few hundreds posts, not even close to thousands to be worried about slowness.
 
@@ -20,7 +20,7 @@ Then if it is not for speed then why did I choose Hugo? Because it became a soli
 
 As you already noticed, this blog is powered by **Hugo**, is running on **GitLab pages**, with SSL certificate from **CloudFlare** and costs me **$0**. And I would like to write down the key pieces that'll probably be of help on your path to a zero-cost personal blog/cv/landing/etc.
 
-<!--more-->
+<!-- more -->
 The key ingredients of a modern zero-cost blog powered by a Static Site Generator are:
 
 1. Version Control System -- **Git**
@@ -32,7 +32,7 @@ The key ingredients of a modern zero-cost blog powered by a Static Site Generato
 
 While Git and GitLab/GitHub are of obvious choice we better discuss the `Hugo + GitLab CI + GitLab pages + Cloudflare` mix that I chose to enable this blog.
 
-# Hugo
+## Hugo
 
 Hugo installation is ridiculously easy, thanks to Golang that powers it. Download a single `hugo` binary from the [official repo](https://github.com/gohugoio/hugo/releases) and thats it. No need for virtualenvs, npms and alike, a single binary is all you need.
 
@@ -50,7 +50,7 @@ Hugo community produced over 100+ themes for different needs. As to me, most of 
 
 To onboard a chosen theme follow the quickstart guide' [step 3](https://gohugo.io/getting-started/quick-start/#step-3-add-a-theme).
 
-# GitLab
+## GitLab
 
 Now when you have an engine and a theme coupled together its GitLab' part to present your content to the world. GitLab has the [GitLab Pages](https://about.gitlab.com/features/pages/) service created just for what we need and highligted by being:
 
@@ -96,17 +96,15 @@ Having your site to render by _myawesome.blog_ URL instead of _gitlab.io_ is sol
 
 Two common free options when we talk about TLS certs are LetsEncrypt and Cloudflare certs. I am no security expert to claim that one is better than other, I chose a path that is easier, which is [Cloudflare FlexSSL](https://www.cloudflare.com/ssl/) in my case.
 
-{{< image classes="center fancybox clear" src="https://www.cloudflare.com/img/products/ssl/flexible-ssl.svg" title="Cloudflare FlexSSL" >}}
+![pic](https://www.cloudflare.com/img/products/ssl/flexible-ssl.svg)
 
 >**Flexible SSL** encrypts traffic from Cloudflare to end users of your website, but not from Cloudflare to your origin server. This is the easiest way to enable HTTPS because it doesn’t require installing an SSL certificate on your origin. While not as secure as the other options, Flexible SSL does protect your visitors from a large class of threats including public WiFi snooping and ad injection over HTTP.
 
 Implications are clear, FlexSSL is free but does not make secure connection end-to-end, which is fine with me.
 
 FlexSSL configuration is as easy as going to **Crypto** pane in the Cloudflare admin panel and enabling _Flexible SSL_:
-{{< image classes="center clear" src="https://lh3.googleusercontent.com/IiFaytpHlZgVdig7ZDmVdu1dqbMgzDUo9KCFNxtjXTluW7Bpv3D9lXyYonAUr0HH4MQnDLQKv5d3W-WnqD7caRxXboay6AFpQuwN-1ip_FK74mVIprp_8NqHdD486xSXksxAF-1PLjk5OdeFLFxpIlZ6PeVGE3tsZ0827O2ic1kJNF7DPAwrypBjthqIISDql8rHgiLuVqwZwf-9gmXuSlLqbYztp2w51_ZTP6_Duy4HWvTmZwJqyNy5B_bpRUMAtookE54o3XYxDUzpZrfcyLiRFgQOuGpm2W7k-5ZOlrwZgN-H9WTksUoIBVYNgwjKjm3wDRUFByk_pFJPCcQrzm_wL5stCkzr7ag-FIbne-J4XMMJv78zhzYbDlq89IGOOMyVNyWFanHBV9-jIDBmP76LgpO2-V55fvRMUSgZTn2s5Wmquly-W7_85IYUOuF8Dh4KjW3njRqXDtZuaMxns757-Kz8q854n0-JHtTeM9w8-sEs_TgDFyaXOuUwU3BeNBqhuzsJGhzQnUEJGB0uXk0FRI5qC-SdhDy-wtGGiIMSjZIJFCNl13n8BJIprf7tZPN_NPuSzk4yCBWcFxa36f_GLhLX-8GgRxSPp_-kd6Y3Ax1SxVWiRe_H8RYA6u_53crQobyNMrF_aVLTgP80ZLsyoexvkrLuPhiIEUUlePUPR9g=w982-h409-no" >}}
+![pic2](https://gitlab.com/rdodin/pics/-/wikis/uploads/8655474f3e0ccef1062cb248799d3103/image.png)
 
 In that case nothing is needed to be configured in GitLab, just enjoy your TLS-enabled site.
 
 In case you want to enable end-to-end encryption (Strict SSL) there is a thorough [guide from Gitlab](https://about.gitlab.com/2017/02/07/setting-up-gitlab-pages-with-cloudflare-certificates/) covering every step.
-
-> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/3).

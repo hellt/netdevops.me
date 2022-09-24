@@ -6,15 +6,15 @@ keywords:
 tags:
 - AWS
 
-title: Uploading multiple files to AWS S3 in parallel
-
 ---
+
+# Uploading multiple files to AWS S3 in parallel
 
 Have you ever tried to upload thousands of small/medium files to the AWS S3? If you had, you might also noticed ridiculously slow upload speeds when the upload was triggered through the AWS Management Console. Recently I tried to upload 4k html files and was immediately discouraged by the progress reported by the AWS Console upload manager. It was something close to the 0.5% per 10s. Clearly, the choke point was the network (as usual, brothers!).
 
 Comer here, Google, we need to find a better way to handle this kind of an upload.
 
-<!--more-->
+<!-- more -->
 
 To set a context, take a look at the file size distribution I had (thanks to this [awk magic](https://superuser.com/questions/565443/generate-distribution-of-file-sizes-from-the-command-prompt)):
 
@@ -65,13 +65,13 @@ $ find . -type f -print0 | xargs -0 ls -l | awk '{size[int(log($5)/log(2))]++}EN
       4096 100
 ```
 
-### 1. AWS Management Console
+## 1. AWS Management Console
 
 As a normal human being I selected all these 100 files in the file dialog of the AWS Management Console and waited for **5 minutes** to upload 100 of them. Horrible.
 
 > The rest of the tests were run on an old 2012 MacBook Air with 4vCPUs.
 
-### 2. aws s3 sync
+## 2. aws s3 sync
 
 A `aws s3 sync` command is cool when you only want to upload the missing files or make the remote part in sync with a local one. In case when a bucket is empty a sequential upload will happen, but will it be fast enough?
 
@@ -85,7 +85,7 @@ sys 0m0.273s
 
 10 seconds! Not bad at all!
 
-### 3. aws s3 cp with xargs
+## 3. aws s3 cp with xargs
 
 ```
 ls -1 | time xargs -I % aws s3 cp % s3://test-ntdvps
@@ -94,7 +94,7 @@ ls -1 | time xargs -I % aws s3 cp % s3://test-ntdvps
 
 5 mins! As bad as the AWS Management Console way!
 
-### 4. aws s3 cp with parallel
+## 4. aws s3 cp with parallel
 
 `parallel` is a [GNU tool to run parallel shell commands](https://www.gnu.org/software/parallel/parallel_tutorial.html).
 
@@ -106,7 +106,7 @@ ls -1 | time parallel -j60 -I % aws s3 cp % s3://test-ntdvps --profile rdodin-cn
 
 ~40 seconds, better than `xargs` and worse than `aws s3 sync`. With an increasing number of the files `aws s3 sync` starts to win more, and the reason is probably because `aws s3 sync` uses one tcp connection, while `aws s3 cp` opens a new connection for an each file transfer operation.
 
-### 5. What if I had some more CPU cores?
+## 5. What if I had some more CPU cores?
 
 You can increase the number of the workers, and if you have a solid amount of threads available you might win the upload competition:
 

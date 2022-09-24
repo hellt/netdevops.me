@@ -15,12 +15,14 @@ tags:
 - gnmic
 - yang
 
-title: Arista vEOS gNMI Tutorial
 ---
+# Arista EOS gNMI Tutorial
+
 We were pleasantly surprised by the way community appreciated [gNMIc](https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/) release. Thank you 🙏! That solidifies the fact that a well-formed, documented and easy to use gNMI tool was needed.
 
 Now with gNMIc available to everybody its easy like never before to test gNMI implementation of different routing OSes. And in this post we will get our hands on **Arista vEOS**.
-<!--more-->
+
+<!-- more -->
 
 For this journey we pack:
 
@@ -29,17 +31,6 @@ For this journey we pack:
 3. and a [gNMI-map](https://github.com/hellt/gnmi-map) to navigate through the gNMI realm.
 
 Arista vEOS-for-labs is freely distributed and you can download the vmdk image from the official [software portal](https://www.arista.com/en/support/software-download).
-
-**Table of contents**
-
-1. [vEOS configuration](#veos-configuration)
-2. [gNMI Capabilities](#gnmi-capabilities)
-3. [Getting to know Arista YANG models](#getting-to-know-arista-yang-models)
-4. [gNMI Get](#gnmi-get)
-5. [gNMI Set](#gnmi-set)
-6. [gNMI Subscribe](#gnmi-subscribe)
-1. [Sample subscriptions](#sample-subscriptions)
-2. [ON_CHANGE subcriptions](#on-change-subscriptions)
 
 ## vEOS configuration
 

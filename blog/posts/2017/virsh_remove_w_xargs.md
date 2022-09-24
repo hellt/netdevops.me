@@ -7,17 +7,19 @@ keywords:
 - xargs
 tags:
 - virsh
-- qemu/kvm/libvirt
-
-title: Destroy and Undefine KVM VMs in a single run
+- qemu
+- kvm
+- libvirt
 
 ---
+
+# Destroy and Undefine KVM VMs in a single run
 
 `virsh` is a goto console utility for managing Qemu/KVM virtual machines. But when it comes to deletion of the VMs you better keep calm - there is no single command to destroy the VM, its definition XML file and disk image.
 
 Probably not a big problem if you have a long-living VMs, but if you in a testing environment it is naturally to spawn and kill VMs quite often. Lets see how `xargs` can help us with that routine.
 
-<!--more-->
+<!-- more -->
 
 Right now my KVM hypervisor is busy with virtualizing small Nuage VNS environment where `4010_DEMO*` VMs are virtual SDN gateways:
 
@@ -60,7 +62,7 @@ $ rm -rf /var/lib/libvirt/images/4010_DEMO_1upl_testNSGI2
 
 Too much typing for a simple task... Lets see how `xargs` comes into play!
 
-# grep and xargs
+## grep and xargs
 
 What we need to do is to filter out the target domain names and pass these names to the `virsh destroy && virsh undefine && rm -rf` commands.
 
@@ -90,5 +92,3 @@ xargs -I % sh -c 'virsh destroy % && virsh undefine % && rm -rf /var/lib/libvirt
 ```
 
 The `xargs` flag `-I %` here allows us to substitute each `%` sign in the command with the `xargs` input argument. This effectively destroys the virsh domain along with its definition and disk image.
-
-> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/1).

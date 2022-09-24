@@ -8,13 +8,11 @@ tags:
 - AWS
 - python
 
-title: How to install python3 in Amazon Linux AMI
-
 ---
 
-While [Amazon Linux AMI](https://aws.amazon.com/amazon-linux-ami/) has `yum` as a package manager, it is not that all compatible with any RHEL or CentOS distributive. A lot of changes that AWS team brought into this image made it a separate distro, so no eyebrows should be given when battle-tested procedure to install python3 will fail on Amazon Linux. (Yeah, python3 does not come included yet in Amazon Linux)
+# How to install python3 in Amazon Linux AMI
 
-<!--more-->
+While [Amazon Linux AMI](https://aws.amazon.com/amazon-linux-ami/) has `yum` as a package manager, it is not that all compatible with any RHEL or CentOS distributive. A lot of changes that AWS team brought into this image made it a separate distro, so no eyebrows should be given when battle-tested procedure to install python3 will fail on Amazon Linux. (Yeah, python3 does not come included yet in Amazon Linux)
 
 Fortunately it is very easy to fetch (while not the latest release) python3:
 

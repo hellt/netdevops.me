@@ -8,15 +8,15 @@ tags:
 - AWS
 - Certification
 
-title: Prepping up for and passing the AWS Certified Solution Architect - Associate
-
 ---
+
+# Prepping up for and passing the AWS Certified Solution Architect - Associate
 
 On May 11th I passed the [AWS Certified Solution Architect Associate](https://aws.amazon.com/certification/certified-solutions-architect-associate/) exam which was harder then I expected. In this memo I will outline how I prepared to this exam, what topics you better pay more attention to and some tips and hints I could give to anyone going for AWS CSA exam.
 
 Disclaimer: I took the original AWS CSA exam, not the one that was launched in Feb 2018; this older version is only available to schedule till August 2018. After that date the newer version of this exam will be the only one available. Watch out, it [has a new set of objectives](https://d1.awsstatic.com/training-and-certification/docs-sa-assoc/AWS_Certified_Solutions_Architect_Associate_Feb_2018_%20Exam_Guide_v1.5.2.pdf).
 
-<!--more-->
+<!-- more -->
 
 ## Preparation
 

@@ -1,11 +1,8 @@
 ---
 date: 2022-02-22
 comments: true
-# categories:
-#   - guestfish
 tags:
   - guestfish
-
 ---
 # Using guestfish container image
 

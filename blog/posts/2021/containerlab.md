@@ -24,14 +24,15 @@ tags:
   - cisco
   - arista
 
-title: Containerlab - your network-centric labs with a Docker UX
 ---
+
+# Containerlab - your network-centric labs with a Docker UX
 
 With the growing number of containerized Network Operating Systems (NOS) grows the demand to easily run them in the user-defined, versatile lab topologies. Unfortunately, container runtimes alone and tools like docker-compose are not a particularly good fit for that purpose, as they do not allow a user to easily create p2p connections between the containers.
 
 [Containerlab](https://containerlab.srlinux.dev) provides a framework for orchestrating networking labs with containers. It starts the containers, builds a virtual wiring between them to create a topology of users choice and then manages a lab lifecycle.
 
-{{< youtube xdi7rwdJgkg >}}
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/xdi7rwdJgkg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
 
 Containerlab focuses on containerized Network Operating Systems such as:
 
@@ -51,6 +52,8 @@ In addition to native containerized NOSes, containerlab can launch traditional v
 And, of course, containerlab is perfectly capable of wiring up arbitrary linux containers which can host your network applications, virtual functions or simply be a test client. With all that, containerlab provides a single IaaC interface to manage labs which can span contain all the needed variants of nodes:
 
 <div class="mxgraph" style="max-width:100%;border:1px solid transparent;margin:0 auto; display:block;" data-mxgraph="{&quot;page&quot;:1,&quot;zoom&quot;:1.5,&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;check-visible-state&quot;:true,&quot;resize&quot;:true,&quot;url&quot;:&quot;https://raw.githubusercontent.com/srl-wim/container-lab/diagrams/index.md&quot;}"></div>
+
+<!-- more -->
 
 ## The WHY
 
@@ -122,7 +125,7 @@ Arista folks reading this? Here is a full blown support for [cEOS](https://conta
 
 Run cEOS as a first class citizen, it even makes cEOS to respect the docker assigned IP address.
 
-<center>{{< tweet 1377514634962464769>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Although containerlab was born in Nokia, it is now truly multivendor.<br><br>Arista folks, you there? <a href="https://twitter.com/burneeed?ref_src=twsrc%5Etfw">@burneeed</a> <a href="https://twitter.com/flat_planet?ref_src=twsrc%5Etfw">@flat_planet</a> <a href="https://twitter.com/TiTom73?ref_src=twsrc%5Etfw">@TiTom73</a> <a href="https://twitter.com/loopback1?ref_src=twsrc%5Etfw">@loopback1</a> <a href="https://t.co/N9OJQByszR">https://t.co/N9OJQByszR</a><br><br>Containerlab can run cEOS as a first class citizen, it even makes cEOS to respect the docker assigned IP address <a href="https://t.co/HWFpMSyiAE">pic.twitter.com/HWFpMSyiAE</a></p>&mdash; Roman Dodin (@ntdvps) <a href="https://twitter.com/ntdvps/status/1377514634962464769?ref_src=twsrc%5Etfw">April 1, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
 ### Juniper cRPD
 
@@ -207,7 +210,7 @@ In fact, in Nokia many engineers already transitioned from virsh/EVE/GNS to cont
 
 The benefits of treating a router VM as a container are quite compelling.
 
-<center>{{< tweet 1377514683947696128>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">In fact, in Nokia many engineers already transitioned from virsh/EVE/GNS to containerlab and they helped us refine containerlab to make it play nicely with classic VM-based products.<br><br>The benefits of treating a router VM as a container are quite compelling. <a href="https://t.co/B5LnDpxDtX">pic.twitter.com/B5LnDpxDtX</a></p>&mdash; Roman Dodin (@ntdvps) <a href="https://twitter.com/ntdvps/status/1377514683947696128?ref_src=twsrc%5Etfw">April 1, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
 ## Sharing lab access
 
@@ -229,7 +232,7 @@ By integrating mysocketio service into containerlab we achieved an on-demand, st
 
 Check out this short video that explains the concepts:
 
-{{< youtube 6t0fPJtwaGM >}}
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/6t0fPJtwaGM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
 
 Just like this, adding a single line to your node definition, you make it available via Internet over the anycast network with optional strict OAuth rules for a fine grained access control.
 
@@ -257,11 +260,11 @@ You will likely find more use cases that fit your need, so give <https://contain
 
 ## Special thanks
 
-I want to thank @WHenderickx and @Karimtw_ who started this thing and created the core architecture.
+I want to thank [@WHenderickx](https://twitter.com/WHenderickx) and [@Karimtw_](https://twitter.com/Karimtw_) who started this thing and created the core architecture.
 
 Then our internal users and contributors for always providing feedback and thus making containerlab better. It was a truly team work.
 
-A special kudos goes to @networkop1 who is always ahead of time and had a similar tool (docker-topo) created years ago.
+A special kudos goes to [@networkop1](https://twitter.com/networkop1) who is always ahead of time and had a similar tool (docker-topo) created years ago.
 We took inspiration from it when were creating the containerlab topo file schema.
 
 Found this awesome, do not hesitate to star our repo - <https://github.com/srl-labs/containerlab> as a way of saying thanks.
@@ -270,6 +273,6 @@ Want to contribute? That is awesome and appreciated!
 
 PS. The original announcement was made via this tweet-series.
 
-<center>{{< tweet 1377514559653748737>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">🚨 I&#39;ve been sitting on my hands for 3 months, but now the time has finally come...<br><br>🥼We are releasing containerlab - the open source CLI tool that may redefine the way you run networking labs.<a href="https://t.co/WZQGFWEttB">https://t.co/WZQGFWEttB</a><br><br>It will be a long 🧵but I guarantee, you will dig it.</p>&mdash; Roman Dodin (@ntdvps) <a href="https://twitter.com/ntdvps/status/1377514559653748737?ref_src=twsrc%5Etfw">April 1, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js" async></script>
+<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js" async></script>

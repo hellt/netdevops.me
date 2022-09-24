@@ -1,8 +1,6 @@
 ---
-title: Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP
 date: 2015-08-24
-author: Roman Dodin
-url: /2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/
+# url: /2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/
 draft: false
 comments: true
 tags:
@@ -10,6 +8,7 @@ tags:
   - SROS
   - BGP
 ---
+# Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP
 
 There is no way I would leave you without covering configuration steps for one of the most versatile, scalable and robust internet protocols also known as **BGP**. And here it is - BGP configuration guide for Nokia (Alcatel-Lucent) Service Routers.
 
@@ -26,13 +25,13 @@ Next we go over iBGP configuration to spread the eBGP learned routes across the 
 
 It's a perfect time to configure some BGP, right?
 
-<!--more-->
+<!-- more -->
 
-# Common BGP configuration steps
+## Common BGP configuration steps
 
 Despite what type of BGP (Internal or External) you are going to configure there are some basic steps we are about to discuss. Address planning, IGP configuration, router-id selection, autonomous-system number setting, peer groups and neighbor configuration - all of these task are common to each and every BGP configuration routine.
 
-## IGP and addressing
+### IGP and addressing
 
 BGP completely relies on IGP (or static routes) when resolving nexthop address received in BGP updates from its peers. This means that prior to BGP configuration you should have IGP up and running. During this session I will refer to this base topology:
 
@@ -168,7 +167,7 @@ Level (2) LSP Count : 0
 ===============================================================================
 ```
 
-## Configuring Router ID and Autonomous System number
+### Configuring Router ID and Autonomous System number
 
 Once IGP is configured its time to configure a common entity for almost every routing protocol - **Router ID**. For BGP there is more than one place to configure the Router ID. Here is the _Router ID_ selection process sorted by a priority:
 
@@ -206,7 +205,7 @@ echo "IP Configuration"
 #--------------------------------------------------
 ```
 
-# Starting eBGP
+## Starting eBGP
 
 Common parameters are now configured and we can jump to eBGP peers configuration. Recall that we have two routers within AS 65510 (R1 and R2) which will have eBGP peering sessions with R3 and R3 within AS 65520 accordingly. Thus we should configure eBGP peering between the pairs R1-R3, R2-R4.
 
@@ -335,7 +334,7 @@ If a session is established then you see the session uptime and number of routes
 
 String `0/0/0 (IPv4)` is an indicator that the peering has been successfully established and R1 router received and sent exactly zero IPv4 routes. Zero counters are expected, since we just started the eBGP session but did not export any routes to it. It is very important to remember that **by default SROS does not add any non-BGP routes to the BGP process**.
 
-# Exporting routes to BGP
+## Exporting routes to BGP
 
 No fun at all to play with zero NLRI (network layer reachability information). Lets fix this and add some routes to our eBGP process. We have a good candidate for this in our address plan - `R5_Customer - 10.10.55.0/24` network. To emulate this customer's network we must add a loopback interface to R5 and announce this network via IGP:
 
@@ -513,7 +512,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
 No. of Routes: 1
 ```
 
-# Alcatel-Lucent eBGP reflecting routes issue
+## Alcatel-Lucent eBGP reflecting routes issue
 
 Now it is time to deal with that rogue route received by R1 from its neighbor R3.
 
@@ -621,7 +620,7 @@ Routes : 2
 
 **RIB In Entries** section of this output and especially the lines "Flags" and "AS Path" answer the question why R1 will not pass `10.10.55.0/24` to the _BGP Local-RIB_ — there is an **AS Path Loop** for this NLRI. And this is the reason why this NLRI is in _BGP RIB In_ only.
 
-# eBGP split-horizon
+## eBGP split-horizon
 
 For those of you who came from Cisco or Juniper camps its quite strange to see that R3 send the same prefix back to R1. I agree, its hard to find a case when it would be desired to receive previously announced prefix over eBGP. To mitigate this round-trip exchange you can use the `split-horizon` command on R3. This split-horizon has nothing to do with standard iBGP split-horizon behavior (which is "do not advertise prefixes received from one iBGP peer to the other iBPG peers").
 
@@ -730,7 +729,7 @@ No Matching Entries Found
 ===============================================================================
 ```
 
-# eBGP resulting configuration
+## eBGP resulting configuration
 
 Check the resulting eBGP config that you would have on your routers at this moment:
 
@@ -1017,7 +1016,7 @@ Routes : 1
 ===============================================================================
 ```
 
-# iBGP configuration
+## iBGP configuration
 
 iBGP sessions are established inside BGP Autonomous System and are used to distribute BGP routes between the routers there. In our case we have two Autonomous Systems, so we will configure full mesh of iBGP sessions within AS 65510 and AS 66520:
 
@@ -1258,7 +1257,7 @@ There are two approaches to fix this:
 
 We will stick to the first option.
 
-## iBGP next-hop-self
+### iBGP next-hop-self
 
 The `next-hop-self` command forces iBGP speaker, who received an eBGP update message to substitute next-hop information with its `system` IP address.
 
@@ -1349,7 +1348,7 @@ No. of Routes: 1
 
 That is why we see a different next-hop in the routing and BGP Local-RIB tables.
 
-# Wrapping up
+## Wrapping up
 
 To this moment we have done a good job - we have configured the peering between two autonomous systems AS 65510 and AS 65520 and successfully exchanged the prefixes. Now, a client residing in the _R3\_Ext\_Customer_ network can reach hosts from the _R5\_Customer_ network:
 

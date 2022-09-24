@@ -15,12 +15,13 @@ tags:
 - Boto3
 - Python
 - Serverless
-title: Building AWS Lambda with Python, S3 and serverless
-
 ---
 
+# Building AWS Lambda with Python, S3 and serverless
+
 Cloud-native revolution pointed out the fact that the microservice is the new building block and your best friends now are Containers, AWS, GCE, Openshift, Kubernetes, you-name-it. But suddenly _micro_ became not that granular enough and people started talking about _serverless functions_!
-{{< image classes="center fancybox clear" src="https://lh3.googleusercontent.com/iNjG1IpPyFKkXIsJThti5hs7_Ytc7GGpf4rCUCw5-f0dF31BYWbyyW3In1Fh4PvTKyh8xamSMKxMeFx6unzqao4ouLPxueLpx8RGD5Fg4SM2Kp_plaryC7zuUsRmAZ8-W9mHwzyuQQmC11-FH-yF5ef1FPsh0xglVv4IcSRDSPUO0BuqNZF0Vd5LpvgRGOvmE0xeqFoK-uUlM0KXRIFQusIcscq-Vv6SVKMBahoOpkhorTFCPD1tAIo4a6-q7diwWJj6TPWMnhMfg85s-NSz_0MR7bTIWw_PRN3HM66sfe8X3a7lmEuc1KxJ1ZF20qS6b9rW90Pa2iw6mHk_b_IjBBQBYeRScTgXd7IZpRQlO5-28RKvSvSJTxoSiCLBIuCgYebgp5hF62w_3Rmd9ajV3fEi_BMT04vd5gft5Mzad0NIA-sDboETXHM-n0UBnvvToAzENmfTl6pC9dXfaXlAvVqDRwDWmXjD5EGnIhLH-6lLSzswlNgqpZYDqd20p0cz_0-8xxmdXrdp7WyHCO4NMkpgZa6zvPpJipPRIaTImqr-GhaceBEHWzFF27aNQ6bx6FNXHj4IhfnM1VyuDqTU33-De-kft_IUF27g6XNKA41ytnNvstOSTqwEFA=w638-h359-no" title="Brian Christner, Docker & Serverless: <https://www.slideshare.net/BrianChristner/docker-serverless>" >}}
+
+![pic](https://gitlab.com/rdodin/pics/-/wikis/uploads/a115166eb200861e796a0a5a847da8e7/image.png)
 
 When I decided to step in the serverless property I chose [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) as my instrument of choice. As for experimental subject, I picked up one of my existing projects - a script that tracks new documentation releases for Nokia IP/SDN products (which I aggregate at [nokdoc.github.io](https://nokdoc.github.io)).
 
@@ -34,9 +35,9 @@ Buckle up, our agenda is fascinating:
 - exploring ways to provision shared code for Lambdas
 - and using path variables to branch out the code in Lambda
 
-<!--more-->
+<!-- more -->
 
-# Init
+## Init
 
 What I am going to _lambdsify_ is an existing python3 script called **nokdoc-sentinel** which has the following Lambda-related properties:
 
@@ -57,11 +58,11 @@ While it might be good to feel the taste of a manual Lambda configuration proces
 
 > The **Serverless Framework** helps you develop and deploy your AWS Lambda functions, along with the AWS infrastructure resources they require. It's a CLI that offers structure, automation and best practices out-of-the-box, allowing you to focus on building sophisticated, event-driven, serverless architectures, comprised of Functions and Events.
 
-# Serverless installation and configuration
+## Serverless installation and configuration
 
 First things first, [install](https://serverless.com/framework/docs/providers/aws/guide/installation/) the framework and [configure AWS credentials](https://serverless.com/framework/docs/providers/aws/guide/credentials/). I already had credentials configured for AWS CLI thus skipped that part, if that is not the case for you, the docs are comprehensive and should have you perfectly covered.
 
-# Creating a Service template
+## Creating a Service template
 
 Once serverless is installed, start with creating an `aws-python3` service:
 
@@ -76,7 +77,7 @@ Two files will be created:
 - `handler.py` -- a module with Lambda function boilerplate code
 - `serverless.yml` -- a service definition file
 
-# Making lambda instance out of a template
+## Making lambda instance out of a template
 
 I renamed `handler.py` module to `sentinel.py`, also changed the enclosed function' name and deleted redundant code from the template. For starters I kept the portion of a sample code just to test that deploying to AWS via serverless actually works.
 
@@ -108,7 +109,7 @@ functions:
     handler: sentinel.check
 ```
 
-## Deploying and Testing AWS Lambda
+### Deploying and Testing AWS Lambda
 
 Before adding some actual load to the Lambda function, lets test that the deployment works. To trigger Lambda execution I added **HTTP GET** [event](https://serverless.com/framework/docs/providers/aws/guide/events/) with the `test` path in the `serverless.yml` file. So a call to `https://some-aws-hostname.com/test` should trigger our lambda function to execute.
 
@@ -170,7 +171,7 @@ curl https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/test
 {"message": "Sentinel is on watch!"}
 ```
 
-# Exploring Serverless artifacts
+## Exploring Serverless artifacts
 
 Serverless deployed the Lambda using some defaults parameters (region: us-east-1, stage: dev, IAM role); plus serverless did some [serious heavy-lifting](https://serverless.com/framework/docs/providers/aws/cli-reference/deploy#how-it-works) in order to deploy our code to AWS. In particular:
 
@@ -243,11 +244,11 @@ drwxr-xr-x@  3 romandodin  staff   102 Jul 18 09:51 .vscode
 
 There are two files we dealt with earlier plus `.vscode` dir that a text editor created for its settings. Having `.vscode` in the deployment package actually indicates that by default serverless zipped everything in the project' dir. You can get in control of this process by using [include/exclude statements](https://serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration).
 
-# Accessing AWS S3 from within a Lambda
+## Accessing AWS S3 from within a Lambda
 
 It is natural that AWS assumes that Lambdas will be used in a close cooperation with the rest of the AWS family. And for the file storage **AWS S3** is a one-stop shop.
 
-## Sorting out permissions
+### Sorting out permissions
 
 What you have to sort out before digging into S3 interaction is the permissions that your Lambda has. When serverless deployed our Lambda with a lot of defaults it also handed out a [default IAM role](https://serverless.com/framework/docs/providers/aws/guide/iam/#the-default-iam-role) to our Lambda:
 
@@ -359,7 +360,7 @@ aws iam get-role-policy --role-name nokdoc-sentinel-dev-eu-central-1-lambdaRole 
 
 Now as the S3 permissions are there, we are free to list bucket contents and modify the files in it.
 
-## Using Boto3 to read/write files in AWS S3
+### Using Boto3 to read/write files in AWS S3
 
 AWS provides us with the [boto3](https://boto3.readthedocs.io/en/latest/index.html) package as a Python API for AWS services. Moreover, this package comes pre-installed on the [system that is used to run the Lambdas](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html), so you do not need to provide a package.
 
@@ -411,7 +412,7 @@ $ curl https://xxxxx.execute-api.eu-central-1.amazonaws.com/dev/test
 
 So far, so good. We are now capable of reading/writing to a file stored in AWS S3.
 
-# Adding python packages to Lambda
+## Adding python packages to Lambda
 
 We were lucky to use only the packages that either standard (`json`) or comes preinstalled in Lambda-system (`boto3`). But what if we need to use packages other from that, maybe your own packages or from PyPI?
 
@@ -450,11 +451,11 @@ def check(event, context):
 
 Note, that if a package has a native binary code, it must be compiled for [the system that is used to run Lambdas](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html).
 
-# Shared code for Lambdas
+## Shared code for Lambdas
 
 Even though a Lambda often assumed as an independent function, a real application you might want to transfer to Lambda quite likely will have dependencies on some common code. Refer to the ["Writing Shared Code"](https://serverlesscode.com/post/python-3-on-serverless-framework/#writing-shared-code) section of the above mentioned blog post to see how its done.
 
-# Handling arguments in Lambdas
+## Handling arguments in Lambdas
 
 Another common practice in a classic util function is to have some arguments (argparse) that allow to branch out the code and make an app' logic feature-rich. In Lambdas, of course, you have no CLI exposed, so to make a substitution for the arguments you can go two ways:
 
@@ -497,7 +498,7 @@ def check(event, context):
 
 Now adding an arbitrary text after the `go/` path will be evaluated in your Lambda allowing you to conditionally execute some parts of your code.
 
-# Summary
+## Summary
 
 With the above explained concepts I successfully transferred **nokdoc-sentinel** script from a standalone cron-triggered module to the AWS Lambda. You can check out the project' code and the `serverless.yml` file at [github repo](https://github.com/hellt/nokdoc-sentinel-lambda).
 
@@ -509,5 +510,3 @@ With the above explained concepts I successfully transferred **nokdoc-sentinel**
 1. [AWS Lambda Developers Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 1. [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/)
 1. [Keeping secrets out of Git with Serverless](http://www.goingserverless.com/blog/keeping-secrets-out-of-git)
-
-> Post comments [are here](https://gitlab.com/rdodin/netdevops.me/issues/2).

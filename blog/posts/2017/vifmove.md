@@ -6,9 +6,9 @@ keywords:
 tags:
 - virsh
 
-title: Changing Libvirt bridge attachment in a running domain aka on-the-fly
-
 ---
+
+# Changing Libvirt bridge attachment in a running domain aka on-the-fly
 
 At work I always prefer KVM hosts for reasons such as _flexible, free and GUI-less_. Yet I never bothered to go deeper into the networking features of Libvirt, so I only connect VMs to the host networks via Linux Bridges or OvS. Far far away from fancy virtual libvirt networks.
 
@@ -21,7 +21,7 @@ My use case came from a need to connect a single traffic generator VM to the dif
 
 Apparently there is no such `virsh` command that will allow you to change bridge attachments for networking devices, so a bit of bash-ing came just handy.
 
-<!--more-->
+<!-- more -->
 
 You know network interface device definition grepped from Libvirt XML format holds bridge association:
 
@@ -50,6 +50,6 @@ This is a tiny bash script which does the job for me just fine:
 
 Underneath its all simple, I leveraged `virsh update-device` command and just templated the interface definition XML file:
 
-{{< gist hellt 3626a753a74e3e5a950c71e6b294543f >}}
+<script src="https://gist.github.com/hellt/3626a753a74e3e5a950c71e6b294543f.js"></script>
 
 If you find this one useful, feel free to add your ideas in the [gist](https://gist.github.com/hellt/3626a753a74e3e5a950c71e6b294543f) comments.

@@ -8,10 +8,12 @@ tags:
 - gnmi
 - openconfig
 
-title: gNMI Map
 ---
+# gNMI Map
+
 Lately I've been involved in project that required quite a deep understanding of OpenConfig gRPC Network Management Interface (gNMI). Going over the [gNMI specification](https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md) multiple times made me realize that I can't fully build a mental map of all the messages and encapsulations without having a visual representation of it. So I've made one, lets see what it has to offer.
-<!--more-->
+
+<!-- more -->
 
 [gNMI Map](https://github.com/hellt/gnmi-map) is essentially a visual guide to the [gNMI service](https://github.com/openconfig/gnmi/blob/d19cebf5e7be48e7a6fa9fbdff668d18ad87be9d/proto/gnmi/gnmi.proto#L44).
 

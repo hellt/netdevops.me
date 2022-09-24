@@ -1,13 +1,11 @@
 ---
-title: OSPF. Neighbors on a "point-to-broadcast" network
 date: 2015-06-14
-url: /2015/06/ospf-neighbors-on-a-point-to-broadcast-network/
-toc: true
-draft: false
+# url: /2015/06/ospf-neighbors-on-a-point-to-broadcast-network/
 comments: true
 tags:
   - OSPF
 ---
+# OSPF. Neighbors on a "point-to-broadcast" network
 
 When it comes to basic OSPF troubleshooting the first-aid kit is _Neighbor states_ and _things, that should match to form an adjacency_. And on one early morning while refreshing my memory on OSPF neighbor states I accidentally ran into quite interesting problem.
 
@@ -28,7 +26,7 @@ But before we start, answer the short question:
    Time&#8217;s up. The answer is &#8211; yes and no. Wanna know why? Jump in, I have to show you something.
 </p>
 
-<!--more-->
+<!-- more -->
 
 Take a look at this topology which consists of two directly connected Cisco routers.
 
@@ -44,7 +42,7 @@ Therefore this particular case with different interface types isn&#8217;t some a
 
 Ok, different link types mean different networks with different behavior, rules and so forth, there is every indication that adjacency should not form. But it is not that simple. Let&#8217;s Lab!
 
-# Lab time
+## Lab time
 
 I booted up two Cisco routers running IOS 15.2(4)S simultaneously and first thing checked R1&#8217;s OSPF neighbors, expecting to see zero active neighbors:
 
@@ -268,7 +266,7 @@ R2#show ip ospf database router 1.1.1.1
        TOS 0 Metrics: 1
 ```
 
-# Busted
+## Busted
 
 Gotcha, look at line #7, both routers tell us that they cant reach advertising router based on their calculated topology! And if we recall that every OSPF router builds its own network diagram based on LSA&#8217;s it received we should understand what happened behind the scenes.
 
@@ -280,9 +278,9 @@ Now let me zip this all to a single sentence:
 
 This was a totally strange behavior for me to see, yet Cisco didn't brake any rules. [RFC 2328 OSPFv2](https://datatracker.ietf.org/doc/html/rfc2328) does not explicitly restrict to form adjacency for different network types, I think that authors thought it would be obvious not to mix different types on a single network segment. Moreover, OSPF _Hello_ message does not contain any field for interface type, so routers do not know what interface type is on the other side.
 
-# And what about Alcatel-Lucent and Juniper?
+## And what about Alcatel-Lucent and Juniper?
 
-But there are other vendors who managed to distinguish between different network interfaces to prevent such a bad situation when adjacency seems to be formed yet no routes are present. And we start with Alcatel-Lucent&#8217;s SR-OS v12.0.R8 (If you are new to ALU routers, check this [OSPF configuration tutorial]({{< ref "2015-06-22-alcatel-lucent-ospf-configuration-tutorial.md" >}})).
+But there are other vendors who managed to distinguish between different network interfaces to prevent such a bad situation when adjacency seems to be formed yet no routes are present. And we start with Alcatel-Lucent&#8217;s SR-OS v12.0.R8 (If you are new to ALU routers, check this [OSPF configuration tutorial](2015-06-22-alcatel-lucent-ospf-configuration-tutorial.md)).
 
 <img class="aligncenter" src="http://img-fotki.yandex.ru/get/4314/21639405.11b/0_8372f_119bb606_L.png" alt="" width="500" height="291" />
 
@@ -389,7 +387,7 @@ But R2 cant answer to R1, it needs to elect DR/BDR first, since it is thinking t
 
 And then we see that R1 drops off its neighbor R1 (line #41), effectively putting adjacency to DOWN state. Why would R1 do this? Because it noticed that R2 operates in a different mode and there is no point to peer with it.
 
-# How point-to-point interface detects broadcast interface?
+## How point-to-point interface detects broadcast interface?
 
 But how did R1 figured out that R2&#8217;s interface is broadcast if _Hello_ messages do not communicate that information?  Well, it took some intellectual analysis from R1. And to get down to the truth we have to dig into debug output of R1:
 
@@ -449,7 +447,7 @@ Debug shows incoming OSPF packets, I left only two of them which show the differ
 
 This underlying logic effectively stops useless adjacency to form and keeps network administrators from unnecessary troubleshooting.
 
-# JUNOS
+## JUNOS
 
 <img class="aligncenter" src="http://img-fotki.yandex.ru/get/9743/21639405.11b/0_8372e_157fef29_L.png" alt="" width="500" height="281" />
 
@@ -466,7 +464,7 @@ Jun 11 10:14:57.782065 OSPF restart signaling: Received hello with LLS data from
 Jun 11 10:14:57.782075 OSPF packet ignored: configuration mismatch from 10.1.2.2 on intf ge-0/0/0.0 area 0.0.0.0
 ```
 
-# Summary
+## Summary
 
 - Nowadays it is best-practice to configure Ethernet interfaces between directly connected OSPF routers in a point-to-point type to reduce convergence time.
 - It is possible to configure different interface&#8217;s type on a single network segment between OSPF routers. Especially interesting the case when one interface configured with point-to-point type and the other with broadcast.
@@ -474,7 +472,7 @@ Jun 11 10:14:57.782075 OSPF packet ignored: configuration mismatch from 10.1.2.2
 - This Cisco&#8217;s behavior can lead to unnecessary troubleshooting since adjacency seems up yet no OSPF routes will be seen in routing table.
 - Alcatel-Lucent and Juniper routers effectively prevent adjacency to form in such case. They drop incoming to point-to-point interface Hello packets if they contain DR/BDR IP addresses other then zero.
 
-# Links
+## Links
 
 - [OSPF Version 2](https://datatracker.ietf.org/doc/html/rfc2328) (RFC)
 - [What is your OSPF neighbor doing? Adjacency problems in OSPF](https://inetzero.com/what-is-your-ospf-neighbor-doing-adjancency-problems-in-ospf/) (<https://inetzero.com>)

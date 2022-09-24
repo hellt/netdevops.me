@@ -1,7 +1,5 @@
 ---
-title: Creating a Bootstrap based front-end for your simple REST service
 date: 2019-07-28
-author: Roman Dodin
 comments: true
 keys:
   - javascript
@@ -13,13 +11,15 @@ tags:
   - bootstrap
 ---
 
+# Creating a Bootstrap based front-end for your simple REST service
+
 Not a single day goes by without me regretting I haven't mastered any front-end technology like React/Angular or the likes.  Why would a network engineer want to step into the game that seems orthogonal to its main area of expertise, one might ask?
 
 Truth be told, I wasn't born with an urge to learn anything that has _javascript_ under the hood, but over the years, working within the network/backend silos, I realized, that being able to create a simple front-end service is a jewel that fits every crown, no matter what title you wear.
 
 This tutorial is based on the task real task of building up a web interface ([pycatjify.netdevops.me](https://pycatjify.netdevops.me)) for the [`pycatjify`](../creating-google-cloud-platform-function-with-python-and-serverless/) REST API service deployed as a serverless function. The end result is a **simple**, completely **free** and **reusable** Bootstrap based front-end boilerplate which can be used as a foundation for a similar task.
 
-<!--more-->
+<!-- more -->
 
 ## 1 Benefits of knowing how to front-end?
 
@@ -113,7 +113,7 @@ The framework comes with the following important components that make it all wor
 
 Take a look at the `index.html` file that comes with a framework:
 
-{{< gist hellt f0878010813c21837a518d89f36f5e61 >}}
+<script src="https://gist.github.com/hellt/f0878010813c21837a518d89f36f5e61.js"></script>
 
 In the [`<head>`](https://gist.github.com/hellt/f0878010813c21837a518d89f36f5e61#file-index-html-L4-L17) section of this HTML file the CSS files are being loaded. These CSS files comprise a big portion of the framework itself, as they govern the styling that the components have.
 
@@ -157,7 +157,7 @@ There are several ways of making an asynchronous HTTP request from within the fr
 
 Lets add a Javascript file at the `js/pycatjify.js` path that will implement the logic of a REST client.
 
-{{< gist hellt 93154da758722192beca0fdf80d53b3a >}}
+<script src="https://gist.github.com/hellt/93154da758722192beca0fdf80d53b3a.js"></script>
 
 This little unnamed function is bound to the [button](https://github.com/hellt/pycatj-web/blob/master/pycatj-web/index.html#L76) with id `convert_btn` by the means of the `#convert_btn` selector. Specifically to its `click` action. That means that when a click action occurs on the `convert_btn` button, this JS code kicks in.
 

@@ -12,13 +12,13 @@ tags:
 - Python
 - Serverless
 
-title: Creating Google Cloud Platform Function with Python and Serverless
 ---
 
+# Creating Google Cloud Platform Function with Python and Serverless
 
-Two years ago [I shared]({{<relref "../2017/nokdoc_sentinel_lambda.md">}}) my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service.
+Two years ago [I shared](../2017/nokdoc_sentinel_lambda.md) my experience on building the AWS Lambda function for a python project of my own. And a few days ago I stumbled upon a nice opensource CLI tool that I immediately wanted to transform in a web service.
 
-<!--more-->
+<!-- more -->
 
 ![serverless](https://gitlab.com/rdodin/pics/-/wikis/uploads/e4f956d64dcf812f64a77f8532499d07/image.png)
 
@@ -30,7 +30,7 @@ In this post we'll discover how to take a python package with 3rd party dependen
 
 The python tool I considered a natural fit for a Cloud Function is a [`pycatj`](https://github.com/dbarrosop/pycatj) by **David Barroso** that he released just recently.
 
-<center>{{< tweet 1143810284513107968>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">For those with problems accessing yaml/json data: <a href="https://t.co/IbbS3x05bq">https://t.co/IbbS3x05bq</a></p>&mdash; David Barroso (@dbarrosop) <a href="https://twitter.com/dbarrosop/status/1143810284513107968?ref_src=twsrc%5Etfw">June 26, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
 This tool helps you to map a JSON/YAML file to a Python dictionary highlighting the keys you need to access the nested data:
 
@@ -75,7 +75,7 @@ my_var["somekey"] = "value1"
 
 To add some sugar to the mix I will leverage the [serverless](https://serverless.com) framework to do the heavy lifting in a code-first way. The plan is set, lets go see it to completion.
 
-# Agenda
+## Agenda
 
 The decomposition of the service creation and deployment can be done as follows:
 
@@ -89,7 +89,7 @@ The decomposition of the service creation and deployment can be done as follows:
    1. leveraging serverless framework to deploy a function to GCP
 4. Add a frontend (in another blog post) that will use the serverless function.
 
-# 1 Google Cloud Platform
+## 1 Google Cloud Platform
 
 Following the agenda, ensure that you have a working GCP account (trial gives you $300, and GCP Function is perpetually FREE with the sane usage thresholds). Make sure that you have a billing account created, this is set up when you opt in the free trial program, for example. Without a linked billing account the Functions won't work.
 
@@ -100,9 +100,9 @@ Once you have your account set, you should either continue with a default projec
 Do not forget to download your API credentials, as nothing can be done without them. This [guide's section](https://serverless.com/framework/docs/providers/google/guide/credentials/#get-credentials--assign-roles) explains it all.  
 The commands you will see in the rest of this post assume that the credentials are stored in `~/.gcould` directory.
 
-# 2 Function creation
+## 2 Function creation
 
-Since we are living on the edge, we will rely on the [serverless](https://serverless.com) framework to create & deploy our function. The very same framework [I leveraged]({{<relref "../2017/nokdoc_sentinel_lambda.md">}}) for the AWS Lambda creation, so why not try it for GCP Function?
+Since we are living on the edge, we will rely on the [serverless](https://serverless.com) framework to create & deploy our function. The very same framework [I leveraged](../2017/nokdoc_sentinel_lambda.md) for the AWS Lambda creation, so why not try it for GCP Function?
 
 The notable benefit of serverless framework is that it allows you to define your Function deployment _as a code_ and thus making it repeatable, versionable and fast.
 
@@ -112,7 +112,7 @@ But nothing comes cheap, for all these perks you need to pay; and the serverless
 docker pull amaysim/serverless:1.45.1
 ```
 
-## 2.1 Serverless service template
+### 2.1 Serverless service template
 
 The way I start my serverless journey is by telling the serverless to [generate a service template](https://serverless.com/framework/docs/providers/google/cli-reference/create/#available-templates) in the programming language of my choice. Later we can tune bits and pieces of that [service](https://serverless.com/framework/docs/providers/aws/guide/services/), but if you start from a zero-ground, its easier to have a scaffolding to work on.
 
@@ -172,7 +172,7 @@ def http(request):
 
 Lets test that our modifications work out so far by trying to deploy the template service.
 
-## 2.2 Testing function deployment
+### 2.2 Testing function deployment
 
 Before we start pushing our function and its artifacts to the GCP, we need to tell serverless how to talk to the cloud provider. To do that, we need to install the `serverless-google-cloudfunctions` plugin that is [referenced](https://github.com/hellt/pycatj-web/blob/master/pycatj-serverless/serverless.yml#L18) in the `serverless.yml` file.
 
@@ -224,7 +224,7 @@ You can also verify the resources that were created by this deployment by visiti
 
 ![function](https://gitlab.com/rdodin/pics/-/wikis/uploads/10b4d747ddda7e773d8b21767619b9df/image.png)
 
-## 2.3 Writing a Function
+### 2.3 Writing a Function
 
 That was a template [function](https://serverless.com/framework/docs/providers/google/guide/functions/) that we just [deployed](https://serverless.com/framework/docs/providers/google/guide/deploying/) with the HTTP [event](https://serverless.com/framework/docs/providers/google/guide/events/) acting as a trigger.
 
@@ -258,7 +258,7 @@ $ curl https://us-central1-pycatj.cloudfunctions.net/pycatjify
 We are going to give pycatj its own place on the web!
 ```
 
-### 2.3.1 Managing code dependencies
+#### 2.3.1 Managing code dependencies
 
 Up until now we played with a boilerplate code with a few names changed to give our function a bit of an identity. We reached the stage when its time to onboard the `pycatj` package and make our function benefit from it.
 
@@ -277,7 +277,7 @@ pip3 install -t ./vendored git+https://github.com/dbarrosop/pycatj.git
 
 This installs `pycatj` package and its dependencies in a `vendored` directory and will be considered as Function's artifact and pushed to GCP along the `main.py` with the next `serverless deploy` command.
 
-### 2.3.2 Events
+#### 2.3.2 Events
 
 Every function should be triggered by an [event or a trigger](https://cloud.google.com/functions/docs/concepts/events-triggers) that is supported by a cloud provider. When serverless is used the event type is specified for each function in the `serverless.yml` file:
 
@@ -293,7 +293,7 @@ functions:
 
 With this configuration we expect our function to execute once an HTTP request hits the function API endpoint.
 
-### 2.3.3 Writing a function
+#### 2.3.3 Writing a function
 
 Yes, a thousand words later we finally at a milestone where we write actual python code for a function. The template we generated earlier gives us a good starting point - a function body with a single [Flask `request`](http://flask.pocoo.org/docs/1.0/api/#flask.Request) argument:
 
@@ -309,18 +309,18 @@ The logic of our serverless function that we are coding here is:
 
 With a few additions to access the `pycatj` package in a `vendored` directory and being able to test the function locally, the resulting [`main.py`](https://github.com/hellt/pycatj-web/blob/master/pycatj-serverless/main.py) file looks as follows:
 
-{{< gist hellt d44b58c2f0c8b5f1be46047c9916aa82 >}}
+<script src="https://gist.github.com/hellt/d44b58c2f0c8b5f1be46047c9916aa82.js"></script>
 
 This code has some extra additions to a simple two-step logic I mentioned before. I stuffed a default `data` value that will be used when the incoming request has no body, then we will use this dummy data just for demonstration purposes.  
 To let me test the function code locally I added the `if __name__ == "__main__":` condition and lastly I wrote some `print` functions for a trivial logging. Speaking of which...
 
-## 2.4 Logging
+### 2.4 Logging
 
 Logging is a bless! Having a chance to look what happens with your function in a cloud platform sandbox is definitely a plus. With GCP the [logging](https://cloud.google.com/functions/docs/monitoring/logging#functions-log-helloworld-python) can be done in the simple and advanced modes. A simple logging logs everything that is printed by a function into `stdout/stderr` outputs -> a simple `print()` function would suffice. In a more advanced mode you would leverage a GCP Logging API.
 
 The logs can be viewed with the Web UI Logging interface, as well as with the `gcloud` CLI tool.
 
-# 3 Function deployment
+## 3 Function deployment
 
 We previously already tried the deployed process with a boilerplate code just to make sure that the serverless framework works. Now that we have our `pycatj` package and its dependencies stored in a `vendored` folder and the function body is filled with the actual code, lets repeat the deployment and see what we get:
 
@@ -335,11 +335,11 @@ All goes well and serverless successfully updates our function to include the ve
 
 As demonstrated above, the serverless framework allows a user to express the deployment in a code, making the process extremely easy and fast.
 
-# 4 Usage examples
+## 4 Usage examples
 
 Time to give our Function a roll by bombing it with HTTP requests. In this section I will show you how you can use the pycatjify service within a CLI and in a subsequent post we will write a simple Web UI using the API that our function provides.
 
-## 4.1 empty GET request
+### 4.1 empty GET request
 
 ```python
 curl -s https://us-central1-pycatj.cloudfunctions.net/pycatjify | jq -r .data
@@ -357,7 +357,7 @@ my_dict["a_dict"]["nested_dict"]["qwe"] = "asd"
 
 With an empty GET request the function delivers a demo of its capabilities by taking a hardcoded demo JSON and making a transformation. The returned string is returned in a JSON object accessible by the `data` key.
 
-## 4.2 POST with a root and pycatj_data specified
+### 4.2 POST with a root and pycatj_data specified
 
 Getting a demo response back is useless, to make use of a pycatjify service a user can specify the `root` value and pass the original JSON data in a POST request body using the `pycatj_data` key:
 
@@ -374,7 +374,7 @@ POST["a_dict"]["qwe"][1] = 2
 POST["a_dict"]["nested_dict"]["das"] = 31
 ```
 
-## 4.3 POST without root, with pycatj_data
+### 4.3 POST without root, with pycatj_data
 
 It is also allowed to omit the `root` key, in that case a default root value will be applied:
 
@@ -391,7 +391,7 @@ my_dict["a_dict"]["qwe"][1] = 2
 my_dict["a_dict"]["nested_dict"]["das"] = 31
 ```
 
-## 4.4 POST with json file as a body
+### 4.4 POST with json file as a body
 
 My personal favorite is dumping a JSON file in a request. In that case a lengthy `curl` is not needed and you can specify a path to a file with a `@` char.  
 This example leverages the logic embedded in a function that treats the whole body of an incoming request as a data for `pycatj` transformation.
@@ -427,7 +427,7 @@ my_dict["a_dict"]["nested_dict"]["das"] = 31
 my_dict["a_dict"]["nested_dict"]["qwe"] = "asd"
 ```
 
-# What's next?
+## What's next?
 
 Having `pycatj` functionality available withing a HTTP call reach makes it possible to create a simple one-page web frontend that will receive the users input and render the result of the pycatj-web service we deployed in this post.
 

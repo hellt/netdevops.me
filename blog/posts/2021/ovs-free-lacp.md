@@ -12,8 +12,9 @@ tags:
   - lacp
   - vrnetlab
 
-title: Transparently redirecting packets/frames between interfaces
 ---
+
+# Transparently redirecting packets/frames between interfaces
 
 Lately I have been consumed by an idea of running container-based labs that span containerized NOSes, classical VM-based routers and regular containers with a single and uniform UX.
 
@@ -22,6 +23,8 @@ Luckily the foundation was already there. With [plajjan/vrnetlab](https://github
 One particular thing though we needed to address, and it was the way we interconnect containers which host vrnetlab-created routers inside.
 
 Vrnetlab uses its own "overlay datapath" to wire up containers by means of an additional "vr-xcon" container that stitches the exposed sockets. Although this approach allows to re-wire containers in different topologies after the start, this was not something that we could use if we wanted use non-vrnetlab containers in our topology. Ideally I wanted to emulate p2p links between the routers (running inside containers) by veth pairs stretched between them, pretty much like docker does when it launches containers. And that is also the way docker-topo works.
+
+<!-- more -->
 
 ## 1 Linux bridge and "you shall not pass"
 
@@ -132,4 +135,4 @@ and then use this script in qemu:
 -netdev tap,id=XX,ifname=tap1,script=/etc/tc-tap-ifup,downscript=no
 ```
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js" async></script>
+<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js" async></script>

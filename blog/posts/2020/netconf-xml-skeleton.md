@@ -10,15 +10,16 @@ tags:
 - Docker
 - YANG
 
-title: Getting XML data sample for a given leaf in a YANG model
 ---
+# Getting XML data sample for a given leaf in a YANG model
+
 We can praise YANG as long as we want, but for an end user YANG is useful as the tooling around it and the applications leveraging it. Ask yourself, as a user of any kind of NETCONF/YANG application what was the last time you looked at a `*.yang` file content and found something that was needed to consume that application?  
 In a user role I personally never look at a YANG source, though, I look at the tree or HTML representation of YANG all the time; Thats is the YANG human interface for me.
 
 And even in these human friendly formats you can't find all the answers; for example, looking at the YANG tree, how do you get the XML data sample of a given leaf? Thats what we will discover in this post.
-<!--more-->
+<!-- more -->
 
-# Problem statement
+## Problem statement
 
 Getting the XML data sample of a given leaf? What is this, why might I need it?
 
@@ -49,15 +50,15 @@ Yes, it boils down to an underlying model used by a given NE; you would need to 
 
 Actually, that post is a feedback to the question that popped up in my twitter recently:
 
-<center>{{<tweet 1223087371299753984>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hello <a href="https://twitter.com/nickrusso42518?ref_src=twsrc%5Etfw">@nickrusso42518</a> <a href="https://twitter.com/ntdvps?ref_src=twsrc%5Etfw">@ntdvps</a> whats the best way to transform a YANG file/section into a XML filter to use in a NETCONF get message? I used to export YANG file with pyang to html format, but it bothers me put the exact tree by hand. Are there an easy way?</p>&mdash; Rafael Ganascim (@rganascim) <a href="https://twitter.com/rganascim/status/1223087371299753984?ref_src=twsrc%5Etfw">January 31, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
-# Solving the problem with PYANG
+## Solving the problem with PYANG
 
 Rafael asked a very practical question that every NETCONF user encounters; ours example follows the same question by asking **how do I know which XML data to use in my subtree filter to get users config, are there aby tools for that?**
 
 It didn't take Rafael long to come up with a solution to his own question, which he explained in the same thread:
 
-<center>{{<tweet 1223221183753134080>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">I found an &quot;easy&quot; way to get the xml tree, instead of writing by hand</p>&mdash; Rafael Ganascim (@rganascim) <a href="https://twitter.com/rganascim/status/1223221183753134080?ref_src=twsrc%5Etfw">January 31, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
 As you can see, he leveraged [PYANG](https://github.com/mbj4668/pyang) and solved the problem with a grain of `sed` salt. The steps he took can be categorized with 4 major steps:
 
@@ -222,7 +223,7 @@ Now its ready to be tested (using [netconf-console in a docker container](https:
 
 Works!
 
-# Automating the solution
+## Automating the solution
 
 Seeing this in action got me itching; I wanted to automate this process so it would be generic and less manual. For that reason I enriched my [Pyang-docker](https://github.com/hellt/pyang-docker) tool with a tiny shell script that will:
 

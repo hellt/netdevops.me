@@ -8,8 +8,9 @@ tags:
   - uksm
   - ubuntu
 
-title: How to patch Ubuntu 20.04 Focal Fossa with UKSM?
 ---
+
+# How to patch Ubuntu 20.04 Focal Fossa with UKSM?
 
 Running multiple VMs out of the same disk image is something we, network engineers, do quite often. A virtualized network usually consists of a few identical virtualized network elements that we interconnected with links making a topology.
 
@@ -21,9 +22,11 @@ So roughly, the above topology will claim 30-35GB of RAM in order to operate. En
 
 Luckily, there are technologies like Kernel Same Merging (KSM) and it's enhanced version Ultra-KSM (UKSM) that are able to lift the memory requirement for use cases like above. In a nutshell, they allow to merge mem pages of the same content, effectively reusing the same memory pages between virtual machines.
 
-> from [UKSM usenix paper](https://www.usenix.org/system/files/conference/fast18/fast18-xia.pdf)  
-> Memory deduplication can reduce memory footprint by eliminating redundant pages. This is particularly true when similar OSes/applications/data are used across different VMs.
-> Essentially, memory deduplication detects those redundant pages, and merges them by enabling transparent page sharing.
+<!-- more -->
+
+!!!info "from [UKSM usenix paper](https://www.usenix.org/system/files/conference/fast18/fast18-xia.pdf)"
+    Memory deduplication can reduce memory footprint by eliminating redundant pages. This is particularly true when similar OSes/applications/data are used across different VMs.
+    Essentially, memory deduplication detects those redundant pages, and merges them by enabling transparent page sharing.
 
 Although UKSM is not a silver bullet for every application and use case, it tends to be a very good fit for hypervisors used to run virtualized networking topologies. For that reason the EVE-NG network emulation platform embeds UKSM in their product.
 

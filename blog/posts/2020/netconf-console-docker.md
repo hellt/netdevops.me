@@ -8,14 +8,15 @@ tags:
 - Netconf
 - Docker
 
-title: NETCONF console in a docker container
 ---
+# NETCONF console in a docker container
+
 Its an engineers core ability to decompose a complex task in a set of a smaller, easy to understand and perform sub-tasks. Be it a feature-rich program that is decomposed to classes, functions and APIs or a huge business operation captured in steps in a *Methods Of Procedure* document.
 
 In a network automation field where the configuration protocols such as NETCONF or gRPC are emerging, it is always needed to have a quick way to validate an *RPC* or *Notification* feature before implementing this in a code or a workflow.
 
 This blog post is about a handy tool called [`netconf-console`](https://pypi.org/project/netconf-console/) which allows you to interface with your network device using NETCONF quick and easy. And, of course, I packed it in a smallish container so you can enjoy it hassle-free on every docker-enabled host.
-<!--more-->
+<!-- more -->
 
 [`netconf-console`](https://bitbucket.org/martin_volf/ncc/src/master/) is a tool from Tail-f that basically gives you a NETCONF client for your console. That is exactly the packaging that I appreciate to have when I need to play with NETCONF. Cold-starting a python project with `ncclient` is much slower and you need ensure that you have all the RPCs coded, meh. With the console client you have almost anything you need to start tinkering with NETCONF enabled device.
 

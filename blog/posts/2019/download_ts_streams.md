@@ -1,8 +1,5 @@
 ---
-title: How to download an M3U/M3U8 playlist (stream) without a special software
 date: 2019-06-20
-author: Roman Dodin
-draft: false
 keys:
   - m3u8
   - video
@@ -13,6 +10,8 @@ tags:
   - youtube-dl
 ---
 
+# How to download an M3U/M3U8 playlist (stream) without a special software
+
 I love the tech conferences that share the recordings of the sessions without hiding behind the registration or a pay wall. Luckily the trend to share the knowledge with a community openly is growing, yet you still can find a nice talk hidden behind the above mentioned walls.
 
 Sometimes an easy registration is all it takes, but then, how do you watch it offline? For example, I do love to catch up with with the recent trends and experiences while being on a plane, meaning that I just cant afford to be hooked up to the Internet.
@@ -21,7 +20,7 @@ If a talk is published on the YouTube, you are good to go and download it with a
 
 Here I share with you an easy way to download the videos from an [m3u/m3u8](https://en.wikipedia.org/wiki/M3U) playlist.
 
-<!--more-->
+<!-- more -->
 
 The dynamic playlist format - M3U/M3U8 - is a way to tell the browser how to download the pieces of the video that will comprise the whole recording. So the download process is actually as easy as:
 

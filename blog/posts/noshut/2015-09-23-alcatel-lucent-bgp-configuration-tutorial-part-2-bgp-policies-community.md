@@ -1,14 +1,13 @@
 ---
-title: Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities
 date: 2015-09-23
-author: Roman Dodin
 comments: true
-url: /2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/
+# url: /2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/
 tags:
   - Nokia
   - SROS
   - BGP
 ---
+# Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities
 
 In the [first part of this BGP tutorial](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/) we prepared the ground by configuring eBGP/iBGP peering. We did a good job overall, yet the _plain_ BGP peering is not something you would not normally see in production. The power of BGP is in its ability for granular management of multiple routes from multiple sources. And the tools that help BGP to handle this complex task are BGP policies at their full glory.
 
@@ -18,9 +17,9 @@ In this part we will discuss and practice:
 - BGP communities operations
 - BGP routes aggregation: route summarization and the corresponding `aggregate` and `atomic-aggregate` path attributes
 
-<!--more-->
+<!-- more -->
 
-# What are BGP policies for?
+## What are BGP policies for?
 
 The BGP peering configuration process is simple, you saw it in [Part 1](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/), but, frankly, no network engineer leaves a BGP router in a default "receive all, advertise all" state. We use BGP policies to tell the router which routes to accept and which to advertise.
 
@@ -54,7 +53,7 @@ To practice with BGP policies configuration we will go through a set of tasks th
 
 Network interfaces, IGP and basic BGP configuration are done exactly the same as in the [Part 1 of this series](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp). If you are interested in the final configuration output, please refer to the [Wrapping up section](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/#Wrapping_up).
 
-# Community attribute
+## Community attribute
 
 Lets statr with _BGP communities_ introduction. A BGP community (not [extended](https://tools.ietf.org/html/rfc4360)) is an **optional transitive BGP Path attribute** that is _a group of destinations which share some common property_ as per the [RFC 1997](https://tools.ietf.org/html/rfc1997).
 
@@ -82,7 +81,7 @@ We will introduce three different communities for our customer routes:
 - `65510:200` - community for every route originated from the East side of our AS 65510
 - `65510:2` - community for the `Customer_2` routes
 
-## Adding community
+### Adding community
 
 Community strings are configured under the `policy-options` context. Before we will be able to add communities to the prefixes, we need to:
 
@@ -204,7 +203,7 @@ Neighbor
 
 The BGP summary output does not disclose if any community attributes were applied to the NLRIs a BGP speaker sent or received, to verify that we should ask for a specific prefix details.
 
-## Show communities
+### Show communities
 
 To ensure that the correct communities were passed along with the NLRI we can leverage the `show router bgp routes <prefix> detail` command and check the `Community` column in its output:
 
@@ -330,7 +329,7 @@ Routes : 4
 
 And of course you can use `show router bgp routes <prefix> hunt` to see the verbose output of a given BGP route.
 
-## Operation replace & Well-known communities
+### Operation replace & Well-known communities
 
 [RFC 1997](https://tools.ietf.org/html/rfc1997) specifies the following well-known communities as the well-known communities:
 
@@ -830,7 +829,7 @@ Routes : 4
 
 The `no-advertise` community works a bit different - if a router receives a route with the `no-advertise` community it will **not advertise it at all** even to its iBGP peers.
 
-## Removing community
+### Removing community
 
 Currently R2 does not modify any routes flying off to its eBGP peer R4. Lets imagine that we now have to remove the community `Customer_2` from all the Customer_2 routes on R2 before advertising them to the AS 65520. To do so we have to perform a community **remove operation**.
 
@@ -1004,19 +1003,19 @@ Routes : 2
 
 Remove operation removes a single community per action. Like in this example R2's RIB-In had the prefix `172.10.55.0/24` with both `65510:2` and `65510:200` values set the remove operation removed the `65510:2` community only.
 
-## Matching community
+### Matching community
 
 The whole thing with the communities is about performing the actions against the prefixed matched with it. As you saw previously, the action based on a community should first match the community by its value and there are several ways to do the matching.
 
 How can you pick the routes with the different communities and modify them altogether? One way would be to write multiple policy-statements with the same action and different `from community <name>` statements. This is a bruteforce. There are far more elegant techniques we are going to explore.
 
-### "AND" and "OR" operators
+#### "AND" and "OR" operators
 
 To create a community that matches some of the community values you can use the `|` operator like that: `community West_or_Customer_2 members 65510:2|65510:100`. This community statement will match prefixes with the community strings like `65510:2`, `65510:2 65510:100` or `65510:2 63300:2 54487:200`.
 
 To create a community statement that will match on a string that has multiple community values (aka `AND` operator) you can compose the following community statement: `community "A_and_B" members "65510:2" "65510:100"`. This community will match `65510:2 65510:100` or `100:100 200:200 65510:2 65510:100` but **not** `65510:2` or `100:100 65510:2`.
 
-### Expressions
+#### Expressions
 
 Nokia SR-OS has the built-in expressions engine equipped with a set of most commonly used operators. The Expressions syntax is described in the Routing Protocols guide:
 
@@ -1038,7 +1037,7 @@ community "West_and_Cust_2_ONLY" expression "65510:2 AND 65510:100" exact
 
 This community, once used in the `from` statement of a policy will match prefixes with the community string `65510:2 65510:100` only (enforced by the `exact` statement).
 
-### Regular Expressions
+#### Regular Expressions
 
 Another filtering technique is based on the regular expressions.
 
@@ -1077,7 +1076,7 @@ Here I defined the `Customer_2_from_West` community and used a simple regular ex
 
 Of course you can create a far more complex regexps, check the table of the supported operators of the Routing Protocols Guide to build a regexp that meets your needs.
 
-# Wrapping up
+## Wrapping up
 
 As usual, check out the full config that you will have at the end of this tutorial:
 

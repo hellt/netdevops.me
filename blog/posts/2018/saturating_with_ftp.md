@@ -8,15 +8,15 @@ tags:
 - vsftpd
 - FTP
 
-title: Saturating the network with FTP
-
 ---
+
+# Saturating the network with FTP
 
 While working on the Ipanema Wan Opt VNF integration with [Nuage Networks](http://www.nuagenetworks.net/enterprise/software-defined-wan/) I stumbled upon an interesting case which required to max out the network with FTP traffic. The tricky point there was to create the FTP connection which won't be limited by the disk IO performance. Especially, considering that the disks were kind of slow in the setup I had.
 
 It turns out, you can use the in-memory devices in the FTP communication path `/dev/zero -> /dev/null`, ruling out the slowliness that could have been added by the disks. Lets figure out how to do that!
 
-<!--more-->
+<!-- more -->
 
 Software-wise my setup consisted of a single FTP server `vsftpd` and the FTP client `ftp` all running on Centos7-based VMs. These VMs were equipped with a network namespace `ns-data` which host the datapath interface `eth1`.
 

@@ -3,12 +3,9 @@ date: 2017-07-25
 comments: true
 tags:
 - git
-
-title: How to count lines of code in a git repo?
-
 ---
 
-
+# How to count lines of code in a Git repo?
 
 Nothing bad in knowing how many lines of code or text out there in your repo. You don't even need your VCS to convey this analytics. All you need is `git`, `grep` and `wc`.
 

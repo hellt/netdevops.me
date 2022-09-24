@@ -6,11 +6,12 @@ keywords:
 tags:
 - git
 
-title: Remove binaries and big files from git repo
 ---
+# Remove binaries and big files from Git repo
+
 You slice and dice your files in a Git repo like a pro and accidentally commit a binary file. It happened to you as well, don't pretend it didn't.  
 Sooner or later you recognizes this file shouldn't be there, it is clogging your Git repo for no reason. OK, you delete the file and commit. But the repo size doesn't get any smaller. Hm...
-<!--more-->
+<!-- more -->
 
 Indeed, next time you do `git clone` you are wondering why your repo is still megabytes in size, while it has just some source code files?
 

@@ -1,14 +1,13 @@
 ---
-title: Building Web front end for Python scripts with Flask
 date: 2016-04-01
-author: Roman Dodin
 comments: true
-url: /2016/04/building-web-front-end-for-python-scripts-with-flask/
+# url: /2016/04/building-web-front-end-for-python-scripts-with-flask/
 tags:
   - Bootstrap
   - Flask
   - Python
 ---
+# Building Web front end for Python scripts with Flask
 
 Recently I revived my relationship with Python in an effort to tackle the routine tasks appearing here and there. So I started to write some _pocket scripts_ and, luckily, was not the only one on this battlefield - my colleagues also have a bunch of useful scripts. With all those code snippets sent in the emails, cloned from the repos, grabbed on the network shares... I started to wonder how much easier would it be if someone had them all aggregated and presented with a Web UI for a shared access?
 
@@ -20,12 +19,12 @@ Thus, I started to build web front-end to the python scripts we used daily with 
 
 This short demo should give you some taste of what it is:
 
-{{<youtube KzOFlFYucvM>}}
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/KzOFlFYucvM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
 
 **Disclaimer:** I am nowhere near even a professional python or web developer. And what makes it even worse is that I used (a lot) a very dangerous coding paradigm - SDD - Stack Overflow Driven Development. So, hurt me plenty if you see some awful mistakes.
 
 [Project source code](https://github.com/hellt/PLAZA)
-<!--more-->
+<!-- more -->
 
 **PLAZA** (this is the name I gave this project) implements a straightforward user experience flow: a user opens a web page, selects a script from the menu, fills in the necessary input data and run a script to get the results back.
 

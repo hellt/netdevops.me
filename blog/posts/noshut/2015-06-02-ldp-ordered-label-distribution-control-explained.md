@@ -1,16 +1,13 @@
 ---
-title: LDP. Ordered Label Distribution Control explained
+
 date: 2015-06-02
-author: Roman Dodin
-# layout: post
-url: /2015/06/ldp-ordered-label-distribution-control-explained/
-draft: false
+# url: /2015/06/ldp-ordered-label-distribution-control-explained/
 comments: true
 tags:
   - LDP
   - MPLS
 ---
-
+# LDP. Ordered Label Distribution Control explained
 
 Major network vendors (except Cisco) default to the following modes of Label Distribution Protocol (LDP) operation (as per <a href="https://tools.ietf.org/html/rfc5036" target="_blank">RFC 5036 LDP Specification</a>):
 
@@ -20,7 +17,7 @@ Major network vendors (except Cisco) default to the following modes of Label Dis
 
 This topic focuses on Ordered Label Distribution Control procedure to help you better understand when LSR actually assigns labels and initiates transmission of a label mapping.
 
-<!--more-->
+<!-- more -->
 
 Both [RFC 3031 Multiprotocol Label Switching Architecture](https://tools.ietf.org/html/rfc3031#section-3.19) and <a href="https://tools.ietf.org/html/rfc5036" target="_blank">RFC 5036 LDP Specification</a> give definition for_Ordered Label Distribution Control_ mode:
 
@@ -221,7 +218,7 @@ Although R3 installed a label, it will not take any actions regarding this updat
 
 This completes label propagation for the FEC 10.10.10.1/32.
 
-### Downstream or not?
+## Downstream or not?
 
 You may have already noticed that the key in making a decision to create a label mapping for a FEC is if the label mapping came from a downstream router? But how does a router decide if its peer is downstream router or upstream? Let&#8217;s think about it&#8230;
 

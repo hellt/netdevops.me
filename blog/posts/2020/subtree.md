@@ -6,12 +6,15 @@ keywords:
 tags:
 - netconf
 
-title: NETCONF subtree filtering by example
 ---
+
+# NETCONF subtree filtering by example
+
 If you pick a random NetEng and ask them if they love NETCONF they would likely say "Nah". The ~~hate-hate~~ love-hate kind of relationship with NETCONF mostly roots in its XML layer that one can't swap out. But if we set the XML-related challenges aside, it will become clear that NETCONF is a very well designed management interface with lots of capabilities.  
 
 In this topic we will touch on the NETCONF's subtree filtering capabilities.
-<!--more-->
+
+<!-- more -->
 
 NETCONF's [RFC 6241](https://www.rfcreader.com/#rfc6241) defines two methods for filtering contents on the server (router) side:
 

@@ -10,13 +10,17 @@ tags:
 - gnmi
 - openconfig
 - go
+- gnmic
 
-title: gNMIc - gNMI CLI client and collector
 ---
+
+# gNMIc - gNMI CLI client and collector
+
 Despite the fact that [gNMI](https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md) is defacto the go-to interface for a model-driven telemetry collection, we, as a community, had no gNMI tool that was easy to install, pleasure to use, documented and pre-built for common platforms. Until now.
 
 I am excited to announce the public release of [`gnmic`](https://gnmic.kmrd.dev/) - a CLI client and a collector that talks gNMI to your devices.
-<!--more-->
+
+<!-- more -->
 
 ### Problem statement
 
@@ -24,7 +28,7 @@ I am not exaggerating, there is a shortage of open source gNMI clients one can f
 
 Earlier this year I bragged about it, in hope that my google-foo is just broken and the community knows of a gNMI client that I could download and use right away without jumping through hoops:
 
-<center>{{< tweet 1229845496660922368>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">So coming back to the OpenConfig/gNMI and what a hot mess it is when it comes to the tooling.<br><br>You would probably think that there is a top-notch gNMI CLI (or even a shell) for you to query your routers like a pro.</p>&mdash; Roman Dodin (@ntdvps) <a href="https://twitter.com/ntdvps/status/1229845496660922368?ref_src=twsrc%5Etfw">February 18, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
 But that was not my google-foo, unfortunately. For the sake of completeness allow me to summarize the landscape of gNMI clients in a pre-gnmic era:
 

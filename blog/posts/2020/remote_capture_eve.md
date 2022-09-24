@@ -8,11 +8,13 @@ tags:
 - wireshark
 - eve-ng
 
-title: Using Wireshark remote capture with EVE-NG
 ---
+# Using Wireshark remote capture with EVE-NG
+
 The power of a packet capture is boundless... Sometimes its indeed a pcap that can save you nights of troubleshooting, so being able to get one quickly and easily is an ace up a neteng sleeve.  
 In this post I'll show you how I use Wireshark's remote capture ability to sniff on packets running in EVE-NG without being need to install any custom plugins or packages from EVE.
-<!--more-->
+
+<!-- more -->
 
 EVE-NG provides some integration packs with wrappers around Wireshark's remote capture feature to make capturing a one-click task. The integration pack has all the needed software and some Duct tape to make it all work:
 

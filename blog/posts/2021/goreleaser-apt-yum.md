@@ -11,15 +11,16 @@ tags:
   - apt
   - yum
   - goreleaser
-
-title: Building and publishing deb/rpm packages with goreleaser and gemfury
 ---
+# Building and publishing deb/rpm packages with goreleaser and gemfury
 
 I am a huge fan of a [goreleaser](https://goreleaser.com/) tool that enables users to build Go projects and package/publish build artifacts in a fully automated and highly customizable way. We've have been using goreleaser with all our recent projects and we couldn't be any happier since then.
 
 But once the artifacts are built and published, the next important step is to make them easily installable. Especially if you provide deb/rpm packages which are built with [NFPM integration](https://goreleaser.com/customization/nfpm/).
 
 The "challenge" with deb/rpm packages comes to light when project owners want to add those packages to Apt/Yum repositories. Goreleaser doesn't provide any integrations with 3rd party repositories nor there are Apt/Yum repositories which are free and provide an API to upload artifacts. Or are there?
+
+<!-- more -->
 
 ## Gemfury aka Fury.io
 

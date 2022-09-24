@@ -16,14 +16,15 @@ tags:
 - netconf
 - ssh
 
-title: Easily exposing your local resources with ngrok and fwd
 ---
+# Easily exposing your local resources with ngrok and fwd
+
 I bet every one of you was in a situation when you bloody needed to expose some local resource over internet. Letting a remote colleague to look at your work, delivering a demo being off-VPN, or any other reason to have your service be reachable over Internet.
 
 And it was never easy; corporate firewalls stand on-guard ensuring you can't be agile and productive 😉
 
 In this post I'll share with you how I glue [`ngrok`](https://ngrok.io) and [`fwd`](https://github.com/kintoandar/fwd) tools together to make my routers management interfaces exposed over Internet in a few clicks for free.
-<!--more-->
+<!-- more -->
 
 My story will be based on the following "network-automation engineer's" requirement:
 

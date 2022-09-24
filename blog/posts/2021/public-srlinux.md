@@ -10,8 +10,8 @@ tags:
   - containerlab
   - nokia
 
-title: Nokia SR Linux goes public!
 ---
+# Nokia SR Linux goes public
 
 It's been almost two years since Nokia announced its [Data Center Fabric solution](https://www.nokia.com/networks/solutions/data-center-switching-fabric/). The three-layered solution ranged from hardware platforms all the way up in the stack to the DC fabric lifecycle management suite - [Fabric Services System (FSS)](https://www.nokia.com/networks/products/fabric-services-system/).
 
@@ -32,8 +32,7 @@ are the result of taking a fresh look at the modern data center networks and bui
 
 No wonders engineers around the world wanted to play with SR Linux and take those features for a spin first hand. And today it is finally possible!
 
-{{% split-wide %}}
-{{% /split-wide %}}
+<!-- more -->
 
 ## Public SR Linux container
 
@@ -63,7 +62,7 @@ When working with virtual networking products one needs to be aware of any limit
 
 These limitations of the virtual images make it hard to create a reliable and "real" automated testing pipeline.
 
-<center>{{<tweet 1417859394142887940>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">When you say vNOS, do you mean as a separate standalone product or as a virtual version of an image that will be sold to run on hardware only?</p>&mdash; Joe Neville 🌻 (@joeneville_) <a href="https://twitter.com/joeneville_/status/1417855086076760066?ref_src=twsrc%5Etfw">July 21, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
 SR Linux container has the same code inside that actually runs on our hardware platforms. There is no control or data plane deviations[^1], so by using this image in your CI pipelines you can be sure that when deployed to production, it will behave the same.
 
@@ -73,9 +72,8 @@ And all that with a small resource footprint. Imagine running a fully functional
 
 Being able to pull SR Linux NOS as any other container image is big on its own, but we also wanted to make sure that you can use right away. To do that, we made licensing optional, so once you pulled an image you can use it to its full extent!
 
-{{< admonition type=info title="Limitations of the unlicensed image" open=false >}}
-When running without a license users can enjoy all the features of SR Linux, but dataplane interfaces will have a throughput limitation and the applications will restart once in a month.
-{{< /admonition >}}
+!!!info
+    When running without a license users can enjoy all the features of SR Linux, but dataplane interfaces will have a 1000pps throughput limitation and running time is limited by 2 weeks.
 
 ### Versioning
 
@@ -88,9 +86,6 @@ We will keep all versions available for you to pull.
 The decision use GitHub container registry was made specifically to allow you to get the image without facing the pull restrictions that Docker has in place.
 
 We do that because we think that one of the very promising applications for public SR Linux container is to use it in CI pipelines. And in CI your jobs can pull the images quite frequently, so having limitations for pulling, is an important improvement.
-
-{{% split-wide %}}
-{{% /split-wide %}}
 
 ## Learn SR Linux
 
@@ -126,9 +121,6 @@ One of the objectives for the tutorials that we put on this portal was to make t
 4. **PCAPs**  
     Yes, where applicable we will also share the PCAP files with control and data plane traffic captured. The truth is always in PCAPs, so by analyzing them we can see how control plane protocols operate and what encapsulations are used in the data plane.
 
-{{% split-wide %}}
-{{% /split-wide %}}
-
 ## Always-ON SR Linux
 
 Although it is extremely easy to run SR Linux on your own system, it is always nice to have a system running on the Internet which you can access.
@@ -143,9 +135,8 @@ As the diagram shows, we are exposing every management interface the NOS has for
 - The fully potent gNMI interface is open for everyone to try out getting information with gNMI Get and stream it with gNMI Subscribe
 - The third interface - JSON-RPC over HTTP - is a REST API like interface for teams who prefer to deliver automation via it, or those who find gNMI specification limiting.
 
-{{< admonition type=warning title="Be a good citizen" open=true >}}
-Please, act in good faith and do not try to oversubscribe the instance by streaming massive amounts of data. This is a shared instance, and we want everyone to have a good experience with it.
-{{< /admonition >}}
+!!!warning "Be a good citizen"
+    Please, act in good faith and do not try to oversubscribe the instance by streaming massive amounts of data. This is a shared instance, and we want everyone to have a good experience with it.
 
 ### Pre-configured services
 
@@ -157,9 +148,6 @@ The pre-configured services are:
 
 1. Layer 2 EVPN with VXLAN dataplane with `mac-vrf-100` network instance
 2. Layer 3 EVPN with VXLAN dataplane with `ip-vrf-200` network instance
-
-{{% split-wide %}}
-{{% /split-wide %}}
 
 ## SR Linux community
 
@@ -173,10 +161,7 @@ Monitoring-obsessed networkers would be pleased with SR Linux 100% YANG coverage
 
 We are happy to chat with you all! And the chosen venue for our new-forming SR Linux Community is the [**SR Linux Discord Server which everyone can join**](https://discord.gg/tZvgjQ6PZf)!
 
-{{% split-wide %}}
-{{% /split-wide %}}
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js" async></script>
+<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js" async></script>
 
 [^1]: since dataplane for the SR Linux container is simulated, there are some edge cases where the real dataplane would behave differently, but this is only true for 5% of the overall cases.
 [^2]: still, it is required to have at least 4GB RAM VM and preferably >1 vCPU

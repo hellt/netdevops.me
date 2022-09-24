@@ -9,17 +9,18 @@ tags:
   - scrapli
   - textfsm
   - netconf
-
-title: Network automation options in Go with scrapligo
 ---
+# Network automation options in Go with scrapligo
 
 Just recently the network automation folks witnessed a great library to be ported from Python to Go - [scrapligo](https://github.com/scrapli/scrapligo).
 
-<center>{{<tweet 1395048837656367105>}}</center>
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Been working on learning go a bit and have published scrapligo <a href="https://t.co/NDXQ6khxCr">https://t.co/NDXQ6khxCr</a> -- still a work in progress, but has been a fun learning experience! Check it out and let me know what ya think! 🤠</p>&mdash; Carl Montanari (@carlrmontanari) <a href="https://twitter.com/carlrmontanari/status/1395048837656367105?ref_src=twsrc%5Etfw">May 19, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 
 For me personally this was a pivotal point because with scrapligo the Go-minded netengs can now automate their networks with a solid and performant library.
 
 One of the things that scrapligo packs is, of course, the ability to reliably _talk_ to the network devices using the same command line interface as a human would normally do. That means that scrapligo would send and receive the pieces of data that an operator would send/receive if they were connected with a terminal over SSH.
+
+<!-- more -->
 
 As you may very well be aware, the typical output that a network device produces for a given command is unstructured, meaning that it is not presented in a way that can be _effortlessly_ parsed by a machine.
 

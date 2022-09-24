@@ -11,11 +11,13 @@ tags:
 - sros
 - yang
 
-title: Nokia YANG tree and Path Browser
 ---
+# Nokia YANG tree and Path Browser
+
 _Automation Is as Good as the Data Models_ is a chapter's name in the great book titled ["Network Programmability With YANG"](https://www.amazon.com/Network-Programmability-YANG-Modeling-driven-Management/dp/0135180392). These days you won't bedazzle anyone by just providing the set of YANG models for the flagship network products. The models alone, albeit a great step forward, do not guarantee that programmability will start flourish.  
 The automation tools leveraging YANG is often a missing link and in this post I am talking about the [Nokia YANG tree and Path Browser](https://github.com/hellt/nokia-yangtree) tools which help both our internal automation squad and our customers to be more effective working with our YANG models.
-<!--more-->
+
+<!-- more -->
 
 ## 1 Models for machines
 
@@ -151,7 +153,7 @@ How YANG Browser works:
 3. Clicking on a link will open a new tab with the HTML Tree view (note, it might take a few minutes to a browser to load and render this big HTML file).
 
 <div align="center">
-    <img style="width:90%" src="https://gitlab.com/rdodin/pics/-/wikis/uploads/ad013fddf9a02ee430c5b5d3a69670ff/image.png" />
+    <img style="width:90%" src="https://gitlab.com/rdodin/pics/-/wikis/uploads/ad013fddf9a02ee430c5b5d3a69670ff/image.png" /><br/>
     <small><i>HTML tree view for the <code>nokia-state-combined</code> module</i></small>
 </div>
 

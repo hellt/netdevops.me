@@ -1,8 +1,6 @@
 ---
-title: Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX
 date: 2015-11-03
-author: Roman Dodin
-url: /2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/
+# url: /2015/11/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper/
 comments: true
 keys:
   - Nokia
@@ -17,6 +15,7 @@ tags:
   - VPRN
   - BGP
 ---
+# Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX
 
 The topic of this post is **Layer 3 VPN** (L3VPN or VPRN as we call it in SROS) configuration, and I decided to kill two birds with one stone by inviting Juniper vMX to our cozy SROS environment.
 
@@ -29,7 +28,7 @@ The BGP/MPLS VPN ([RFC 4364](https://tools.ietf.org/html/rfc4364)) configuration
 - and many more
 
 We'll wrap it up with the Control Plane/Data Plane evaluation diagrams which help a lot with understanding the whole BGP VPN mechanics. Take your seats, and buckle up!
-<!--more-->
+<!-- more -->
 
 The topology I use throughout this tutorial consists of two customers (namely Alcatel and Juniper) which have two remote sites and want to get connectivity between them by means of an L3VPN service:
 
@@ -305,13 +304,12 @@ Before we dive deep into the BGP L3VPN configuration it is necessary to refresh 
 ### VRFs
 
 In order to maintain different customer's routes independently PE routers use separate logical routing tables called **Virtual Routing and Forwarding (VRF)**.
-{{< admonition type=info title="RFC 4364. VRFs: Multiple Forwarding Tables in PEs" open=false >}}
-Each PE router maintains a number of separate forwarding tables. One of the forwarding tables is the "default forwarding table". The others are "VPN Routing and Forwarding tables", or "VRFs".
+!!!info "RFC 4364. VRFs: Multiple Forwarding Tables in PEs"
+    Each PE router maintains a number of separate forwarding tables. One of the forwarding tables is the "default forwarding table". The others are "VPN Routing and Forwarding tables", or "VRFs".
 
-3.1. VRFs and Attachment Circuits<br /> Every PE/CE attachment circuit is associated, by configuration, with one or more VRFs. An attachment circuit that is associated with a VRF is known as a "VRF attachment circuit".
+    3.1. VRFs and Attachment Circuits<br /> Every PE/CE attachment circuit is associated, by configuration, with one or more VRFs. An attachment circuit that is associated with a VRF is known as a "VRF attachment circuit".
 
-In the simplest case and most typical case, a PE/CE attachment circuit is associated with exactly one VRF. When an IP packet is received over a particular attachment circuit, its destination IP address is looked up in the associated VRF. The result of that lookup determines how to route the packet.
-{{< /admonition >}}
+    In the simplest case and most typical case, a PE/CE attachment circuit is associated with exactly one VRF. When an IP packet is received over a particular attachment circuit, its destination IP address is looked up in the associated VRF. The result of that lookup determines how to route the packet.
 
 Provider Edge routers must have a VRF configured for each connected site. VRFs are totally separated in routers control plane by default, so we can depict VRFs as the routers on their own caged in a single hardware unit:
 
@@ -363,15 +361,14 @@ So Route Distinguishers make every VPN-IPv4 route unique in a providers core, bu
 
 [BGP community](https://netdevops.me/2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/) is a good way to solve this problem. For L3VPNs a specific [extended community](https://tools.ietf.org/html/rfc4360) was defined in [RFC 4364 Section 4.3.1](https://tools.ietf.org/html/rfc4364#section-4.3.1) called **Route Target**.
 
-{{< admonition type=info title="RFC 4364. Route Target definition" open=false >}}
-Every VRF is associated with one or more Route Target (RT) attributes. When a VPN-IPv4 route is created (from an IPv4 route that the PE has learned from a CE) by a PE router, it is associated with one or more Route Target attributes. These are carried in BGP as attributes of the route.
+!!!info "RFC 4364. Route Target definition"
+    Every VRF is associated with one or more Route Target (RT) attributes. When a VPN-IPv4 route is created (from an IPv4 route that the PE has learned from a CE) by a PE router, it is associated with one or more Route Target attributes. These are carried in BGP as attributes of the route.
 
-Any route associated with Route Target T must be distributed to every PE router that has a VRF associated with Route Target T. When such route is received by a PE router, it is eligible to be installed in those of the PE's VRFs that are associated with Route Target T. (Whether it actually gets installed depends upon the outcome of the BGP decision process, and upon the outcome of the decision process of the IGP (i.e., the intra-domain routing protocol) running on the PE/CE interface.)
+    Any route associated with Route Target T must be distributed to every PE router that has a VRF associated with Route Target T. When such route is received by a PE router, it is eligible to be installed in those of the PE's VRFs that are associated with Route Target T. (Whether it actually gets installed depends upon the outcome of the BGP decision process, and upon the outcome of the decision process of the IGP (i.e., the intra-domain routing protocol) running on the PE/CE interface.)
 
-A Route Target attribute can be thought of as identifying a set of sites. (Though it would be more precise to think of it as identifying a set of VRFs.) Associating a particular Route Target attribute with a route allows that route to be placed in the VRFs that are used for routing traffic that is received from the corresponding sites.
+    A Route Target attribute can be thought of as identifying a set of sites. (Though it would be more precise to think of it as identifying a set of VRFs.) Associating a particular Route Target attribute with a route allows that route to be placed in the VRFs that are used for routing traffic that is received from the corresponding sites.
 
-There is a set of Route Targets that a PE router attaches to a route received from site S; these may be called the "Export Targets". And there is a set of Route Targets that a PE router uses to determine whether a route received from another PE router could be placed in the VRF associated with site S; these may be called the "Import Targets". The two sets are distinct, and need not be the same. Note that a particular VPN-IPv4 route is only eligible for installation in a particular VRF if there is some Route Target that is both one of the route's Route Targets and one of the VRF's Import Targets.
-{{< /admonition >}}
+    There is a set of Route Targets that a PE router attaches to a route received from site S; these may be called the "Export Targets". And there is a set of Route Targets that a PE router uses to determine whether a route received from another PE router could be placed in the VRF associated with site S; these may be called the "Import Targets". The two sets are distinct, and need not be the same. Note that a particular VPN-IPv4 route is only eligible for installation in a particular VRF if there is some Route Target that is both one of the route's Route Targets and one of the VRF's Import Targets.
 
 Usually the RTs are represented as `<AS Number of a client network>:<VRF ID>`:
 

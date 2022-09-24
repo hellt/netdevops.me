@@ -1,24 +1,20 @@
 ---
-title: Nokia (Alcatel-Lucent) SROS OSPF configuration tutorial
 date: 2015-06-22
-author: Roman Dodin
-url: /2015/06/alcatel-lucent-ospf-configuration-tutorial/
-# toc: true
-draft: false
+# url: /2015/06/alcatel-lucent-ospf-configuration-tutorial/
 comments: true
 tags:
   - SROS
   - Nokia
   - OSPF
 ---
-
+# Nokia (Alcatel-Lucent) SROS OSPF configuration tutorial
 
 The purpose of this post is to cover basic [OSPFv2](https://datatracker.ietf.org/doc/html/rfc2328) configuration steps and commands for Nokia SROS routers. Intended readers are engineers with basic OSPF knowledge who want to know how to configure OSPF on Alcatel-Lucent Service Routers (7750-SR, 7705-SR, 7210-SR).
 
 All examples are valid for `TiMOS-B-12.0.R8` software.
-<!--more-->
+<!-- more -->
 
-# Single-area OSPF
+## Single-area OSPF
 
 Basic OSPF protocol configuration in a single area consists of the following steps:
 
@@ -31,11 +27,11 @@ The following network topology will be used throughout this tutorial:
 
 <img class="aligncenter" src="http://img-fotki.yandex.ru/get/9739/21639405.11b/0_83cb2_d11bc8dc_XL.png" alt="" width="530" height="705" />
 
-## Enabling OSPF
+### Enabling OSPF
 
 To enable OSPF on a router simply issue `configure router ospf` command. This will start OSPF process #0 on a router. If you would like to run another separate OSPF process on the same router, use  `configure router ospf <N>`, where _N_ is a decimal number of the desired OSPF process.
 
-## Router ID
+### Router ID
 
 Each router running OSPF should have an unique 32-bit identifier, namely **Router ID**. This identifier will be equal to the first configured value in the following prioritized:
 
@@ -72,7 +68,7 @@ OSPF Oper Status             : Enabled    # OSPF is operating
 <output omitted>
 ```
 
-## Configuring Backbone Area
+### Configuring Backbone Area
 
 Are configuration is done in the OSPF configuration context with `area` command:
 
@@ -110,7 +106,7 @@ No. of OSPF Areas: 1
 ==================================================================
 ```
 
-## Configuring OSPF interfaces
+### Configuring OSPF interfaces
 
 Once the _backbone area_ is configured its time to add some interfaces to it with `interface <interface_name>` command.
 
@@ -164,7 +160,7 @@ No. of OSPF Interfaces: 2
 
 Repeat the same configuration steps to include all interfaces to _OSPF Area 0_ for the other backbone routers R2, R3, R4 and you will end up with a fully configured _OSPF Backbone Area_.
 
-## Verification
+### Verification
 
 Finally its time to check that our routers have established the neighboring relationships:
 
@@ -220,7 +216,7 @@ A:R1# show router ospf database
   <detail>             : keyword - displays detailed information
 ```
 
-# Multi-area OSPF
+## Multi-area OSPF
 
 Basic Multi-area OSPF configuration is straightforward as well. I added two more routers to the topology and introduced two areas: Area 1 and Area 2.
 
@@ -324,7 +320,7 @@ No. of Neighbors: 3
 
 I repeated same configuration steps on R6: added it to Area 2 and neighbored with R2.
 
-## Examining Multi-area LSDB
+### Examining Multi-area LSDB
 
 Since we configured multi-area OSPF we should expect to see some new LSA in our Link State Database:
 
@@ -394,7 +390,7 @@ Aha, R1 being an ABR lists all LSA's for both Area 0 and Area 1. Moreover, R1 li
 
 R5 has only Area 1 LSAs, since R5 "lives" exactly in a single area - Area 1.
 
-# OSPF routes propagation
+## OSPF routes propagation
 
 To ensure that OSPF routers exchanged OSPF routes lets check R5 and R1 routing tables:
 
@@ -570,7 +566,7 @@ PING 5.5.5.5 56 data bytes
 64 bytes from 5.5.5.5: icmp_seq=1 ttl=62 time=11.7ms.
 ```
 
-# OSPF Route Summarization
+## OSPF Route Summarization
 
 So far we have configured multi-area OSPF topology with three Areas. One of the multi-area OSPF benefits is to perform _manual route summarization_. In this section we will configure OSPF route summarization between Area 0 and Area 1.
 
@@ -761,7 +757,7 @@ PING 192.168.3.3 56 data bytes
 64 bytes from 192.168.3.3: icmp_seq=1 ttl=63 time=10.2ms.
 ```
 
-# OSPF Route filtering on ABR
+## OSPF Route filtering on ABR
 
 You can filter unwanted routes on the ABR with the `area-range` command adding the key `not-advertise`.
 
@@ -834,7 +830,7 @@ No. of Routes: 0
 
 **Note:** Route filtering does not install any _black-hole_ routes.
 
-# ASBR and OSPF Route Redistribution
+## ASBR and OSPF Route Redistribution
 
 Routes between different routing domains can me mutually exchanged. External routers can be exported into OSPF and vice versa. The process of routes exchange is often called **route redistribution**.
 
@@ -951,7 +947,7 @@ The next step is to configure R5 router as an **ASBR** and to apply the created 
 *A:R5>config>router>ospf# export "EXPORT Local Loopbacks"
 ```
 
-## Verifying redistributed routes propagation
+### Verifying redistributed routes propagation
 
 Now, our R5 router is now configured as an ASBR and the local routes should get exported into OSPF process. These changes allow other routers in OSPF domain to receive these routes by means of _Type 4 ASBR Summary LSA_ and _Type 5 AS External LSA_:
 
@@ -1102,7 +1098,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
 No. of Routes: 3
 ```
 
-# OSPF Stub Area
+## OSPF Stub Area
 
 OSPF Stub Areas help to optimize LSDB and routing tables of the routers. We will configure **Area 2** as a stub area and this will tell ABR (R2) to not distribute any _External_ routes and send a default route into Area 2 instead. To configure Area 2 as stub you need to configure **all OSPF routers inside this area**:
 
@@ -1236,7 +1232,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
 No. of Routes: 13
 ```
 
-# OSPF Totally Stub Area
+## OSPF Totally Stub Area
 
 [<img class="aligncenter" src="http://img-fotki.yandex.ru/get/6847/21639405.11b/0_83cbd_8d766fa0_XL.png" alt="" width="800" height="427" />](http://img-fotki.yandex.ru/get/6847/21639405.11b/0_83cbd_8d766fa0_orig.png)
 
@@ -1284,7 +1280,7 @@ No. of Routes: 3
 
 Now Area 2 router R6 has only 3 LSAs in its LSDB. All _Type 3 Summary LSA_ for networks inside Area 0 were substituted by _Summary default route_ from ABR (R2).
 
-# Not So Stubby Area (NSSA)
+## Not So Stubby Area (NSSA)
 
 ![pic](http://img-fotki.yandex.ru/get/3114/21639405.11b/0_83cbf_2795355_orig.png)
   <small>There is a typo on the pic. No type4 lsa will be advertised in Area0 by R1. Only Type5</small>
@@ -1420,7 +1416,7 @@ No. of LSAs: 16
 
 As we see, all _Type 5 AS External LSA_ were substituted by _Type 7 NSSA LSA_. And if we had any other external routes we wouldn't see them in R5 database, since NSSA areas can not contain External routes.
 
-# Totally NSSA
+## Totally NSSA
 
 ![pic](http://img-fotki.yandex.ru/get/6300/21639405.11b/0_83cc0_5d4047c9_orig.png)
 <small>There is a typo on the pic. No type4 lsa will be advertised in Area0 by R1. Only Type5</small>
@@ -1506,7 +1502,7 @@ PING 4.4.4.4 56 data bytes
 64 bytes from 4.4.4.4: icmp_seq=1 ttl=62 time=19.6ms.
 ```
 
-# Debugging OSPF adjacency issues
+## Debugging OSPF adjacency issues
 
 For two OSPF routers to become neighbors several parameters should be matched. And most of them - are the parameters communicated via OSPF Hello messages. If you do not see a neighbor on the other side there is a good chance that one of these parameters mismatches.
 

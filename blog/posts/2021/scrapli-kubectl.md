@@ -12,14 +12,17 @@ tags:
   - kubernetes
   - go
 
-title: Using scrapligo with kubectl exec
 ---
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hellt/drawio-js@main/embed2.js" async></script>
+# Using scrapligo with kubectl exec
+
+<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js" async></script>
 
 As the networking industry is (slowly) moving towards forklifting networking functions to the cloud-native space we often become the witnesses of mixing decade old tools with cloud-native approaches and architectures.
 
 This post is about one such crazy mixture of using screen scraping library [scrapligo](https://github.com/scrapli/scrapligo) with `kubectl exec` and `docker exec` commands.
+
+<!-- more -->
 
 ## What and Why?
 
@@ -55,9 +58,8 @@ A user deployed a networking lab with Nokia SR Linux nodes on a remote k8s clust
 
 <div class="mxgraph" style="max-width:100%;border:1px solid transparent;margin:0 auto; display:block;" data-mxgraph="{&quot;page&quot;:1,&quot;zoom&quot;:3,&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;check-visible-state&quot;:true,&quot;resize&quot;:true,&quot;url&quot;:&quot;https://raw.githubusercontent.com/hellt/diagrams.net/master/scrapligo-exec.drawio&quot;}"></div>
 
-{{< admonition type=info open=true >}}
-I am using SR Linux containers here because they are [available for pulling for everyone](https://netdevops.me/2021/nokia-sr-linux-goes-public/), but you can swap it with Arista cEOS or any other NOS easily.
-{{< /admonition >}}
+!!!info
+    I am using SR Linux containers here because they are [available for pulling for everyone](https://netdevops.me/2021/nokia-sr-linux-goes-public/), but you can swap it with Arista cEOS or any other NOS easily.
 
 For various reasons, it is not possible to configure an Ingress service to enable external access for SR Linux workload, but cluster management is possible via `kubectl`. So we could configure TLS certificates over `kubectl exec`, and that is what we will do, but programmatically.
 
@@ -70,9 +72,8 @@ On the docker host side we will run a [`scrapligo` program](https://github.com/h
 
 Then container with `gnmic` inside will be able to use gNMI service on the srlinux container (step 2).
 
-{{< admonition type=info open=true >}}
-For simplicity we use `docker exec` and plain containers, but the same will work with `kubectl exec` without any deviations.
-{{< /admonition >}}
+!!!info
+    For simplicity we use `docker exec` and plain containers, but the same will work with `kubectl exec` without any deviations.
 
 ### Deploy containers
 
@@ -150,9 +151,8 @@ We also set the container name our srlinux container has - `srlinux` - as well a
 
 The important part is `base.WithAuthBypass(true)`, this option disables the authentication that would normally happen should you try to SSH into the device. With `exec` command the authentication is not needed, as we execute the process directly inside the container.
 
-{{< admonition type=info open=true >}}
-Note, that no IP/DNS address is present, that is because we are not using SSH to access the node, instead we provide a container name that we will refer later within `docker exec` command.
-{{< /admonition >}}
+!!!info
+    Note, that no IP/DNS address is present, that is because we are not using SSH to access the node, instead we provide a container name that we will refer later within `docker exec` command.
 
 ### Setting Open command
 
@@ -274,22 +274,20 @@ And gNMI server has been configured to use the `tls-profile` that the program cr
 
 All points out that we can now use gNMI service with a secured transport. To check that, let's go back to our gnmic container that we launched and try and get some data via gNMI.
 
-{{< admonition type=info open=true >}}
-Before doing that, we need to see which IP address the srlinux has on its management interface. It can be queried with the following show command:
+!!!info
+    Before doing that, we need to see which IP address the srlinux has on its management interface. It can be queried with the following show command:
 
-```
-❯ docker exec srlinux sr_cli "show interface mgmt0.0"
-===============================================================
-  mgmt0.0 is up
-    Network-instance: mgmt
-    Encapsulation   : null
-    Type            : None
-    IPv4 addr    : 172.17.0.2/16 (dhcp, preferred)
-    IPv6 addr    : fe80::42:acff:fe11:2/64 (link-layer, preferred)
-===============================================================
-```
-
-{{< /admonition >}}
+    ```
+    ❯ docker exec srlinux sr_cli "show interface mgmt0.0"
+    ===============================================================
+      mgmt0.0 is up
+        Network-instance: mgmt
+        Encapsulation   : null
+        Type            : None
+        IPv4 addr    : 172.17.0.2/16 (dhcp, preferred)
+        IPv6 addr    : fe80::42:acff:fe11:2/64 (link-layer, preferred)
+    ===============================================================
+    ```
 
 Now in the bash shell of the gnmic container, craft the [`gnmic`](https://gnmic.kmrd.dev) command to get some data over gNMI:
 

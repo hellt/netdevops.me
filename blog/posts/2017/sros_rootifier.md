@@ -8,10 +8,9 @@ keywords:
 tags:
 - SROS
 - Nokia
-
-title: SROS Rootifier or how to flatten 7750 SR config
-
 ---
+
+# SR OS Rootifier or how to flatten 7750 SR config
 
 Back in the days when I mostly did routing stuff I spent the whole day configuring SROS devices via SSH. And once in a while I saw that SSH session or its server part (or even underlying connection) glitched, resulting in a corrupted lines feeded to the device.
 
@@ -23,7 +22,7 @@ These sad facts pushed me to create a **rootifier** CLI script, that was convert
 
 Now I decided to make a web service of that script, that is publicly available at <http://rootifier.netdevops.me/>
 
-<!--more-->
+<!-- more -->
 
 ## SROS config structure
 

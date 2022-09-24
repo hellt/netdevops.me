@@ -1,19 +1,18 @@
 ---
-title: Nokia (Alcatel-Lucent). Configuring Packet (IP) Filters
 date: 2015-06-24
-author: Roman Dodin
-url: /2015/06/alcatel-lucent-configuring-packet-ip-filters/
-draft: false
+# url: /2015/06/alcatel-lucent-configuring-packet-ip-filters/
 comments: true
 tags:
   - SROS
   - Nokia
   - IP Filter
 ---
+# Nokia (Alcatel-Lucent). Configuring Packet (IP) Filters
+
 Packet filters (or in Cisco terminology Access Control Lists, aka ACL) are one of the most used tools in a network engineer's tool set. Blocking telnet/ssh access, restricting specific traffic flows, implementing policy-based routing or NATing - all of these tasks use IP filter's capabilities.
 
 In this example I'll show you how to configure a basic SSH-blocking IP filter on a Nokia (Alcatel-Lucent) SROS running `TiMOS-B-12.0.R8`.
-<!--more-->
+<!-- more -->
 
 According to the topology provided we will block SSH access to R1's system IP. This particular task could be done in various ways, but we will configure IP filter on R2 (applied to R2's interface `to_R4` in the incoming direction).
 
@@ -160,7 +159,7 @@ Egr. Matches : 0 pkts
 ===============================================================================
 ```
 
-# Match-list and Port list
+## Match-list and Port list
 
 In the example above we used one ip address and one port to create our filter, but what if we need to match on the whole range of IP addresses and ports? You need to use match-list and port-list in this case:
 

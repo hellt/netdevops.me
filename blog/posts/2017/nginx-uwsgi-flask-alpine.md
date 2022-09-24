@@ -12,9 +12,8 @@ tags:
 - uWSGI
 - Docker
 
-title: Flask application in a production-ready container
-
 ---
+# Flask application in a production-ready container
 
 Flask documentation [is very clear](http://flask.pocoo.org/docs/0.12/deploying/#deployment-options) on where is the place for its built-in WSGI application server:
 
@@ -24,7 +23,7 @@ So how about I share with you a [_Dockerfile_](https://github.com/hellt/nginx-uw
 
 ![nginx-uwsgi-flaks-alpine-docker](https://gitlab.com/rdodin/netdevops.me/uploads/e893ab9ea824ed501170908377d3fb52/image.png)
 
-<!--more-->
+<!-- more -->
 
 But before we dive in and start throwing words like uwsgi, nginx and sockets lets set up our vocabulary. As DigitalOcean originally wrote:
 
