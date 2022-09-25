@@ -38,7 +38,7 @@ Containerlab focuses on containerized Network Operating Systems such as:
 
 - [Nokia SR-Linux](https://www.nokia.com/networks/products/service-router-linux-NOS/)
 - [Arista cEOS](https://www.arista.com/en/products/software-controlled-container-networking)
-- [Azure SONiC](https://azure.github.io/SONiC/)
+- [Azure SONiC](https://sonic-net.github.io/SONiC/)
 - [Juniper cRPD](https://www.juniper.net/documentation/en_US/crpd/topics/concept/understanding-crpd.html)
 - [FRR](http://docs.frrouting.org/en/latest/overview.html)
 
