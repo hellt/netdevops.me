@@ -37,7 +37,7 @@ With the growing number of containerized Network Operating Systems (NOS) grows t
 Containerlab focuses on containerized Network Operating Systems such as:
 
 - [Nokia SR-Linux](https://www.nokia.com/networks/products/service-router-linux-NOS/)
-- [Arista cEOS](https://www.arista.com/en/products/software-controlled-container-networking)
+- Arista cEOS
 - [Azure SONiC](https://sonic-net.github.io/SONiC/)
 - [Juniper cRPD](https://www.juniper.net/documentation/en_US/crpd/topics/concept/understanding-crpd.html)
 - [FRR](http://docs.frrouting.org/en/latest/overview.html)
@@ -165,7 +165,7 @@ A perfect example - a telemetry lab.
 
 ![tele](https://pbs.twimg.com/media/Ex1S7F3WEA8KeWi?format=jpg&name=4096x4096)
 
-The above topology is defined in [a single clab file](https://github.com/srl-labs/srl-telemetry-lab/blob/main/st.yml) that has your networking nodes and regular linux container defined.
+The above topology is defined in [a single clab file](https://github.com/srl-labs/srl-telemetry-lab/blob/main/st.clab.yml) that has your networking nodes and regular linux container defined.
 
 A single gittable, versionable lightweight text file defines a ready-made topology that is spinnable in 15 seconds.
 

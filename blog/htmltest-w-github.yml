@@ -12,6 +12,7 @@ IgnoreURLs:
   - https://www.linkedin.com/in
   - https://github.com/hellt/netdevops.me/edit/main/blog # do not check edit links
   - https://pbs.twimg.com/media
+  - http://codepen.io/hellt
 IgnoreDirectoryMissingTrailingSlash: true
 IgnoreAltMissing: true
 IgnoreSSLVerify: true
