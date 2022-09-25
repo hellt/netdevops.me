@@ -17,7 +17,7 @@ Not a single day goes by without me regretting I haven't mastered any front-end 
 
 Truth be told, I wasn't born with an urge to learn anything that has _javascript_ under the hood, but over the years, working within the network/backend silos, I realized, that being able to create a simple front-end service is a jewel that fits every crown, no matter what title you wear.
 
-This tutorial is based on the task real task of building up a web interface ([pycatjify.netdevops.me](https://pycatjify.netdevops.me)) for the [`pycatjify`](../creating-google-cloud-platform-function-with-python-and-serverless/) REST API service deployed as a serverless function. The end result is a **simple**, completely **free** and **reusable** Bootstrap based front-end boilerplate which can be used as a foundation for a similar task.
+This tutorial is based on the task real task of building up a web interface ([pycatjify.netdevops.me](https://pycatjify.netdevops.me)) for the [`pycatjify`](serverless-gc-functions.md) REST API service deployed as a serverless function. The end result is a **simple**, completely **free** and **reusable** Bootstrap based front-end boilerplate which can be used as a foundation for a similar task.
 
 <!-- more -->
 
