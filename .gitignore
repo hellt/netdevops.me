@@ -8,3 +8,4 @@ public
 tmp
 bin
 resources/_gen/**/*
+site/

@@ -3,24 +3,14 @@ name: github pages
 on:
   push:
 
+env:
+  MKDOCS_INS_VER: 8.5.3-insiders-4.23.6
+
 jobs:
   docs-test:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/checkout@v2
-        with:
-          submodules: true # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: "0.82.0"
-          extended: true
-
-      - name: Build
-        run: hugo --minify
+      - uses: actions/checkout@v3
 
       - name: htmltest
         run: |
@@ -32,25 +22,15 @@ jobs:
     needs: docs-test
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
-          submodules: true # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+          fetch-depth: 0
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
         with:
-          hugo-version: "0.82.0"
-          extended: true
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
-        run: hugo --minify
-
-      - name: Update algolia index
-        run: docker run -v $(pwd):/mnt -e ALGOLIA_APP_ID=${{ secrets.ALGOLIA_APP_ID }} -e ALGOLIA_ADMIN_KEY=${{ secrets.ALGOLIA_KEY }} -e ALGOLIA_INDEX_NAME=blog -e ALGOLIA_INDEX_FILE=/mnt/public/index.json ghcr.io/hellt/algolia-update:0.1.0 npm run algolia
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+      - run: docker run -v $(pwd):/docs --user $(id -u):$(id -g) --entrypoint mkdocs ghcr.io/srl-labs/mkdocs-material-insiders:$MKDOCS_INS_VER gh-deploy --force --strict
