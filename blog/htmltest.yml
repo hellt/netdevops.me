@@ -14,6 +14,8 @@ IgnoreURLs:
   - https://www.linkedin.com/in
   - https://*github.com/
   - https://twitter.com/*
+  - http://codepen.io/hellt
+  - https://pbs.twimg.com/media
 IgnoreDirectoryMissingTrailingSlash: true
 IgnoreAltMissing: true
 IgnoreSSLVerify: true
