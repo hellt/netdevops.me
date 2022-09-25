@@ -475,4 +475,3 @@ Jun 11 10:14:57.782075 OSPF packet ignored: configuration mismatch from 10.1.2.2
 ## Links
 
 - [OSPF Version 2](https://datatracker.ietf.org/doc/html/rfc2328) (RFC)
-- [What is your OSPF neighbor doing? Adjacency problems in OSPF](https://inetzero.com/what-is-your-ospf-neighbor-doing-adjancency-problems-in-ospf/) (<https://inetzero.com>)
