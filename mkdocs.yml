@@ -7,7 +7,7 @@ site_description: >-
 repo_name: hellt/netdevops.me
 repo_url: https://github.com/hellt/netdevops.me
 site_url: "https://netdevops.me/"
-edit_uri: "edit/main/blog/"
+edit_uri: "edit/master/blog/"
 
 docs_dir: blog
 
