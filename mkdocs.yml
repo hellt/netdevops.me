@@ -2,12 +2,12 @@ site_name: netdevops.me
 
 site_author: Roman Dodin
 site_description: >-
-  Applying DevOps to networking.
+  Applying DevOps to networks.
 # Repository
 repo_name: hellt/netdevops.me
 repo_url: https://github.com/hellt/netdevops.me
 site_url: "https://netdevops.me/"
-edit_uri: "edit/main/docs/"
+edit_uri: "edit/main/blog/"
 
 docs_dir: blog
 
@@ -115,10 +115,7 @@ markdown_extensions:
       linenums_style: pymdownx-inline
   - pymdownx.inlinehilite
   - pymdownx.keys
-  - pymdownx.magiclink:
-      repo_url_shorthand: true
-      user: srl-labs
-      repo: containerlab
+  - pymdownx.magiclink
   - pymdownx.mark
   - pymdownx.smartsymbols:
       fractions: false
