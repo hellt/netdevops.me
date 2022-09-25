@@ -1,0 +1,798 @@
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Applying DevOps to networks."><meta name=author content="Roman Dodin"><link href=https://netdevops.me/2015/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx/ rel=canonical><link rel=icon href=../../assets/images/code.svg><meta name=generator content="mkdocs-1.3.1, mkdocs-material-8.5.3+insiders-4.23.5"><title>Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX - netdevops.me</title><link rel=stylesheet href=../../assets/stylesheets/main.fb3608a7.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.cbb835fc.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Google Sans";--md-code-font:"Fira Mono"}</style><script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id=__analytics>function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-333724268"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-333724268",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-333724268",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script><script>"undefined"!=typeof __md_analytics&&__md_analytics()</script><!-- Determine title --><!-- The image needs to have an absolute URL --><!-- Open graph meta tags --><meta property=og:type content=website><meta property=og:title content="netdevops.me - Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX"><meta property=og:description content="Applying DevOps to networks."><meta content=https://netdevops.me/2015/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx/ property=og:url><meta property=og:image content="https://github.com/srl-labs/containerlab/blob/main/docs/images/containerlab-og.png?raw=true"><meta property=og:image:type content=image/png><meta property=og:image:width content=1092><meta property=og:image:height content=954><!-- Twitter meta tags --><meta name=twitter:card content=summary_large_image><meta name=twitter:site content=@ntdvps><meta name=twitter:creator content=@ntdvps><meta name=twitter:title content="netdevops.me - Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX"><meta name=twitter:description content="Applying DevOps to networks."><meta name=twitter:image content="https://github.com/srl-labs/containerlab/blob/main/docs/images/containerlab-og.png?raw=true"></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx class=md-skip> Skip to content </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title=netdevops.me class="md-header__button md-logo" aria-label=netdevops.me data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> netdevops.me </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS & Juniper MX </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan aria-label="Switch to dark mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=black data-md-color-accent=cyan aria-label="Switch to light mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg> </label> </form> <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </label> <nav class=md-search__options aria-label=Search> <button type=reset class="md-search__icon md-icon" title=Clear aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../.. class="md-tabs__link md-tabs__link--active"> Blog </a> </li> <li class=md-tabs__item> <a href=../../tags/ class=md-tabs__link> Tags </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation hidden> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title=netdevops.me class="md-nav__button md-logo" aria-label=netdevops.me data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> netdevops.me </label> <div class=md-nav__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_1 type=checkbox id=__nav_1 checked> <div class="md-nav__link md-nav__container"> <a href=../.. class="md-nav__link "> <span class=md-ellipsis> Blog </span> </a> </div> <nav class=md-nav aria-label=Blog data-md-level=1> <label class=md-nav__title for=__nav_1> <span class="md-nav__icon md-icon"></span> Blog </label> <ul class=md-nav__list data-md-scrollfix> </ul> </nav> </li> <li class=md-nav__item> <a href=../../tags/ class=md-nav__link> <span class=md-ellipsis> Tags </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#bgp-l3vpn-terminology class=md-nav__link> <span class=md-ellipsis> BGP L3VPN terminology </span> </a> <nav class=md-nav aria-label="BGP L3VPN terminology"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#vrfs class=md-nav__link> <span class=md-ellipsis> VRFs </span> </a> </li> <li class=md-nav__item> <a href=#route-distinguisher class=md-nav__link> <span class=md-ellipsis> Route Distinguisher </span> </a> </li> <li class=md-nav__item> <a href=#vpn-ipv4-routes class=md-nav__link> <span class=md-ellipsis> VPN-IPv4 routes </span> </a> </li> <li class=md-nav__item> <a href=#route-targets class=md-nav__link> <span class=md-ellipsis> Route Targets </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#pe-pe-mp-bgp-configuration class=md-nav__link> <span class=md-ellipsis> PE&lt;-&gt;PE MP-BGP configuration </span> </a> </li> <li class=md-nav__item> <a href=#configuring-vrfs-on-pe1_alu-sros class=md-nav__link> <span class=md-ellipsis> Configuring VRFs on PE1_ALU (SROS) </span> </a> <nav class=md-nav aria-label="Configuring VRFs on PE1_ALU (SROS)"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-ports-configuration class=md-nav__link> <span class=md-ellipsis> 1. Ports configuration </span> </a> </li> <li class=md-nav__item> <a href=#2-customers-creation class=md-nav__link> <span class=md-ellipsis> 2. Customers creation </span> </a> </li> <li class=md-nav__item> <a href=#3-vrf-configuration class=md-nav__link> <span class=md-ellipsis> 3. VRF configuration </span> </a> </li> <li class=md-nav__item> <a href=#configuring-pe-ce-routing-protocols class=md-nav__link> <span class=md-ellipsis> Configuring PE -&gt; CE routing protocols </span> </a> <nav class=md-nav aria-label="Configuring PE -> CE routing protocols"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#as-override class=md-nav__link> <span class=md-ellipsis> AS override </span> </a> </li> <li class=md-nav__item> <a href=#export-policies class=md-nav__link> <span class=md-ellipsis> Export policies </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#configuring-vrfs-on-pe2_jun-juniper class=md-nav__link> <span class=md-ellipsis> Configuring VRFs on PE2_JUN (Juniper) </span> </a> <nav class=md-nav aria-label="Configuring VRFs on PE2_JUN (Juniper)"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#pe-ce-configuration-on-juniper class=md-nav__link> <span class=md-ellipsis> PE -&gt; CE configuration on Juniper </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#ce-pe-routing-protocol-configuration class=md-nav__link> <span class=md-ellipsis> CE -&gt; PE routing protocol configuration </span> </a> </li> <li class=md-nav__item> <a href=#control-plane-walkthrough class=md-nav__link> <span class=md-ellipsis> Control plane walkthrough </span> </a> <nav class=md-nav aria-label="Control plane walkthrough"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#step-1 class=md-nav__link> <span class=md-ellipsis> Step 1 </span> </a> </li> <li class=md-nav__item> <a href=#step-2 class=md-nav__link> <span class=md-ellipsis> Step 2 </span> </a> </li> <li class=md-nav__item> <a href=#step-3 class=md-nav__link> <span class=md-ellipsis> Step 3 </span> </a> </li> <li class=md-nav__item> <a href=#step-4 class=md-nav__link> <span class=md-ellipsis> Step 4 </span> </a> </li> <li class=md-nav__item> <a href=#step-5 class=md-nav__link> <span class=md-ellipsis> Step 5 </span> </a> </li> <li class=md-nav__item> <a href=#step-6 class=md-nav__link> <span class=md-ellipsis> Step 6 </span> </a> </li> <li class=md-nav__item> <a href=#step-7 class=md-nav__link> <span class=md-ellipsis> Step 7 </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#data-plane-walkthrough class=md-nav__link> <span class=md-ellipsis> Data plane walkthrough </span> </a> <nav class=md-nav aria-label="Data plane walkthrough"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#step-1_1 class=md-nav__link> <span class=md-ellipsis> Step 1 </span> </a> </li> <li class=md-nav__item> <a href=#step-2_1 class=md-nav__link> <span class=md-ellipsis> Step 2 </span> </a> </li> <li class=md-nav__item> <a href=#step-3_1 class=md-nav__link> <span class=md-ellipsis> Step 3 </span> </a> </li> <li class=md-nav__item> <a href=#step-4_1 class=md-nav__link> <span class=md-ellipsis> Step 4 </span> </a> </li> <li class=md-nav__item> <a href=#step-5_1 class=md-nav__link> <span class=md-ellipsis> Step 5 </span> </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-content md-content--post" data-md-component=content> <div class="md-sidebar md-sidebar--post" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class="md-sidebar__inner md-post"> <nav class=md-nav> <div class=md-post__back> <div class="md-nav__title md-nav__container"> <a href=../.. class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> <span class=md-ellipsis> Back to index </span> </a> </div> </div> <div class="md-post__authors md-typeset"> <div class="md-profile md-post__profile"> <span class="md-author md-author--long"> <img src=https://avatars.githubusercontent.com/u/5679861 alt="Roman Dodin"> </span> <span class=md-profile__description> <strong>Roman Dodin</strong><br> Network Automater </span> </div> </div> <ul class="md-post__meta md-nav__list"> <li class="md-nav__item md-nav__title"> <div class=md-nav__link> <span class=md-ellipsis> Metadata </span> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"/></svg> <time datetime=2015-11-03 class=md-ellipsis>November 3, 2015</time> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"/></svg> <span class=md-ellipsis> 25 min read </span> </div> </li> </ul> </nav> </div> </div> </div> <article class="md-content__inner md-typeset"> <nav class=md-tags> <a href=../../tags/#nokia class=md-tag>nokia</a> <a href=../../tags/#juniper class=md-tag>juniper</a> <a href=../../tags/#l3vpn class=md-tag>l3vpn</a> <a href=../../tags/#vprn class=md-tag>vprn</a> <a href=../../tags/#bgp class=md-tag>bgp</a> </nav> <a href=https://github.com/hellt/netdevops.me/edit/main/blog/posts/noshut/2015-11-03-basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-alcatel-lucent-juniper.md title="Edit this page" class="md-content__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg> </a> <h1 id=basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx>Basic L3VPN (BGP/MPLS VPN or VPRN) configuration on Nokia (Alcatel-Lucent) SROS &amp; Juniper MX<a class=headerlink href=#basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx title="Permanent link">#</a></h1> <p>The topic of this post is <strong>Layer 3 VPN</strong> (L3VPN or VPRN as we call it in SROS) configuration, and I decided to kill two birds with one stone by inviting Juniper vMX to our cozy SROS environment.</p> <p>The BGP/MPLS VPN (<a href=https://tools.ietf.org/html/rfc4364>RFC 4364</a>) configuration will undergo the following milestones:</p> <ul> <li>PE-PE relationship configuration with VPN IPv4 address family introduction</li> <li>PE-CE routing configuration with both BGP and OSPF as routing protocols</li> <li>Export policy configuration for advertising VPN routes on PE routers</li> <li>AS override configuration</li> <li>and many more</li> </ul> <p>We'll wrap it up with the Control Plane/Data Plane evaluation diagrams which help a lot with understanding the whole BGP VPN mechanics. Take your seats, and buckle up!</p> <!-- more --> <p>The topology I use throughout this tutorial consists of two customers (namely Alcatel and Juniper) which have two remote sites and want to get connectivity between them by means of an L3VPN service:</p> <p><a href=http://img-fotki.yandex.ru/get/6605/21639405.11c/0_86301_84e43902_orig.png><img alt=pic src=http://img-fotki.yandex.ru/get/6605/21639405.11c/0_86301_84e43902_orig.png></a></p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/9356/21639405.11c/0_86302_9307f47e_orig.png></p> <p>We start off with ISIS (any IGP would suffice) running smoothly in our provider core so every router can reach every other's loopback address. Another prerequisite is to have an <em>MPLS enabled</em> core, since L3VPN uses MPLS encapsulation for dataplane communication. I configured RSVP-TE tunnels between PE routers for this tutorial in the way that PE1_ALU can resolve PE2_JUN (and vice versa) loopback address via RSVP-TE tunnel.</p> <p>Lets have a look at the relevant configuration blocks on the three routers PE1_ALU, P1_ALU and PE2_JUN</p> <p>PE1_ALU:</p> <div class=highlight><pre><span></span><code>A:PE1_ALU&gt;config&gt;router# info 
+----------------------------------------------
+#--------------------------------------------------
+echo &quot;IP Configuration&quot;
+#--------------------------------------------------
+        interface &quot;system&quot;
+            address 10.10.10.1/32
+            no shutdown
+        exit
+        interface &quot;toP1&quot;
+            address 10.99.99.0/31
+            port 1/1/2
+            no shutdown
+        exit
+        autonomous-system 100
+#--------------------------------------------------
+echo &quot;ISIS Configuration&quot;
+#--------------------------------------------------
+        isis
+            level-capability level-1
+            area-id 49.10
+            traffic-engineering
+            reference-bandwidth 100000000
+            level 1                   
+                wide-metrics-only
+            exit
+            interface &quot;system&quot;
+                no shutdown
+            exit
+            interface &quot;toP1&quot;
+                interface-type point-to-point
+                no shutdown
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo &quot;MPLS Configuration&quot;
+#--------------------------------------------------
+        mpls
+            interface &quot;system&quot;
+                no shutdown
+            exit
+            interface &quot;toP1&quot;
+                no shutdown
+            exit
+        exit
+#--------------------------------------------------
+echo &quot;RSVP Configuration&quot;
+#--------------------------------------------------
+        rsvp
+            interface &quot;system&quot;
+                no shutdown
+            exit
+            interface &quot;toP1&quot;
+                no shutdown
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo &quot;MPLS LSP Configuration&quot;
+#--------------------------------------------------
+        mpls
+            path &quot;loose&quot;
+                no shutdown
+            exit
+            lsp &quot;toPE2&quot;
+                to 10.10.10.3
+                cspf
+                primary &quot;loose&quot;
+                exit
+                no shutdown
+            exit
+            no shutdown
+        exit
+
+## Verification commands
+A:PE1_ALU# show router route-table 10.10.10.3
+
+===============================================================================
+Route Table (Router: Base)
+===============================================================================
+Dest Prefix[Flags]                            Type    Proto     Age        Pref
+      Next Hop[Interface Name]                                    Metric
+-------------------------------------------------------------------------------
+10.10.10.3/32                                 Remote  ISIS      01d00h57m  15
+       10.99.99.1                                                   200
+-------------------------------------------------------------------------------
+
+
+A:PE1_ALU# show router tunnel-table 10.10.10.3
+
+===============================================================================
+Tunnel Table (Router: Base)
+===============================================================================
+Destination           Owner Encap TunnelId  Pref     Nexthop        Metric
+-------------------------------------------------------------------------------
+10.10.10.3/32         rsvp  MPLS  1         7        10.99.99.1     200
+-------------------------------------------------------------------------------
+</code></pre></div> <p>P1_ALU:</p> <div class=highlight><pre><span></span><code>A:P1_ALU&gt;config&gt;router# info
+----------------------------------------------
+#--------------------------------------------------
+echo &quot;IP Configuration&quot;
+#--------------------------------------------------
+        interface &quot;system&quot;
+            address 10.10.10.2/32
+            no shutdown
+        exit
+        interface &quot;toPE1&quot;
+            address 10.99.99.1/31
+            port 1/1/1
+            no shutdown
+        exit
+        interface &quot;toPE2&quot;
+            address 10.99.99.2/31
+            port 1/1/2
+            no shutdown
+        exit
+#--------------------------------------------------
+echo &quot;ISIS Configuration&quot;
+#--------------------------------------------------
+        isis
+            level-capability level-1
+            area-id 49.10
+            traffic-engineering
+            reference-bandwidth 100000000
+            level 1
+                wide-metrics-only
+            exit
+            interface &quot;system&quot;
+                no shutdown
+            exit
+            interface &quot;toPE1&quot;
+                interface-type point-to-point
+                no shutdown
+            exit
+            interface &quot;toPE2&quot;
+                interface-type point-to-point
+                no shutdown
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo &quot;MPLS Configuration&quot;
+#--------------------------------------------------
+        mpls
+            interface &quot;system&quot;
+                no shutdown
+            exit
+            interface &quot;toPE1&quot;
+                no shutdown
+            exit
+            interface &quot;toPE2&quot;
+                no shutdown
+            exit
+        exit
+#--------------------------------------------------
+echo &quot;RSVP Configuration&quot;
+#--------------------------------------------------
+        rsvp
+            interface &quot;system&quot;
+                no shutdown
+            exit
+            interface &quot;toPE1&quot;
+                no shutdown
+            exit
+            interface &quot;toPE2&quot;
+                no shutdown
+            exit
+            no shutdown
+        exit
+#--------------------------------------------------
+echo &quot;MPLS LSP Configuration&quot;
+#--------------------------------------------------
+        mpls
+            no shutdown
+        exit
+----------------------------------------------
+</code></pre></div> <p>PE2_JUN:</p> <div class=highlight><pre><span></span><code>root@PE2_JUN# show 
+## Last changed: 2015-10-20 17:08:01 UTC
+version 14.1R1.10;
+&lt;... omitted &gt;
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                address 10.99.99.3/31;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.10.10.3/32;
+            }
+            family iso {
+                address 49.1001.0010.0100.0300;
+            }
+            family mpls;
+        }
+    }
+}
+routing-options {
+    autonomous-system 100;
+}
+protocols {
+    rsvp {
+        interface ge-0/0/0.0;
+    }
+    mpls {
+        label-switched-path toPE1 {
+            to 10.10.10.1;
+        }
+        interface ge-0/0/0.0;
+    }
+    isis {
+        reference-bandwidth 100g;
+        level 1 wide-metrics-only;
+        level 2 wide-metrics-only;
+        interface ge-0/0/0.0 {
+            point-to-point;
+            level 2 disable;
+        }
+        interface lo0.0;
+    }
+}
+
+## Verification commands
+root@PE2_JUN# run show route 10.10.10.1
+
+inet.0: 6 destinations, 6 routes (6 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+10.10.10.1/32      *[IS-IS/15] 1d 00:10:30, metric 200
+                    &gt; to 10.99.99.2 via ge-0/0/0.0
+
+inet.3: 1 destinations, 1 routes (1 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+10.10.10.1/32      *[RSVP/7/1] 11:22:07, metric 200
+                    &gt; to 10.99.99.2 via ge-0/0/0.0, label-switched-path toPE1
+</code></pre></div> <h2 id=bgp-l3vpn-terminology>BGP L3VPN terminology<a class=headerlink href=#bgp-l3vpn-terminology title="Permanent link">#</a></h2> <p>Before we dive deep into the BGP L3VPN configuration it is necessary to refresh on some basic theory. To get a deeper and broader knowledge on the following topic please consider Juniper's <em>JUNOS MPLS and VPNs student guide</em> and <a href=https://www.amazon.com/Alcatel-Lucent-Service-Routing-Architect-Self-Study/dp/111887515X><em>Alcatel-Lucent's Service Routing Architect guide</em></a>.</p> <h3 id=vrfs>VRFs<a class=headerlink href=#vrfs title="Permanent link">#</a></h3> <p>In order to maintain different customer's routes independently PE routers use separate logical routing tables called <strong>Virtual Routing and Forwarding (VRF)</strong>.</p> <div class="admonition info"> <p class=admonition-title>RFC 4364. VRFs: Multiple Forwarding Tables in PEs</p> <p>Each PE router maintains a number of separate forwarding tables. One of the forwarding tables is the "default forwarding table". The others are "VPN Routing and Forwarding tables", or "VRFs".</p> <p>3.1. VRFs and Attachment Circuits<br> Every PE/CE attachment circuit is associated, by configuration, with one or more VRFs. An attachment circuit that is associated with a VRF is known as a "VRF attachment circuit".</p> <p>In the simplest case and most typical case, a PE/CE attachment circuit is associated with exactly one VRF. When an IP packet is received over a particular attachment circuit, its destination IP address is looked up in the associated VRF. The result of that lookup determines how to route the packet.</p> </div> <p>Provider Edge routers must have a VRF configured for each connected site. VRFs are totally separated in routers control plane by default, so we can depict VRFs as the routers on their own caged in a single hardware unit:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/5212/21639405.11c/0_86305_d80b5336_orig.png></p> <p>VRFs also remain local to the corresponding hosting PE routers and their number representation or names are never propagated to the other PEs. In our example we have four VRFs in total, two VRFs (VRF Alcatel and VRF Juniper) per PE.</p> <h3 id=route-distinguisher>Route Distinguisher<a class=headerlink href=#route-distinguisher title="Permanent link">#</a></h3> <p>Since one router can have many routing instances (VRFs) inside, it is necessary to help a router to distinct between the different routes in the different VRFs. It is highly likely that customers connected to a single PE will have overlapping IP addresses and this will potentially lead to troubles as the router won't know which customer a route belongs to.</p> <p>I emulated this situation to help you better understand the problem; see, Juniper's loopback address for the emulated customers CE1/CE2 overlaps with Alcatel's customer loopback addresses. How will a PE router PE1_ALU distinct between these routes?</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/16132/21639405.11c/0_86306_45532d6b_orig.png></p> <p><a href=https://tools.ietf.org/html/rfc4364#section-4.2>Route Distinguisher</a> (RD) comes to the rescue.</p> <blockquote> <p><strong>RFC 4364. Route Distinguisher definition</strong><br> An RD is simply a number, and it does not contain any inherent information; it does not identify the origin of the route or the set of VPNs to which the route is to be distributed. The purpose of the RD is solely to allow one to create distinct routes to a common IPv4 address prefix.</p> </blockquote> <p><img alt=pic src=http://img-fotki.yandex.ru/get/15489/21639405.11c/0_86307_f6b5a984_orig.png></p> <p>RD can be written in several forms, but it is handy to use the IP address in the <em>Administrator</em> subfield and VPN number in the <em>Assigned number</em> subfield:</p> <div class=highlight><pre><span></span><code>A:PE1_ALU&gt;config&gt;service&gt;vprn# route-distinguisher
+  - no route-distinguisher
+  - route-distinguisher &lt;rd&gt;
+
+ &lt;rd&gt;                 : &lt;ip-addr:comm-val&gt;|&lt;2byte-asnumber:ext-comm-val&gt;|
+                        &lt;4byte-asnumber:comm-val&gt;
+                        ip-addr        - a.b.c.d
+                        comm-val       - [0..65535]
+                        2byte-asnumber - [1..65535]
+                        ext-comm-val   - [0..4294967295]
+                        4byte-asnumber - [1..4294967295]
+
+### EXAMPLE ##
+A:PE1_ALU&gt;config&gt;service&gt;vprn# route-distinguisher 10.10.10.1:20
+</code></pre></div> <h3 id=vpn-ipv4-routes>VPN-IPv4 routes<a class=headerlink href=#vpn-ipv4-routes title="Permanent link">#</a></h3> <p>A combination of a Route Distinguisher and an IPv4 route effectively produces what is called the <a href=https://tools.ietf.org/html/rfc4364#section-4.1>VPN-IPv4 route</a>. VPN-IPv4 routes are <strong>12 byte</strong> length (8b RD + 4b IPv4) addresses exchanged by MP-BGP speakers. PE routers compose VPN-IPv4 addresses and allocate MPLS labels for the routes before sending them to the MP-BGP neighbors. Consider the picture above to get a visual representation of an VPN-IPv4 route.</p> <h3 id=route-targets>Route Targets<a class=headerlink href=#route-targets title="Permanent link">#</a></h3> <p>So Route Distinguishers make every VPN-IPv4 route unique in a providers core, but we still need a mechanism to tell what VRF a single VPN-IPv4 route belongs to? We need a way to extend the VPN-IPv4 route with the information about which routing instance this route should be put into.</p> <p><a href=https://netdevops.me/2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/ >BGP community</a> is a good way to solve this problem. For L3VPNs a specific <a href=https://tools.ietf.org/html/rfc4360>extended community</a> was defined in <a href=https://tools.ietf.org/html/rfc4364#section-4.3.1>RFC 4364 Section 4.3.1</a> called <strong>Route Target</strong>.</p> <div class="admonition info"> <p class=admonition-title>RFC 4364. Route Target definition</p> <p>Every VRF is associated with one or more Route Target (RT) attributes. When a VPN-IPv4 route is created (from an IPv4 route that the PE has learned from a CE) by a PE router, it is associated with one or more Route Target attributes. These are carried in BGP as attributes of the route.</p> <p>Any route associated with Route Target T must be distributed to every PE router that has a VRF associated with Route Target T. When such route is received by a PE router, it is eligible to be installed in those of the PE's VRFs that are associated with Route Target T. (Whether it actually gets installed depends upon the outcome of the BGP decision process, and upon the outcome of the decision process of the IGP (i.e., the intra-domain routing protocol) running on the PE/CE interface.)</p> <p>A Route Target attribute can be thought of as identifying a set of sites. (Though it would be more precise to think of it as identifying a set of VRFs.) Associating a particular Route Target attribute with a route allows that route to be placed in the VRFs that are used for routing traffic that is received from the corresponding sites.</p> <p>There is a set of Route Targets that a PE router attaches to a route received from site S; these may be called the "Export Targets". And there is a set of Route Targets that a PE router uses to determine whether a route received from another PE router could be placed in the VRF associated with site S; these may be called the "Import Targets". The two sets are distinct, and need not be the same. Note that a particular VPN-IPv4 route is only eligible for installation in a particular VRF if there is some Route Target that is both one of the route's Route Targets and one of the VRF's Import Targets.</p> </div> <p>Usually the RTs are represented as <code>&lt;AS Number of a client network&gt;:&lt;VRF ID&gt;</code>:</p> <div class=highlight><pre><span></span><code>*A:PE1_ALU&gt;config&gt;service&gt;vprn$ vrf-target
+  - vrf-target {&lt;ext-community&gt;|export &lt;ext-community&gt;|import &lt;ext-community&gt;}
+  - no vrf-target
+
+ &lt;ext-community&gt;      : target:{&lt;ip-addr:comm-val&gt;|
+                        &lt;2byte-asnumber:ext-comm-val&gt;|
+                        &lt;4byte-asnumber:comm-val&gt;}
+                        ip-addr        - a.b.c.d
+                        comm-val       - [0..65535]
+                        2byte-asnumber - [0..65535]
+                        ext-comm-val   - [0..4294967295]
+                        4byte-asnumber - [0..4294967295]
+
+### EXAMPLE ##
+*A:PE1_ALU&gt;config&gt;service&gt;vprn$ vrf-target target:200:20
+</code></pre></div> <h2 id=pe-pe-mp-bgp-configuration>PE&lt;-&gt;PE MP-BGP configuration<a class=headerlink href=#pe-pe-mp-bgp-configuration title="Permanent link">#</a></h2> <p>First thing to accomplish in the L3VPN configuration is the BGP peering inside the provider's core network. We have two Provider Edge routers (PE) and one core provider (P) router in our simple network. Our business goal is to provide the L3VPN service to our beloved JUN and ALU customers. To do so, we need to configure BGP peering between all the PE routers involved in the L3VPN service setup, these two routers are PE1_ALU and PE2_JUN.</p> <p>The BGP configuration part for PE1_ALU and PE2_JUN routers follows a simple iBGP configuration routine (check <a href=http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/ >BGP configuration tutorial</a> to grab the basics), the only part which is different is a need of a <a href=https://tools.ietf.org/html/rfc4364#section-4.1>new BGP address family</a>. We need to enable this address family to deal with the VPN routes, which are different from the IPv4 routes.</p> <p>In Juniper this family is called <code>inet-vpn</code>, in SROS it is <code>vpn-ipv4</code>, but nonetheless it is just an address family which enables communication of VPN routes between the peers. We will see later how this family differs from a classic IPv4, but for now just look at the BGP configuration part for both PE routers:</p> <p>PE1_ALU:</p> <div class=highlight><pre><span></span><code>*A:PE1_ALU&gt;config&gt;router&gt;bgp# info 
+----------------------------------------------
+            group &quot;iBGP&quot;
+                family ipv4 vpn-ipv4
+                peer-as 100
+                local-address 10.10.10.1
+                neighbor 10.10.10.3
+                exit
+            exit
+            no shutdown
+----------------------------------------------
+</code></pre></div> <p>PE2_JUN:</p> <div class=highlight><pre><span></span><code>bgp {
+        group iBGP {
+            local-address 10.10.10.3;
+            family inet {               
+                unicast;
+            }
+            family inet-vpn {
+                unicast;
+            }
+            peer-as 100;
+            neighbor 10.10.10.1;
+        }
+    }
+</code></pre></div> <p><img alt=pic src=http://img-fotki.yandex.ru/get/3013/21639405.11c/0_86303_bcf9be09_orig.png></p> <p>As you see, the only part which is related to L3VPN is this new VPN address family.</p> <p>Support for the additional address families transforms a classical BGP to a fancy Multi-Protocol BGP (<a href=https://tools.ietf.org/html/rfc4760>RFC 4760</a>). Lets see how this family is communicated in the BGP messages:</p> <p><a href=http://img-fotki.yandex.ru/get/3913/21639405.11c/0_86304_6385a76b_orig.png><img alt=pic src=http://img-fotki.yandex.ru/get/3913/21639405.11c/0_86304_6385a76b_orig.png></a></p> <p>Both routers announces the capability to exchange <strong>VPN Unicast IPv4</strong> routes in the <code>BGP OPEN</code> messages. If a BGP peer sees this capability in an incoming OPEN message, it assumes that the neighbor speaks VPN IPv4 routes.</p> <h2 id=configuring-vrfs-on-pe1_alu-sros>Configuring VRFs on PE1_ALU (SROS)<a class=headerlink href=#configuring-vrfs-on-pe1_alu-sros title="Permanent link">#</a></h2> <p>So far we have configured PE-PE relationship which is a foundation for a working L3VPN service. Our next step is a VRF configuration which can be seen as a customers facing dedicated routers inside a singel PE router hardware unit. We will start with PE1_ALU and configure VRFs 20 and 30.</p> <h3 id=1-ports-configuration>1. Ports configuration<a class=headerlink href=#1-ports-configuration title="Permanent link">#</a></h3> <p>At first we should ensure that customer facing ports operate in <code>access</code> mode.</p> <div class=highlight><pre><span></span><code>### customer router `CE1_ALU` connects to a PE via port 1/1/1
+*A:PE1_ALU# configure port 1/1/1 shutdown
+*A:PE1_ALU# configure port 1/1/1 ethernet mode access
+*A:PE1_ALU# configure port 1/1/1 no shutdown
+
+### customer router `CE1_JUN` connects to a PE via port 1/1/3
+*A:PE1_ALU# configure port 1/1/3 shutdown
+*A:PE1_ALU# configure port 1/1/3 ethernet mode access
+*A:PE1_ALU# configure port 1/1/3 no shutdown```
+</code></pre></div> <h3 id=2-customers-creation>2. Customers creation<a class=headerlink href=#2-customers-creation title="Permanent link">#</a></h3> <p>SROS uses the concept of the <code>customers</code> which is similar to the tenants in a virtualization world. I will create two new customers (<code>Customer 1</code> is a default one) to map them to the customers we have in our network:</p> <div class=highlight><pre><span></span><code>*A:PE1_ALU&gt;config&gt;service# info
+----------------------------------------------
+        customer 1 create
+            description &quot;Default customer&quot;
+        exit
+        customer 20 create
+            description &quot;Juniper&quot;
+        exit
+        customer 30 create
+            description &quot;Alcatel&quot;
+        exit
+----------------------------------------------
+</code></pre></div> <h3 id=3-vrf-configuration>3. VRF configuration<a class=headerlink href=#3-vrf-configuration title="Permanent link">#</a></h3> <p>After that I create a VPRN service (which is a fancy SROS name for a L3VPN) for each customer:</p> <div class=highlight><pre><span></span><code>### create vprn service
+*A:PE1_ALU# configure service vprn 20 customer 20 create
+
+### give it a name
+*A:PE1_ALU&gt;config&gt;service&gt;vprn$ description &quot;Juniper Site A&quot;
+
+### create route-distinguisher for VRF 20
+*A:PE1_ALU&gt;config&gt;service&gt;vprn$ route-distinguisher 10.10.10.1:20
+
+### set route target for this VRF
+### here I configure the use of a single target 
+### for both import and export operations following this form &lt;AS_Num&gt;:&lt;Service_Num&gt;
+*A:PE1_ALU&gt;config&gt;service&gt;vprn$ vrf-target target:200:20
+
+### Create an interface in this VRF
+*A:PE1_ALU&gt;config&gt;service&gt;vprn$ interface toCE1 create
+*A:PE1_ALU&gt;config&gt;service&gt;vprn&gt;if$ address 10.20.99.0/31
+
+### map a port to this interface. SAP here goes for &quot;Service Access Point&quot;
+*A:PE1_ALU&gt;config&gt;service&gt;vprn&gt;if$ sap 1/1/3 create
+*A:PE1_ALU&gt;config&gt;service&gt;vprn&gt;if&gt;sap$ back
+*A:PE1_ALU&gt;config&gt;service&gt;vprn&gt;if$ back
+
+### tell a router to resolve Next-Hop address in this VRF with MPLS tunnels
+*A:PE1_ALU&gt;config&gt;service&gt;vprn$ auto-bind mpls
+
+### enable VPRN service
+*A:PE1_ALU&gt;config&gt;service&gt;vprn$ no shutdown
+</code></pre></div> <p>VRF 30 configuration repeats the same steps:</p> <div class=highlight><pre><span></span><code>A:PE1_ALU&gt;config&gt;service# info 
+----------------------------------------------
+        vprn 30 customer 30 create
+            route-distinguisher 10.10.10.1:30
+            auto-bind mpls
+            vrf-target target:300:30
+            interface &quot;toCE1&quot; create
+                address 10.30.99.0/31
+                sap 1/1/1 create
+                exit
+            exit
+            no shutdown
+        exit
+----------------------------------------------
+</code></pre></div> <h3 id=configuring-pe-ce-routing-protocols>Configuring PE -&gt; CE routing protocols<a class=headerlink href=#configuring-pe-ce-routing-protocols title="Permanent link">#</a></h3> <p>Ok, our VRFs 20 and 30 are configured on PE1_ALU router and we have customers interfaces attached. What we need to do next is to configure a routing protocol which will propagate customers routes to the PE router. On PE1_ALU router we will use BGP as a routing protocol towards the CE routers, consequently CE routers will use BGP as well. Lets configure BGP instances for VRFs 20 and 30:</p> <p>BGP configuration for VRF 20:</p> <div class=highlight><pre><span></span><code>/configure service vprn 20 customer 20
+### specify AS number for BGP speaker in VRF 20
+            autonomous-system 100
+
+### configure BGP peer and use &quot;as-override&quot; technique
+            bgp
+                group &quot;toCE&quot;
+                    as-override
+                    peer-as 200
+                    local-address 10.20.99.0
+                    split-horizon
+                    neighbor 10.20.99.1
+                    exit
+                exit
+                no shutdown
+            exit
+            no shutdown
+----------------------------------------------
+</code></pre></div> <h4 id=as-override>AS override<a class=headerlink href=#as-override title="Permanent link">#</a></h4> <p>The <code>as-override</code> command under the BGP section is used to resolve the issue with AS-PATH loop prevention mechanism.<br> When a BGP UPDATE message goes from CE1_JUN over eBGP to PE1_ALU it has AS-PATH value of <code>200</code>. Then this UPDATE message traverses Service Provider's network and as it goes over eBGP session to CE2_JUN its AS-PATH value becomes <code>"100 200"</code>. But CE2_JUN is a part of AS <code>200</code> itself, so it will silently discard a route update with AS-PATH value containing its AS number (AS PATH loop prevention mechanism makes it so).</p> <p><code>as-override</code> command placed under the BGP context of the receiving VRF on a PE router replaces the customers AS number with Service Providers own AS number, so AS-PATH string of <code>"100 200"</code> will become <code>"100 100"</code> and will be accepted by the CE router residing in AS 200 since no loop will be detected.</p> <h4 id=export-policies>Export policies<a class=headerlink href=#export-policies title="Permanent link">#</a></h4> <p>Note, that it is <strong>mandatory</strong> to create an export policy on SROS PE routes for incoming BGP-VPN routes to leave the VRF over the PE -&gt; CE routing protocol to the CE router:</p> <div class=highlight><pre><span></span><code>*A:PE1_ALU# configure router policy-options 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options# begin 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options# policy-statement &quot;MP-BGP_to_CE&quot;
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry$ from protocol bgp-vpn 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry$ action accept 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry&gt;action$ back 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry$ back 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options&gt;policy-statement$ back 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options# commit 
+*A:PE1_ALU&gt;config&gt;router&gt;policy-options# info 
+----------------------------------------------
+            policy-statement &quot;MP-BGP_to_CE&quot;
+                entry 10
+                    from
+                        protocol bgp-vpn
+                    exit
+                    action accept
+                    exit
+                exit
+            exit
+----------------------------------------------
+</code></pre></div> <p>Now add this policy under the BGP context of the VRF:</p> <div class=highlight><pre><span></span><code>*A:PE1_ALU# configure service vprn 20 bgp group &quot;toCE&quot; export &quot;MP-BGP_to_CE&quot;
+</code></pre></div> <p>Super, now repeat the steps for <code>VRF 30</code>. The complete service configuration part on PE1_ALU should look as follows:</p> <div class=highlight><pre><span></span><code>A:PE1_ALU&gt;config&gt;service# info
+----------------------------------------------
+        customer 1 create
+            description &quot;Default customer&quot;
+        exit
+        customer 20 create
+            description &quot;Juniper&quot;
+        exit
+        customer 30 create
+            description &quot;Alcatel&quot;
+        exit
+        vprn 20 customer 20 create
+            description &quot;Juniper Site A&quot;
+            autonomous-system 100
+            route-distinguisher 10.10.10.1:20
+            auto-bind mpls
+            vrf-target target:200:20
+            interface &quot;toCE1&quot; create
+                address 10.20.99.0/31
+                sap 1/1/3 create
+                exit
+            exit
+            bgp
+                group &quot;toCE&quot;
+                    as-override
+                    export &quot;MP-BGP_to_CE&quot;
+                    peer-as 200
+                    local-address 10.20.99.0
+                    split-horizon
+                    neighbor 10.20.99.1
+                    exit
+                exit
+                no shutdown
+            exit
+            no shutdown
+        exit
+        vprn 30 customer 30 create
+            description &quot;Alcatel Site A&quot;
+            autonomous-system 100
+            route-distinguisher 10.10.10.1:30
+            auto-bind mpls
+            vrf-target target:300:30
+            interface &quot;toCE1&quot; create
+                address 10.30.99.0/31
+                sap 1/1/1 create
+                exit
+            exit
+            bgp
+                group &quot;toCE&quot;
+                    as-override
+                    export &quot;MP-BGP_to_CE&quot;
+                    peer-as 300
+                    local-address 10.30.99.0
+                    split-horizon
+                    neighbor 10.30.99.1
+                    exit
+                exit
+                no shutdown
+            exit
+            no shutdown
+        exit
+----------------------------------------------
+</code></pre></div> <h2 id=configuring-vrfs-on-pe2_jun-juniper>Configuring VRFs on PE2_JUN (Juniper)<a class=headerlink href=#configuring-vrfs-on-pe2_jun-juniper title="Permanent link">#</a></h2> <p>Juniper JUNOS does not use concept of network/access ports, thats why you deal with CE-facing interfaces just like you do with the normal ones:</p> <div class=highlight><pre><span></span><code>set interfaces ge-0/0/1 unit 0 family inet address 10.20.99.2/31
+set interfaces ge-0/0/2 unit 0 family inet address 10.30.99.2/31
+</code></pre></div> <p>Now the VRF part; VRF is called a routing-instance in JUNOS.</p> <div class=highlight><pre><span></span><code>[edit routing-instances]
+root@PE2_JUN# show | display set 
+### create a routing instance and set its type to VRF
+### in JUNOS its possible to set VRF name like 
+### set routing-instance &quot;Juniper_Site_B&quot; but we will use numerical id for consistency
+set routing-instances 20 instance-type vrf
+
+### give VRF a description
+set routing-instances 20 description &quot;Juniper Site B&quot;
+
+### provision interface to CE router, RT and RD
+set routing-instances 20 interface ge-0/0/1.0
+set routing-instances 20 route-distinguisher 10.10.10.3:20
+set routing-instances 20 vrf-target target:200:20
+
+### and for VRF 30
+set routing-instances 30 description &quot;Alcatel Site B&quot;
+set routing-instances 30 instance-type vrf
+set routing-instances 30 interface ge-0/0/2.0
+set routing-instances 30 route-distinguisher 10.10.10.3:30
+set routing-instances 30 vrf-target target:300:30
+</code></pre></div> <p>VRF configuration on Juniper looks almost identical to Nokia. The major difference here is that you don't have to tell JUNOS to resolve VRF's next-hop address via MPLS tunnel. And you don't have to configure an export policy in case you are using eBGP as a PE-CE protocol. Juniper defaults to that behavior.</p> <h3 id=pe-ce-configuration-on-juniper>PE -&gt; CE configuration on Juniper<a class=headerlink href=#pe-ce-configuration-on-juniper title="Permanent link">#</a></h3> <p>Note, that with Juniper we omit the explicit AS number configuration under the BGP configuration. In that case the globally configured AS number will be used.</p> <p>Configuration portion for VRF 20 will look as follows:</p> <div class=highlight><pre><span></span><code>root@PE2_JUN# show | display set 
+&lt;... omitted ...&gt;
+set routing-instances 20 protocols bgp group toCE local-address 10.20.99.2
+set routing-instances 20 protocols bgp group toCE peer-as 200
+set routing-instances 20 protocols bgp group toCE as-override
+set routing-instances 20 protocols bgp group toCE neighbor 10.20.99.3
+</code></pre></div> <p>So far we've played with BGP as a PE-CE routing protocol, but frankly speaking OSPF is not a stranger for this task as well. Lets see how to configure the OSPF adjacency between the Juniper PE and a CE2_ALU router.</p> <p>A key piece in this configuration block is the export policy which lets vpn-ipv4 routes imported into VRF 30 to be exported to CE2_ALU over OSPF.</p> <p>Configure an export policy first:</p> <div class=highlight><pre><span></span><code>[edit]
+root@PE2_JUN# show
+&lt;... omitted ...&gt;
+policy-options {
+    policy-statement MP-BGP_to_CE_via_OSPF {
+        term export {
+            from protocol bgp;
+            then accept;
+        }
+    }
+}
+</code></pre></div> <p>Then configure PE-CE OSPF protocol with the export policy applied:</p> <div class=highlight><pre><span></span><code>### optionally set router-id for OSPF process to use
+routing-options {
+    router-id 100.100.100.100;
+}
+protocols {
+    ospf {
+        export MP-BGP_to_CE_via_OSPF;
+        ## configure OSPF area and interfaces
+        area 0.0.0.0 {
+            interface ge-0/0/2.0 {
+                interface-type p2p;
+            }
+        }
+    }
+}
+
+### DISPLAY SET
+set routing-instances 30 routing-options router-id 100.100.100.100
+set routing-instances 30 protocols ospf export MP-BGP_to_CE_via_OSPF
+set routing-instances 30 protocols ospf area 0.0.0.0 interface ge-0/0/2.0 interface-type p2p```
+</code></pre></div> <p>Complete VRF configuration for PE2_JUN goes like this:</p> <div class=highlight><pre><span></span><code>[edit routing-instances]
+root@PE2_JUN# show
+20 {
+    description &quot;Juniper Site B&quot;;
+    instance-type vrf;
+    interface ge-0/0/1.0;
+    route-distinguisher 10.10.10.3:20;
+    vrf-target target:200:20;
+    protocols {
+        bgp {
+            group toCE {
+                local-address 10.20.99.2;
+                peer-as 200;
+                as-override;
+                neighbor 10.20.99.3;
+            }
+        }
+    }
+}
+30 {
+    description &quot;Alcatel Site B&quot;;
+    instance-type vrf;
+    interface ge-0/0/2.0;
+    route-distinguisher 10.10.10.3:30;
+    vrf-target target:300:30;
+    routing-options {
+        router-id 100.100.100.100;
+    }
+    protocols {
+        ospf {
+            export MP-BGP_to_CE_via_OSPF;
+            area 0.0.0.0 {
+                interface ge-0/0/2.0 {
+                    interface-type p2p;
+                }
+            }
+        }
+    }
+}
+</code></pre></div> <h2 id=ce-pe-routing-protocol-configuration>CE -&gt; PE routing protocol configuration<a class=headerlink href=#ce-pe-routing-protocol-configuration title="Permanent link">#</a></h2> <p>Now it is time to connect our customers to the service provider's network via VRFs created earlier and finally add some VPN routes. CE routers completely unaware of a complex L3VPN configuration on the PE routers, what they need to do is just setup a routing protocol over which customers routes could be delivered to (and received from) the Service Provider.</p> <p>Starting with Juniper CE1_JUN and CE2_JUN that run eBGP with PE routers:</p> <p>CE1_JUN:</p> <div class=highlight><pre><span></span><code>root@CE1_JUN# show 
+### Last changed: 2015-10-28 17:40:05 UTC
+version 14.1R1.10;
+&lt;... omitted ...&gt;
+
+### 1. configure PE-facing interface
+interfaces {
+    ge-0/0/0 {
+        mac 50:01:00:06:00:02;
+        unit 0 {                        
+            family inet {
+                address 10.20.99.1/31;
+            }
+        }
+    }
+### 2. dont forget about loopback, this address will be exported to remote site
+    lo0 {
+        unit 0 {
+            family inet {
+                address 1.1.1.1/32;
+            }
+        }
+    }
+}
+
+### 3. AS number is a mandatory for eBGP session to run
+routing-options {
+    autonomous-system 200;
+}
+
+### 4. and a simple eBGP configuration
+protocols {
+    bgp {
+        group toPE {
+            local-address 10.20.99.1;
+
+            ## 5. we need to export loopback address to eBGP
+            export export_loopback;
+            peer-as 100;
+            neighbor 10.20.99.0;        
+        }
+    }
+}
+
+### 6. policy to export loopback address
+policy-options {
+    prefix-list loopback {
+        1.1.1.1/32;
+    }
+    policy-statement export_loopback {
+        term Loopback {
+            from {
+                prefix-list loopback;
+            }
+            then accept;
+        }
+    }
+}
+</code></pre></div> <p>CE2_JUN:</p> <div class=highlight><pre><span></span><code>root@CE2_JUN# show 
+### Last changed: 2015-10-28 16:50:23 UTC
+version 14.1R1.10;
+
+### 1. configure PE-facing interface
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {               
+                address 10.20.99.3/31;
+            }
+        }
+    }
+### 2. dont forget about loopback, this address will be exported to remote site
+    lo0 {
+        unit 0 {
+            family inet {
+                address 2.2.2.2/32;
+            }
+        }
+    }
+}
+
+### 3. AS number is a mandatory for eBGP session to run
+routing-options {
+    autonomous-system 200;
+}
+
+### 4. and a simple eBGP configuration
+protocols {
+    bgp {
+        group toPE {
+            local-address 10.20.99.3;
+            family inet {
+                unicast;
+            }
+
+            ## 5. we need to export loopback address to eBGP
+            export export_loopback;     
+            peer-as 100;
+            neighbor 10.20.99.2;
+        }
+    }
+}
+
+### 6. policy to export loopback address
+policy-options {
+    prefix-list loopback {
+        2.2.2.2/32;
+    }
+    policy-statement export_loopback {
+        term Loopback {
+            from {
+                prefix-list loopback;
+            }
+            then accept;
+        }
+    }
+}
+</code></pre></div> <p>Now its Nokia time. Pay attention to the CE2_ALU router, since we are using OSPF on CE2-PE2 link configuration it is a little bit different from other CE's configs.</p> <p>CE1_ALU:</p> <div class=highlight><pre><span></span><code>A:CE1_ALU&gt;config&gt;router# info
+----------------------------------------------
+
+### 1. Interfaces and AS Num config
+
+#--------------------------------------------------
+echo &quot;IP Configuration&quot;
+#--------------------------------------------------
+        interface &quot;system&quot;
+            address 1.1.1.1/32
+            no shutdown
+        exit
+        interface &quot;toPE&quot;
+            address 10.30.99.1/31
+            port 1/1/1
+            no shutdown
+        exit
+        autonomous-system 300
+
+### 2. Policy for exporting loopback address
+#--------------------------------------------------
+echo &quot;Policy Configuration&quot;
+#--------------------------------------------------
+        policy-options
+            begin
+            prefix-list &quot;loopback&quot;
+                prefix 1.1.1.1/32 exact
+            exit
+            policy-statement &quot;export_loopback&quot;
+                entry 10
+                    from
+                        prefix-list &quot;loopback&quot;
+                    exit
+                    action accept
+                    exit
+                exit
+            exit
+            commit
+        exit
+#--------------------------------------------------
+echo &quot;BGP Configuration&quot;
+#--------------------------------------------------
+        bgp
+            group &quot;toPE&quot;
+                export &quot;export_loopback&quot; ## tell CE to export its system address to eBGP peer
+                peer-as 100
+                local-address 10.30.99.1
+                split-horizon
+                neighbor 10.30.99.0
+                exit
+            exit
+            no shutdown
+        exit
+----------------------------------------------
+</code></pre></div> <p>CE2_ALU:</p> <div class=highlight><pre><span></span><code>A:CE2_ALU&gt;config&gt;router# info
+----------------------------------------------
+#--------------------------------------------------
+echo &quot;IP Configuration&quot;
+#--------------------------------------------------
+        interface &quot;system&quot;
+            address 2.2.2.2/32
+            no shutdown
+        exit
+        interface &quot;toPE&quot;
+            address 10.30.99.3/31
+            port 1/1/1
+            no shutdown
+        exit
+        autonomous-system 300
+
+### we running OSPF as PE-CE protocol
+#--------------------------------------------------
+echo &quot;OSPFv2 Configuration&quot;
+#--------------------------------------------------
+        ospf
+            area 0.0.0.0
+                interface &quot;system&quot;
+                    no shutdown
+                exit
+                interface &quot;toPE&quot;
+                    interface-type point-to-point
+                    no shutdown
+                exit
+            exit
+            no shutdown
+        exit
+----------------------------------------------
+</code></pre></div> <h2 id=control-plane-walkthrough>Control plane walkthrough<a class=headerlink href=#control-plane-walkthrough title="Permanent link">#</a></h2> <p>We are done with the configuration, all in all it was not a complex task, what is more important is to understand what's going on with control and data planes. I believe you will like this step-by-step walkthrough via every node in the network.</p> <p>I will start with dissection of a control plane operation from the point where MP-BGP session between PE routers has been already established and we are enabling VRFs on customers routers. Refer to this overview chart and see how an information about CE1_JUN's loopback interface propagates through the entire network to CE2_JUN counterpart:</p> <blockquote> <p>All the pictures are clickable, to see the full sized pics choose "open an image in a separate tab" option in your browser.</p> </blockquote> <p><a href=http://img-fotki.yandex.ru/get/31082/21639405.11c/0_86308_2af39052_orig.png><img alt=l3_vpn_control_plane src=http://img-fotki.yandex.ru/get/31082/21639405.11c/0_86308_2af39052_orig.png></a></p> <h3 id=step-1>Step 1<a class=headerlink href=#step-1 title="Permanent link">#</a></h3> <p>CE1_JUN router has an export policy <code>export_loopback</code> configured which is used by BGP to construct the BGP UPDATE message with <code>lo0</code> prefix as an NLRI.</p> <h3 id=step-2>Step 2<a class=headerlink href=#step-2 title="Permanent link">#</a></h3> <p>CE1_JUN sends a regular BGP UPDATE message to its eBGP peer PE1_ALU.</p> <p><a href=http://img-fotki.yandex.ru/get/17849/21639405.11c/0_86309_b4edb4e4_orig.png><img alt=l3vpn_control_plane src=http://img-fotki.yandex.ru/get/17849/21639405.11c/0_86309_b4edb4e4_orig.png></a></p> <h3 id=step-3>Step 3<a class=headerlink href=#step-3 title="Permanent link">#</a></h3> <p>PE1_ALU router receives this update via its interface <code>toCE1</code> configured in <code>vprn 20</code> context. PE1_ALU populates its VRF 20 with a route to <code>1.1.1.1/32</code> via <code>10.20.99.1</code>.</p> <h3 id=step-4>Step 4<a class=headerlink href=#step-4 title="Permanent link">#</a></h3> <p>PE1_ALU router has an established MP-iBGP session with PE2_JUN so it takes a BGP route from VRF 20 and automatically sends an MP-BGP UPDATE message to its peer. Note, that ALU routers will send MP-BGP update automatically only for the connected to VRF routes and the routes received via BGP. If we had OSPF between CE1 and PE1, we would need to configure an export policy to propagate this update over MP-BGP session.</p> <p>Since PE1_ALU router wants to send an update for a <em>route in the VRF</em> it should construct an MP-BGP Update message which has a specific Path attribute - <strong>MP_REACH_NLRI</strong> - to communicate this routing information. And PE1_ALU will transform the <code>1.1.1.1/32</code> IPv4 prefix to an VPN-IPv4 one.</p> <p><a href=http://img-fotki.yandex.ru/get/6403/21639405.11c/0_8630a_dddcc68e_orig.png><img alt=l3vpn_control_plane src=http://img-fotki.yandex.ru/get/6403/21639405.11c/0_8630a_dddcc68e_orig.png></a></p> <p>Take a closer look at this BGP message. See how PE1_ALU router added some valuable additional information to correctly pass CE1_ALU's loopback address via MP-BGP. First of all examine how NLRI has been transformed in MP-BGP: it now has a Route Distinguisher which we configured for VRF 20 earlier, it has the IPv4 prefix itself and it has the MPLS label <code>131068</code>.</p> <p>PE1_ALU router allocated a VPN label which it associated with the VRF 20. This label tells PE1_ALU router that if it ever receives a data packet with this label it should associate the data encapsulated within it with VRF 20! This way ingress PE routers tell others PEs what label should be used as a VPN label for the routes residing in a particular VRF.</p> <p>There are two methods of allocating the VPN labels (they are also called Service labels):</p> <ol> <li><strong>per VRF</strong>: all routes originated from a single VRF will have the same VPN label. SROS routers default to this.</li> <li><strong>per VRF per next-hop</strong>: If a VRF has &gt;1 CE interfaces, PE router will allocate different labels for different CE interfaces inside one VRF. <strong>Juniper</strong> routers default to this.</li> </ol> <p>If we zoom over the Extended Community attribute of the BGP UPDATE message, we can spot the Route Target <code>200:20</code> value there.</p> <p>Important things happened to the Next-Hop, not only it looks now like a VPN-IPv4 route with a Route Distinguisher value of <code>0:0</code> and without MPLS label, but Next-Hop IPv4 address has been changed to PE1_ALU's system (loopback) interface <code>10.10.10.1</code>. This is how PE1 router tells PE2 that it can reach VRF 20 routes via PE1.</p> <p>In the end of the day, PE1_ALU's update reaches PE2_JUN since it has the IP destination address of 10.10.10.3.</p> <p>Notice, that BGP updates traverse Service Provider's network in a form of the simple IP packets, MPLS is out of the picture at this moment. Service Provider's core router - P1_ALU - simply routes IP packets and has no take in BGP at all.</p> <h3 id=step-5>Step 5<a class=headerlink href=#step-5 title="Permanent link">#</a></h3> <p>PE2_JUN receives the BGP UPDATE with VPN-IPv4 route. Once this route passes validation checks (Nexhop resolvable, no AS Path loop) PE2 submits this route to a specific table named <code>bgp.l3vpn.0</code>. This table stores all BGP VPN routes, refer to this figure to examine some of its content:</p> <p><a href=http://img-fotki.yandex.ru/get/4121/21639405.11c/0_8630b_e7511a43_orig.png><img alt=l3vpn_control_plane src=http://img-fotki.yandex.ru/get/4121/21639405.11c/0_8630b_e7511a43_orig.png></a></p> <p>PE2 extracts the routing information from this update an based on the Route Target value installs the IPv4 route <code>1.1.1.1/32</code> into the VRF 20 table - <code>20.inet.0</code>. PE2 resolves the next-hop address of the fellow PE1_ALU (10.10.10.1) via MPLS Label Switched Path (LSP) and stores this information in the <code>20.inet.0</code> table:</p> <div class=highlight><pre><span></span><code>20.inet.0: 5 destinations, 5 routes (5 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+1.1.1.1/32         *[BGP/170] 2d 08:38:15, localpref 100, from 10.10.10.1
+                      AS path: 200 I, validation-state: unverified
+                    &gt; to 10.99.99.2 via ge-0/0/0.0, label-switched-path toPE1
+</code></pre></div> <p>Remember that it is mandatory to have an active LSP to the remote PE, since we have to have an MPLS transport to the remote end to carry the data packets.</p> <h3 id=step-6>Step 6<a class=headerlink href=#step-6 title="Permanent link">#</a></h3> <p>Since we installed the route for the <code>1.1.1.1/32</code> IPv4 prefix into VRF 20 and we have an active eBGP peer in VRF 20, we should send an update for this IPv4 prefix to the CE2_JUN router to let the CE2 site to be aware of the remote prefix. This update goes as an ordinary eBGP update.</p> <h3 id=step-7>Step 7<a class=headerlink href=#step-7 title="Permanent link">#</a></h3> <p>CE2_JUN receives the BGP UPDATE and installs a route into the only table it has for IPv4 routes - <code>inet.0</code>.</p> <p>This completes Control Plane operation regarding the prefix <code>1.1.1.1/32</code>, same process goes for the other loopbacks and connected to VRFs link addresses for both Alcatel and Juniper customers.</p> <h2 id=data-plane-walkthrough>Data plane walkthrough<a class=headerlink href=#data-plane-walkthrough title="Permanent link">#</a></h2> <p>To complete this post we should examine the data plane operations. We will see how data packets destined to <code>1.1.1.1</code> propagate through the network using the labels allocated during the control plane operations.</p> <p><img alt=l3vpn_dataplane src=http://img-fotki.yandex.ru/get/3708/21639405.11c/0_8630c_5f8e9edd_orig.png></p> <h3 id=step-1_1>Step 1<a class=headerlink href=#step-1_1 title="Permanent link">#</a></h3> <p>CE2_JUN wants to send a data packet to CE1_JUN via L3VPN service provided by our network. CE2 has an active route in its route table <code>inet.0</code> that says that it can reach <code>1.1.1.1/32</code> via <code>10.20.99.2</code> address via the <code>ge-0/0/0</code> interface. CE2 has a MAC address for <code>10.20.99.2</code> so it constructs the whole frame and puts it on the wire.</p> <p><a href=http://img-fotki.yandex.ru/get/6416/21639405.11c/0_8630d_cdb63a28_orig.png><img alt=l3vpn_dataplane src=http://img-fotki.yandex.ru/get/6416/21639405.11c/0_8630d_cdb63a28_orig.png></a></p> <h3 id=step-2_1>Step 2<a class=headerlink href=#step-2_1 title="Permanent link">#</a></h3> <p>PE2_JUN receives the Ethernet frame on its interface <code>ge-0/0/1</code> which belongs to VRF 20, that is how PE2 decides to associate this packet with VRF 20. PE2 consults with the VRF 20 routing table and sees that it has to use the LSP <code>toPE1</code> to send the incoming data packet further.<br> Then PE2 gets MPLS label which it received earlier from its RSVP neighbor P1_ALU during the LSP signalization process.</p> <p><a href=http://img-fotki.yandex.ru/get/4519/21639405.11c/0_8630e_5890a719_orig.png><img alt=l3vpn_dataplane src=http://img-fotki.yandex.ru/get/4519/21639405.11c/0_8630e_5890a719_orig.png></a></p> <p>But this was just a transport MPLS label, it helps PE2_JUN to reach PE1_ALU, but PE2 needs one label more - the VPN Label - to tell PE1_ALU to which VRF this data belongs. This label was signalled earlier (see Control Plane operation section) via MP-BGP.</p> <p>Now PE2 has everything it needs:</p> <ol> <li>MPLS VPN label to encapsulate the data packets from its VRF 20 destined to the VRF 20 on PE1_ALU</li> <li>Transport MPLS Label to get to PE1_ALU via MPLS core</li> </ol> <p>and thus it constructs a packet with two labels stacked and fires it off.</p> <h3 id=step-3_1>Step 3<a class=headerlink href=#step-3_1 title="Permanent link">#</a></h3> <p>P1_ALU is totally unaware of the whole services and customers mess, it just switches MPLS packets by replacing the incoming transport label with the outgoing one.</p> <h3 id=step-4_1>Step 4<a class=headerlink href=#step-4_1 title="Permanent link">#</a></h3> <p>PE1_ALU receives an MPLS packet from P1_ALU. It pops out the transport label (<em>fig. 4.1</em>) and examines the enclosed MPLS label. This label value <code>131068</code> was signalled by PE1_ALU via MP-BGP during the Control Plane operation. So PE1 knows that it has to pop this label and associate the enclosed packet with the VPRN 20 (VRF 20) (<em>fig. 4.2</em>)</p> <p><a href=http://img-fotki.yandex.ru/get/5907/21639405.11c/0_8630f_a746c430_orig.png><img alt=l3vpn_dataplane src=http://img-fotki.yandex.ru/get/5907/21639405.11c/0_8630f_a746c430_orig.png></a></p> <p>VRF's 20 routing table says that packets destined to <code>1.1.1.1</code> should be forwarded to <code>10.20.99.3</code> address (<em>fig. 4.3</em>), which is a connected network leading to CE1_JUN (<em>fig. 4.4</em>). PE1_ALU constructs the packet and moves it via Ethernet out of the 1/1/2 port (<em>fig. 4.5</em>).</p> <h3 id=step-5_1>Step 5<a class=headerlink href=#step-5_1 title="Permanent link">#</a></h3> <p>CE2_JUN receives an ordinary IP packet with a destination address matching its interface. It decapsulates ICMP echo request and sends back the echo reply.</p> <p>This concludes the control and data plane operations walk through. If you followed along the explanations and practiced the configuration steps, you should be in a good shape to implement the basic L3VPN services and also should have a pretty solid understanding of the service establishment mechanics.</p> <h2 id=__comments>Comments</h2> <script src=https://giscus.app/client.js data-repo=hellt/netdevops.me data-repo-id="MDEwOlJlcG9zaXRvcnkzNTkzNTc5ODc=" data-category="Show and tell" data-category-id=DIC_kwDOFWteI84CRmVn data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=preferred_color_scheme data-lang=en data-loading=lazy crossorigin=anonymous async>
+    </script> <!-- Synchronize Giscus theme with palette --> <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    /* Set palette on initial load */
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate" ? "dark" : "light"
+        giscus.setAttribute("data-theme", theme)
+    }
+
+    /* Register event handlers after documented loaded */
+    document.addEventListener("DOMContentLoaded", function () {
+        var ref = document.querySelector("[data-md-component=palette]")
+        ref.addEventListener("change", function () {
+            var palette = __md_get("__palette")
+            if (palette && typeof palette.color === "object") {
+                var theme = palette.color.scheme === "slate" ? "dark" : "light"
+
+                /* Instruct Giscus to change theme */
+                var frame = document.querySelector(".giscus-frame")
+                frame.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme } } },
+                    "https://giscus.app"
+                )
+            }
+        })
+    })
+</script> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <a href=# class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg> Back to top </a> </main> <footer class=md-footer> <nav class="md-footer__inner md-grid" aria-label=Footer> <a href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/ class="md-footer__link md-footer__link--prev" aria-label="Previous: Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities" rel=prev> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </div> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Previous </span> Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities </div> </div> </a> <a href=../../2016/building-web-front-end-for-python-scripts-with-flask/ class="md-footer__link md-footer__link--next" aria-label="Next: Building Web front end for Python scripts with Flask" rel=next> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Next </span> Building Web front end for Python scripts with Flask </div> </div> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg> </div> </a> </nav> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs Insiders </a> </div> <div class=md-social> <a href=https://github.com/hellt target=_blank rel=noopener title=github.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </a> <a href=https://twitter.com/ntdvps target=_blank rel=noopener title=twitter.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["navigation.top", "navigation.instant", "navigation.tabs", "search.suggest", "content.code.annotate", "toc.follow", "content.tooltips", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.720157f5.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script> <script src=../../assets/javascripts/bundle.0d3e07ec.min.js></script> </body> </html>

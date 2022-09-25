@@ -1,24 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Network automation options in Go with scrapligo |</title><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content><meta name=twitter:title content="Network automation options in Go with scrapligo"><meta name=twitter:description content><meta name=twitter:creator content="@ntdvps"><meta name=Description content="DevOps applied to networking"><meta property="og:title" content="Network automation options in Go with scrapligo"><meta property="og:description" content="Just recently the network automation folks witnessed a great library to be ported from Python to Go - scrapligo.
-Been working on learning go a bit and have published scrapligo https://t.co/NDXQ6khxCr -- still a work in progress, but has been a fun learning experience! Check it out and let me know what ya think! 🤠
-&mdash; Carl Montanari (@carlrmontanari) May 19, 2021   For me personally this was a pivotal point because with scrapligo the Go-minded netengs can now automate their networks with a solid and performant library."><meta property="og:type" content="article"><meta property="og:url" content="https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-06-09T06:00:00+00:00"><meta property="article:modified_time" content="2021-06-09T14:41:10+02:00"><meta name=application-name content="NetDevOps"><meta name=apple-mobile-web-app-title content="NetDevOps"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=icon type=image/png sizes=192x192 href=/android-chrome-192x192.png><link rel=icon type=image/png sizes=512x512 href=/android-chrome-512x512.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Network automation options in Go with scrapligo","inLanguage":"en-us","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/netdevops.me\/2021\/network-automation-options-in-go-with-scrapligo\/"},"genre":"posts","keywords":"scrapli, textfsm, netconf","wordCount":1416,"url":"https:\/\/netdevops.me\/2021\/network-automation-options-in-go-with-scrapligo\/","datePublished":"2021-06-09T06:00:00+00:00","dateModified":"2021-06-09T14:41:10+02:00","description":""}</script></head><body data-header-desktop data-header-mobile><script>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header><div class="desktop header" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class="header-logo logo-svg"><img loading=lazy decoding=async class=logo src=/android-chrome-192x192.png alt=/android-chrome-192x192.png title=/android-chrome-192x192.png></a></div><div class=menu><nav><h2 class=display-hidden>Основная навигация</h2><ul class=menu-inner><li><a class=menu-item href=/posts/>Posts</a></li><li><a class=menu-item href=/about>About me</a></li><li><a class=menu-item href=/tags/>Tags</a></li></ul></nav><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=Search... id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-desktop><span class="svg-icon icon-loading"></span></span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="mobile header" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=NetDevOps class=header-logo><img loading=lazy decoding=async class=logo src=/android-chrome-192x192.png alt=/android-chrome-192x192.png title=/android-chrome-192x192.png></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=Search... id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><span class="svg-icon icon-search"></span></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><span class="svg-icon icon-cancel"></span></a><span class="search-button search-loading" id=search-loading-mobile><span class="svg-icon icon-loading"></span></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><nav><h2 class=display-hidden>Основная навигация</h2><ul><li><a class=menu-item href=/posts/ title>Posts</a></li><li><a class=menu-item href=/about title>About me</a></li><li><a class=menu-item href=/tags/ title>Tags</a></li></ul></nav><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><span class="svg-icon icon-moon"></span></a></div></div></div><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div></header><main class=main><div class="container content-article theme-classic"><div class=toc id=toc-auto><div class=toc-title>Contents</div><div class="toc-content always-active" id=toc-content-auto></div></div><article><header class=header-post><div class=post-title><div class=post-all-meta><nav class=breadcrumbs><ol><li><a href=/>Home</a></li><li>Network automation options in Go with scrapligo</li></ol></nav><h1 class="single-title flipInX">Network automation options in Go with scrapligo</h1><div class="post-meta summary-post-meta"><span class="post-meta-date meta-item"><span class="svg-icon icon-clock"></span><time class=timeago datetime=2021-06-09>2021-06-09</time>
-</span><span class="post-meta-words meta-item"><span class="svg-icon icon-pencil"></span>1416 words</span>
-<span class="post-meta-reading meta-item"><span class="svg-icon icon-stopwatch"></span>7 minutes</span></div></div></div></header><div class="article-post toc-start"><div class="content-block content-block-first content-block-position"><div class="post single"><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#use-netconfgnmiapi>use NETCONF/gNMI/API</a></li><li><a href=#on-box-json-output>on-box JSON output</a></li><li><a href=#good-old-parsing>good old parsing</a></li><li><a href=#ps>PS</a></li></ul></nav></div></div><p>Just recently the network automation folks witnessed a great library to be ported from Python to Go - <a href=https://github.com/scrapli/scrapligo target=_blank rel="noopener noreffer">scrapligo</a>.</p><center><blockquote class=twitter-tweet><p lang=en dir=ltr>Been working on learning go a bit and have published scrapligo <a href=https://t.co/NDXQ6khxCr>https://t.co/NDXQ6khxCr</a> -- still a work in progress, but has been a fun learning experience! Check it out and let me know what ya think! 🤠</p>&mdash; Carl Montanari (@carlrmontanari) <a href="https://twitter.com/carlrmontanari/status/1395048837656367105?ref_src=twsrc%5Etfw">May 19, 2021</a></blockquote><script async src=https://platform.twitter.com/widgets.js></script></center><p>For me personally this was a pivotal point because with scrapligo the Go-minded netengs can now automate their networks with a solid and performant library.</p><p>One of the things that scrapligo packs is, of course, the ability to reliably <em>talk</em> to the network devices using the same command line interface as a human would normally do. That means that scrapligo would send and receive the pieces of data that an operator would send/receive if they were connected with a terminal over SSH.</p><p>As you may very well be aware, the typical output that a network device produces for a given command is unstructured, meaning that it is not presented in a way that can be <em>effortlessly</em> parsed by a machine.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># output of a `show system information` command from Nokia SR OS</span>
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Applying DevOps to networks."><meta name=author content="Roman Dodin"><link href=https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/ rel=canonical><link rel=icon href=../../assets/images/code.svg><meta name=generator content="mkdocs-1.3.1, mkdocs-material-8.5.3+insiders-4.23.5"><title>Network automation options in Go with scrapligo - netdevops.me</title><link rel=stylesheet href=../../assets/stylesheets/main.fb3608a7.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.cbb835fc.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Google Sans";--md-code-font:"Fira Mono"}</style><script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id=__analytics>function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-333724268"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-333724268",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-333724268",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script><script>"undefined"!=typeof __md_analytics&&__md_analytics()</script><!-- Determine title --><!-- The image needs to have an absolute URL --><!-- Open graph meta tags --><meta property=og:type content=website><meta property=og:title content="netdevops.me - Network automation options in Go with scrapligo"><meta property=og:description content="Applying DevOps to networks."><meta content=https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/ property=og:url><meta property=og:image content="https://github.com/srl-labs/containerlab/blob/main/docs/images/containerlab-og.png?raw=true"><meta property=og:image:type content=image/png><meta property=og:image:width content=1092><meta property=og:image:height content=954><!-- Twitter meta tags --><meta name=twitter:card content=summary_large_image><meta name=twitter:site content=@ntdvps><meta name=twitter:creator content=@ntdvps><meta name=twitter:title content="netdevops.me - Network automation options in Go with scrapligo"><meta name=twitter:description content="Applying DevOps to networks."><meta name=twitter:image content="https://github.com/srl-labs/containerlab/blob/main/docs/images/containerlab-og.png?raw=true"></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#network-automation-options-in-go-with-scrapligo class=md-skip> Skip to content </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title=netdevops.me class="md-header__button md-logo" aria-label=netdevops.me data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> netdevops.me </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Network automation options in Go with scrapligo </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan aria-label="Switch to dark mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=black data-md-color-accent=cyan aria-label="Switch to light mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg> </label> </form> <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </label> <nav class=md-search__options aria-label=Search> <button type=reset class="md-search__icon md-icon" title=Clear aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../.. class="md-tabs__link md-tabs__link--active"> Blog </a> </li> <li class=md-tabs__item> <a href=../../tags/ class=md-tabs__link> Tags </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation hidden> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title=netdevops.me class="md-nav__button md-logo" aria-label=netdevops.me data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> netdevops.me </label> <div class=md-nav__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_1 type=checkbox id=__nav_1 checked> <div class="md-nav__link md-nav__container"> <a href=../.. class="md-nav__link "> <span class=md-ellipsis> Blog </span> </a> </div> <nav class=md-nav aria-label=Blog data-md-level=1> <label class=md-nav__title for=__nav_1> <span class="md-nav__icon md-icon"></span> Blog </label> <ul class=md-nav__list data-md-scrollfix> </ul> </nav> </li> <li class=md-nav__item> <a href=../../tags/ class=md-nav__link> <span class=md-ellipsis> Tags </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#use-netconfgnmiapi class=md-nav__link> <span class=md-ellipsis> use NETCONF/gNMI/API </span> </a> </li> <li class=md-nav__item> <a href=#on-box-json-output class=md-nav__link> <span class=md-ellipsis> on-box JSON output </span> </a> </li> <li class=md-nav__item> <a href=#good-old-parsing class=md-nav__link> <span class=md-ellipsis> good old parsing </span> </a> </li> <li class=md-nav__item> <a href=#ps class=md-nav__link> <span class=md-ellipsis> PS </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-content md-content--post" data-md-component=content> <div class="md-sidebar md-sidebar--post" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class="md-sidebar__inner md-post"> <nav class=md-nav> <div class=md-post__back> <div class="md-nav__title md-nav__container"> <a href=../.. class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> <span class=md-ellipsis> Back to index </span> </a> </div> </div> <div class="md-post__authors md-typeset"> <div class="md-profile md-post__profile"> <span class="md-author md-author--long"> <img src=https://avatars.githubusercontent.com/u/5679861 alt="Roman Dodin"> </span> <span class=md-profile__description> <strong>Roman Dodin</strong><br> Network Automater </span> </div> </div> <ul class="md-post__meta md-nav__list"> <li class="md-nav__item md-nav__title"> <div class=md-nav__link> <span class=md-ellipsis> Metadata </span> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"/></svg> <time datetime=2021-06-09 class=md-ellipsis>June 9, 2021</time> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"/></svg> <span class=md-ellipsis> 6 min read </span> </div> </li> </ul> </nav> </div> </div> </div> <article class="md-content__inner md-typeset"> <nav class=md-tags> <a href=../../tags/#scrapli class=md-tag>scrapli</a> <a href=../../tags/#textfsm class=md-tag>textfsm</a> <a href=../../tags/#netconf class=md-tag>netconf</a> </nav> <a href=https://github.com/hellt/netdevops.me/edit/main/blog/posts/2021/scrapligo-options.md title="Edit this page" class="md-content__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg> </a> <h1 id=network-automation-options-in-go-with-scrapligo>Network automation options in Go with scrapligo<a class=headerlink href=#network-automation-options-in-go-with-scrapligo title="Permanent link">#</a></h1> <p>Just recently the network automation folks witnessed a great library to be ported from Python to Go - <a href=https://github.com/scrapli/scrapligo>scrapligo</a>.</p> <p><center><blockquote class=twitter-tweet><p dir=ltr>Been working on learning go a bit and have published scrapligo <a href=https://t.co/NDXQ6khxCr><a href=https://t.co/NDXQ6khxCr>https://t.co/NDXQ6khxCr</a></a> -- still a work in progress, but has been a fun learning experience! Check it out and let me know what ya think! 🤠</p>&mdash; Carl Montanari (@carlrmontanari) <a href="https://twitter.com/carlrmontanari/status/1395048837656367105?ref_src=twsrc%5Etfw">May 19, 2021</a></blockquote> <script async src=https://platform.twitter.com/widgets.js charset=utf-8></script></center></p> <p>For me personally this was a pivotal point because with scrapligo the Go-minded netengs can now automate their networks with a solid and performant library.</p> <p>One of the things that scrapligo packs is, of course, the ability to reliably <em>talk</em> to the network devices using the same command line interface as a human would normally do. That means that scrapligo would send and receive the pieces of data that an operator would send/receive if they were connected with a terminal over SSH.</p> <!-- more --> <p>As you may very well be aware, the typical output that a network device produces for a given command is unstructured, meaning that it is not presented in a way that can be <em>effortlessly</em> parsed by a machine.</p> <div class=highlight><pre><span></span><code><span class=c1># output of a `show system information` command from Nokia SR OS</span>
 
 <span class=o>===============================================================================</span>
 System <span class=nv>Information</span>
@@ -27,239 +7,113 @@ System Name            : sros
 System Type            : <span class=m>7750</span> SR-1
 Chassis Topology       : Standalone
 System Version         : B-20.10.R3
-Crypto Module Version  : SRCM 3.1
+Crypto Module Version  : SRCM <span class=m>3</span>.1
 System Contact         :
 System Location        :
 System Coordinates     :
-System Up Time         : <span class=m>8</span> days, 00:24:27.04 <span class=o>(</span>hr:min:sec<span class=o>)</span>
-</code></pre></td></tr></table></div></div><p>If we were to send <code>show system information</code> command with scrapligo towards a Nokia SR OS device, we would have not be able to get, say, the device version right away, since the response is basically the unstructured blob of text as the program sees it.</p><p>What can we do about it?</p><h2 id=use-netconfgnmiapi class=headerLink><a href=#use-netconfgnmiapi class=header-mark></a>use NETCONF/gNMI/API</h2><p>In an ideal world, you would have stopped reading this post, because ALL your devices were equipped with some kind of programmatic interface that returns structured data. Like in the example above we connect to the SR OS node with scrapligo netconf subsystem and retrieve back a result of a NETCONF Get operation.</p><p>We then can run a query on this XML document we received and get the data out just nicely.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+System Up Time         : <span class=m>8</span> days, <span class=m>00</span>:24:27.04 <span class=o>(</span>hr:min:sec<span class=o>)</span>
+</code></pre></div> <p>If we were to send <code>show system information</code> command with scrapligo towards a Nokia SR OS device, we would have not be able to get, say, the device version right away, since the response is basically the unstructured blob of text as the program sees it.</p> <p>What can we do about it?</p> <h2 id=use-netconfgnmiapi>use NETCONF/gNMI/API<a class=headerlink href=#use-netconfgnmiapi title="Permanent link">#</a></h2> <p>In an ideal world, you would have stopped reading this post, because ALL your devices were equipped with some kind of programmatic interface that returns structured data. Like in the example above we connect to the SR OS node with scrapligo netconf subsystem and retrieve back a result of a NETCONF Get operation.</p> <p>We then can run a query on this XML document we received and get the data out just nicely.</p> <div class=highlight><pre><span></span><code><span class=kn>package</span><span class=w> </span><span class=nx>main</span><span class=w></span>
 
-<span class=kn>import</span> <span class=p>(</span>
-	<span class=s>&#34;fmt&#34;</span>
-	<span class=s>&#34;strings&#34;</span>
+<span class=kn>import</span><span class=w> </span><span class=p>(</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;fmt&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;strings&quot;</span><span class=w></span>
 
-	<span class=s>&#34;github.com/antchfx/xmlquery&#34;</span>
-	<span class=s>&#34;github.com/scrapli/scrapligo/driver/base&#34;</span>
-	<span class=s>&#34;github.com/scrapli/scrapligo/netconf&#34;</span>
-	<span class=s>&#34;github.com/scrapli/scrapligo/transport&#34;</span>
-<span class=p>)</span>
+<span class=w> </span><span class=s>&quot;github.com/antchfx/xmlquery&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/driver/base&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/netconf&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/transport&quot;</span><span class=w></span>
+<span class=p>)</span><span class=w></span>
 
-<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-	<span class=nx>d</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>netconf</span><span class=p>.</span><span class=nf>NewNetconfDriver</span><span class=p>(</span>
-		<span class=s>&#34;clab-scrapli-sros&#34;</span><span class=p>,</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthStrictKey</span><span class=p>(</span><span class=kc>false</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthUsername</span><span class=p>(</span><span class=s>&#34;admin&#34;</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthPassword</span><span class=p>(</span><span class=s>&#34;admin&#34;</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithTransportType</span><span class=p>(</span><span class=nx>transport</span><span class=p>.</span><span class=nx>StandardTransportName</span><span class=p>),</span>
-	<span class=p>)</span>
+<span class=kd>func</span><span class=w> </span><span class=nx>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w></span>
+<span class=w> </span><span class=nx>d</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>netconf</span><span class=p>.</span><span class=nx>NewNetconfDriver</span><span class=p>(</span><span class=w></span>
+<span class=w>  </span><span class=s>&quot;clab-scrapli-sros&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthStrictKey</span><span class=p>(</span><span class=kc>false</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthUsername</span><span class=p>(</span><span class=s>&quot;admin&quot;</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthPassword</span><span class=p>(</span><span class=s>&quot;admin&quot;</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithTransportType</span><span class=p>(</span><span class=nx>transport</span><span class=p>.</span><span class=nx>StandardTransportName</span><span class=p>),</span><span class=w></span>
+<span class=w> </span><span class=p>)</span><span class=w></span>
 
-	<span class=nx>d</span><span class=p>.</span><span class=nf>Open</span><span class=p>()</span>
+<span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>Open</span><span class=p>()</span><span class=w></span>
 
-	<span class=nx>r</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>d</span><span class=p>.</span><span class=nf>Get</span><span class=p>(</span><span class=nx>netconf</span><span class=p>.</span><span class=nf>WithNetconfFilter</span><span class=p>(</span><span class=s>`
-</span><span class=s>	&lt;state xmlns=&#34;urn:nokia.com:sros:ns:yang:sr:state&#34;&gt;
-</span><span class=s>	&lt;system&gt;&lt;version&gt;&lt;version-number/&gt;&lt;/version&gt;&lt;/system&gt;
-</span><span class=s>	&lt;/state&gt;`</span><span class=p>))</span>
+<span class=w> </span><span class=nx>r</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>Get</span><span class=p>(</span><span class=nx>netconf</span><span class=p>.</span><span class=nx>WithNetconfFilter</span><span class=p>(</span><span class=s>`</span>
+<span class=s> &lt;state xmlns=&quot;urn:nokia.com:sros:ns:yang:sr:state&quot;&gt;</span>
+<span class=s> &lt;system&gt;&lt;version&gt;&lt;version-number/&gt;&lt;/version&gt;&lt;/system&gt;</span>
+<span class=s> &lt;/state&gt;`</span><span class=p>))</span><span class=w></span>
 
-	<span class=nx>doc</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>xmlquery</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>strings</span><span class=p>.</span><span class=nf>NewReader</span><span class=p>(</span><span class=nx>r</span><span class=p>.</span><span class=nx>Result</span><span class=p>))</span>
+<span class=w> </span><span class=nx>doc</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>xmlquery</span><span class=p>.</span><span class=nx>Parse</span><span class=p>(</span><span class=nx>strings</span><span class=p>.</span><span class=nx>NewReader</span><span class=p>(</span><span class=nx>r</span><span class=p>.</span><span class=nx>Result</span><span class=p>))</span><span class=w></span>
 
-	<span class=nx>ver</span> <span class=o>:=</span> <span class=nx>xmlquery</span><span class=p>.</span><span class=nf>Find</span><span class=p>(</span><span class=nx>doc</span><span class=p>,</span> <span class=s>&#34;//version-number&#34;</span><span class=p>)</span>
+<span class=w> </span><span class=nx>ver</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>xmlquery</span><span class=p>.</span><span class=nx>Find</span><span class=p>(</span><span class=nx>doc</span><span class=p>,</span><span class=w> </span><span class=s>&quot;//version-number&quot;</span><span class=p>)</span><span class=w></span>
 
-	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>ver</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nf>InnerText</span><span class=p>())</span>
+<span class=w> </span><span class=nx>fmt</span><span class=p>.</span><span class=nx>Println</span><span class=p>(</span><span class=nx>ver</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nx>InnerText</span><span class=p>())</span><span class=w></span>
 
-	<span class=nx>d</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
-<span class=p>}</span>
-</code></pre></td></tr></table></div></div><p>Output:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>❯ go run netconf.go
+<span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>Close</span><span class=p>()</span><span class=w></span>
+<span class=p>}</span><span class=w></span>
+</code></pre></div> <p>Output:</p> <div class=highlight><pre><span></span><code>❯ go run netconf.go
 B-20.10.R3
-</code></pre></td></tr></table></div></div><p>Unfortunately we are not yet there, we have thousands of access devices in Service Providers network which do not have any of the fancy interface. We have Enterprise networks running decade old gear. And we also live in a harsh world where even if the Network OS has one of those fancy interface, the level of information you can query via them is <strong>not on par with what you can do over CLI</strong>.</p><h2 id=on-box-json-output class=headerLink><a href=#on-box-json-output class=header-mark></a>on-box JSON output</h2><p>The next best thing is to leverage the device&rsquo;s ability to present the output as JSON. Then you can capture this output over SSH and let your JSON parser to do it&rsquo;s thing.</p><p>For example, on EOS every show command can be represented as a JSON blob:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-json data-lang=json><span class=err>ceos&gt;show</span> <span class=err>inventory</span> <span class=err>|</span> <span class=err>json</span>
-<span class=p>{</span>
-    <span class=nt>&#34;fpgas&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;storageDevices&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;xcvrSlots&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;subcompSerNums&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;portCount&#34;</span><span class=p>:</span> <span class=mi>3</span><span class=p>,</span>
-    <span class=nt>&#34;switchedBootstrapPortCount&#34;</span><span class=p>:</span> <span class=mi>2</span><span class=p>,</span>
-    <span class=nt>&#34;managementPortCount&#34;</span><span class=p>:</span> <span class=mi>1</span><span class=p>,</span>
-    <span class=nt>&#34;dataLinkPortCount&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
-    <span class=nt>&#34;emmcFlashDevices&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;cardSlots&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;internalPortCount&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
-    <span class=nt>&#34;powerSupplySlots&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;fanTraySlots&#34;</span><span class=p>:</span> <span class=p>{},</span>
-    <span class=nt>&#34;systemInformation&#34;</span><span class=p>:</span> <span class=p>{</span>
-        <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;cEOSLab&#34;</span><span class=p>,</span>
-        <span class=nt>&#34;description&#34;</span><span class=p>:</span> <span class=s2>&#34;cEOSLab&#34;</span><span class=p>,</span>
-        <span class=nt>&#34;mfgDate&#34;</span><span class=p>:</span> <span class=s2>&#34;&#34;</span><span class=p>,</span>
-        <span class=nt>&#34;hardwareRev&#34;</span><span class=p>:</span> <span class=s2>&#34;&#34;</span><span class=p>,</span>
-        <span class=nt>&#34;hwEpoch&#34;</span><span class=p>:</span> <span class=s2>&#34;&#34;</span><span class=p>,</span>
-        <span class=nt>&#34;serialNum&#34;</span><span class=p>:</span> <span class=s2>&#34;&#34;</span>
-    <span class=p>},</span>
-    <span class=nt>&#34;unconnectedPortCount&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
-    <span class=nt>&#34;switchedPortCount&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
-    <span class=nt>&#34;switchedFortyGOnlyPortCount&#34;</span><span class=p>:</span> <span class=mi>0</span>
-<span class=p>}</span>
-</code></pre></td></tr></table></div></div><p>and with this tiny <code>scrapligo</code> program you can easily retrieve all the data from this output:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+</code></pre></div> <p>Unfortunately we are not yet there, we have thousands of access devices in Service Providers network which do not have any of the fancy interface. We have Enterprise networks running decade old gear. And we also live in a harsh world where even if the Network OS has one of those fancy interface, the level of information you can query via them is <strong>not on par with what you can do over CLI</strong>.</p> <h2 id=on-box-json-output>on-box JSON output<a class=headerlink href=#on-box-json-output title="Permanent link">#</a></h2> <p>The next best thing is to leverage the device's ability to present the output as JSON. Then you can capture this output over SSH and let your JSON parser to do it's thing.</p> <p>For example, on EOS every show command can be represented as a JSON blob:</p> <div class=highlight><pre><span></span><code><span class=err>ceos&gt;show</span><span class=w> </span><span class=err>i</span><span class=kc>n</span><span class=err>ve</span><span class=kc>nt</span><span class=err>ory</span><span class=w> </span><span class=err>|</span><span class=w> </span><span class=err>jso</span><span class=kc>n</span><span class=w></span>
+<span class=p>{</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;fpgas&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;storageDevices&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;xcvrSlots&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;subcompSerNums&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;portCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>3</span><span class=p>,</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;switchedBootstrapPortCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>2</span><span class=p>,</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;managementPortCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>1</span><span class=p>,</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;dataLinkPortCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>0</span><span class=p>,</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;emmcFlashDevices&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;cardSlots&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;internalPortCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>0</span><span class=p>,</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;powerSupplySlots&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;fanTraySlots&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;systemInformation&quot;</span><span class=p>:</span><span class=w> </span><span class=p>{</span><span class=w></span>
+<span class=w>        </span><span class=nt>&quot;name&quot;</span><span class=p>:</span><span class=w> </span><span class=s2>&quot;cEOSLab&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>        </span><span class=nt>&quot;description&quot;</span><span class=p>:</span><span class=w> </span><span class=s2>&quot;cEOSLab&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>        </span><span class=nt>&quot;mfgDate&quot;</span><span class=p>:</span><span class=w> </span><span class=s2>&quot;&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>        </span><span class=nt>&quot;hardwareRev&quot;</span><span class=p>:</span><span class=w> </span><span class=s2>&quot;&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>        </span><span class=nt>&quot;hwEpoch&quot;</span><span class=p>:</span><span class=w> </span><span class=s2>&quot;&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>        </span><span class=nt>&quot;serialNum&quot;</span><span class=p>:</span><span class=w> </span><span class=s2>&quot;&quot;</span><span class=w></span>
+<span class=w>    </span><span class=p>},</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;unconnectedPortCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>0</span><span class=p>,</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;switchedPortCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>0</span><span class=p>,</span><span class=w></span>
+<span class=w>    </span><span class=nt>&quot;switchedFortyGOnlyPortCount&quot;</span><span class=p>:</span><span class=w> </span><span class=mi>0</span><span class=w></span>
+<span class=p>}</span><span class=w></span>
+</code></pre></div> <p>and with this tiny <code>scrapligo</code> program you can easily retrieve all the data from this output:</p> <div class=highlight><pre><span></span><code><span class=kn>package</span><span class=w> </span><span class=nx>main</span><span class=w></span>
 
-<span class=kn>import</span> <span class=p>(</span>
-	<span class=s>&#34;encoding/json&#34;</span>
-	<span class=s>&#34;fmt&#34;</span>
+<span class=kn>import</span><span class=w> </span><span class=p>(</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;encoding/json&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;fmt&quot;</span><span class=w></span>
 
-	<span class=s>&#34;github.com/scrapli/scrapligo/driver/base&#34;</span>
-	<span class=s>&#34;github.com/scrapli/scrapligo/driver/core&#34;</span>
-	<span class=s>&#34;github.com/scrapli/scrapligo/transport&#34;</span>
-<span class=p>)</span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/driver/base&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/driver/core&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/transport&quot;</span><span class=w></span>
+<span class=p>)</span><span class=w></span>
 
-<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-	<span class=nx>d</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>core</span><span class=p>.</span><span class=nf>NewCoreDriver</span><span class=p>(</span>
-		<span class=s>&#34;clab-scrapli-ceos&#34;</span><span class=p>,</span>
-		<span class=s>&#34;arista_eos&#34;</span><span class=p>,</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthStrictKey</span><span class=p>(</span><span class=kc>false</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthUsername</span><span class=p>(</span><span class=s>&#34;admin&#34;</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthPassword</span><span class=p>(</span><span class=s>&#34;admin&#34;</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithTransportType</span><span class=p>(</span><span class=nx>transport</span><span class=p>.</span><span class=nx>StandardTransportName</span><span class=p>),</span>
-	<span class=p>)</span>
+<span class=kd>func</span><span class=w> </span><span class=nx>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w></span>
+<span class=w> </span><span class=nx>d</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>core</span><span class=p>.</span><span class=nx>NewCoreDriver</span><span class=p>(</span><span class=w></span>
+<span class=w>  </span><span class=s>&quot;clab-scrapli-ceos&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>  </span><span class=s>&quot;arista_eos&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthStrictKey</span><span class=p>(</span><span class=kc>false</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthUsername</span><span class=p>(</span><span class=s>&quot;admin&quot;</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthPassword</span><span class=p>(</span><span class=s>&quot;admin&quot;</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithTransportType</span><span class=p>(</span><span class=nx>transport</span><span class=p>.</span><span class=nx>StandardTransportName</span><span class=p>),</span><span class=w></span>
+<span class=w> </span><span class=p>)</span><span class=w></span>
 
-	<span class=nx>d</span><span class=p>.</span><span class=nf>Open</span><span class=p>()</span>
-	<span class=c1>// send show command and ask to output it as JSON
-</span><span class=c1></span>	<span class=nx>r</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>d</span><span class=p>.</span><span class=nf>SendCommand</span><span class=p>(</span><span class=s>&#34;show inventory | json&#34;</span><span class=p>)</span>
+<span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>Open</span><span class=p>()</span><span class=w></span>
+<span class=w> </span><span class=c1>// send show command and ask to output it as JSON</span><span class=w></span>
+<span class=w> </span><span class=nx>r</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>SendCommand</span><span class=p>(</span><span class=s>&quot;show inventory | json&quot;</span><span class=p>)</span><span class=w></span>
 
-	<span class=c1>// imagine, that the structure that this output can be parsed into is unknown to us
-</span><span class=c1></span>	<span class=c1>// thus we will use a map of empty interfaces to dynamically query data after
-</span><span class=c1></span>	<span class=kd>var</span> <span class=nx>jOut</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kd>interface</span><span class=p>{}</span>
-	<span class=nx>json</span><span class=p>.</span><span class=nf>Unmarshal</span><span class=p>(</span><span class=nx>r</span><span class=p>.</span><span class=nx>RawResult</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>jOut</span><span class=p>)</span>
+<span class=w> </span><span class=c1>// imagine, that the structure that this output can be parsed into is unknown to us</span><span class=w></span>
+<span class=w> </span><span class=c1>// thus we will use a map of empty interfaces to dynamically query data after</span><span class=w></span>
+<span class=w> </span><span class=kd>var</span><span class=w> </span><span class=nx>jOut</span><span class=w> </span><span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kd>interface</span><span class=p>{}</span><span class=w></span>
+<span class=w> </span><span class=nx>json</span><span class=p>.</span><span class=nx>Unmarshal</span><span class=p>(</span><span class=nx>r</span><span class=p>.</span><span class=nx>RawResult</span><span class=p>,</span><span class=w> </span><span class=o>&amp;</span><span class=nx>jOut</span><span class=p>)</span><span class=w></span>
 
-	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;number of management ports:&#34;</span><span class=p>,</span> <span class=nx>jOut</span><span class=p>[</span><span class=s>&#34;managementPortCount&#34;</span><span class=p>])</span>
+<span class=w> </span><span class=nx>fmt</span><span class=p>.</span><span class=nx>Println</span><span class=p>(</span><span class=s>&quot;number of management ports:&quot;</span><span class=p>,</span><span class=w> </span><span class=nx>jOut</span><span class=p>[</span><span class=s>&quot;managementPortCount&quot;</span><span class=p>])</span><span class=w></span>
 
-	<span class=nx>d</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
-<span class=p>}</span>
-</code></pre></td></tr></table></div></div><p>that produces the following output:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>❯ go run main_arista.go
+<span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>Close</span><span class=p>()</span><span class=w></span>
+<span class=p>}</span><span class=w></span>
+</code></pre></div> <p>that produces the following output:</p> <div class=highlight><pre><span></span><code>❯ go run main_arista.go
 number of management ports: 1
-</code></pre></td></tr></table></div></div><p>That approach is a decent alternative to a missing programmatic interface and sometimes is the best option. But, as it usually happens, it is not universal. Many Network OS&rsquo;es can not emit JSON for any given command, if at all. That means we need to resort to the parsing of the unstructured data ourselves.</p><h2 id=good-old-parsing class=headerLink><a href=#good-old-parsing class=header-mark></a>good old parsing</h2><p>And we back to square 1, where we usually get after some reality check. That is where we need to parse the unstructured output ourselves and get the blob of text we receive from a device to be transformed to some data structure which we can use in a program.</p><p>Of course, we can simply use Regular Expressions or even brute characters matching a loop, but when dealing with lengthy outputs (usually a product of a <code>show</code> command), we often resort to a framework that can simplify the parsing.</p><p>For quite a long time the <a href="https://code.google.com/archive/p/textfsm/wikis/TextFSMHowto.wiki#:~:text=TextFSM%20is%20a%20Python%20module,for%20any%20such%20textual%20output." target=_blank rel="noopener noreffer">TextFSM</a> python library was the answer to that particular task and since then a huge amount of textfsm templates were written to parse all sorts of outputs from various devices.</p><p>Being a Go person myself I was wondering if TextFSM exists in Go, since once we have scrapli in Go, having a parsing library in Go was the key piece missing.</p><p>Fortunately, some bright mind already ported TextFSM to Go - <a href=https://github.com/sirikothe/gotextfsm target=_blank rel="noopener noreffer">go-textfsm</a> - and Carl <a href=https://github.com/scrapli/scrapligo/pull/28 target=_blank rel="noopener noreffer">integrated</a> it into scrapligo the same day I notified him that go-textfsm exists.</p><p>Let&rsquo;s have a look how it is used within scrapligo. For that exercise we will take a <code>show system information</code> output from Nokia SR OS and use a textfsm template to create a structured data out of it.</p><blockquote><p>the original textFSM templates might need to be touched by you, since Go regexp differs from Python RE in some parts.</p></blockquote><p>To parse the output we will get from the Nokia SR OS device I will create a file with the textfsm template for this output under <code>sysinfo.textfsm</code> file name. Here is the template body:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># System
+</code></pre></div> <p>That approach is a decent alternative to a missing programmatic interface and sometimes is the best option. But, as it usually happens, it is not universal. Many Network OS'es can not emit JSON for any given command, if at all. That means we need to resort to the parsing of the unstructured data ourselves.</p> <h2 id=good-old-parsing>good old parsing<a class=headerlink href=#good-old-parsing title="Permanent link">#</a></h2> <p>And we back to square 1, where we usually get after some reality check. That is where we need to parse the unstructured output ourselves and get the blob of text we receive from a device to be transformed to some data structure which we can use in a program.</p> <p>Of course, we can simply use Regular Expressions or even brute characters matching a loop, but when dealing with lengthy outputs (usually a product of a <code>show</code> command), we often resort to a framework that can simplify the parsing.</p> <p>For quite a long time the <a href="https://code.google.com/archive/p/textfsm/wikis/TextFSMHowto.wiki#:~:text=TextFSM%20is%20a%20Python%20module,for%20any%20such%20textual%20output.">TextFSM</a> python library was the answer to that particular task and since then a huge amount of textfsm templates were written to parse all sorts of outputs from various devices.</p> <p>Being a Go person myself I was wondering if TextFSM exists in Go, since once we have scrapli in Go, having a parsing library in Go was the key piece missing.</p> <p>Fortunately, some bright mind already ported TextFSM to Go - <a href=https://github.com/sirikothe/gotextfsm>go-textfsm</a> - and Carl <a href=https://github.com/scrapli/scrapligo/pull/28>integrated</a> it into scrapligo the same day I notified him that go-textfsm exists.</p> <p>Let's have a look how it is used within scrapligo. For that exercise we will take a <code>show system information</code> output from Nokia SR OS and use a textfsm template to create a structured data out of it.</p> <blockquote> <p>the original textFSM templates might need to be touched by you, since Go regexp differs from Python RE in some parts.</p> </blockquote> <p>To parse the output we will get from the Nokia SR OS device I will create a file with the textfsm template for this output under <code>sysinfo.textfsm</code> file name. Here is the template body:</p> <div class=highlight><pre><span></span><code># System
 Value SysName (\S+)
 Value SysType (.*)
 Value Version (\S+)
@@ -284,73 +138,66 @@ ReadData
   ^System Coordinates\s*:\s*${SysCoordinates}
   ^System Active Slot\s*:\s*${SysAtv}
   ^System Up Time\s*:\s*${SysUpTime}
-</code></pre></td></tr></table></div></div><p>Now when the template is there, we can write the following scrapligo + gotextfsm program:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+</code></pre></div> <p>Now when the template is there, we can write the following scrapligo + gotextfsm program:</p> <div class=highlight><pre><span></span><code><span class=kn>package</span><span class=w> </span><span class=nx>main</span><span class=w></span>
 
-<span class=kn>import</span> <span class=p>(</span>
-	<span class=s>&#34;fmt&#34;</span>
+<span class=kn>import</span><span class=w> </span><span class=p>(</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;fmt&quot;</span><span class=w></span>
 
-	<span class=s>&#34;github.com/scrapli/scrapligo/driver/base&#34;</span>
-	<span class=s>&#34;github.com/scrapli/scrapligo/driver/core&#34;</span>
-	<span class=s>&#34;github.com/scrapli/scrapligo/transport&#34;</span>
-<span class=p>)</span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/driver/base&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/driver/core&quot;</span><span class=w></span>
+<span class=w> </span><span class=s>&quot;github.com/scrapli/scrapligo/transport&quot;</span><span class=w></span>
+<span class=p>)</span><span class=w></span>
 
-<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-	<span class=nx>d</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>core</span><span class=p>.</span><span class=nf>NewCoreDriver</span><span class=p>(</span>
-		<span class=s>&#34;clab-scrapli-sros&#34;</span><span class=p>,</span>
-		<span class=s>&#34;arista_eos&#34;</span><span class=p>,</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthStrictKey</span><span class=p>(</span><span class=kc>false</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthUsername</span><span class=p>(</span><span class=s>&#34;admin&#34;</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithAuthPassword</span><span class=p>(</span><span class=s>&#34;admin&#34;</span><span class=p>),</span>
-		<span class=nx>base</span><span class=p>.</span><span class=nf>WithTransportType</span><span class=p>(</span><span class=nx>transport</span><span class=p>.</span><span class=nx>StandardTransportName</span><span class=p>),</span>
-	<span class=p>)</span>
+<span class=kd>func</span><span class=w> </span><span class=nx>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w></span>
+<span class=w> </span><span class=nx>d</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>core</span><span class=p>.</span><span class=nx>NewCoreDriver</span><span class=p>(</span><span class=w></span>
+<span class=w>  </span><span class=s>&quot;clab-scrapli-sros&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>  </span><span class=s>&quot;arista_eos&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthStrictKey</span><span class=p>(</span><span class=kc>false</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthUsername</span><span class=p>(</span><span class=s>&quot;admin&quot;</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithAuthPassword</span><span class=p>(</span><span class=s>&quot;admin&quot;</span><span class=p>),</span><span class=w></span>
+<span class=w>  </span><span class=nx>base</span><span class=p>.</span><span class=nx>WithTransportType</span><span class=p>(</span><span class=nx>transport</span><span class=p>.</span><span class=nx>StandardTransportName</span><span class=p>),</span><span class=w></span>
+<span class=w> </span><span class=p>)</span><span class=w></span>
 
-	<span class=nx>d</span><span class=p>.</span><span class=nf>Open</span><span class=p>()</span>
+<span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>Open</span><span class=p>()</span><span class=w></span>
 
-	<span class=nx>r</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>d</span><span class=p>.</span><span class=nf>SendCommand</span><span class=p>(</span><span class=s>&#34;show system information&#34;</span><span class=p>)</span>
+<span class=w> </span><span class=nx>r</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>SendCommand</span><span class=p>(</span><span class=s>&quot;show system information&quot;</span><span class=p>)</span><span class=w></span>
 
-	<span class=nx>parsedOut</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>TextFsmParse</span><span class=p>(</span><span class=s>&#34;private/sysinfo.textfsm&#34;</span><span class=p>)</span>
+<span class=w> </span><span class=nx>parsedOut</span><span class=p>,</span><span class=w> </span><span class=nx>_</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>r</span><span class=p>.</span><span class=nx>TextFsmParse</span><span class=p>(</span><span class=s>&quot;private/sysinfo.textfsm&quot;</span><span class=p>)</span><span class=w></span>
 
-	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Version: %s\nUptime: %s&#34;</span><span class=p>,</span>
-		<span class=nx>parsedOut</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=s>&#34;Version&#34;</span><span class=p>],</span> <span class=nx>parsedOut</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=s>&#34;SysUpTime&#34;</span><span class=p>])</span>
+<span class=w> </span><span class=nx>fmt</span><span class=p>.</span><span class=nx>Printf</span><span class=p>(</span><span class=s>&quot;Version: %s\nUptime: %s&quot;</span><span class=p>,</span><span class=w></span>
+<span class=w>  </span><span class=nx>parsedOut</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=s>&quot;Version&quot;</span><span class=p>],</span><span class=w> </span><span class=nx>parsedOut</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=s>&quot;SysUpTime&quot;</span><span class=p>])</span><span class=w></span>
 
-	<span class=nx>d</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
-<span class=p>}</span>
-</code></pre></td></tr></table></div></div><p>Output:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>❯ go run main_fsm.go
+<span class=w> </span><span class=nx>d</span><span class=p>.</span><span class=nx>Close</span><span class=p>()</span><span class=w></span>
+<span class=p>}</span><span class=w></span>
+</code></pre></div> <p>Output:</p> <div class=highlight><pre><span></span><code>❯ go run main_fsm.go
 Version: B-20.10.R3
 Uptime: 8 days, 03:07:43.25 (hr:min:sec)
-</code></pre></td></tr></table></div></div><p>Easy-peasy! All thanks to the textFSM integration that scrapligo recently added!</p><h2 id=ps class=headerLink><a href=#ps class=header-mark></a>PS</h2><p>Regardless which network/vendor/consulancy firm you employed with, you won&rsquo;t be able to avoid CLI parsing activities at all times. The legacy gear is out there, with no other management interface but SSH/SNMP.</p><p>Before scrapligo it was quite tedious (I&rsquo;d claim not worth it even) to automate network activities over SSH. Now the module packs almost everything you need to efficiently get going and write some nice automation programs or CLI tools.</p></div><footer><div class=post><div class=post-share><div class=share-link><a class="share-icon share-twitter" href=javascript:void(0); title="Share on Twitter" data-sharer=twitter data-url=https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/ data-title="Network automation options in Go with scrapligo" data-via=ntdvps data-hashtags=scrapli,textfsm,netconf><span class="svg-social-icon icon-twitter"></span></a></div><div class=share-link><a class="share-icon share-facebook" href=javascript:void(0); title="Share on Facebook" data-sharer=facebook data-url=https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/ data-hashtag=scrapli><span class="svg-social-icon icon-facebook"></span></a></div><div class=share-link><a class="share-icon share-linkedin" href=javascript:void(0); title="Share on Linkedin" data-sharer=linkedin data-url=https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/><span class="svg-social-icon icon-linkedin"></span></a></div></div><div class=post-tags><a href=/tags/scrapli/ class=tag>scrapli</a><a href=/tags/textfsm/ class=tag>textfsm</a><a href=/tags/netconf/ class=tag>Netconf</a></div></div></footer></div><div id=toc-final></div></div></article><aside class=article-post><div class="content-block content-block-position block-donate"><div class=post><div class=title><div style=text-align:center><svg width="90" height="90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M376 30c-27.783.0-53.255 8.804-75.707 26.168-21.525 16.647-35.856 37.85-44.293 53.268-8.437-15.419-22.768-36.621-44.293-53.268C189.255 38.804 163.783 30 136 30 58.468 30 0 93.417.0 177.514c0 90.854 72.943 153.015 183.369 247.118l62.099 53.414C248.38 480.596 252.12 482 256 482s7.62-1.404 10.532-3.953l62.111-53.425C439.057 330.529 512 268.368 512 177.514 512 93.417 453.532 30 376 30z"/></svg></div><div style=text-align:center;margin-top:20px><span class=title>If any of my work was helpful, you can:</span></div></div><div class=donate-text><ul><li>✉️ Share this post with your colleagues</li><li>💬 Comment, ask questions and report any issues/typos found</li><li>💰 Make a one-time or recurring donation to support my work</li></ul></div><div class=donate-button><a href=https://github.com/sponsors/hellt class="button button-big button-white">Donate</a></div></div></div></aside><section class="page single comments content-block-position"><h1 class=display-hidden>Комментарии</h1><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></section></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.82.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://netdevops.me/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target=_blank title="uBlogger 2.0.1">uBlogger</a></div><div class=footer-line><i class="svg-icon icon-copyright"></i><span>2015 - 2022</span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><aside id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="svg-icon icon-arrow-up"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="svg-icon icon-comments-fixed"></i></a></aside><link rel=stylesheet href=/drawio.css><script src=/lib/smooth-scroll/smooth-scroll.min.js></script><script src=/lib/autocomplete/autocomplete.min.js></script><script src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script src=/lib/clipboard/clipboard.min.js></script><script src=/lib/sharer/sharer.min.js></script><script>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:20},comment:{utterances:{darkTheme:"github-dark",issueTerm:"pathname",label:"comment",lightTheme:"github-light",repo:"hellt/netdevops.me"}},search:{algoliaAppID:"H1AI8QKFEK",algoliaIndex:"blog",algoliaSearchKey:"0544bc3c928ba0e387c3b3353112e43d",highlightTag:"em",maxResultLength:10,noResultsFound:"No results found",snippetLength:60,type:"algolia"}}</script><script src=/js/theme.min.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-101537614-1','auto'),ga('send','pageview')</script></body></html>
+</code></pre></div> <p>Easy-peasy! All thanks to the textFSM integration that scrapligo recently added!</p> <h2 id=ps>PS<a class=headerlink href=#ps title="Permanent link">#</a></h2> <p>Regardless which network/vendor/consulancy firm you employed with, you won't be able to avoid CLI parsing activities at all times. The legacy gear is out there, with no other management interface but SSH/SNMP.</p> <p>Before scrapligo it was quite tedious (I'd claim not worth it even) to automate network activities over SSH. Now the module packs almost everything you need to efficiently get going and write some nice automation programs or CLI tools.</p> <h2 id=__comments>Comments</h2> <script src=https://giscus.app/client.js data-repo=hellt/netdevops.me data-repo-id="MDEwOlJlcG9zaXRvcnkzNTkzNTc5ODc=" data-category="Show and tell" data-category-id=DIC_kwDOFWteI84CRmVn data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=preferred_color_scheme data-lang=en data-loading=lazy crossorigin=anonymous async>
+    </script> <!-- Synchronize Giscus theme with palette --> <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    /* Set palette on initial load */
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate" ? "dark" : "light"
+        giscus.setAttribute("data-theme", theme)
+    }
+
+    /* Register event handlers after documented loaded */
+    document.addEventListener("DOMContentLoaded", function () {
+        var ref = document.querySelector("[data-md-component=palette]")
+        ref.addEventListener("change", function () {
+            var palette = __md_get("__palette")
+            if (palette && typeof palette.color === "object") {
+                var theme = palette.color.scheme === "slate" ? "dark" : "light"
+
+                /* Instruct Giscus to change theme */
+                var frame = document.querySelector(".giscus-frame")
+                frame.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme } } },
+                    "https://giscus.app"
+                )
+            }
+        })
+    })
+</script> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <a href=# class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg> Back to top </a> </main> <footer class=md-footer> <nav class="md-footer__inner md-grid" aria-label=Footer> <a href=../containerlab-your-network-centric-labs-with-a-docker-ux/ class="md-footer__link md-footer__link--prev" aria-label="Previous: Containerlab - your network-centric labs with a Docker UX" rel=prev> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </div> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Previous </span> Containerlab - your network-centric labs with a Docker UX </div> </div> </a> <a href=../nokia-sr-linux-goes-public/ class="md-footer__link md-footer__link--next" aria-label="Next: Nokia SR Linux goes public" rel=next> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Next </span> Nokia SR Linux goes public </div> </div> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg> </div> </a> </nav> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs Insiders </a> </div> <div class=md-social> <a href=https://github.com/hellt target=_blank rel=noopener title=github.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </a> <a href=https://twitter.com/ntdvps target=_blank rel=noopener title=twitter.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["navigation.top", "navigation.instant", "navigation.tabs", "search.suggest", "content.code.annotate", "toc.follow", "content.tooltips", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.720157f5.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script> <script src=../../assets/javascripts/bundle.0d3e07ec.min.js></script> </body> </html>
