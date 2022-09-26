@@ -89,7 +89,7 @@ extra:
     property: G-Y7R34KCT4N
 
 extra_css:
-  # - stylesheets/extra.css
+  - stylesheets/extra.css
 
 # Extensions
 markdown_extensions:
