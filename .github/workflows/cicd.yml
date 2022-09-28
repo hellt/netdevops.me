@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  MKDOCS_INS_VER: 8.5.3-insiders-4.23.6
+  MKDOCS_INS_VER: 8.5.3-insiders-4.24.0
 
 jobs:
   docs-test:
