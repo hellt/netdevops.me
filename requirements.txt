@@ -1,3 +1,0 @@
-# the purpose of this requirements file is to indicate that the project
-# uses mkdocs-material engine
-mkdocs-material
