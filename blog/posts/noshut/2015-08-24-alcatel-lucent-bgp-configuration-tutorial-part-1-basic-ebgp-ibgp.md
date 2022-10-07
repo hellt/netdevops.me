@@ -12,12 +12,12 @@ tags:
 
 There is no way I would leave you without covering configuration steps for one of the most versatile, scalable and robust internet protocols also known as **BGP**. And here it is - BGP configuration guide for Nokia (Alcatel-Lucent) Service Routers.
 
-[As with the OSPF configuration tutorial](http://netdevops.me/2015/06/alcatel-lucent-ospf-configuration-tutorial/) I will cover the configuration process for various BGP scenarios along with the verification and troubleshooting steps bundled with colorful figures, detailed code snippets and useful remarks.
+[As with the OSPF configuration tutorial](2015-06-22-alcatel-lucent-ospf-configuration-tutorial.md) I will cover the configuration process for various BGP scenarios along with the verification and troubleshooting steps bundled with colorful figures, detailed code snippets and useful remarks.
 
 BGP is so huge that I had no other option but to write about it in several parts:
 
 - **Part 1 - basic eBGP and iBGP configuration**
-- [Part 2 - BGP policies. Community](http://netdevops.me/2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/)
+- [Part 2 - BGP policies. Community](2015-09-23-alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community.md)
 
 Part 1 is dedicated to basic eBGP/iBGP configuration. We will practice with common BGP configuration procedures at first, then learn how to export routes into BGP process and prevent unnecessary route reflection by means of `split-horizon` over eBGP links.
 

@@ -71,7 +71,7 @@ Since I am not a front-end developer the sweet spot for me lies with the front-e
 
 For the [pycatjify.netdevops.me](https://pycatjify.netdevops.me) I decided to use a "Material Design" flavored Bootstrap based framework called [mdboostrap](https://mdboostrap.com).
 
-> Also I had some past experience with the Bootstrap 3 framework when I worked on [a Web UI for the python scripts](https://netdevops.me/2016/04/building-web-front-end-for-python-scripts-with-flask/) quite some time ago.
+> Also I had some past experience with the Bootstrap 3 framework when I worked on [a Web UI for the python scripts](../noshut/2016-04-01-building-web-front-end-for-python-scripts-with-flask.md) quite some time ago.
 
 ## 3 Mdbootstrap
 

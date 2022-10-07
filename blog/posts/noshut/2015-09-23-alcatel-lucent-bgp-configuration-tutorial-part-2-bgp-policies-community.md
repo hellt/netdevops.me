@@ -9,7 +9,7 @@ tags:
 ---
 # Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities
 
-In the [first part of this BGP tutorial](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/) we prepared the ground by configuring eBGP/iBGP peering. We did a good job overall, yet the _plain_ BGP peering is not something you would not normally see in production. The power of BGP is in its ability for granular management of multiple routes from multiple sources. And the tools that help BGP to handle this complex task are BGP policies at their full glory.
+In the [first part of this BGP tutorial](2015-08-24-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp.md) we prepared the ground by configuring eBGP/iBGP peering. We did a good job overall, yet the _plain_ BGP peering is not something you would not normally see in production. The power of BGP is in its ability for granular management of multiple routes from multiple sources. And the tools that help BGP to handle this complex task are BGP policies at their full glory.
 
 In this part we will discuss and practice:
 
@@ -21,7 +21,7 @@ In this part we will discuss and practice:
 
 ## What are BGP policies for?
 
-The BGP peering configuration process is simple, you saw it in [Part 1](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/), but, frankly, no network engineer leaves a BGP router in a default "receive all, advertise all" state. We use BGP policies to tell the router which routes to accept and which to advertise.
+The BGP peering configuration process is simple, you saw it in [Part 1](2015-08-24-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp.md), but, frankly, no network engineer leaves a BGP router in a default "receive all, advertise all" state. We use BGP policies to tell the router which routes to accept and which to advertise.
 
 This is just an example on where the BGP policies play a part, but they are used for many other tasks as well.
 
@@ -31,19 +31,19 @@ In BGP you can define two types of policies: Import and Export. To demonstrate w
 
 **Export polices** are used for:
 
-- export routes from different protocols to BGP (like IGP routes being exported to BGP in [Part 1](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/))
+- export routes from different protocols to BGP (like IGP routes being exported to BGP in [Part 1](2015-08-24-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp.md))
 - granular control of the advertised routes
-  - prohibit unwanted prefixes advertising
-  - set the path attributes to a desired NLRI
+    - prohibit unwanted prefixes advertising
+    - set the path attributes to a desired NLRI
 - reducing control plane traffic by advertising aggregate routes
 
 **Import policies** are used for:
 
 - filtering unwanted NLRI
-  - by prefix, prefix-length, community value
+    - by prefix, prefix-length, community value
 - manipulation with the outbound traffic
-  - applying `Local-Pref` attribute to desired prefixes
-  - modifying/setting `MED` value or any other transitive attribute
+    - applying `Local-Pref` attribute to desired prefixes
+    - modifying/setting `MED` value or any other transitive attribute
 
 In SROS BGP policy configuration takes place in a router's policy-options context - `configure router policy-options`.
 
@@ -51,7 +51,7 @@ To practice with BGP policies configuration we will go through a set of tasks th
 
 ![pic](http://img-fotki.yandex.ru/get/9263/21639405.11c/0_85519_aeed2105_orig.png)
 
-Network interfaces, IGP and basic BGP configuration are done exactly the same as in the [Part 1 of this series](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp). If you are interested in the final configuration output, please refer to the [Wrapping up section](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/#Wrapping_up).
+Network interfaces, IGP and basic BGP configuration are done exactly the same as in the [Part 1 of this series](2015-08-24-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp.md). If you are interested in the final configuration output, please refer to the [Wrapping up section](2015-08-24-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp.md#wrapping-up).
 
 ## Community attribute
 

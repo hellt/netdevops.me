@@ -359,7 +359,7 @@ A combination of a Route Distinguisher and an IPv4 route effectively produces wh
 
 So Route Distinguishers make every VPN-IPv4 route unique in a providers core, but we still need a mechanism to tell what VRF a single VPN-IPv4 route belongs to? We need a way to extend the VPN-IPv4 route with the information about which routing instance this route should be put into.
 
-[BGP community](https://netdevops.me/2015/09/alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community/) is a good way to solve this problem. For L3VPNs a specific [extended community](https://tools.ietf.org/html/rfc4360) was defined in [RFC 4364 Section 4.3.1](https://tools.ietf.org/html/rfc4364#section-4.3.1) called **Route Target**.
+[BGP community](2015-09-23-alcatel-lucent-bgp-configuration-tutorial-part-2-bgp-policies-community.md) is a good way to solve this problem. For L3VPNs a specific [extended community](https://tools.ietf.org/html/rfc4360) was defined in [RFC 4364 Section 4.3.1](https://tools.ietf.org/html/rfc4364#section-4.3.1) called **Route Target**.
 
 !!!info "RFC 4364. Route Target definition"
     Every VRF is associated with one or more Route Target (RT) attributes. When a VPN-IPv4 route is created (from an IPv4 route that the PE has learned from a CE) by a PE router, it is associated with one or more Route Target attributes. These are carried in BGP as attributes of the route.
@@ -394,7 +394,7 @@ Usually the RTs are represented as `<AS Number of a client network>:<VRF ID>`:
 
 First thing to accomplish in the L3VPN configuration is the BGP peering inside the provider's core network. We have two Provider Edge routers (PE) and one core provider (P) router in our simple network. Our business goal is to provide the L3VPN service to our beloved JUN and ALU customers. To do so, we need to configure BGP peering between all the PE routers involved in the L3VPN service setup, these two routers are PE1_ALU and PE2_JUN.
 
-The BGP configuration part for PE1_ALU and PE2_JUN routers follows a simple iBGP configuration routine (check [BGP configuration tutorial](http://netdevops.me/2015/08/alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/) to grab the basics), the only part which is different is a need of a [new BGP address family](https://tools.ietf.org/html/rfc4364#section-4.1). We need to enable this address family to deal with the VPN routes, which are different from the IPv4 routes.
+The BGP configuration part for PE1_ALU and PE2_JUN routers follows a simple iBGP configuration routine (check [BGP configuration tutorial](2015-08-24-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp.md) to grab the basics), the only part which is different is a need of a [new BGP address family](https://tools.ietf.org/html/rfc4364#section-4.1). We need to enable this address family to deal with the VPN routes, which are different from the IPv4 routes.
 
 In Juniper this family is called `inet-vpn`, in SROS it is `vpn-ipv4`, but nonetheless it is just an address family which enables communication of VPN routes between the peers. We will see later how this family differs from a classic IPv4, but for now just look at the BGP configuration part for both PE routers:
 
