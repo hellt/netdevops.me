@@ -23,7 +23,7 @@ And today, Nokia donates the gNMIc project to Openconfig for it to enter open wa
 
     [:material-github: openconfig/gnmic][gnmic-repo]
 
-    [:material-book: Documentation][gnmic-main-site]
+    [:material-book: https://gnmic.openconfig.net][gnmic-main-site]
 
 </div>
 
@@ -199,6 +199,8 @@ Many other things and improvements were made to gNMIc as a collector, making it 
 ### Why Not Telegraf?
 
 This question may very well still be on your mind when you reach this chapter. And now, when we walked over the collector's features, it is clear that most of those features are simply not available in Telegraf. Clustering, high availability, target discovery, hierarchical deployments are all unique to gNMIc.
+
+<center>![scalpel](https://gitlab.com/rdodin/pics/-/wikis/uploads/8108e0661fed0b930ba87745ec5812d7/image.png){: class="img-shadow" style="width: 600px"}</center>
 
 Telegraf is a great product, don't get me wrong, but it is a swiss knife, whereas gNMIc is a surgical knife when it comes to gNMI.
 
