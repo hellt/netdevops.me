@@ -77,7 +77,7 @@ If we want to filter all the configuration information related to the local user
 </get-config>
 ```
 
-> Hint #1: [Nokia-yangtree](https://netdevops.me/nokia-yang-tree/) is a beautiful way to explore Nokia YANG models.  
+> Hint #1: [Nokia-yangtree](https://netdevops.me/2020/nokia-yang-tree-and-path-browser/) is a beautiful way to explore Nokia YANG models.  
 > Hint #2: I recommend [netconf-console](https://netdevops.me/2020/netconf-console-in-a-docker-container/) to talk NETCONF to your routers.
 
 If we translate this get-operation command to plain English it would sound like: _Dear router, can you please return everything you have under `local-user` node in the running configuration datastore?_  
