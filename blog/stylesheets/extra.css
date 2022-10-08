@@ -42,3 +42,8 @@
 .ext-code-divider>.vertical-middle {
     vertical-align: middle;
 }
+
+/* apply color to the logo icon */
+.md-header__button.md-logo :-webkit-any(img, svg) {
+    fill: #00c9ff;
+}
