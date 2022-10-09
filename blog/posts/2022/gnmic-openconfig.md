@@ -7,7 +7,7 @@ tags:
   - openconfig
 ---
 
-# Nokia joins Openconfig 🚀
+# gNMIc joins Openconfig 🚀
 
 Two years ago, a dozen contributors back, 400 Pull Requests, and 2000 commits behind, another pet project appeared on a vast GitHub landscape. It was a learning exercise by [Karim Radhouani][karim-github] to sharpen his skills in [gNMI][gnmi-ref] - a niche network management protocol promoted by the [Openconfig][oc] group.
 
