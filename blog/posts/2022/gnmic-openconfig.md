@@ -11,9 +11,9 @@ tags:
 
 Two years ago, a dozen contributors back, 400 Pull Requests, and 2000 commits behind, another pet project appeared on a vast GitHub landscape. It was a learning exercise by [Karim Radhouani][karim-github] to sharpen his skills in [gNMI][gnmi-ref] - a niche network management protocol promoted by the [Openconfig][oc] group.
 
-Initially named `gnmi_client`, it had a noble but narrow scope of providing a feature-rich, complete, yet intuitive CLI to gNMI-enabled routers. Fast forward two years, and we have the [**gNMIc**][gnmic-main-site] software suite that **is much more than just a CLI** for gNMI.
+Initially named `gnmi_client`, it had a noble but narrow scope of providing a feature-rich, complete, yet intuitive CLI for gNMI-enabled routers. Fast forward two years, and we have the [**gNMIc**][gnmic-main-site] software suite that **is much more than just a CLI** for gNMI.
 
-And today, Nokia donates the gNMIc project to Openconfig for it to enter open waters :partying_face:
+Today, Nokia donates the gNMIc project to Openconfig, and with that move, we expect to see gNMIc adopted by even more companies and organizations :partying_face:
 
 <div class="grid cards" markdown>
 
