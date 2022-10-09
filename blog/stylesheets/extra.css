@@ -47,3 +47,8 @@
 .md-header__button.md-logo :-webkit-any(img, svg) {
     fill: #00c9ff;
 }
+
+/* make emojis appear middle aligned when used in paragraphs */
+.md-typeset :is(.emojione, .twemoji, .gemoji) {
+    vertical-align: middle;
+}
