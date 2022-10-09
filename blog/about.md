@@ -1,6 +1,5 @@
 ---
 date: 2000-01-01
-url: about
 ---
 # About me
 
@@ -9,9 +8,6 @@ Hey, let's meet? I am Roman, an engineer with a passion for network automation a
 ## Projects
 
 Hey, this will be filled out soon.
-
-{{% split-wide %}}
-{{% /split-wide %}}
 
 ## Talks & Demos
 

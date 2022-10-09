@@ -9,7 +9,7 @@ tags:
 
 # gNMIc joins Openconfig 🚀
 
-Two years ago, a dozen contributors back, 400 Pull Requests, and 2000 commits behind, another pet project appeared on a vast GitHub landscape. It was a learning exercise by [Karim Radhouani][karim-github] to sharpen his skills in [gNMI][gnmi-ref] - a niche network management protocol promoted by the [Openconfig][oc] group.
+Two years ago, a dozen contributors less, 400 Pull Requests, and 2000 commits behind, another pet project appeared on a vast GitHub landscape. It was a learning exercise by [Karim Radhouani][karim-github] to sharpen his skills in [gNMI][gnmi-ref] - a niche network management protocol promoted by the [Openconfig][oc] group.
 
 Initially named `gnmi_client`, it had a noble but narrow scope of providing a feature-rich, complete, yet intuitive CLI for gNMI-enabled routers. Fast forward two years, and we have the [**gNMIc**][gnmic-main-site] software suite that **is much more than just a CLI** for gNMI.
 
@@ -21,9 +21,9 @@ Today, Nokia donates the gNMIc project to Openconfig, and with that move, we exp
 
     ---
 
-    [:material-github: openconfig/gnmic][gnmic-repo]
+    :material-github: [openconfig/gnmic][gnmic-repo]
 
-    [:material-book: https://gnmic.openconfig.net][gnmic-main-site]
+    :material-book: [https://gnmic.openconfig.net][gnmic-main-site]
 
 </div>
 
@@ -55,19 +55,17 @@ gNMIc provides an intuitive yet full-featured CLI for interacting with gNMI-capa
 In 2020 I [wrote about gNMIc](../2020/gnmic.md) highlighting its CLI capabilities. Since then CLI side of gNMIc has only become better with the following changes:
 
 - Added [template-based payloads][template-set] to simplify complex and data-driven configuration use cases.
-- [GetSet command][getset-cmd] introduced to allow conditional execution of a Set RPC based on a condition evaluated against a Get response.
+- [GetSet command][getset-cmd] introduced to allow conditional execution of a Set RPC based on a received Get response.
 - Implemented [`diff` command][diff-cmd] to compare configurations between two different targets and identify configuration drift.
 - Added [`prompt` mode][prompt-cmd] for a guided CLI experience.
 - Added [generation of paths][path-gen] out of the YANG modules.
 - Support configuration via any of the following methods: CLI flags, environment variables, or file.
-- Integrated prototext and protojson output options to display raw requests/responses.
+- Integrated prototext and protojson output options to display raw requests and responses.
 
 !!!tip "gNMIc CLI"
     Easy one-click installation, multi-arch/multi-OS hermetic binary, full feature parity with gNMI spec and intuitive commands layout make `gnmic` tool a perfect choice for the task.
 
-<div class="ext-code-divider">
-<hr /><span class="twemoji vertical-middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg></span><hr />
-</div>
+[[[ header_divider ]]]
 
 ## Collector
 
@@ -78,7 +76,7 @@ Having a great CLI was just the beginning; the lion's share of changes happened 
 
 With the growing interest in Streaming Telemetry, we saw an opportunity to create an open-source telemetry collector to meet the demand. Not just _a collector_, but the open-source collector that can survive a production deployment with all its requirements. I'd like to believe that gNMIc succeeded in delivering on that promise.
 
-Given the central piece that collection capabilities take in gNMIc, it makes sense to spend some time on its core functionality.
+Given the central piece that collection capabilities take in gNMIc, it makes sense to spend some additional time on collector's core components.
 
 ### Clustering
 
@@ -90,7 +88,7 @@ Modern telemetry systems are essential for observability, diagnostics and starti
 
 gNMIc comes with automatic [cluster formation][clustering] routines that enable [**high availability**][ha], [**scaling**][scaling], and [**target redistribution**][target-distrib].
 
-A cluster of gNMIc instances also distributes the load by locking the targets to certain instances of the cluster.
+A cluster of gNMIc instances distributes the load by locking the targets to certain instances of the cluster. When the cluster is healthy and operational, targets are assigned to specific gNMIc nodes; in the case of a gNMIc node failure, its targets are going to be moved to a healthy gNMIc node.
 
 ![load-balancing](https://gitlab.com/rdodin/pics/-/wikis/uploads/13a2add813af9896deeba7e01b99bfe5/image.png){: class="img-shadow"}
 <center><small>A view on Consul service key/value store with targets distributed across gNMIc instances</small></center>
@@ -104,9 +102,9 @@ gNMIc supports the [dynamic loading of gNMI targets][target-load] from external 
 
 <center>![fileloader](https://gitlab.com/rdodin/pics/-/wikis/uploads/9aa7cfdeb42ec808dd88960d39af5664/image.png){: style="width:500px"}</center>
 
-Targets can be loaded from the following systems/services:
+Targets can be loaded from the following sources:
 
-- [file:][file-loader] watches changes to a local file containing gNMI targets definitions.
+- [file:][file-loader] watch for the changes done to a local file containing gNMI targets definitions.
 - [consul:][consul-loader] read targets registered in the Consul service registry.
 - [docker:][docker-loader] retrieve available targets using Docker API.
 - [http:][http-loader] read target definition from an HTTP server.
@@ -126,7 +124,7 @@ Let's have a look at a few examples where processing is mandatory:
 - **Data conversion**: depending on the telemetry encoding or vendor's implementation, a collector might receive data in a string format, while it needs to be an integer. A conversion processor can automatically convert such metrics so that users can run operations on them in the database.
 - **Tag extraction**: For certain metrics collected via gNMI, users may need to extract specific values and promote them to metric's tags to enable a nice layout in the database.
 
-gNMIc employs a large [set of processors][processors] that can help you transform and shape your data the way you need it. Processors can form processor pipelines and be associated with any configured output to enable flexible data pipelines.
+gNMIc employs a large [set of processors][processors] that can help you transform and shape your data the way you need it. Processors can form processing pipelines and be associated with any configured output to enable flexible data pipelines.
 
 | [Processors][processors] |           |                  |              |             |
 | ------------------------ | --------- | ---------------- | ------------ | ----------- |
@@ -145,7 +143,7 @@ Various supported outputs make a streaming telemetry collector versatile because
 
 ![outputs](https://gitlab.com/rdodin/pics/-/wikis/uploads/544494827edd88215fef9c0831afd4e9/image.png)
 
-Most popular and used outputs are already supported by gNMIc:
+Most popular and used [outputs][outputs] are already supported by gNMIc:
 
 - **Time Series Databases**
     - InfluxDB
@@ -174,9 +172,9 @@ Or create a so-called [data-reuse pipeline][data-reuse] where multiple outputs r
 
 ### Tunnel server (gNMI dial-out)
 
-Dial-out Streaming Telemetry has been a custom thing for quite some time. gNMI specification only specifies the dial-in model where a collector initiates the session towards the gNMI-enabled targets, and not the other way around. But being able to initiate a connection from the router/switch towards a collector is sometimes desirable or even mandatory.
+Dial-out Streaming Telemetry has been a custom thing for quite some time. gNMI specification only specifies the dial-in model where a collector initiates the session towards the gNMI-enabled targets, and not the other way around. But being able to initiate a connection from the router towards a collector is sometimes desirable or even mandatory.
 
-To accommodate for that deployment scenario vendors implemented customer gRPC service that catered for this use case. And recently, the Openconfig group proposed a standard approach to enable dial-out gNMI telemetry using [:material-github: openconfig/grpc-tunnel project][grpctunnel-repo].
+To accommodate for that deployment scenario, vendors implemented custom gRPC services that catered to this use case. And recently, the Openconfig group proposed a standard approach to enable dial-out gNMI telemetry using [:material-github: openconfig/grpc-tunnel project][grpctunnel-repo].
 
 ![dialout](https://gitlab.com/rdodin/pics/-/wikis/uploads/114526863c6ce60b23f232bf88310363/image.png)
 
@@ -184,15 +182,17 @@ gNMIc is the first open-source collector that [implements grpc-tunnel specificat
 
 ### Deployment examples
 
-All those features make gNMIc quite versatile and powerful, but at the same time, it might be _too much_ for newcomers. With that thought in mind, gNMIc packs many [deployment examples][deployment-examples] that should help users get going quickly and smooth.
+All those features make gNMIc quite versatile and powerful, but at the same time, it might be _overwhelming_ for newcomers. With that thought in mind, gNMIc packs many [deployment examples][deployment-examples] that should help users get going quickly and smooth.
 
 <center>![example](https://gitlab.com/rdodin/pics/-/wikis/uploads/7facfa7b11895c5432f9adf03a7e5d15/image.png){: style="width:600px"}</center>
+<center><small>A deployment topology from one of the examples</small></center>
 
-gNMIc deployment examples provide users with a complete use case explanation and how gNMIc fits there. Moreover, every example comes with a ready-made virtual deployment example powered by containerlab or docker-compose so that you can try the scenario for yourself. The example includes a gNMIc deployment with configuration, the rest of the Telemetry stack (TSDB and Grafana), and a virtual network to extract the data from.
+gNMIc deployment examples provide users with a complete use case explanation. Moreover, every example comes with a ready-made virtual testbed[^2] so that you can try the scenario for yourself.  
+The examples typically include a gNMIc instance with its configuration, the rest of the Telemetry stack (TSDB of choice plus Grafana), and a virtual network to extract the data.
 
 ### What else?
 
-Many other things and improvements were made to gNMIc as a collector, making it even more powerful.
+Many other things and improvements were made to gNMIc, making it even more powerful.
 
 - **[gNMI Server][gnmi-server]** that makes gNMIc act as a gNMI target itself to build hierarchical collector deployments.
 - **[Actions][actions]** allow gNMIc to invoke reactions based on the received telemetry data and, to some extent, help users build reactive systems.
@@ -204,11 +204,9 @@ This question may very well still be on your mind when you reach this chapter. A
 
 <center>![scalpel](https://gitlab.com/rdodin/pics/-/wikis/uploads/8108e0661fed0b930ba87745ec5812d7/image.png){: class="img-shadow" style="width: 600px"}</center>
 
-Telegraf is a great product, don't get me wrong, but it is a swiss knife, whereas gNMIc is a surgical knife when it comes to gNMI.
+Telegraf is an excellent product, don't get me wrong, but when it comes to gNMI it is a swiss knife vs. a surgical scalpel.
 
-<div class="ext-code-divider">
-<hr /><span class="twemoji vertical-middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg></span><hr />
-</div>
+[[[ header_divider ]]]
 
 ## Go API
 
@@ -240,9 +238,7 @@ And finally, gNMIc provides a human-friendly [Go API for gNMI][goapi]. In contra
 
 With a friendly API, we expect to see an uptake in gNMI as a network management protocol being used programmatically. Go get it!
 
-<div class="ext-code-divider">
-<hr /><span class="twemoji vertical-middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg></span><hr />
-</div>
+[[[ header_divider ]]]
 
 ## Move to Openconfig
 
@@ -261,14 +257,16 @@ Karim, as the sole developer, will still be at the helm of gNMIc development, bu
 
 ## Disclaimer
 
-1. I contributed to gNMIc during the project's early days, but 99% of the effort came from Karim Radhouani[^2]. The credit goes to him for making gNMIc as we know it today. I would also like to thank our contributors who helped shape and form gNMIc with their valuable comments, feedback, and contributions.
+1. I contributed to gNMIc during the project's early days, but 99% of the effort came from Karim Radhouani[^3]. The credit goes to him for making gNMIc as we know it today. I would also like to thank our contributors who helped shape and form gNMIc with their valuable comments, feedback, and contributions.
 
 2. The thoughts and statements I made in this post belong to me and do not necessarily match Nokia's.
 
 [^1]: such as [History](https://github.com/openconfig/gnmi/blob/480bf53a74d21bb0a82d5d716264874de1070120/proto/gnmi_ext/gnmi_ext.proto#L32)
-[^2]: you can find him at [linkedin][karim_linkedin] and [github][karim-github].
+[^2]: powered by [containerlab][clab] or docker-compose.
+[^3]: you can find him at [linkedin][karim_linkedin] and [github][karim-github].
 
 [actions]: https://gnmic.openconfig.net/user_guide/actions/actions/
+[clab]: https://containerlab.dev
 [clustering]: https://gnmic.openconfig.net/user_guide/HA/
 [consul-loader]: https://gnmic.openconfig.net/user_guide/target_discovery/discovery_intro/#consul-server-loader
 [data-reuse]: https://gnmic.openconfig.net/user_guide/inputs/input_intro/#data-reuse
