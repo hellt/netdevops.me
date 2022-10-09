@@ -44,7 +44,9 @@ I would like to briefly highlight gNMIc's current feature set for those who aren
 
     gNMIc cherishes documentation; readers are encouraged to follow the links provided in this post to get more information on particular topics.
 
-<p align=center><img src=https://gitlab.com/rdodin/pics/-/wikis/uploads/46e7d1631bd5569e9bf289be9dfa3812/gnmic-headline.svg?sanitize=true/></p>
+<p markdown align=center>![logo](https://gitlab.com/rdodin/pics/-/wikis/uploads/46e7d1631bd5569e9bf289be9dfa3812/gnmic-headline.svg?sanitize=true#only-light)
+![logo](https://gitlab.com/rdodin/pics/-/wikis/uploads/f54d2cfdde13193cedab7b60203a2a9a/gnmic-headline-for-dark-bg.svg?sanitize=true#only-dark)
+</p>
 
 ## CLI
 
