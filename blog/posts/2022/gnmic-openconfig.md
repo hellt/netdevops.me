@@ -200,7 +200,7 @@ Many other things and improvements were made to gNMIc, making it even more power
 
 ### Why Not Telegraf?
 
-This question may very well still be on your mind when you reach this chapter. And now, when we walked over the collector's features, it is clear that most of those features are simply not available in Telegraf. Clustering, high availability, target discovery, hierarchical deployments are all unique to gNMIc.
+This question may very well still be on your mind when you reach this chapter. And now, when we walked over the collector's features, it is evident that most of those features are simply not available in Telegraf. Clustering, high availability, target discovery, hierarchical deployments are all unique to gNMIc.
 
 <center>![scalpel](https://gitlab.com/rdodin/pics/-/wikis/uploads/8108e0661fed0b930ba87745ec5812d7/image.png){: class="img-shadow" style="width: 600px"}</center>
 
@@ -253,7 +253,7 @@ Now to the meat of it. Nokia donates gNMIc to the Openconfig group. But why movi
 
 There is a lot of wishful thinking, and we don't know if everything we wish to accomplish will materialize, but we would like to give it a go.
 
-Karim, as the sole developer, will still be at the helm of gNMIc development, but we expect more contributors appear in the future bith
+Karim, as the sole developer, will still be at the helm of gNMIc development, but we expect more contributors appear in the future.
 
 ## Disclaimer
 
