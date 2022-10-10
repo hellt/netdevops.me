@@ -13,6 +13,10 @@ Two years ago, a dozen contributors less, 400 Pull Requests, and 2000 commits be
 
 Initially named `gnmi_client`, it had a noble but narrow scope of providing a feature-rich, complete, yet intuitive CLI for gNMI-enabled routers. Fast forward two years, and we have the [**gNMIc**][gnmic-main-site] software suite that **is much more than just a CLI** for gNMI.
 
+<div class="img-shadow">
+<video width="100%" autoplay muted loop><source src="https://gitlab.com/rdodin/pics/-/wikis/uploads/d3a08c2f03c2d15db2074967e4ef268f/gnmic-oc.mp4" type="video/mp4"></video>
+</div>
+
 Today, Nokia donates the gNMIc project to Openconfig, and with that move, we expect to see gNMIc adopted by even more companies and organizations :partying_face:
 
 <div class="grid cards" markdown>
