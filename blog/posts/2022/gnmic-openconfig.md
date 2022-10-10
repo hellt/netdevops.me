@@ -14,7 +14,7 @@ Two years ago, a dozen contributors less, 400 Pull Requests, and 2000 commits be
 Initially named `gnmi_client`, it had a noble but narrow scope of providing a feature-rich, complete, yet intuitive CLI for gNMI-enabled routers. Fast forward two years, and we have the [**gNMIc**][gnmic-main-site] software suite that **is much more than just a CLI** for gNMI.
 
 <div class="img-shadow">
-<video width="100%" autoplay muted loop><source src="https://gitlab.com/rdodin/pics/-/wikis/uploads/d3a08c2f03c2d15db2074967e4ef268f/gnmic-oc.mp4" type="video/mp4"></video>
+<video width="100%" autoplay muted loop controls><source src="https://gitlab.com/rdodin/pics/-/wikis/uploads/d3a08c2f03c2d15db2074967e4ef268f/gnmic-oc.mp4" type="video/mp4"></video>
 </div>
 
 Today, Nokia donates the gNMIc project to Openconfig, and with that move, we expect to see gNMIc adopted by even more companies and organizations :partying_face:
@@ -118,7 +118,7 @@ Targets can be loaded from the following sources:
 No collection service can live without a data processing pipeline. Data that the users typically collect from the network elements often requires some processing before it can be stored in a database.
 
 <div class="img-shadow">
-<video width="100%" autoplay muted loop><source src="https://gitlab.com/rdodin/pics/-/wikis/uploads/ed1b92e82c436a7d942da9f90825a7f4/2022-10-06_12-09-43.mp4" type="video/mp4"></video>
+<video width="100%" autoplay muted loop controls><source src="https://gitlab.com/rdodin/pics/-/wikis/uploads/ed1b92e82c436a7d942da9f90825a7f4/2022-10-06_12-09-43.mp4" type="video/mp4"></video>
 </div>
 
 Let's have a look at a few examples where processing is mandatory:
