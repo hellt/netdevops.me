@@ -186,5 +186,4 @@ The following resources will help you start with KSM:
 - <https://gist.github.com/mapuo/17e3b253222172c1659782eb14150c3a>
 - <https://www.linux-kvm.org/page/KSM#Enabling_KSM>
 - <https://openterprise.it/2019/03/enable-ksm-kernel-same-page-merging-on-fedora/>
-- <https://rotelok.com/enable-ksm-centos7-debian/>
 - <https://www.kernel.org/doc/Documentation/vm/ksm.txt>
