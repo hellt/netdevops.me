@@ -10,7 +10,7 @@ IgnoreURLs:
   - goreleaser.com # doesn't support `range 0` GETs which htmltest uses
   - https://linkedin.com/in
   - https://www.linkedin.com/in
-  - https://github.com/hellt/netdevops.me/edit/main/blog # do not check edit links
+  - https://github.com/hellt/netdevops.me/edit/master/blog # do not check edit links
   - https://pbs.twimg.com/media
   - http://codepen.io/hellt
 IgnoreDirectoryMissingTrailingSlash: true
