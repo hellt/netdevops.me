@@ -8,7 +8,7 @@ keywords:
 - yang
 tags:
 - nokia
-- sros
+- sr os
 - yang
 
 ---
