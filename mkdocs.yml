@@ -83,6 +83,14 @@ plugins:
       minify_html: true
   - redirects:
       redirect_maps:
+  - rss:
+      match_path: posts/.*
+      abstract_chars_count: 5000
+      date_from_meta:
+        as_creation: date
+      categories:
+        - tags
+      comments_path: "#__comments"
 
 # Customization
 extra:
