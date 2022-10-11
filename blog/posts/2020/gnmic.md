@@ -1,5 +1,7 @@
 ---
 date: 2020-07-08
+links:
+  - gNMIc joins Openconfig: posts/2022/gnmic-openconfig.md
 comments: true
 keywords:
 - gnmi
@@ -12,6 +14,7 @@ tags:
 - go
 - gnmic
 
+
 ---
 
 # gNMIc - gNMI CLI client and collector
@@ -19,6 +22,9 @@ tags:
 Despite the fact that [gNMI](https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md) is defacto the go-to interface for a model-driven telemetry collection, we, as a community, had no gNMI tool that was easy to install, pleasure to use, documented and pre-built for common platforms. Until now.
 
 I am excited to announce the public release of [`gnmic`](https://gnmic.kmrd.dev/) - a CLI client and a collector that talks gNMI to your devices.
+
+!!!tip
+    **October 2022:** [gNMIc has joined Openconfig](../2022/gnmic-openconfig.md).
 
 <!-- more -->
 
@@ -33,20 +39,20 @@ Earlier this year I bragged about it, in hope that my google-foo is just broken 
 But that was not my google-foo, unfortunately. For the sake of completeness allow me to summarize the landscape of gNMI clients in a pre-gnmic era:
 
 - [OpenConfig gNMI CLI client](https://github.com/openconfig/gnmi) - thats the google search top result one gets when looking for gNMI client. A reference implementation which lacks some essential features:
-  - no documentation, no [usage examples](https://github.com/openconfig/gnmi/issues/7) - you really better know how to read Go code to understand how to use it.
-  - Get requests will require you to [write in proto](https://github.com/openconfig/gnmi/issues/67) syntax instead of a simple `get` command with a path.
-  - additional options like Encoding, Models are not exposed via flags.
-  - no ready-made binaries - you need to have a Go tool chain to build the tool.
-  - no _insecure_ support - you can kiss goodbye your lab installations without PKI.
+    - no documentation, no [usage examples](https://github.com/openconfig/gnmi/issues/7) - you really better know how to read Go code to understand how to use it.
+    - Get requests will require you to [write in proto](https://github.com/openconfig/gnmi/issues/67) syntax instead of a simple `get` command with a path.
+    - additional options like Encoding, Models are not exposed via flags.
+    - no ready-made binaries - you need to have a Go tool chain to build the tool.
+    - no _insecure_ support - you can kiss goodbye your lab installations without PKI.
 - [Google gnxi](https://github.com/google/gnxi) - Googles gNxI tools that include gNMI, gNOI.
-  - the gNMI RPCs are split to different CLI tools which is not convenient
-  - a list of flags is all you got when it comes to documentation
-  - no releases to download, Go toolchain is needed
+    - the gNMI RPCs are split to different CLI tools which is not convenient
+    - a list of flags is all you got when it comes to documentation
+    - no releases to download, Go toolchain is needed
 - [cisco-gnmi-python](https://github.com/cisco-ie/cisco-gnmi-python#cli-usage) - a Cisco Innovative Edge project that is quite decent and complete, good job! But a few improvements could have been made:
-  - client doesn't allow to use insecure gRPC transport, PKI is mandatory.
-  - Set requests can't set values specified on the command line.
-  - CLI structure is not consistent across the commands
-  - No option exposed to set the Subscription mode.
+    - client doesn't allow to use insecure gRPC transport, PKI is mandatory.
+    - Set requests can't set values specified on the command line.
+    - CLI structure is not consistent across the commands
+    - No option exposed to set the Subscription mode.
 - [Telegraf](https://github.com/influxdata/telegraf) and [Ansible gNMI module](https://github.com/nokia/ansible-networking-collections/tree/master/grpc) are not qualified to be considered as CLI tools.
 
 ### What makes gNMI tool nice to use?
