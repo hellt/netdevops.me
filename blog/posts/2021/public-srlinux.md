@@ -97,7 +97,7 @@ To help you navigate the SR Linux world, we are launching a community-oriented d
 
 ### Learn by doing
 
-The main goal of the portal is to introduce you to the SR Linux by means of the interactive [tutorials](https://learn.srlinux.dev/tutorials/about/). All the tutorials are based on a certain lab scenario that we go through explaining the technology and how SR Linux implements it.
+The main goal of the portal is to introduce you to the SR Linux by means of the interactive [tutorials](https://learn.srlinux.dev/tutorials/). All the tutorials are based on a certain lab scenario that we go through explaining the technology and how SR Linux implements it.
 
 The lab scenarios are deployed with [containerlab](https://containerlab.srlinux.dev) so both the tutorial authors and the readers follow along the same path and can reproduce the whole tutorial.
 
