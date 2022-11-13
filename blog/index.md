@@ -2,6 +2,5 @@
 hide:
   # - toc
   - navigation
-
 ---
 

@@ -148,3 +148,4 @@ nav:
   - Blog:
       - index.md
   - Tags: tags.md
+  - Subscribe: subscribe.md
