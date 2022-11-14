@@ -24,7 +24,7 @@ Depending how thoroughly you want to monitor my blog you can choose between thos
 
 ## Email
 
-What is more reliable than email? Probably, nothing. You can get notifications in your mailbox by piggy-backing on the RSS feed using on of those RSS-to-Email services.
+What is more reliable than email? Probably, nothing. You can get notifications in your mailbox by piggy-backing on the RSS feed using one of those RSS-to-Email services.
 
 I personally use a free [blogtrottr](https://blogtrottr.com/) service, but if it doesn't suit you, there are other options like feedrabbit and IFTT.
 
