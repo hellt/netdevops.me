@@ -101,8 +101,10 @@ publishers:
     ids:
       - packages
     dir: "{{ dir .ArtifactPath }}"
-    cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/netdevops/
+    cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/<your_username>/ #(1)!
 ```
+
+1. Do not forget to fill in your user name.
 
 Look how easy it is. Now on every goreleaser' build, artifacts from nfpm will be concurrently uploaded to Fury and immediately available to the users of those Apt/Yum repositories. Do note, that by default pushed artifacts have a private scope, so don't forget to visit Fury' account dashboard and make them public.
 
