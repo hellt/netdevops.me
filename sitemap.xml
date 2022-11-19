@@ -2,312 +2,312 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://netdevops.me/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/about/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/subscribe/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/tags/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/how-to-install-python3-in-amazon-linux-ami/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/how-to-count-lines-of-code-in-a-git-repo/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/how-to-make-vs-code-go-extension-to-work-in-your-cloud-folder-on-different-platforms/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/setting-up-a-hugo-blog-with-gitlab-and-cloudflare/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/flask-application-in-a-production-ready-container/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/sr-os-rootifier-or-how-to-flatten-7750-sr-config/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/changing-libvirt-bridge-attachment-in-a-running-domain-aka-on-the-fly/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/destroy-and-undefine-kvm-vms-in-a-single-run/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/waiting-for-ssh-service-to-be-ready-with-paramiko/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/installing-xrdp-091-on-ubuntu-1604-xenial/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/how-to-add-yaml-highlight-in-highlightjs/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2017/yang-explorer-in-a-docker-container-based-on-alpine/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2018/prepping-up-for-and-passing-the-aws-certified-solution-architect-associate/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2018/prepping-up-for-and-passing-the-certified-openstack-administrator-exam/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2018/uploading-multiple-files-to-aws-s3-in-parallel/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2018/saturating-the-network-with-ftp/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2019/how-to-download-an-m3um3u8-playlist-stream-without-a-special-software/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2019/creating-a-bootstrap-based-front-end-for-your-simple-rest-service/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2019/creating-google-cloud-platform-function-with-python-and-serverless/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/arista-eos-gnmi-tutorial/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/gnmi-map/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/gnmic-got-better-with-yang-completions/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/netconf-console-in-a-docker-container/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/getting-xml-data-sample-for-a-given-leaf-in-a-yang-model/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/easily-exposing-your-local-resources-with-ngrok-and-fwd/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/nokia-yang-tree-and-path-browser/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/projectdocs/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/using-wireshark-remote-capture-with-eve-ng/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2020/netconf-subtree-filtering-by-example/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/containerlab-your-network-centric-labs-with-a-docker-ux/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/remove-binaries-and-big-files-from-git-repo/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/building-and-publishing-debrpm-packages-with-goreleaser-and-gemfury/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/transparently-redirecting-packetsframes-between-interfaces/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/nokia-sr-linux-goes-public/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/using-scrapligo-with-kubectl-exec/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/network-automation-options-in-go-with-scrapligo/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2021/how-to-patch-ubuntu-2004-focal-fossa-with-uksm/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2022/gnmic-joins-openconfig/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2022/using-guestfish-container-image/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2022/decoding-gnmi-with-wireshark/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2022/diy-yang-browser/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2015/ldp-ordered-label-distribution-control-explained/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2015/ospf-neighbors-on-a-point-to-broadcast-network/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2015/nokia-alcatel-lucent-sros-ospf-configuration-tutorial/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2015/nokia-alcatel-lucent-configuring-packet-ip-filters/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2015/nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2015/nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2015/basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2016/building-web-front-end-for-python-scripts-with-flask/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/2016/bgp-vpls-deep-dive-nokia-sr-os-juniper/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/tags/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/page/2/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/page/3/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/page/4/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/page/5/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://netdevops.me/page/6/</loc>
-         <lastmod>2022-11-14</lastmod>
+         <lastmod>2022-11-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
