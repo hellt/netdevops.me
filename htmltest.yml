@@ -4,7 +4,6 @@ DirectoryPath: ./public
 IgnoreURLs:
   - fonts.gstatic.com
   - linkedin.com/in/
-  - mdboostrap.com
   - goreleaser.com
   - pbs.twimg.com
   - codepen.io/hellt/pen
