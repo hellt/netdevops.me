@@ -69,7 +69,7 @@ Notable frameworks in that category are [React](https://reactjs.org/), [Vue](htt
 
 Since I am not a front-end developer the sweet spot for me lies with the front-end frameworks that I can install/run without a specific harness. They are lightweight, easy to work with, and all it takes to start is the basic HTML/CSS/JS knowledge. At the same time they provide just enough features to handle not overly complicated tasks a network engineer might encounter in a small size projects.
 
-For the [pycatjify.netdevops.me](https://pycatjify.netdevops.me) I decided to use a "Material Design" flavored Bootstrap based framework called [mdboostrap](https://mdboostrap.com).
+For the [pycatjify.netdevops.me](https://pycatjify.netdevops.me) I decided to use a "Material Design" flavored Bootstrap based framework called [mdbootstrap](https://mdbootstrap.com/).
 
 > Also I had some past experience with the Bootstrap 3 framework when I worked on [a Web UI for the python scripts](../noshut/2016-04-01-building-web-front-end-for-python-scripts-with-flask.md) quite some time ago.
 
@@ -199,7 +199,7 @@ Now with every push to the master branch Gitlab will restart the web server to e
 This pretty much concludes the Minimum Viable Product of the web front-end for the simple REST API service:
 
 - by leveraging the Google Cloud PLatform Functions we [deployed](../creating-google-cloud-platform-function-with-python-and-serverless/) a python code that implements a back-end REST API service - **$0**
-- the front-end is built with a simple Bootstrap/JQuery based [MDB](https://mdboostrap.com) framework and hosted with Gitlab Pages - **$0**
+- the front-end is built with a simple Bootstrap/JQuery based [MDB](https://mdbootstrap.com) framework and hosted with Gitlab Pages - **$0**
 - the wildcard TLS certificate is provided by Cloudflare - **$0**
 
 As you see, the process of putting a simple front-end service is simple and completely free. It goes without saying, that the example presented in this topic uses a very basic layout and a straightforward design - hence the overall simplicity. For instance the it does not handle any errors and does not perform input validation. Adding the spinner element to the UI to indicate the processing time would also enhance the UX.  
