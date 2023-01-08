@@ -1,6 +1,6 @@
 # insiders version/tag https://github.com/srl-labs/mkdocs-material-insiders/pkgs/container/mkdocs-material-insiders
 # make sure to also change the mkdocs version in actions' cicd.yml and force-build.yml files
-MKDOCS_INS_VER = 8.5.10-insiders-4.26.2-hellt
+MKDOCS_INS_VER = 9.0.3-insiders-4.27.1-hellt
 
 .PHONY: docs
 docs:
@@ -8,6 +8,10 @@ docs:
 
 # serve the site locally using mkdocs-material insiders container
 .PHONY: serve
+serve:
+	docker run -it --rm -p 8002:8000 -v $$(pwd):/docs ghcr.io/hellt/mkdocs-material-insiders:$(MKDOCS_INS_VER) -a 0.0.0.0:8000 --dirtyreload
+
+.PHONY: serve-full
 serve:
 	docker run -it --rm -p 8002:8000 -v $$(pwd):/docs ghcr.io/hellt/mkdocs-material-insiders:$(MKDOCS_INS_VER)
 
