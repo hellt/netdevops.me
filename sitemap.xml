@@ -246,6 +246,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://netdevops.me/2023/sr-linux-logging-with-elk/</loc>
+         <lastmod>2023-02-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://netdevops.me/2023/creating-a-syntax-highlighter-for-sr-linux-cli-snippets/</loc>
          <lastmod>2023-02-15</lastmod>
          <changefreq>daily</changefreq>
