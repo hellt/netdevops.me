@@ -23,7 +23,7 @@ Cloud-native revolution pointed out the fact that the microservice is the new bu
 
 ![pic](https://gitlab.com/rdodin/pics/-/wikis/uploads/a115166eb200861e796a0a5a847da8e7/image.png)
 
-When I decided to step in the serverless property I chose [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) as my instrument of choice. As for experimental subject, I picked up one of my existing projects - a script that tracks new documentation releases for Nokia IP/SDN products (which I aggregate at [nokdoc.github.io](https://nokdoc.github.io)).
+When I decided to step in the serverless property I chose [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) as my instrument of choice. As for experimental subject, I picked up one of my existing projects - a script that tracks new documentation releases for Nokia IP/SDN products (which in the past I aggregated at `nokdoc.github.io` (now closed)).
 
 Given that not so many posts are going deeper than onboarding a simplest function, I decided to write down the key pieces I needed to uncover to push a **real code** to the Lambda.
 

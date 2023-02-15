@@ -12,3 +12,5 @@ It is quite frustrating to wait for pkg.go.dev to refresh your index, and I alwa
 ```bash
 GOPROXY=proxy.golang.org go list -m example.com/mymodule@v0.1.0
 ```
+
+The new version won't appear immediately, but at least it seems it will be quicker to show up.
