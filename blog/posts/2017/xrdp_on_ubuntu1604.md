@@ -12,7 +12,7 @@ tags:
 
 # Installing xrdp 0.9.1 on Ubuntu 16.04 Xenial
 
-[xrdp](http://www.xrdp.org/) is defacto the default RDP server for Linux systems sharing with VNC the _remote access solution_ olympus. I personally found it more resource friendly and feature rich compared to VNC solutions I tried.
+[xrdp](https://en.wikipedia.org/wiki/Xrdp) is defacto the default RDP server for Linux systems sharing with VNC the _remote access solution_ olympus. I personally found it more resource friendly and feature rich compared to VNC solutions I tried.
 
 The only problem I found with `xrdp` is that current Ubuntu LTS release Xenial 16.04 has a way outdated 0.6.1-2 version of xrdp in the packages repo. This version has no shared clipboard support, which makes remote support/remote access a tedious task.
 
