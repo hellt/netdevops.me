@@ -96,7 +96,7 @@ Present Working Context:
 
 > Now all you need is to copy that path and remove the user key.
 
-Having the model path without the context we can generate the XML data using the [`sample-xml-skeleton`](https://manned.org/pyang/195e05d7#head15) output of PYANG.
+Having the model path without the context we can generate the XML data using the [`sample-xml-skeleton`](https://manned.org/man.703c3816/freebsd-13.1/pyang#head16) output of PYANG.
 
 For that step I leverage the open YANG models of SR OS that you can download from the [7x50_YANG_MODELS](https://github.com/nokia/7x50_YangModels) repo and the [PYANG tool in a container](https://github.com/hellt/pyang-docker):
 
