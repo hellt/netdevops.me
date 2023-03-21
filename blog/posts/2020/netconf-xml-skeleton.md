@@ -25,7 +25,7 @@ Getting the XML data sample of a given leaf? What is this, why might I need it?
 
 Lets work through a real-life example that should make a perfect point. Suppose you need to get a list of configured users from a given network element (NE). You would normally do this by leveraging `<get-config>` operation, but in order to get only the users portion of the configuration, you would need to augment your request with a filter.
 
-NETCONF defaults to [subtree filtering](http://www.rfcreader.com/#rfc6241_line869) when it comes to filters.
+NETCONF defaults to [subtree filtering](https://datatracker.ietf.org/doc/html/rfc6241#autoid-22) when it comes to filters.
 
 ```xml
 <!-- subtree filter example from RFC6241 -->

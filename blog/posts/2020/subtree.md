@@ -18,8 +18,8 @@ In this topic we will touch on the NETCONF's subtree filtering capabilities.
 
 NETCONF's [RFC 6241](https://www.rfcreader.com/#rfc6241) defines two methods for filtering contents on the server (router) side:
 
-- [Subtree filtering](https://www.rfcreader.com/#rfc6241_line867) - mandatory for a NETCONF-enabled device to support
-- [XPATH filtering](https://www.rfcreader.com/#rfc6241_line3008) - an optional capability
+- [Subtree filtering](https://datatracker.ietf.org/doc/html/rfc6241#autoid-22) - mandatory for a NETCONF-enabled device to support
+- [XPATH filtering](https://datatracker.ietf.org/doc/html/rfc6241#autoid-110) - an optional capability
 
 Subtree filtering is powered by the following components:
 

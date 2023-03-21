@@ -13,7 +13,7 @@ tags:
 
 It may very well be that VPLS days are numbered and EVPN is to blame. Nevertheless, it would be naive to expect VPLS extinction in the near future. With all its shortcomings VPLS is still very well standardized, interop-proven and has a huge footprint in MPLS networks of various scale.
 
-In this post I will cover theory and configuration parts for one particular flavor of VPLS signalling - BGP VPLS (aka Kompella VPLS) defined in [RFC4761](http://www.rfcreader.com/#rfc4761). I'll start with simple single home VPLS scenario while multi-homing techniques and some advanced configurations might appear in a separate post later.
+In this post I will cover theory and configuration parts for one particular flavor of VPLS signalling - BGP VPLS (aka Kompella VPLS) defined in [RFC4761](https://datatracker.ietf.org/doc/html/rfc4761). I'll start with simple single home VPLS scenario while multi-homing techniques and some advanced configurations might appear in a separate post later.
 
 In this topic the following SW releases were used:
 
@@ -122,7 +122,7 @@ This enables PW to setup from VE1 to V10 and from VE10 to VE1 by using MPLS labe
 
 #### Layer 2 Info Extended community
 
-Additional extended community is used in VPLS service establishment - originally `Layer 2 Info` extended community was defined in section [3.2.4](http://www.rfcreader.com/#rfc4761_line453). It is used to signal control information about the pseudowires to be setup for a given VPLS. Two additional bits (D, F) later were introduced by [vpls-multihoming draft](https://tools.ietf.org/html/draft-ietf-bess-vpls-multihoming-01#section-3.3.1).
+Additional extended community is used in VPLS service establishment - originally `Layer 2 Info` extended community was defined in section [3.2.4](https://datatracker.ietf.org/doc/html/rfc4761#autoid-16). It is used to signal control information about the pseudowires to be setup for a given VPLS. Two additional bits (D, F) later were introduced by [vpls-multihoming draft](https://tools.ietf.org/html/draft-ietf-bess-vpls-multihoming-01#section-3.3.1).
 
 <div align="center">
 <a href="http://img-fotki.yandex.ru/get/195853/21639405.11c/0_8b21b_9f734cbc_orig.png"><img  src="http://img-fotki.yandex.ru/get/195853/21639405.11c/0_8b21b_9f734cbc_XL.png" alt="" width="800" height="605" /></a>
@@ -155,18 +155,18 @@ When it comes to PW operation modes, [RFC 4448](http://www.rfcreader.com/#rfc444
 RFC 4448 explains further possible scenarios actions:
 
 - PW is operating in **raw mode (aka Ether)**:
-  - Service-delimiting tags are NEVER sent over the PW, if tag is present, it MUST be stripped before sending on PW
-  - When sending a frame on AC, PE may add service-delimiting tag, but **can not** strip or rewrite any existing tags present on a frame
+    - Service-delimiting tags are NEVER sent over the PW, if tag is present, it MUST be stripped before sending on PW
+    - When sending a frame on AC, PE may add service-delimiting tag, but **can not** strip or rewrite any existing tags present on a frame
 - PW is operating in **tagged** **mode (aka VLAN)**:
-  - PW MUST have a service-delimiting VLAN tag. If service-delimiting tag is not present, the PE must prepend the frame with a dummy VLAN tag before sending the frame on the PW
-  - When sending a frame on AC, PE may rewrite or strip tag entirely
+    - PW MUST have a service-delimiting VLAN tag. If service-delimiting tag is not present, the PE must prepend the frame with a dummy VLAN tag before sending the frame on the PW
+    - When sending a frame on AC, PE may rewrite or strip tag entirely
 - Whether or not the tag is service-delimiting is determined by local configuration on the PE
 - Service-delimiting tag have local to PE-CE interface significance
 - Non-service-delimiting tags are passed transparently across the PW as part of the payload
 
 ### VPLS data plane
 
-This topic is focusing on VPLS data plane encapsulation, as defined in [RFC 4448](http://www.rfcreader.com/#rfc4448) - Encapsulation Methods for Transport of Ethernet over MPLS Networks.
+This topic is focusing on VPLS data plane encapsulation, as defined in [RFC 4448](https://datatracker.ietf.org/doc/html/rfc4448) - Encapsulation Methods for Transport of Ethernet over MPLS Networks.
 
 #### MAC learning
 
@@ -624,8 +624,8 @@ Return traffic follows the same login in the opposite direction with a slight ch
 
 ### References & further reading
 
-- <a href="http://www.rfcreader.com/#rfc4761">RFC4761</a> Virtual Private LAN Service (VPLS) Using BGP for Auto-Discovery and Signaling
-- <a href="http://www.rfcreader.com/#rfc4448">RFC4448</a> Encapsulation Methods for Transport of Ethernet over MPLS Networks
+- <a href="https://datatracker.ietf.org/doc/html/rfc4761">RFC4761</a> Virtual Private LAN Service (VPLS) Using BGP for Auto-Discovery and Signaling
+- <a href="https://datatracker.ietf.org/doc/html/rfc4448">RFC4448</a> Encapsulation Methods for Transport of Ethernet over MPLS Networks
 - <a href="https://tools.ietf.org/html/draft-ietf-bess-vpls-multihoming">draft-vpls-multihoming</a> BGP based Multi-homing in Virtual Private LAN Service
 - <a href="https://infocenter.alcatel-lucent.com/public/7750SR140R4/topic/com.sr.l2/html/vpls_config.html?cp=5_2_5">Configuring VPLS on SR OS</a>
 - <a href="https://www.juniper.net/techpubs/en_US/junos14.1/topics/concept/vpn-vpls-introduction.html">VPLS Services</a> in JunOS
