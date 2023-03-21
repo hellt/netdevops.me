@@ -83,7 +83,7 @@ A contiguous label block defined by `<LB, VBO, VBS>` is the set `{LB+VBO, LB+VBO
 
 #### Pseudowire setup process
 
-[Section 3.2.3](http://www.rfcreader.com/#rfc4761_line427) of RFC4761 highlights the steps VE routers go through during PW setup/teardown. Lets see by an example how PW setup takes places in a BGP VPLS between routers VE1 and VE7.
+[Section 3.2.3](https://datatracker.ietf.org/doc/html/rfc4761#section-3.2.3) of RFC4761 highlights the steps VE routers go through during PW setup/teardown. Lets see by an example how PW setup takes places in a BGP VPLS between routers VE1 and VE7.
 
 <div align="center">
 <a href="http://img-fotki.yandex.ru/get/172931/21639405.11c/0_8b219_25de426c_orig.png"><img  src="http://img-fotki.yandex.ru/get/172931/21639405.11c/0_8b219_25de426c_XL.png" alt="" width="543" height="800" /></a>
@@ -144,7 +144,7 @@ Frames from the CE devices can be seen on the attachment circuits in different 
 - tagged (dot1q, q-in-q) by CE device itself
 - additionally tagged by some SP's aggregation device (SVLAN put by L2 agg. device)
 
-When it comes to PW operation modes, [RFC 4448](http://www.rfcreader.com/#rfc4448_line274) gives us two options: **raw** and **tagged**. Thus, we can distinguish two cases regarding tagged frames coming from AC:
+When it comes to PW operation modes, [RFC 4448](https://datatracker.ietf.org/doc/html/rfc4448#section-4) gives us two options: **raw** and **tagged**. Thus, we can distinguish two cases regarding tagged frames coming from AC:
 
 - **The tag is service-delimiting.**  
     This means that the tag was placed on the frame by some piece of service provider-operated equipment, and the tag is used by the service provider to distinguish the traffic. For example, LANs from different customers might be attached to the same service provider switch, which applies VLAN tags to distinguish one customer's traffic from another's, and then forwards the frames to the PE.

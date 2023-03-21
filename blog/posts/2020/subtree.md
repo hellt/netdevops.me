@@ -16,7 +16,7 @@ In this topic we will touch on the NETCONF's subtree filtering capabilities.
 
 <!-- more -->
 
-NETCONF's [RFC 6241](https://www.rfcreader.com/#rfc6241) defines two methods for filtering contents on the server (router) side:
+NETCONF's [RFC 6241](https://datatracker.ietf.org/doc/html/rfc6241) defines two methods for filtering contents on the server (router) side:
 
 - [Subtree filtering](https://datatracker.ietf.org/doc/html/rfc6241#autoid-22) - mandatory for a NETCONF-enabled device to support
 - [XPATH filtering](https://datatracker.ietf.org/doc/html/rfc6241#autoid-110) - an optional capability
@@ -271,7 +271,7 @@ Here we used Selection nodes even in two different YANG datastores and getting b
 
 ### 2 Content Match nodes
 
-In many cases it is needed to filter not only on the node itself (what Selection node does), but also on the value of the referenced leaf. That is a work for [Content Match nodes](https://www.rfcreader.com/#rfc6241_line1017).
+In many cases it is needed to filter not only on the node itself (what Selection node does), but also on the value of the referenced leaf. That is a work for [Content Match nodes](https://datatracker.ietf.org/doc/html/rfc6241#section-6.2.5).
 
 Using our local users examples that translates to a need to filter the information of a single user only. Let's get the configuration of the `admin` user only by using the Content Match node semantics:
 
