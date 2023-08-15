@@ -1,4 +1,16 @@
-<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Applying DevOps to networks."><meta name=author content="Roman Dodin"><link href=https://netdevops.me/2015/nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/ rel=canonical><link href=../nokia-alcatel-lucent-configuring-packet-ip-filters/ rel=prev><link href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/ rel=next><link rel=alternate type=application/rss+xml title="RSS feed" href=../../feed_rss_created.xml><link rel=alternate type=application/rss+xml title="RSS feed of updated content" href=../../feed_rss_updated.xml><link rel=icon href=../../assets/images/code.svg><meta name=generator content="mkdocs-1.4.2, mkdocs-material-9.0.3+insiders-4.27.1"><title>Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP - Applying DevOps to networks</title><link rel=stylesheet href=../../assets/stylesheets/main.38fd6ec5.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.2505c338.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Google Sans";--md-code-font:"Fira Mono"}</style><link rel=stylesheet href=../../stylesheets/extra.css><script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id=__analytics>function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-Y7R34KCT4N"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-Y7R34KCT4N",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-Y7R34KCT4N",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script><script>"undefined"!=typeof __md_analytics&&__md_analytics()</script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp class=md-skip> Skip to content </a> </div> <div data-md-component=announce> <aside class=md-banner> <div class="md-banner__inner md-grid md-typeset"> <a href=https://twitter.com/ntdvps> For updates follow <strong>@ntdvps</strong> on <span class="twemoji twitter"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> </span> <strong>Twitter</strong> </a> </div> </aside> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title="Applying DevOps to networks" class="md-header__button md-logo" aria-label="Applying DevOps to networks" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Applying DevOps to networks </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan aria-label="Switch to dark mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=black data-md-color-accent=cyan aria-label="Switch to light mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg> </label> </form> <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </label> <nav class=md-search__options aria-label=Search> <button type=reset class="md-search__icon md-icon" title=Clear aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../.. class="md-tabs__link md-tabs__link--active"> Blog </a> </li> <li class=md-tabs__item> <a href=../../tags/ class=md-tabs__link> Tags </a> </li> <li class=md-tabs__item> <a href=../../subscribe/ class=md-tabs__link> Subscribe </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation hidden> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title="Applying DevOps to networks" class="md-nav__button md-logo" aria-label="Applying DevOps to networks" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> Applying DevOps to networks </label> <div class=md-nav__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " data-md-toggle=__nav_1 type=checkbox id=__nav_1 checked> <div class="md-nav__link md-nav__container"> <a href=../.. class="md-nav__link "> <span class=md-ellipsis> Blog </span> </a> </div> <nav class=md-nav aria-label=Blog data-md-level=1> <label class=md-nav__title for=__nav_1> <span class="md-nav__icon md-icon"></span> Blog </label> <ul class=md-nav__list data-md-scrollfix> </ul> </nav> </li> <li class=md-nav__item> <a href=../../tags/ class=md-nav__link> <span class=md-ellipsis> Tags </span> </a> </li> <li class=md-nav__item> <a href=../../subscribe/ class=md-nav__link> <span class=md-ellipsis> Subscribe </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#common-bgp-configuration-steps class=md-nav__link> <span class=md-ellipsis> Common BGP configuration steps </span> </a> <nav class=md-nav aria-label="Common BGP configuration steps"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#igp-and-addressing class=md-nav__link> <span class=md-ellipsis> IGP and addressing </span> </a> </li> <li class=md-nav__item> <a href=#configuring-router-id-and-autonomous-system-number class=md-nav__link> <span class=md-ellipsis> Configuring Router ID and Autonomous System number </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#starting-ebgp class=md-nav__link> <span class=md-ellipsis> Starting eBGP </span> </a> </li> <li class=md-nav__item> <a href=#exporting-routes-to-bgp class=md-nav__link> <span class=md-ellipsis> Exporting routes to BGP </span> </a> </li> <li class=md-nav__item> <a href=#alcatel-lucent-ebgp-reflecting-routes-issue class=md-nav__link> <span class=md-ellipsis> Alcatel-Lucent eBGP reflecting routes issue </span> </a> </li> <li class=md-nav__item> <a href=#ebgp-split-horizon class=md-nav__link> <span class=md-ellipsis> eBGP split-horizon </span> </a> </li> <li class=md-nav__item> <a href=#ebgp-resulting-configuration class=md-nav__link> <span class=md-ellipsis> eBGP resulting configuration </span> </a> </li> <li class=md-nav__item> <a href=#ibgp-configuration class=md-nav__link> <span class=md-ellipsis> iBGP configuration </span> </a> <nav class=md-nav aria-label="iBGP configuration"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#ibgp-next-hop-self class=md-nav__link> <span class=md-ellipsis> iBGP next-hop-self </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#wrapping-up class=md-nav__link> <span class=md-ellipsis> Wrapping up </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-content md-content--post" data-md-component=content> <div class="md-sidebar md-sidebar--post" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class="md-sidebar__inner md-post"> <nav class=md-nav> <div class=md-post__back> <div class="md-nav__title md-nav__container"> <a href=../.. class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> <span class=md-ellipsis> Back to index </span> </a> </div> </div> <div class="md-post__authors md-typeset"> <div class="md-profile md-post__profile"> <span class="md-author md-author--long"> <img src=https://avatars.githubusercontent.com/u/5679861 alt="Roman Dodin"> </span> <span class=md-profile__description> <strong>Roman Dodin</strong><br> Network Automater </span> </div> </div> <ul class="md-post__meta md-nav__list"> <li class="md-nav__item md-nav__title"> <div class=md-nav__link> <span class=md-ellipsis> Metadata </span> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"/></svg> <time datetime="2015-08-24 00:00:00" class=md-ellipsis>August 24, 2015</time> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"/></svg> <span class=md-ellipsis> 32 min read </span> </div> </li> </ul> </nav> </div> </div> </div> <article class="md-content__inner md-typeset"> <nav class=md-tags> <a href=../../tags/#nokia class=md-tag>nokia</a> <a href=../../tags/#sr-os class=md-tag>sr os</a> <a href=../../tags/#bgp class=md-tag>bgp</a> </nav> <h1 id=nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp>Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP<a class=headerlink href=#nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp title="Permanent link">#</a></h1> <p>There is no way I would leave you without covering configuration steps for one of the most versatile, scalable and robust internet protocols also known as <strong>BGP</strong>. And here it is - BGP configuration guide for Nokia (Alcatel-Lucent) Service Routers.</p> <p><a href=../nokia-alcatel-lucent-sros-ospf-configuration-tutorial/ >As with the OSPF configuration tutorial</a> I will cover the configuration process for various BGP scenarios along with the verification and troubleshooting steps bundled with colorful figures, detailed code snippets and useful remarks.</p> <p>BGP is so huge that I had no other option but to write about it in several parts:</p> <ul> <li><strong>Part 1 - basic eBGP and iBGP configuration</strong></li> <li><a href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/ >Part 2 - BGP policies. Community</a></li> </ul> <p>Part 1 is dedicated to basic eBGP/iBGP configuration. We will practice with common BGP configuration procedures at first, then learn how to export routes into BGP process and prevent unnecessary route reflection by means of <code>split-horizon</code> over eBGP links.</p> <p>Next we go over iBGP configuration to spread the eBGP learned routes across the Autonomous Systems. I will explain the necessity of having a full-mesh iBGP topology and the use of the <code>next-hop-self</code> command for iBGP peers.</p> <p>It's a perfect time to configure some BGP, right?</p> <!-- more --> <h2 id=common-bgp-configuration-steps>Common BGP configuration steps<a class=headerlink href=#common-bgp-configuration-steps title="Permanent link">#</a></h2> <p>Despite what type of BGP (Internal or External) you are going to configure there are some basic steps we are about to discuss. Address planning, IGP configuration, router-id selection, autonomous-system number setting, peer groups and neighbor configuration - all of these task are common to each and every BGP configuration routine.</p> <h3 id=igp-and-addressing>IGP and addressing<a class=headerlink href=#igp-and-addressing title="Permanent link">#</a></h3> <p>BGP completely relies on IGP (or static routes) when resolving nexthop address received in BGP updates from its peers. This means that prior to BGP configuration you should have IGP up and running. During this session I will refer to this base topology:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/4911/21639405.11c/0_84ca0_67149947_orig.png></p> <p>A few words about the address plan and key pieces of this diagram: a BGP peering will take place between the two Autonomous Systems (hereinafter AS) 65510 and 65520.</p> <p>AS 65510 utilizes <code>10.10.0.0/16</code> network for local link addresses, system interfaces of its routers and customers-assigned networks, whereas AS 65520 uses <code>10.20.0.0/16</code> for the same purposes. Address plan details could be found at the <em>Legend section</em> of the "base topology" figure.</p> <p>We will be working with the two customers networks:</p> <ul> <li><code>R5_Customer - 10.10.55.0/24</code> in AS 65510</li> <li><code>R3_Ext_Customer - 172.16.33.0/24</code> in AS 65520</li> </ul> <p>As to Interior Gateway Protocol - I chose IS-IS, though you can choose an IGP protocol of your choice - it wont be any different. IS-IS configuration for this tutorial is super straightforward, system and network interfaces are participating in IS-IS process within the relevant ASes (except interfaces between R1-R3, R2-R4 as they are connecting different AS's and we will run BGP there). Inter-router links are all point-to-point type.</p> <p>IS-IS configuration section for reference:</p> <p>R1 (AS 65510):</p> <div class=highlight><pre><span></span><code>*A:R1&gt;config&gt;router&gt;isis# info
+<!DOCTYPE html>
+<html class="no-js" lang="en"> <head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Applying DevOps to networks." name="description"/><meta content="Roman Dodin" name="author"/><link href="https://netdevops.me/2015/nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/" rel="canonical"/><link href="../nokia-alcatel-lucent-configuring-packet-ip-filters/" rel="prev"/><link href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/" rel="next"/><link href="../../feed_rss_created.xml" rel="alternate" title="RSS feed" type="application/rss+xml"/><link href="../../feed_rss_updated.xml" rel="alternate" title="RSS feed of updated content" type="application/rss+xml"/><link href="../../assets/images/code.svg" rel="icon"/><meta content="mkdocs-1.4.2, mkdocs-material-9.1.4+insiders-4.32.4" name="generator"/><title>Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP - Applying DevOps to networks</title><link href="../../assets/stylesheets/main.f49c7df4.min.css" rel="stylesheet"/><link href="../../assets/stylesheets/palette.6932e648.min.css" rel="stylesheet"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/><style>:root{--md-text-font:"Google Sans";--md-code-font:"Fira Mono"}</style><link href="../../stylesheets/extra.css" rel="stylesheet"/><script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-Y7R34KCT4N"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-Y7R34KCT4N",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-Y7R34KCT4N",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script><script>"undefined"!=typeof __md_analytics&&__md_analytics()</script><link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            
+                .gscrollbar-fixer { padding-right: 15px; }
+                .gdesc-inner { font-size: 0.75rem; }
+                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+                </style><script src="../../assets/javascripts/glightbox.min.js"></script></head> <body data-md-color-accent="cyan" data-md-color-primary="white" data-md-color-scheme="default" dir="ltr"> <input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/> <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/> <label class="md-overlay" for="__drawer"></label> <div data-md-component="skip"> <a class="md-skip" href="#nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp"> Skip to content </a> </div> <div data-md-component="announce"> <aside class="md-banner"> <div class="md-banner__inner md-grid md-typeset"> <a href="https://twitter.com/ntdvps"> For updates follow <strong>@ntdvps</strong> on <span class="twemoji twitter"> <svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg> </span> <strong>Twitter</strong> </a> </div> </aside> </div> <header class="md-header" data-md-component="header"> <nav aria-label="Header" class="md-header__inner md-grid"> <a aria-label="Applying DevOps to networks" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Applying DevOps to networks"> <svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"></path></svg> </a> <label class="md-header__button md-icon" for="__drawer"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg> </label> <div class="md-header__title" data-md-component="header-title"> <div class="md-header__ellipsis"> <div class="md-header__topic"> <span class="md-ellipsis"> Applying DevOps to networks </span> </div> <div class="md-header__topic" data-md-component="header-topic"> <span class="md-ellipsis"> Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP </span> </div> </div> </div> <form class="md-header__option" data-md-component="palette"> <input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="cyan" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/> <label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg> </label> <input aria-label="Switch to light mode" class="md-option" data-md-color-accent="cyan" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/> <label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"></path></svg> </label> </form> <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for="__search"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg> </label> <div class="md-search" data-md-component="search" role="dialog"> <label class="md-search__overlay" for="__search"></label> <div class="md-search__inner" role="search"> <form class="md-search__form" name="search"> <input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/> <label class="md-search__icon md-icon" for="__search"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg> </label> <nav aria-label="Search" class="md-search__options"> <button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg> </button> </nav> <div class="md-search__suggest" data-md-component="search-suggest"></div> </form> <div class="md-search__output"> <div class="md-search__scrollwrap" data-md-scrollfix=""> <div class="md-search-result" data-md-component="search-result"> <div class="md-search-result__meta"> Initializing search </div> <ol class="md-search-result__list" role="presentation"></ol> </div> </div> </div> </div> </div> <div class="md-header__source"> <a class="md-source" data-md-component="source" href="https://github.com/hellt/netdevops.me" title="Go to repository"> <div class="md-source__icon md-icon"> <svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg> </div> <div class="md-source__repository"> hellt/netdevops.me </div> </a> </div> </nav> </header> <div class="md-container" data-md-component="container"> <nav aria-label="Tabs" class="md-tabs" data-md-component="tabs"> <div class="md-grid"> <ul class="md-tabs__list"> <li class="md-tabs__item"> <a class="md-tabs__link md-tabs__link--active" href="../.."> Blog </a> </li> <li class="md-tabs__item"> <a class="md-tabs__link" href="../../tags/"> Tags </a> </li> <li class="md-tabs__item"> <a class="md-tabs__link" href="../../subscribe/"> Subscribe </a> </li> </ul> </div> </nav> <main class="md-main" data-md-component="main"> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden=""> <div class="md-sidebar__scrollwrap"> <div class="md-sidebar__inner"> <nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0"> <label class="md-nav__title" for="__drawer"> <a aria-label="Applying DevOps to networks" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Applying DevOps to networks"> <svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"></path></svg> </a> Applying DevOps to networks </label> <div class="md-nav__source"> <a class="md-source" data-md-component="source" href="https://github.com/hellt/netdevops.me" title="Go to repository"> <div class="md-source__icon md-icon"> <svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg> </div> <div class="md-source__repository"> hellt/netdevops.me </div> </a> </div> <ul class="md-nav__list" data-md-scrollfix=""> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input checked="" class="md-nav__toggle md-toggle" id="__nav_1" type="checkbox"/> <div class="md-nav__link md-nav__container"> <a class="md-nav__link" href="../.."> <span class="md-ellipsis"> Blog </span> </a> </div> <nav aria-expanded="true" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1"> <label class="md-nav__title" for="__nav_1"> <span class="md-nav__icon md-icon"></span> Blog </label> <ul class="md-nav__list" data-md-scrollfix=""> </ul> </nav> </li> <li class="md-nav__item"> <a class="md-nav__link" href="../../tags/"> <span class="md-ellipsis"> Tags </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="../../subscribe/"> <span class="md-ellipsis"> Subscribe </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc"> <div class="md-sidebar__scrollwrap"> <div class="md-sidebar__inner"> <nav aria-label="Table of contents" class="md-nav md-nav--secondary"> <label class="md-nav__title" for="__toc"> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix=""> <li class="md-nav__item"> <a class="md-nav__link" href="#common-bgp-configuration-steps"> <span class="md-ellipsis"> Common BGP configuration steps </span> </a> <nav aria-label="Common BGP configuration steps" class="md-nav"> <ul class="md-nav__list"> <li class="md-nav__item"> <a class="md-nav__link" href="#igp-and-addressing"> <span class="md-ellipsis"> IGP and addressing </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#configuring-router-id-and-autonomous-system-number"> <span class="md-ellipsis"> Configuring Router ID and Autonomous System number </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#starting-ebgp"> <span class="md-ellipsis"> Starting eBGP </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#exporting-routes-to-bgp"> <span class="md-ellipsis"> Exporting routes to BGP </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#alcatel-lucent-ebgp-reflecting-routes-issue"> <span class="md-ellipsis"> Alcatel-Lucent eBGP reflecting routes issue </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#ebgp-split-horizon"> <span class="md-ellipsis"> eBGP split-horizon </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#ebgp-resulting-configuration"> <span class="md-ellipsis"> eBGP resulting configuration </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#ibgp-configuration"> <span class="md-ellipsis"> iBGP configuration </span> </a> <nav aria-label="iBGP configuration" class="md-nav"> <ul class="md-nav__list"> <li class="md-nav__item"> <a class="md-nav__link" href="#ibgp-next-hop-self"> <span class="md-ellipsis"> iBGP next-hop-self </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#wrapping-up"> <span class="md-ellipsis"> Wrapping up </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-content md-content--post" data-md-component="content"> <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation"> <div class="md-sidebar__scrollwrap"> <div class="md-sidebar__inner md-post"> <nav class="md-nav"> <div class="md-post__back"> <div class="md-nav__title md-nav__container"> <a class="md-nav__link" href="../.."> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg> <span class="md-ellipsis"> Back to index </span> </a> </div> </div> <div class="md-post__authors md-typeset"> <div class="md-profile md-post__profile"> <span class="md-author md-author--long"> <img alt="Roman Dodin" src="https://avatars.githubusercontent.com/u/5679861"/> </span> <span class="md-profile__description"> <strong>Roman Dodin</strong><br/> Network Automater </span> </div> </div> <ul class="md-post__meta md-nav__list"> <li class="md-nav__item md-nav__title"> <div class="md-nav__link"> <span class="md-ellipsis"> Metadata </span> </div> </li> <li class="md-nav__item"> <div class="md-nav__link"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"></path></svg> <time class="md-ellipsis" datetime="2015-08-24 00:00:00">August 24, 2015</time> </div> </li> <li class="md-nav__item"> <div class="md-nav__link"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"></path></svg> <span class="md-ellipsis"> 32 min read </span> </div> </li> </ul> </nav> </div> </div> </div> <article class="md-content__inner md-typeset"> <nav class="md-tags"> <a class="md-tag" href="../../tags/#nokia">nokia</a> <a class="md-tag" href="../../tags/#sr-os">sr os</a> <a class="md-tag" href="../../tags/#bgp">bgp</a> </nav> <h1 id="nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp">Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 1 - basic eBGP, iBGP<a class="headerlink" href="#nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp" title="Permanent link">#</a></h1> <p>There is no way I would leave you without covering configuration steps for one of the most versatile, scalable and robust internet protocols also known as <strong>BGP</strong>. And here it is - BGP configuration guide for Nokia (Alcatel-Lucent) Service Routers.</p> <p><a href="../nokia-alcatel-lucent-sros-ospf-configuration-tutorial/">As with the OSPF configuration tutorial</a> I will cover the configuration process for various BGP scenarios along with the verification and troubleshooting steps bundled with colorful figures, detailed code snippets and useful remarks.</p> <p>BGP is so huge that I had no other option but to write about it in several parts:</p> <ul> <li><strong>Part 1 - basic eBGP and iBGP configuration</strong></li> <li><a href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/">Part 2 - BGP policies. Community</a></li> </ul> <p>Part 1 is dedicated to basic eBGP/iBGP configuration. We will practice with common BGP configuration procedures at first, then learn how to export routes into BGP process and prevent unnecessary route reflection by means of <code>split-horizon</code> over eBGP links.</p> <p>Next we go over iBGP configuration to spread the eBGP learned routes across the Autonomous Systems. I will explain the necessity of having a full-mesh iBGP topology and the use of the <code>next-hop-self</code> command for iBGP peers.</p> <p>It's a perfect time to configure some BGP, right?</p> <!-- more --> <h2 id="common-bgp-configuration-steps">Common BGP configuration steps<a class="headerlink" href="#common-bgp-configuration-steps" title="Permanent link">#</a></h2> <p>Despite what type of BGP (Internal or External) you are going to configure there are some basic steps we are about to discuss. Address planning, IGP configuration, router-id selection, autonomous-system number setting, peer groups and neighbor configuration - all of these task are common to each and every BGP configuration routine.</p> <h3 id="igp-and-addressing">IGP and addressing<a class="headerlink" href="#igp-and-addressing" title="Permanent link">#</a></h3> <p>BGP completely relies on IGP (or static routes) when resolving nexthop address received in BGP updates from its peers. This means that prior to BGP configuration you should have IGP up and running. During this session I will refer to this base topology:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/4911/21639405.11c/0_84ca0_67149947_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/4911/21639405.11c/0_84ca0_67149947_orig.png"/></a></p> <p>A few words about the address plan and key pieces of this diagram: a BGP peering will take place between the two Autonomous Systems (hereinafter AS) 65510 and 65520.</p> <p>AS 65510 utilizes <code>10.10.0.0/16</code> network for local link addresses, system interfaces of its routers and customers-assigned networks, whereas AS 65520 uses <code>10.20.0.0/16</code> for the same purposes. Address plan details could be found at the <em>Legend section</em> of the "base topology" figure.</p> <p>We will be working with the two customers networks:</p> <ul> <li><code>R5_Customer - 10.10.55.0/24</code> in AS 65510</li> <li><code>R3_Ext_Customer - 172.16.33.0/24</code> in AS 65520</li> </ul> <p>As to Interior Gateway Protocol - I chose IS-IS, though you can choose an IGP protocol of your choice - it wont be any different. IS-IS configuration for this tutorial is super straightforward, system and network interfaces are participating in IS-IS process within the relevant ASes (except interfaces between R1-R3, R2-R4 as they are connecting different AS's and we will run BGP there). Inter-router links are all point-to-point type.</p> <p>IS-IS configuration section for reference:</p> <p>R1 (AS 65510):</p> <div class="highlight"><pre><span></span><code>*A:R1&gt;config&gt;router&gt;isis# info
 ----------------------------------------------
         level-capability level-1
         area-id 10.10
@@ -9,14 +21,14 @@
         level 2
             wide-metrics-only
         exit
-        interface &quot;system&quot;
+        interface "system"
             no shutdown
         exit
-        interface &quot;toR2&quot;
+        interface "toR2"
             interface-type point-to-point
             no shutdown
         exit
-        interface &quot;toR5&quot;
+        interface "toR5"
             interface-type point-to-point
             no shutdown
         exit
@@ -46,7 +58,7 @@ Level (2) LSP Count : 0
 ===============================================================================
 
 
-## Check if we have a route to every router&#39;s system address within AS
+## Check if we have a route to every router's system address within AS
 *A:R1# show router route-table  10.10.10.0/24 longer
 
 ===============================================================================
@@ -65,7 +77,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
        10.10.99.1                                                   200
 -------------------------------------------------------------------------------
 No. of Routes: 4
-</code></pre></div> <p>R3 (AS 65520):</p> <div class=highlight><pre><span></span><code>A:R3&gt;config&gt;router&gt;isis# info
+</code></pre></div> <p>R3 (AS 65520):</p> <div class="highlight"><pre><span></span><code>A:R3&gt;config&gt;router&gt;isis# info
 ----------------------------------------------
         level-capability level-1
         area-id 20.20
@@ -76,10 +88,10 @@ No. of Routes: 4
         level 2
             wide-metrics-only
         exit
-        interface &quot;system&quot;
+        interface "system"
             no shutdown
         exit
-        interface &quot;toR4&quot;
+        interface "toR4"
             interface-type point-to-point
             no shutdown
         exit
@@ -105,34 +117,34 @@ Displaying Level 2 database
 -------------------------------------------------------------------------------
 Level (2) LSP Count : 0
 ===============================================================================
-</code></pre></div> <h3 id=configuring-router-id-and-autonomous-system-number>Configuring Router ID and Autonomous System number<a class=headerlink href=#configuring-router-id-and-autonomous-system-number title="Permanent link">#</a></h3> <p>Once IGP is configured its time to configure a common entity for almost every routing protocol - <strong>Router ID</strong>. For BGP there is more than one place to configure the Router ID. Here is the <em>Router ID</em> selection process sorted by a priority:</p> <ol> <li>Router ID is configured in BGP global context with the command <code>configure router bgp router-id &lt;ip-address&gt;</code></li> <li>Router ID is configured globally for a router with the command <code>configure router router-id &lt;ip-address&gt;</code></li> <li>Router ID is inherited from <code>system</code> IP-address.</li> </ol> <p>Important thing to remember is that if no <code>router-id</code> nor <code>system</code> interface is configured - BGP will not start. Since we have the <code>system</code> interface configured for every router we don't need to specify the <code>router-id</code> explicitly.</p> <p><strong>AS number</strong> can be configured either globally for a router <code>configure router autonomous-system &lt;autonomous-system&gt;</code> or for a specified peer group with the <code>local-as</code> command. We will stick to the first option and configure our AS numbers globally for a router:</p> <div class=highlight><pre><span></span><code>A:R3# configure router autonomous-system 65520
+</code></pre></div> <h3 id="configuring-router-id-and-autonomous-system-number">Configuring Router ID and Autonomous System number<a class="headerlink" href="#configuring-router-id-and-autonomous-system-number" title="Permanent link">#</a></h3> <p>Once IGP is configured its time to configure a common entity for almost every routing protocol - <strong>Router ID</strong>. For BGP there is more than one place to configure the Router ID. Here is the <em>Router ID</em> selection process sorted by a priority:</p> <ol> <li>Router ID is configured in BGP global context with the command <code>configure router bgp router-id &lt;ip-address&gt;</code></li> <li>Router ID is configured globally for a router with the command <code>configure router router-id &lt;ip-address&gt;</code></li> <li>Router ID is inherited from <code>system</code> IP-address.</li> </ol> <p>Important thing to remember is that if no <code>router-id</code> nor <code>system</code> interface is configured - BGP will not start. Since we have the <code>system</code> interface configured for every router we don't need to specify the <code>router-id</code> explicitly.</p> <p><strong>AS number</strong> can be configured either globally for a router <code>configure router autonomous-system &lt;autonomous-system&gt;</code> or for a specified peer group with the <code>local-as</code> command. We will stick to the first option and configure our AS numbers globally for a router:</p> <div class="highlight"><pre><span></span><code>A:R3# configure router autonomous-system 65520
 
 *A:R3&gt;config&gt;router# info
 
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;system&quot;
+        interface "system"
             address 10.20.20.3/32
             no shutdown
         exit
-        interface &quot;toR1&quot;
+        interface "toR1"
             address 10.0.99.1/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR4&quot;
+        interface "toR4"
             address 10.20.99.0/31
             port 1/1/2
             no shutdown
         exit
         autonomous-system 65520
 #--------------------------------------------------
-</code></pre></div> <h2 id=starting-ebgp>Starting eBGP<a class=headerlink href=#starting-ebgp title="Permanent link">#</a></h2> <p>Common parameters are now configured and we can jump to eBGP peers configuration. Recall that we have two routers within AS 65510 (R1 and R2) which will have eBGP peering sessions with R3 and R3 within AS 65520 accordingly. Thus we should configure eBGP peering between the pairs R1-R3, R2-R4.</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/6612/21639405.11c/0_84ca1_6e32bdad_orig.png></p> <p>Nokia BGP configuration policy <strong>requires</strong> you to configure <strong>at least one peer group</strong> to make BGP peering happen. Peer groups are logical containers for BGP peers that share common parameters. Every BGP neighbor you add should find its place in any of the BGP peer groups, in other words - <strong>peer groups are mandatory</strong> in SROS.</p> <p>I will guide you through basic eBGP configuration between R1 and R3. R2 and R4 configuration will be just the same.</p> <p>R1:</p> <div class=highlight><pre><span></span><code>## entering BGP configuration context
+</code></pre></div> <h2 id="starting-ebgp">Starting eBGP<a class="headerlink" href="#starting-ebgp" title="Permanent link">#</a></h2> <p>Common parameters are now configured and we can jump to eBGP peers configuration. Recall that we have two routers within AS 65510 (R1 and R2) which will have eBGP peering sessions with R3 and R3 within AS 65520 accordingly. Thus we should configure eBGP peering between the pairs R1-R3, R2-R4.</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/6612/21639405.11c/0_84ca1_6e32bdad_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/6612/21639405.11c/0_84ca1_6e32bdad_orig.png"/></a></p> <p>Nokia BGP configuration policy <strong>requires</strong> you to configure <strong>at least one peer group</strong> to make BGP peering happen. Peer groups are logical containers for BGP peers that share common parameters. Every BGP neighbor you add should find its place in any of the BGP peer groups, in other words - <strong>peer groups are mandatory</strong> in SROS.</p> <p>I will guide you through basic eBGP configuration between R1 and R3. R2 and R4 configuration will be just the same.</p> <p>R1:</p> <div class="highlight"><pre><span></span><code>## entering BGP configuration context
 *A:R1# configure router bgp
 
 ## creating group eBGP
-*A:R1&gt;config&gt;router&gt;bgp$ group &quot;eBGP&quot;
+*A:R1&gt;config&gt;router&gt;bgp$ group "eBGP"
 
 ## specifying AS Number for AS we would want to peer to (which is 65520)
 ## for eBGP peer-as should differ from local AS
@@ -150,7 +162,7 @@ echo &quot;IP Configuration&quot;
 *A:R1&gt;config&gt;router&gt;bgp&gt;group$ back
 *A:R1&gt;config&gt;router&gt;bgp$ info
 ----------------------------------------------
-            group &quot;eBGP&quot;
+            group "eBGP"
                 peer-as 65520
                 neighbor 10.0.99.1
                     local-address 10.0.99.0
@@ -158,10 +170,10 @@ echo &quot;IP Configuration&quot;
             exit
             no shutdown
 ----------------------------------------------```
-</code></pre></div> <p>R3:</p> <div class=highlight><pre><span></span><code>## all the comments are the same as for R1
+</code></pre></div> <p>R3:</p> <div class="highlight"><pre><span></span><code>## all the comments are the same as for R1
 
 *A:R3# configure router bgp
-*A:R3&gt;config&gt;router&gt;bgp$ group &quot;eBGP&quot;
+*A:R3&gt;config&gt;router&gt;bgp$ group "eBGP"
 *A:R3&gt;config&gt;router&gt;bgp&gt;group$ peer-as 65510
 *A:R3&gt;config&gt;router&gt;bgp&gt;group$ neighbor 10.0.99.0
 A:R3&gt;config&gt;router&gt;bgp&gt;group&gt;neighbor$ local-address 10.0.99.1
@@ -169,7 +181,7 @@ A:R3&gt;config&gt;router&gt;bgp&gt;group&gt;neighbor$ local-address 10.0.99.1
 *A:R3&gt;config&gt;router&gt;bgp&gt;group$ back
 *A:R3&gt;config&gt;router&gt;bgp$ info
 ----------------------------------------------
-            group &quot;eBGP&quot;
+            group "eBGP"
                 peer-as 65510
                 neighbor 10.0.99.0
                     local-address 10.0.99.1
@@ -177,7 +189,7 @@ A:R3&gt;config&gt;router&gt;bgp&gt;group&gt;neighbor$ local-address 10.0.99.1
             exit
             no shutdown
 ----------------------------------------------
-</code></pre></div> <p>As simple as that, eBGP in its simplest form has been configured in 5 lines. Pay additional attention to <code>local-address</code> command. It is a common practice to specify a link IP address for an eBGP peer, otherwise SROS router will try to establish TCP session from its system IP address and will fail.</p> <p>To verify the established eBGP peering use the <code>show router bgp summary</code> command (another way is to use <code>show router bgp neighbor &lt;neighbor-ip-address&gt;</code>)</p> <div class=highlight><pre><span></span><code>A:R1# show router bgp summary
+</code></pre></div> <p>As simple as that, eBGP in its simplest form has been configured in 5 lines. Pay additional attention to <code>local-address</code> command. It is a common practice to specify a link IP address for an eBGP peer, otherwise SROS router will try to establish TCP session from its system IP address and will fail.</p> <p>To verify the established eBGP peering use the <code>show router bgp summary</code> command (another way is to use <code>show router bgp neighbor &lt;neighbor-ip-address&gt;</code>)</p> <div class="highlight"><pre><span></span><code>A:R1# show router bgp summary
 ===============================================================================
  BGP Router ID:10.10.10.1       AS:65510       Local AS:65510
 ===============================================================================
@@ -224,13 +236,13 @@ Neighbor
                 65520      85    0 00h41m58s 0/0/0 (IPv4)
                            85    0
 -------------------------------------------------------------------------------
-</code></pre></div> <p>At the end of this show command you can find information about the BGP neighbors and their states. With <code>show router bgp summary</code> command issued on R1 we see <code>10.0.99.1</code> as a neighbor (which is R3's interface IP address).</p> <p>If a session is established then you see the session uptime and number of routes <em>received/active/sent</em>. If the session has not been established yet an operator will see the current BGP state instead of the exchanged routes counters.</p> <p>String <code>0/0/0 (IPv4)</code> is an indicator that the peering has been successfully established and R1 router received and sent exactly zero IPv4 routes. Zero counters are expected, since we just started the eBGP session but did not export any routes to it. It is very important to remember that <strong>by default SROS does not add any non-BGP routes to the BGP process</strong>.</p> <h2 id=exporting-routes-to-bgp>Exporting routes to BGP<a class=headerlink href=#exporting-routes-to-bgp title="Permanent link">#</a></h2> <p>No fun at all to play with zero NLRI (network layer reachability information). Lets fix this and add some routes to our eBGP process. We have a good candidate for this in our address plan - <code>R5_Customer - 10.10.55.0/24</code> network. To emulate this customer's network we must add a loopback interface to R5 and announce this network via IGP:</p> <div class=highlight><pre><span></span><code>A:R5# configure router interface R5_Customer_loopback
+</code></pre></div> <p>At the end of this show command you can find information about the BGP neighbors and their states. With <code>show router bgp summary</code> command issued on R1 we see <code>10.0.99.1</code> as a neighbor (which is R3's interface IP address).</p> <p>If a session is established then you see the session uptime and number of routes <em>received/active/sent</em>. If the session has not been established yet an operator will see the current BGP state instead of the exchanged routes counters.</p> <p>String <code>0/0/0 (IPv4)</code> is an indicator that the peering has been successfully established and R1 router received and sent exactly zero IPv4 routes. Zero counters are expected, since we just started the eBGP session but did not export any routes to it. It is very important to remember that <strong>by default SROS does not add any non-BGP routes to the BGP process</strong>.</p> <h2 id="exporting-routes-to-bgp">Exporting routes to BGP<a class="headerlink" href="#exporting-routes-to-bgp" title="Permanent link">#</a></h2> <p>No fun at all to play with zero NLRI (network layer reachability information). Lets fix this and add some routes to our eBGP process. We have a good candidate for this in our address plan - <code>R5_Customer - 10.10.55.0/24</code> network. To emulate this customer's network we must add a loopback interface to R5 and announce this network via IGP:</p> <div class="highlight"><pre><span></span><code>A:R5# configure router interface R5_Customer_loopback
 *A:R5&gt;config&gt;router&gt;if$ loopback
 *A:R5&gt;config&gt;router&gt;if$ address 10.10.55.1/24
 
 ## adding artificial R5_Customer network to IS-IS
-*A:R5# configure router isis interface &quot;R5_Customer_loopback&quot;
-</code></pre></div> <p>After we created a network for our customer and announced it via IS-IS we should check if R1 could see it in its routing table:</p> <div class=highlight><pre><span></span><code>A:R1# show router route-table 10.10.55.0/24
+*A:R5# configure router isis interface "R5_Customer_loopback"
+</code></pre></div> <p>After we created a network for our customer and announced it via IS-IS we should check if R1 could see it in its routing table:</p> <div class="highlight"><pre><span></span><code>A:R1# show router route-table 10.10.55.0/24
 
 ===============================================================================
 Route Table (Router: Base)
@@ -242,20 +254,20 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
        10.10.99.5                                                   100
 -------------------------------------------------------------------------------
 No. of Routes: 1
-</code></pre></div> <p>Now R1 is aware of <code>10.10.55.0/24</code>, but this is not sufficient for the BGP process on R1 to advertise this prefix to R3. We should <strong>explicitly</strong> tell BGP process running on R1 to take <code>10.10.55.0/24</code> prefix into consideration and the way to do so is to create a <strong>policy-statement</strong> and <strong>export</strong> it to BGP.</p> <p>Step-by-step plan goes like this:</p> <ul> <li>create a <em>prefix-list</em> to match a desired prefix</li> <li>create a <em>policy-statement</em> accepting prefixes from the prefix-list and delivering it to the BGP process</li> <li>add customer's network to BGP via <code>export &lt;policy_statement&gt;</code> command under peer group context.</li> </ul> <p>Lets implement this plan:</p> <div class=highlight><pre><span></span><code>A:R1# configure router policy-options
+</code></pre></div> <p>Now R1 is aware of <code>10.10.55.0/24</code>, but this is not sufficient for the BGP process on R1 to advertise this prefix to R3. We should <strong>explicitly</strong> tell BGP process running on R1 to take <code>10.10.55.0/24</code> prefix into consideration and the way to do so is to create a <strong>policy-statement</strong> and <strong>export</strong> it to BGP.</p> <p>Step-by-step plan goes like this:</p> <ul> <li>create a <em>prefix-list</em> to match a desired prefix</li> <li>create a <em>policy-statement</em> accepting prefixes from the prefix-list and delivering it to the BGP process</li> <li>add customer's network to BGP via <code>export &lt;policy_statement&gt;</code> command under peer group context.</li> </ul> <p>Lets implement this plan:</p> <div class="highlight"><pre><span></span><code>A:R1# configure router policy-options
 
 ## entering to policy options edit mode
 A:R1&gt;config&gt;router&gt;policy-options# begin
 
 ## creating prefix-list for R5_Customer network
-*A:R1&gt;config&gt;router&gt;policy-options# prefix-list &quot;R5_Customer_pfx&quot;
+*A:R1&gt;config&gt;router&gt;policy-options# prefix-list "R5_Customer_pfx"
 *A:R1&gt;config&gt;router&gt;policy-options&gt;prefix-list$ prefix 10.10.55.0/24 exact
 *A:R1&gt;config&gt;router&gt;policy-options&gt;prefix-list$ back
 
 ## creating policy statement
-*A:R1&gt;config&gt;router&gt;policy-options# policy-statement &quot;R5_Customer_export&quot;
+*A:R1&gt;config&gt;router&gt;policy-options# policy-statement "R5_Customer_export"
 *A:R1&gt;config&gt;router&gt;policy-options&gt;policy-statement$ entry 10
-*A:R1&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry$ from prefix-list &quot;R5_Customer_pfx&quot;
+*A:R1&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry$ from prefix-list "R5_Customer_pfx"
 *A:R1&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry$ to protocol bgp
 *A:R1&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry$ action accept
 *A:R1&gt;config&gt;router&gt;policy-options&gt;policy-statement&gt;entry&gt;action$ back
@@ -268,13 +280,13 @@ A:R1&gt;config&gt;router&gt;policy-options# begin
 ## reviewing configuration
 *A:R1&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
-            prefix-list &quot;R5_Customer_pfx&quot;
+            prefix-list "R5_Customer_pfx"
                 prefix 10.10.55.0/24 exact
             exit
-            policy-statement &quot;R5_Customer_export&quot;
+            policy-statement "R5_Customer_export"
                 entry 10
                     from
-                        prefix-list &quot;R5_Customer_pfx&quot;
+                        prefix-list "R5_Customer_pfx"
                     exit
                     to
                         protocol bgp
@@ -284,16 +296,16 @@ A:R1&gt;config&gt;router&gt;policy-options# begin
                 exit
             exit
 ----------------------------------------------
-</code></pre></div> <p>After we have the policy statement configured we can reference it in the <code>export</code> command under the eBGP peer group section of R1:</p> <div class=highlight><pre><span></span><code>*A:R1# configure router bgp
-*A:R1&gt;config&gt;router&gt;bgp# group &quot;eBGP&quot;
+</code></pre></div> <p>After we have the policy statement configured we can reference it in the <code>export</code> command under the eBGP peer group section of R1:</p> <div class="highlight"><pre><span></span><code>*A:R1# configure router bgp
+*A:R1&gt;config&gt;router&gt;bgp# group "eBGP"
 
-## hitting TAB after &quot;export&quot; keyword displays all available policy statements
+## hitting TAB after "export" keyword displays all available policy statements
 *A:R1&gt;config&gt;router&gt;bgp&gt;group# export
 &lt;policy-name&gt; [&lt;policy-name&gt;...(upto 15 max)]
- &quot;R5_Customer_export&quot;
+ "R5_Customer_export"
 
-*A:R1&gt;config&gt;router&gt;bgp&gt;group# export &quot;R5_Customer_export&quot;
-</code></pre></div> <p>Export command triggers R1 to send a BGP Update message with the NLRI for <code>R5_Customer</code> network to R3 (note that I made the same configuration on R2-R4 pair, so the figure below shows R2's BGP Update message as well):</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/9170/21639405.11c/0_84ca2_4e1a50c8_orig.png></p> <p>Take a look at <code>show router bgp summary</code> once again on R1:</p> <div class=highlight><pre><span></span><code>A:R1# show router bgp summary
+*A:R1&gt;config&gt;router&gt;bgp&gt;group# export "R5_Customer_export"
+</code></pre></div> <p>Export command triggers R1 to send a BGP Update message with the NLRI for <code>R5_Customer</code> network to R3 (note that I made the same configuration on R2-R4 pair, so the figure below shows R2's BGP Update message as well):</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/9170/21639405.11c/0_84ca2_4e1a50c8_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/9170/21639405.11c/0_84ca2_4e1a50c8_orig.png"/></a></p> <p>Take a look at <code>show router bgp summary</code> once again on R1:</p> <div class="highlight"><pre><span></span><code>A:R1# show router bgp summary
 
 ## output omitted ##
 
@@ -308,7 +320,7 @@ Neighbor
                 65520     265    0 02h13m28s 1/0/1 (IPv4)
                           266    0
 -------------------------------------------------------------------------------
-</code></pre></div> <p>Nice, we have sent and received <em>one</em> IPv4 NLRI. It is surprising to see one prefix received considering that R3 does not have any exported networks, but we will deal with this later. Now lets check R3 to see if it has <code>R5_Customer</code> network in its routing table?</p> <blockquote> <p><strong>BGP mechanics</strong><br> I have to pause for a moment and share with you the BGP route processing diagram. It helps to understand what BGP databases are there on Nokia SROS and what path it takes through the BGP route machinery. <img alt=pic src=http://img-fotki.yandex.ru/get/4109/21639405.11c/0_84d72_94e5a74a_orig.png> <small>credits: Alcatel-Lucent Service Routing Architect (SRA) Self-Study guide, WILEY</small><br> I will refer to these databases from now on as BGP RIB In, BGP Local-RIB and BGP RIB Out.</p> </blockquote> <p>To see what routes are in <strong>BGP RIB In</strong> and BGP Local Routing Information Base (<strong>BGP Local-RIB</strong>) use the <code>show router bgp routes</code> command:</p> <div class=highlight><pre><span></span><code>A:R3# show router bgp routes
+</code></pre></div> <p>Nice, we have sent and received <em>one</em> IPv4 NLRI. It is surprising to see one prefix received considering that R3 does not have any exported networks, but we will deal with this later. Now lets check R3 to see if it has <code>R5_Customer</code> network in its routing table?</p> <blockquote> <p><strong>BGP mechanics</strong><br/> I have to pause for a moment and share with you the BGP route processing diagram. It helps to understand what BGP databases are there on Nokia SROS and what path it takes through the BGP route machinery. <a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/4109/21639405.11c/0_84d72_94e5a74a_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/4109/21639405.11c/0_84d72_94e5a74a_orig.png"/></a> <small>credits: Alcatel-Lucent Service Routing Architect (SRA) Self-Study guide, WILEY</small><br/> I will refer to these databases from now on as BGP RIB In, BGP Local-RIB and BGP RIB Out.</p> </blockquote> <p>To see what routes are in <strong>BGP RIB In</strong> and BGP Local Routing Information Base (<strong>BGP Local-RIB</strong>) use the <code>show router bgp routes</code> command:</p> <div class="highlight"><pre><span></span><code>A:R3# show router bgp routes
 ===============================================================================
  BGP Router ID:10.20.20.3       AS:65520       Local AS:65520
 ===============================================================================
@@ -330,7 +342,7 @@ u*&gt;i  10.10.55.0/24                                      None        100
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <p>Perfect, <code>10.10.55.0/24</code> network made its way into BGP Local-RIB</p> <ul> <li><code>*</code> flag means it passed validation checks</li> <li><code>u</code> tells us that this route is used and is present in the R3 routing table</li> </ul> <div class=highlight><pre><span></span><code>A:R3# show router route-table 10.10.55.0
+</code></pre></div> <p>Perfect, <code>10.10.55.0/24</code> network made its way into BGP Local-RIB</p> <ul> <li><code>*</code> flag means it passed validation checks</li> <li><code>u</code> tells us that this route is used and is present in the R3 routing table</li> </ul> <div class="highlight"><pre><span></span><code>A:R3# show router route-table 10.10.55.0
 
 ===============================================================================
 Route Table (Router: Base)
@@ -342,7 +354,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
        10.0.99.0                                                    0
 -------------------------------------------------------------------------------
 No. of Routes: 1
-</code></pre></div> <h2 id=alcatel-lucent-ebgp-reflecting-routes-issue>Alcatel-Lucent eBGP reflecting routes issue<a class=headerlink href=#alcatel-lucent-ebgp-reflecting-routes-issue title="Permanent link">#</a></h2> <p>Now it is time to deal with that rogue route received by R1 from its neighbor R3.</p> <div class=highlight><pre><span></span><code>*A:R1# show router bgp routes
+</code></pre></div> <h2 id="alcatel-lucent-ebgp-reflecting-routes-issue">Alcatel-Lucent eBGP reflecting routes issue<a class="headerlink" href="#alcatel-lucent-ebgp-reflecting-routes-issue" title="Permanent link">#</a></h2> <p>Now it is time to deal with that rogue route received by R1 from its neighbor R3.</p> <div class="highlight"><pre><span></span><code>*A:R1# show router bgp routes
 ===============================================================================
  BGP Router ID:10.10.10.1       AS:65510       Local AS:65510
 ===============================================================================
@@ -364,7 +376,7 @@ i     10.10.55.0/24                                      None        None
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <p>AS 65510 local prefix <code>10.10.55.0/24</code> is in R1's own BGP Local-RIB, but why do wee see it there? Well, because R3 sent it to R1. But why the hell R3 sent back the <code>10.10.55.0/24</code> prefix to R1 given that it came from it?</p> <p>Lets investigate NLRI propagation for this prefix:</p> <ol> <li>R1 sends BGP Update message to R3 with the <code>10.10.55.0/24</code> prefix and AS Path 65510.</li> <li>R3 receives this update, stores it in <strong>BGP RIB In</strong> database and checks if this NLRI is valid (nexthop resolvable, no AS Path loop) in order to put this prefix in R3's <strong>BGP Local-RIB</strong>.</li> <li>All the checks passed and R3 sends NLRI <code>10.10.55.0/24</code> back to R1 since <strong>this is not prohibited</strong> by <a href=https://tools.ietf.org/html/rfc4271>RFC 4271 A Border Gateway Protocol 4 (BGP-4)</a> appending AS Path with its AS number.</li> <li>R1 receives this update and stores it in its <strong>BGP RIB In</strong> but this route will never make its way to <strong>BGP Local-RIB</strong> due to <strong>AS Loop</strong> error.</li> </ol> <p>Based on the output from the <code>show router bgp routes</code> command and the fact that there is only one flag <code>i</code> associated with the <code>10.10.55.0/24</code> prefix we can conclude that this prefix was not delivered to <em>Route Table Manager</em> (RTM) and left alone in the BGP RIB In of R1. But why is that? If we issue super-useful command <code>show router bgp routes &lt;prefix&gt; hunt</code> for this prefix we could see what happened:</p> <div class=highlight><pre><span></span><code>*A:R1# show router bgp routes 10.10.55.0/24 hunt
+</code></pre></div> <p>AS 65510 local prefix <code>10.10.55.0/24</code> is in R1's own BGP Local-RIB, but why do wee see it there? Well, because R3 sent it to R1. But why the hell R3 sent back the <code>10.10.55.0/24</code> prefix to R1 given that it came from it?</p> <p>Lets investigate NLRI propagation for this prefix:</p> <ol> <li>R1 sends BGP Update message to R3 with the <code>10.10.55.0/24</code> prefix and AS Path 65510.</li> <li>R3 receives this update, stores it in <strong>BGP RIB In</strong> database and checks if this NLRI is valid (nexthop resolvable, no AS Path loop) in order to put this prefix in R3's <strong>BGP Local-RIB</strong>.</li> <li>All the checks passed and R3 sends NLRI <code>10.10.55.0/24</code> back to R1 since <strong>this is not prohibited</strong> by <a href="https://tools.ietf.org/html/rfc4271">RFC 4271 A Border Gateway Protocol 4 (BGP-4)</a> appending AS Path with its AS number.</li> <li>R1 receives this update and stores it in its <strong>BGP RIB In</strong> but this route will never make its way to <strong>BGP Local-RIB</strong> due to <strong>AS Loop</strong> error.</li> </ol> <p>Based on the output from the <code>show router bgp routes</code> command and the fact that there is only one flag <code>i</code> associated with the <code>10.10.55.0/24</code> prefix we can conclude that this prefix was not delivered to <em>Route Table Manager</em> (RTM) and left alone in the BGP RIB In of R1. But why is that? If we issue super-useful command <code>show router bgp routes &lt;prefix&gt; hunt</code> for this prefix we could see what happened:</p> <div class="highlight"><pre><span></span><code>*A:R1# show router bgp routes 10.10.55.0/24 hunt
 ===============================================================================
  BGP Router ID:10.10.10.1       AS:65510       Local AS:65510
 ===============================================================================
@@ -427,7 +439,7 @@ Source Class   : 0                      Dest Class     : 0
 -------------------------------------------------------------------------------
 Routes : 2
 ===============================================================================
-</code></pre></div> <p><strong>RIB In Entries</strong> section of this output and especially the lines "Flags" and "AS Path" answer the question why R1 will not pass <code>10.10.55.0/24</code> to the <em>BGP Local-RIB</em> — there is an <strong>AS Path Loop</strong> for this NLRI. And this is the reason why this NLRI is in <em>BGP RIB In</em> only.</p> <h2 id=ebgp-split-horizon>eBGP split-horizon<a class=headerlink href=#ebgp-split-horizon title="Permanent link">#</a></h2> <p>For those of you who came from Cisco or Juniper camps its quite strange to see that R3 send the same prefix back to R1. I agree, its hard to find a case when it would be desired to receive previously announced prefix over eBGP. To mitigate this round-trip exchange you can use the <code>split-horizon</code> command on R3. This split-horizon has nothing to do with standard iBGP split-horizon behavior (which is "do not advertise prefixes received from one iBGP peer to the other iBPG peers").</p> <div class=highlight><pre><span></span><code>## check that 10.10.55.0/24 prefix is announcing back to R1
+</code></pre></div> <p><strong>RIB In Entries</strong> section of this output and especially the lines "Flags" and "AS Path" answer the question why R1 will not pass <code>10.10.55.0/24</code> to the <em>BGP Local-RIB</em> — there is an <strong>AS Path Loop</strong> for this NLRI. And this is the reason why this NLRI is in <em>BGP RIB In</em> only.</p> <h2 id="ebgp-split-horizon">eBGP split-horizon<a class="headerlink" href="#ebgp-split-horizon" title="Permanent link">#</a></h2> <p>For those of you who came from Cisco or Juniper camps its quite strange to see that R3 send the same prefix back to R1. I agree, its hard to find a case when it would be desired to receive previously announced prefix over eBGP. To mitigate this round-trip exchange you can use the <code>split-horizon</code> command on R3. This split-horizon has nothing to do with standard iBGP split-horizon behavior (which is "do not advertise prefixes received from one iBGP peer to the other iBPG peers").</p> <div class="highlight"><pre><span></span><code>## check that 10.10.55.0/24 prefix is announcing back to R1
 *A:R3# show router bgp routes 10.10.55.0/24 hunt
 ===============================================================================
  BGP Router ID:10.20.20.3       AS:65520       Local AS:65520
@@ -473,7 +485,7 @@ Routes : 2
 
 
 ## issue split-horizon command to disable this useless behavior
-A:R3# configure router bgp group &quot;eBGP&quot;
+A:R3# configure router bgp group "eBGP"
 A:R3&gt;config&gt;router&gt;bgp&gt;group# split-horizon 
 
 
@@ -529,10 +541,10 @@ Flag  Network                                            LocalPref   MED
 -------------------------------------------------------------------------------
 No Matching Entries Found
 ===============================================================================
-</code></pre></div> <h2 id=ebgp-resulting-configuration>eBGP resulting configuration<a class=headerlink href=#ebgp-resulting-configuration title="Permanent link">#</a></h2> <p>Check the resulting eBGP config that you would have on your routers at this moment:</p> <p>R1:</p> <div class=highlight><pre><span></span><code>A:R1&gt;config&gt;router&gt;bgp# info
+</code></pre></div> <h2 id="ebgp-resulting-configuration">eBGP resulting configuration<a class="headerlink" href="#ebgp-resulting-configuration" title="Permanent link">#</a></h2> <p>Check the resulting eBGP config that you would have on your routers at this moment:</p> <p>R1:</p> <div class="highlight"><pre><span></span><code>A:R1&gt;config&gt;router&gt;bgp# info
 ----------------------------------------------
-            group &quot;eBGP&quot;
-                export &quot;R5_Customer_export&quot;
+            group "eBGP"
+                export "R5_Customer_export"
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.1
@@ -543,13 +555,13 @@ No Matching Entries Found
 
 A:R1&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
-            prefix-list &quot;R5_Customer_pfx&quot;
+            prefix-list "R5_Customer_pfx"
                 prefix 10.10.55.0/24 exact
             exit
-            policy-statement &quot;R5_Customer_export&quot;
+            policy-statement "R5_Customer_export"
                 entry 10
                     from
-                        prefix-list &quot;R5_Customer_pfx&quot;
+                        prefix-list "R5_Customer_pfx"
                     exit
                     to
                         protocol bgp
@@ -602,10 +614,10 @@ Flag  Network                                            LocalPref   MED
 -------------------------------------------------------------------------------
 No Matching Entries Found
 ===============================================================================
-</code></pre></div> <p>R2:</p> <div class=highlight><pre><span></span><code>A:R2&gt;config&gt;router&gt;bgp# info
+</code></pre></div> <p>R2:</p> <div class="highlight"><pre><span></span><code>A:R2&gt;config&gt;router&gt;bgp# info
 ----------------------------------------------
-            group &quot;eBGP&quot;
-                export &quot;R5_Customer_export&quot;
+            group "eBGP"
+                export "R5_Customer_export"
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.3
@@ -616,13 +628,13 @@ No Matching Entries Found
 
 A:R2&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
-            prefix-list &quot;R5_Customer_pfx&quot;
+            prefix-list "R5_Customer_pfx"
                 prefix 10.10.55.0/24 exact
             exit
-            policy-statement &quot;R5_Customer_export&quot;
+            policy-statement "R5_Customer_export"
                 entry 10
                     from
-                        prefix-list &quot;R5_Customer_pfx&quot;
+                        prefix-list "R5_Customer_pfx"
                     exit
                     to
                         protocol bgp
@@ -678,9 +690,9 @@ Flag  Network                                            LocalPref   MED
 -------------------------------------------------------------------------------
 No Matching Entries Found
 ===============================================================================
-</code></pre></div> <p>R3:</p> <div class=highlight><pre><span></span><code>A:R3&gt;config&gt;router&gt;bgp# info
+</code></pre></div> <p>R3:</p> <div class="highlight"><pre><span></span><code>A:R3&gt;config&gt;router&gt;bgp# info
 ----------------------------------------------
-            group &quot;eBGP&quot;
+            group "eBGP"
                 peer-as 65510
                 split-horizon
                 neighbor 10.0.99.0
@@ -735,9 +747,9 @@ u*&gt;i  10.10.55.0/24                                      n/a         100
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <p>R4:</p> <div class=highlight><pre><span></span><code>A:R4&gt;config&gt;router&gt;bgp# info
+</code></pre></div> <p>R4:</p> <div class="highlight"><pre><span></span><code>A:R4&gt;config&gt;router&gt;bgp# info
 ----------------------------------------------
-            group &quot;eBGP&quot;
+            group "eBGP"
                 peer-as 65510
                 split-horizon
                 neighbor 10.0.99.2
@@ -792,8 +804,8 @@ u*&gt;i  10.10.55.0/24                                      n/a         200
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <h2 id=ibgp-configuration>iBGP configuration<a class=headerlink href=#ibgp-configuration title="Permanent link">#</a></h2> <p>iBGP sessions are established inside BGP Autonomous System and are used to distribute BGP routes between the routers there. In our case we have two Autonomous Systems, so we will configure full mesh of iBGP sessions within AS 65510 and AS 66520:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/6527/21639405.11c/0_84ca3_3adf0431_orig.png></p> <p>The reason we need to provide a full-mesh of iBGP sessions is dictated by the <a href=https://supportforums.cisco.com/discussion/11487611/why-we-need-bgp-split-horizon-rule>iBGP split-horizon rule</a>. Starting with AS 65510, configure <em>iBGP</em> peer group for every router inside this AS and specify the other routers <code>system</code> IP addresses as a neighbor. For iBGP it is quite common to use <code>system</code> or loopback IP address (in contrast with link addresses used in eBGP) as a neighbor address because this enables IGP path redundancy.</p> <p>Configuration sequence is straightforward:</p> <ol> <li>create "iBGP" peer group</li> <li>set local AS Number as a <code>peer-as</code> inside the iBGP peer group</li> <li>specify the neighbors using their <code>system</code> interface addresses</li> </ol> <div class=highlight><pre><span></span><code>## repeat configuration steps on all routers in AS 65510 and AS 65520
-*A:R1# configure router bgp group &quot;iBGP&quot;
+</code></pre></div> <h2 id="ibgp-configuration">iBGP configuration<a class="headerlink" href="#ibgp-configuration" title="Permanent link">#</a></h2> <p>iBGP sessions are established inside BGP Autonomous System and are used to distribute BGP routes between the routers there. In our case we have two Autonomous Systems, so we will configure full mesh of iBGP sessions within AS 65510 and AS 66520:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/6527/21639405.11c/0_84ca3_3adf0431_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/6527/21639405.11c/0_84ca3_3adf0431_orig.png"/></a></p> <p>The reason we need to provide a full-mesh of iBGP sessions is dictated by the <a href="https://supportforums.cisco.com/discussion/11487611/why-we-need-bgp-split-horizon-rule">iBGP split-horizon rule</a>. Starting with AS 65510, configure <em>iBGP</em> peer group for every router inside this AS and specify the other routers <code>system</code> IP addresses as a neighbor. For iBGP it is quite common to use <code>system</code> or loopback IP address (in contrast with link addresses used in eBGP) as a neighbor address because this enables IGP path redundancy.</p> <p>Configuration sequence is straightforward:</p> <ol> <li>create "iBGP" peer group</li> <li>set local AS Number as a <code>peer-as</code> inside the iBGP peer group</li> <li>specify the neighbors using their <code>system</code> interface addresses</li> </ol> <div class="highlight"><pre><span></span><code>## repeat configuration steps on all routers in AS 65510 and AS 65520
+*A:R1# configure router bgp group "iBGP"
 *A:R1&gt;config&gt;router&gt;bgp&gt;group# info
 ----------------------------------------------
                 ## iBGP peers share the same AS Number in peer-as command 
@@ -805,7 +817,7 @@ Routes : 1
                 neighbor 10.10.10.6
                 exit
 ----------------------------------------------
-</code></pre></div> <p>Note, that you do not need to specify the local-address statement (though it is not prohibited) since SROS router will initiate TCP socket opening from its system IP address by default.</p> <p>To verify that iBGP sessions have been successfully established you can use good-old <code>show router bgp summary</code> or fancy <code>show router bgp group &lt;group name&gt;</code> commands:</p> <div class=highlight><pre><span></span><code>A:R1# show router bgp group &quot;iBGP&quot;
+</code></pre></div> <p>Note, that you do not need to specify the local-address statement (though it is not prohibited) since SROS router will initiate TCP socket opening from its system IP address by default.</p> <p>To verify that iBGP sessions have been successfully established you can use good-old <code>show router bgp summary</code> or fancy <code>show router bgp group &lt;group name&gt;</code> commands:</p> <div class="highlight"><pre><span></span><code>A:R1# show router bgp group "iBGP"
 
 ===============================================================================
 BGP Group : iBGP
@@ -845,7 +857,7 @@ Total Peers      : 3                    Established      : 3
 -------------------------------------------------------------------------------
 Peer Groups : 1
 ===============================================================================
-</code></pre></div> <p>Ok, now we got iBGP full-mesh configured for both ASes but to start playing with iBGP let me introduce you to another customer network - <code>R3_Ext_Customer - 172.16.33.0/24</code>. This customer network resides beside R3 and you should add it to the BGP with the same policies/export routine as we did before for <code>R5_Customer</code>.</p> <div class=highlight><pre><span></span><code>## 1. create interface to emulate R3_Ext_Customer network
+</code></pre></div> <p>Ok, now we got iBGP full-mesh configured for both ASes but to start playing with iBGP let me introduce you to another customer network - <code>R3_Ext_Customer - 172.16.33.0/24</code>. This customer network resides beside R3 and you should add it to the BGP with the same policies/export routine as we did before for <code>R5_Customer</code>.</p> <div class="highlight"><pre><span></span><code>## 1. create interface to emulate R3_Ext_Customer network
 *A:R3# configure router interface R3_Ext_Customer
 *A:R3&gt;config&gt;router&gt;if$ address 172.16.33.1/24
 *A:R3&gt;config&gt;router&gt;if$ loopback
@@ -853,13 +865,13 @@ Peer Groups : 1
 ## 2. configure policy statement to export specific prefix to bgp
 *A:R3&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
-            prefix-list &quot;R3_Ext_Customer&quot;
+            prefix-list "R3_Ext_Customer"
                 prefix 172.16.33.0/24 exact
             exit
-            policy-statement &quot;export_R3_Ext_Customer&quot;
+            policy-statement "export_R3_Ext_Customer"
                 entry 10
                     from
-                        prefix-list &quot;R3_Ext_Customer&quot;
+                        prefix-list "R3_Ext_Customer"
                     exit
                     to
                         protocol bgp
@@ -871,8 +883,8 @@ Peer Groups : 1
 ----------------------------------------------
 
 ## 3. export
-*A:R3# configure router bgp group &quot;eBGP&quot; export &quot;export_R3_Ext_Customer&quot;
-</code></pre></div> <p>What happens next? Correct, <code>R3_Ext_Customer</code> NLRI goes from R3 to R1 via eBGP. R1 checks if this NLRI is valid by checking the AS Path for looping and the next-hop for reachability.</p> <p>Since the default behavior of the eBGP is to set its <strong>egress</strong> interface's IP address as a next-hop, we see that R1 receives BGP routes with <code>10.0.99.1</code> address as the next-hop:</p> <div class=highlight><pre><span></span><code>A:R1# show router bgp neighbor 10.0.99.1 received-routes
+*A:R3# configure router bgp group "eBGP" export "export_R3_Ext_Customer"
+</code></pre></div> <p>What happens next? Correct, <code>R3_Ext_Customer</code> NLRI goes from R3 to R1 via eBGP. R1 checks if this NLRI is valid by checking the AS Path for looping and the next-hop for reachability.</p> <p>Since the default behavior of the eBGP is to set its <strong>egress</strong> interface's IP address as a next-hop, we see that R1 receives BGP routes with <code>10.0.99.1</code> address as the next-hop:</p> <div class="highlight"><pre><span></span><code>A:R1# show router bgp neighbor 10.0.99.1 received-routes
 ===============================================================================
  BGP Router ID:10.10.10.1       AS:65510       Local AS:65510
 ===============================================================================
@@ -894,7 +906,7 @@ u*&gt;i  172.16.33.0/24                                     n/a         None
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <p>This next-hop is reachable to R1 since it has <code>toR3</code> interface in this network. So R1 has every right to pass NLRI <code>10.0.99.1</code> to the <em>BGP Local-RIB</em> and then to the Routing Table Manager (RTM then installs this route to R1's routing table).</p> <p>And now iBGP on R1 comes into play by advertising NLRI <code>10.0.99.1</code> to its iBGP peers. This is the default BGP's behavior to advertise valid BGP routes came from eBGP peer to all iBGP peers, and the most important part of this eBGP-&gt;iBGP redistribution is that the <strong>next-hop</strong> once set by eBGP peer (R3 in our case) <strong>goes unchanged</strong> in iBGP updates:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/36/21639405.11c/0_84ca4_7c4fdef1_orig.png></p> <p>Take a look at R5's BGP routes:</p> <div class=highlight><pre><span></span><code>A:R5# show router bgp routes
+</code></pre></div> <p>This next-hop is reachable to R1 since it has <code>toR3</code> interface in this network. So R1 has every right to pass NLRI <code>10.0.99.1</code> to the <em>BGP Local-RIB</em> and then to the Routing Table Manager (RTM then installs this route to R1's routing table).</p> <p>And now iBGP on R1 comes into play by advertising NLRI <code>10.0.99.1</code> to its iBGP peers. This is the default BGP's behavior to advertise valid BGP routes came from eBGP peer to all iBGP peers, and the most important part of this eBGP-&gt;iBGP redistribution is that the <strong>next-hop</strong> once set by eBGP peer (R3 in our case) <strong>goes unchanged</strong> in iBGP updates:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/36/21639405.11c/0_84ca4_7c4fdef1_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/36/21639405.11c/0_84ca4_7c4fdef1_orig.png"/></a></p> <p>Take a look at R5's BGP routes:</p> <div class="highlight"><pre><span></span><code>A:R5# show router bgp routes
 ===============================================================================
  BGP Router ID:10.10.10.5       AS:65510       Local AS:65510
 ===============================================================================
@@ -916,7 +928,7 @@ i     172.16.33.0/24                                     100         None
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <p>R5 received <code>R3_Ext_Customer 172.16.33.0/24</code> NLRI but it cant use it (<code>u</code> flag is absent). Invoke <code>hunt</code> command to see whats wrong:</p> <div class=highlight><pre><span></span><code>A:R5# show router bgp routes 172.16.33.0/24 hunt
+</code></pre></div> <p>R5 received <code>R3_Ext_Customer 172.16.33.0/24</code> NLRI but it cant use it (<code>u</code> flag is absent). Invoke <code>hunt</code> command to see whats wrong:</p> <div class="highlight"><pre><span></span><code>A:R5# show router bgp routes 172.16.33.0/24 hunt
 ===============================================================================
  BGP Router ID:10.10.10.5       AS:65510       Local AS:65510
 ===============================================================================
@@ -959,7 +971,7 @@ RIB Out Entries
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <p>Aha, R5 cant validate received NLRI since its next-hop is unresolvable to R5. Recall the R1 did not change next-hop information it received from R3, so R5 received the same IP address <code>10.0.99.1</code> as a next-hop and R5 has no route towards it. That is the reason that R5's routing table has no network <code>10.0.99.1</code>:</p> <div class=highlight><pre><span></span><code>A:R5# show router route-table 176.16.33.0/24
+</code></pre></div> <p>Aha, R5 cant validate received NLRI since its next-hop is unresolvable to R5. Recall the R1 did not change next-hop information it received from R3, so R5 received the same IP address <code>10.0.99.1</code> as a next-hop and R5 has no route towards it. That is the reason that R5's routing table has no network <code>10.0.99.1</code>:</p> <div class="highlight"><pre><span></span><code>A:R5# show router route-table 176.16.33.0/24
 
 ===============================================================================
 Route Table (Router: Base)
@@ -969,9 +981,9 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 No. of Routes: 0
-</code></pre></div> <p>There are two approaches to fix this:</p> <ol> <li>use <code>next-hop-self</code> command on R1</li> <li>adding eBGP interfaces to IGP process (as passive interface) making them known to every router participating in the IGP domain. Or implementing static or default routes in AS 65510 to reach R3's interface network</li> </ol> <p>We will stick to the first option.</p> <h3 id=ibgp-next-hop-self>iBGP next-hop-self<a class=headerlink href=#ibgp-next-hop-self title="Permanent link">#</a></h3> <p>The <code>next-hop-self</code> command forces iBGP speaker, who received an eBGP update message to substitute next-hop information with its <code>system</code> IP address.</p> <div class=highlight><pre><span></span><code>A:R1# configure router bgp group &quot;iBGP&quot;
+</code></pre></div> <p>There are two approaches to fix this:</p> <ol> <li>use <code>next-hop-self</code> command on R1</li> <li>adding eBGP interfaces to IGP process (as passive interface) making them known to every router participating in the IGP domain. Or implementing static or default routes in AS 65510 to reach R3's interface network</li> </ol> <p>We will stick to the first option.</p> <h3 id="ibgp-next-hop-self">iBGP next-hop-self<a class="headerlink" href="#ibgp-next-hop-self" title="Permanent link">#</a></h3> <p>The <code>next-hop-self</code> command forces iBGP speaker, who received an eBGP update message to substitute next-hop information with its <code>system</code> IP address.</p> <div class="highlight"><pre><span></span><code>A:R1# configure router bgp group "iBGP"
 A:R1&gt;config&gt;router&gt;bgp&gt;group# next-hop-self
-</code></pre></div> <p>Get back to R5 and check whats changed:</p> <div class=highlight><pre><span></span><code>A:R5# show router bgp routes
+</code></pre></div> <p>Get back to R5 and check whats changed:</p> <div class="highlight"><pre><span></span><code>A:R5# show router bgp routes
 ===============================================================================
  BGP Router ID:10.10.10.5       AS:65510       Local AS:65510
 ===============================================================================
@@ -993,7 +1005,7 @@ u*&gt;i  172.16.33.0/24                                     100         None
 -------------------------------------------------------------------------------
 Routes : 1
 ===============================================================================
-</code></pre></div> <p>Now it is a totally different story! R5 successfully validates the received NLRI and can use it thanks to resolvable next-hop which is R1's system IP address <code>10.10.10.1</code>.</p> <p>The next step is to pass this route to the RTM which is responsible for routing-table provisioning. If we take a look at R5 routing table for the recently received <code>172.16.33.0/24</code> prefix we will see that next-hop isn't <code>10.10.10.1</code>:</p> <div class=highlight><pre><span></span><code>A:R5# show router route-table 172.16.33.0/24
+</code></pre></div> <p>Now it is a totally different story! R5 successfully validates the received NLRI and can use it thanks to resolvable next-hop which is R1's system IP address <code>10.10.10.1</code>.</p> <p>The next step is to pass this route to the RTM which is responsible for routing-table provisioning. If we take a look at R5 routing table for the recently received <code>172.16.33.0/24</code> prefix we will see that next-hop isn't <code>10.10.10.1</code>:</p> <div class="highlight"><pre><span></span><code>A:R5# show router route-table 172.16.33.0/24
 
 ===============================================================================
 Route Table (Router: Base)
@@ -1005,7 +1017,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
        10.10.99.4                                                   0
 -------------------------------------------------------------------------------
 No. of Routes: 1
-</code></pre></div> <p>The reason behind this discrepancy is that the routing table should have connected networks as a next-hop and since <code>10.10.10.1</code> is far from being connected to R5 it performs an operation called <strong>recursive lookup</strong>. R5 takes next-hop value received from the iBGP update <code>10.10.10.1</code> and performs the route-table lookup:</p> <div class=highlight><pre><span></span><code>A:R5# show router route-table 10.10.10.1
+</code></pre></div> <p>The reason behind this discrepancy is that the routing table should have connected networks as a next-hop and since <code>10.10.10.1</code> is far from being connected to R5 it performs an operation called <strong>recursive lookup</strong>. R5 takes next-hop value received from the iBGP update <code>10.10.10.1</code> and performs the route-table lookup:</p> <div class="highlight"><pre><span></span><code>A:R5# show router route-table 10.10.10.1
 
 ===============================================================================
 Route Table (Router: Base)
@@ -1017,7 +1029,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
        10.10.99.4                                                   100
 -------------------------------------------------------------------------------
 No. of Routes: 1
-</code></pre></div> <p>R5 knows how to reach <code>10.10.10.1</code> by means of IS-IS protocol and the next-hop for this prefix is indeed <code>10.10.99.4</code> which is a connected network:</p> <div class=highlight><pre><span></span><code>A:R5# show router route-table 10.10.99.4
+</code></pre></div> <p>R5 knows how to reach <code>10.10.10.1</code> by means of IS-IS protocol and the next-hop for this prefix is indeed <code>10.10.99.4</code> which is a connected network:</p> <div class="highlight"><pre><span></span><code>A:R5# show router route-table 10.10.99.4
 
 ===============================================================================
 Route Table (Router: Base)
@@ -1029,7 +1041,7 @@ Dest Prefix[Flags]                            Type    Proto     Age        Pref
        toR1                                                         0
 -------------------------------------------------------------------------------
 No. of Routes: 1
-</code></pre></div> <p>That is why we see a different next-hop in the routing and BGP Local-RIB tables.</p> <h2 id=wrapping-up>Wrapping up<a class=headerlink href=#wrapping-up title="Permanent link">#</a></h2> <p>To this moment we have done a good job - we have configured the peering between two autonomous systems AS 65510 and AS 65520 and successfully exchanged the prefixes. Now, a client residing in the <em>R3_Ext_Customer</em> network can reach hosts from the <em>R5_Customer</em> network:</p> <div class=highlight><pre><span></span><code>## we have to specify a source address for ping to success,
+</code></pre></div> <p>That is why we see a different next-hop in the routing and BGP Local-RIB tables.</p> <h2 id="wrapping-up">Wrapping up<a class="headerlink" href="#wrapping-up" title="Permanent link">#</a></h2> <p>To this moment we have done a good job - we have configured the peering between two autonomous systems AS 65510 and AS 65520 and successfully exchanged the prefixes. Now, a client residing in the <em>R3_Ext_Customer</em> network can reach hosts from the <em>R5_Customer</em> network:</p> <div class="highlight"><pre><span></span><code>## we have to specify a source address for ping to success,
 ## since by default ALU routers perform ping from their system interface
 ## and AS 65510 know nothing about system addresses of foreign AS.
 A:R3# ping 10.10.55.1 source 172.16.33.1 
@@ -1042,38 +1054,38 @@ PING 10.10.55.1 56 data bytes
 
 ---- 10.10.55.1 PING Statistics ----
 5 packets transmitted, 5 packets received, 0.00% packet loss
-</code></pre></div> <p>This was accomplished by mutual exchange of the corresponding routes both via eBGP and iBGP protocols.</p> <p>If some of you want to get the full picture - see this configuration snapshot captured on every router of this topology:</p> <p>R1:</p> <div class=highlight><pre><span></span><code>#--------------------------------------------------
-echo &quot;Router (Network Side) Configuration&quot;
+</code></pre></div> <p>This was accomplished by mutual exchange of the corresponding routes both via eBGP and iBGP protocols.</p> <p>If some of you want to get the full picture - see this configuration snapshot captured on every router of this topology:</p> <p>R1:</p> <div class="highlight"><pre><span></span><code>#--------------------------------------------------
+echo "Router (Network Side) Configuration"
 #--------------------------------------------------
     router 
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.1/32
             no shutdown
         exit
-        interface &quot;toR2&quot;
+        interface "toR2"
             address 10.10.99.0/31
             port 1/1/1
             no shutdown
         exit
-        interface &quot;toR3&quot;
+        interface "toR3"
             address 10.0.99.0/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR5&quot;
+        interface "toR5"
             address 10.10.99.4/31
             port 1/1/4
             no shutdown
         exit                          
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1085,14 +1097,14 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only     
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR2&quot;
+            interface "toR2"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR5&quot;
+            interface "toR5"
                 interface-type point-to-point
                 no shutdown
             exit
@@ -1101,41 +1113,41 @@ echo &quot;ISIS Configuration&quot;
     exit
 
 #--------------------------------------------------
-echo &quot;Service Configuration&quot;
+echo "Service Configuration"
 #--------------------------------------------------
     service
         customer 1 create
-            description &quot;Default customer&quot;
+            description "Default customer"
         exit                          
     exit
 #--------------------------------------------------
-echo &quot;Router (Service Side) Configuration&quot;
+echo "Router (Service Side) Configuration"
 #--------------------------------------------------
     router 
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;Policy Configuration&quot;
+echo "Policy Configuration"
 #--------------------------------------------------
         policy-options
             begin
-            prefix-list &quot;R5_Customer_pfx&quot;
+            prefix-list "R5_Customer_pfx"
                 prefix 10.10.55.0/24 exact
             exit
-            policy-statement &quot;R5_Customer_export&quot;
+            policy-statement "R5_Customer_export"
                 entry 10
                     from
-                        prefix-list &quot;R5_Customer_pfx&quot;
+                        prefix-list "R5_Customer_pfx"
                     exit
                     to
                         protocol bgp
@@ -1147,18 +1159,18 @@ echo &quot;Policy Configuration&quot;
             commit
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;eBGP&quot;
-                export &quot;R5_Customer_export&quot; 
+            group "eBGP"
+                export "R5_Customer_export" 
                 peer-as 65520         
                 split-horizon
                 neighbor 10.0.99.1
                     local-address 10.0.99.0
                 exit
             exit
-            group &quot;iBGP&quot;
+            group "iBGP"
                 next-hop-self
                 peer-as 65510
                 neighbor 10.10.10.2
@@ -1174,38 +1186,38 @@ echo &quot;BGP Configuration&quot;
 
 
 exit all
-</code></pre></div> <p>R2:</p> <div class=highlight><pre><span></span><code>#--------------------------------------------------
-echo &quot;Router (Network Side) Configuration&quot;
+</code></pre></div> <p>R2:</p> <div class="highlight"><pre><span></span><code>#--------------------------------------------------
+echo "Router (Network Side) Configuration"
 #--------------------------------------------------
     router 
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.2/32
             no shutdown
         exit
-        interface &quot;toR1&quot;
+        interface "toR1"
             address 10.10.99.1/31
             port 1/1/1
             no shutdown
         exit
-        interface &quot;toR4&quot;
+        interface "toR4"
             address 10.0.99.2/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR6&quot;
+        interface "toR6"
             address 10.10.99.2/31     
             port 1/1/4
             no shutdown
         exit
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1217,14 +1229,14 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit                      
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR1&quot;
+            interface "toR1"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR6&quot;
+            interface "toR6"
                 interface-type point-to-point
                 no shutdown
             exit
@@ -1233,41 +1245,41 @@ echo &quot;ISIS Configuration&quot;
     exit
 
 #--------------------------------------------------
-echo &quot;Service Configuration&quot;
+echo "Service Configuration"
 #--------------------------------------------------
     service                           
         customer 1 create
-            description &quot;Default customer&quot;
+            description "Default customer"
         exit
     exit
 #--------------------------------------------------
-echo &quot;Router (Service Side) Configuration&quot;
+echo "Router (Service Side) Configuration"
 #--------------------------------------------------
     router 
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;Policy Configuration&quot;
+echo "Policy Configuration"
 #--------------------------------------------------
         policy-options
             begin
-            prefix-list &quot;R5_Customer_pfx&quot;
+            prefix-list "R5_Customer_pfx"
                 prefix 10.10.55.0/24 exact
             exit
-            policy-statement &quot;R5_Customer_export&quot;
+            policy-statement "R5_Customer_export"
                 entry 10
                     from
-                        prefix-list &quot;R5_Customer_pfx&quot;
+                        prefix-list "R5_Customer_pfx"
                     exit
                     to
                         protocol bgp
@@ -1279,18 +1291,18 @@ echo &quot;Policy Configuration&quot;
             commit
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp                           
-            group &quot;eBGP&quot;
-                export &quot;R5_Customer_export&quot; 
+            group "eBGP"
+                export "R5_Customer_export" 
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.3
                     local-address 10.0.99.2
                 exit
             exit
-            group &quot;iBGP&quot;
+            group "iBGP"
                 peer-as 65510
                 neighbor 10.10.10.1
                 exit
@@ -1304,7 +1316,7 @@ echo &quot;BGP Configuration&quot;
     exit
 
 #--------------------------------------------------
-echo &quot;System Time NTP Configuration&quot;
+echo "System Time NTP Configuration"
 #--------------------------------------------------
     system
         time
@@ -1314,38 +1326,38 @@ echo &quot;System Time NTP Configuration&quot;
     exit
 
 exit all
-</code></pre></div> <p>R3:</p> <div class=highlight><pre><span></span><code>#--------------------------------------------------
-echo &quot;Router (Network Side) Configuration&quot;
+</code></pre></div> <p>R3:</p> <div class="highlight"><pre><span></span><code>#--------------------------------------------------
+echo "Router (Network Side) Configuration"
 #--------------------------------------------------
     router 
-        interface &quot;R3_Ext_Customer&quot;
+        interface "R3_Ext_Customer"
             address 172.16.33.1/24
             loopback
             no shutdown
         exit
-        interface &quot;system&quot;
+        interface "system"
             address 10.20.20.3/32
             no shutdown
         exit
-        interface &quot;toR1&quot;
+        interface "toR1"
             address 10.0.99.1/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR4&quot;              
+        interface "toR4"              
             address 10.20.99.0/31
             port 1/1/2
             no shutdown
         exit
         autonomous-system 65520
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1357,10 +1369,10 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only     
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR4&quot;
+            interface "toR4"
                 interface-type point-to-point
                 no shutdown
             exit
@@ -1369,41 +1381,41 @@ echo &quot;ISIS Configuration&quot;
     exit
 
 #--------------------------------------------------
-echo &quot;Service Configuration&quot;
+echo "Service Configuration"
 #--------------------------------------------------
     service
         customer 1 create
-            description &quot;Default customer&quot;
+            description "Default customer"
         exit
     exit
 #--------------------------------------------------
-echo &quot;Router (Service Side) Configuration&quot;
+echo "Router (Service Side) Configuration"
 #--------------------------------------------------
     router 
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;Policy Configuration&quot;
+echo "Policy Configuration"
 #--------------------------------------------------
         policy-options
             begin
-            prefix-list &quot;R3_Ext_Customer&quot;
+            prefix-list "R3_Ext_Customer"
                 prefix 172.16.33.0/24 exact
             exit
-            policy-statement &quot;export_R3_Ext_Customer&quot;
+            policy-statement "export_R3_Ext_Customer"
                 entry 10              
                     from
-                        prefix-list &quot;R3_Ext_Customer&quot;
+                        prefix-list "R3_Ext_Customer"
                     exit
                     to
                         protocol bgp
@@ -1415,18 +1427,18 @@ echo &quot;Policy Configuration&quot;
             commit
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;eBGP&quot;
-                export &quot;export_R3_Ext_Customer&quot; 
+            group "eBGP"
+                export "export_R3_Ext_Customer" 
                 peer-as 65510
                 split-horizon
                 neighbor 10.0.99.0
                     local-address 10.0.99.1
                 exit
             exit                      
-            group &quot;iBGP&quot;
+            group "iBGP"
                 next-hop-self
                 peer-as 65520
                 neighbor 10.20.20.4
@@ -1438,33 +1450,33 @@ echo &quot;BGP Configuration&quot;
 
 
 exit all
-</code></pre></div> <p>R4:</p> <div class=highlight><pre><span></span><code>#--------------------------------------------------
-echo &quot;Router (Network Side) Configuration&quot;
+</code></pre></div> <p>R4:</p> <div class="highlight"><pre><span></span><code>#--------------------------------------------------
+echo "Router (Network Side) Configuration"
 #--------------------------------------------------
     router 
-        interface &quot;system&quot;
+        interface "system"
             address 10.20.20.4/32
             no shutdown
         exit
-        interface &quot;toR2&quot;
+        interface "toR2"
             address 10.0.99.3/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR3&quot;
+        interface "toR3"
             address 10.20.99.1/31
             port 1/1/2
             no shutdown
         exit
         autonomous-system 65520
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf                          
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1476,10 +1488,10 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR3&quot;
+            interface "toR3"
                 interface-type point-to-point
                 no shutdown
             exit
@@ -1488,41 +1500,41 @@ echo &quot;ISIS Configuration&quot;
     exit
 
 #--------------------------------------------------
-echo &quot;Service Configuration&quot;
+echo "Service Configuration"
 #--------------------------------------------------
     service
         customer 1 create
-            description &quot;Default customer&quot;
+            description "Default customer"
         exit
     exit
 #--------------------------------------------------
-echo &quot;Router (Service Side) Configuration&quot;
+echo "Router (Service Side) Configuration"
 #--------------------------------------------------
     router 
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;             
+echo "ISIS Configuration"             
 #--------------------------------------------------
         isis
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;eBGP&quot;
+            group "eBGP"
                 peer-as 65510
                 split-horizon
                 neighbor 10.0.99.2
                     local-address 10.0.99.3
                 exit
             exit
-            group &quot;iBGP&quot;
+            group "iBGP"
                 next-hop-self
                 peer-as 65520
                 neighbor 10.20.20.3
@@ -1534,38 +1546,38 @@ echo &quot;BGP Configuration&quot;
 
 
 exit all
-</code></pre></div> <p>R5:</p> <div class=highlight><pre><span></span><code>#--------------------------------------------------
-echo &quot;Router (Network Side) Configuration&quot;
+</code></pre></div> <p>R5:</p> <div class="highlight"><pre><span></span><code>#--------------------------------------------------
+echo "Router (Network Side) Configuration"
 #--------------------------------------------------
     router 
-        interface &quot;R5_Customer_loopback&quot;
+        interface "R5_Customer_loopback"
             address 10.10.55.1/24
             loopback
             no shutdown
         exit
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.5/32
             no shutdown
         exit
-        interface &quot;toR1&quot;
+        interface "toR1"
             address 10.10.99.5/31
             port 1/1/4
             no shutdown
         exit
-        interface &quot;toR6&quot;
+        interface "toR6"
             address 10.10.99.6/31
             port 1/1/1
             no shutdown
         exit                          
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1577,18 +1589,18 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit                      
-            interface &quot;R5_Customer_loopback&quot;
+            interface "R5_Customer_loopback"
                 passive
                 no shutdown
             exit
-            interface &quot;toR1&quot;
+            interface "toR1"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR6&quot;
+            interface "toR6"
                 interface-type point-to-point
                 no shutdown
             exit
@@ -1597,34 +1609,34 @@ echo &quot;ISIS Configuration&quot;
     exit
 
 #--------------------------------------------------
-echo &quot;Service Configuration&quot;
+echo "Service Configuration"
 #--------------------------------------------------
     service
         customer 1 create
-            description &quot;Default customer&quot;
+            description "Default customer"
         exit                          
     exit
 #--------------------------------------------------
-echo &quot;Router (Service Side) Configuration&quot;
+echo "Router (Service Side) Configuration"
 #--------------------------------------------------
     router 
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;iBGP&quot;
+            group "iBGP"
                 peer-as 65510         
                 neighbor 10.10.10.1
                 exit
@@ -1639,33 +1651,33 @@ echo &quot;BGP Configuration&quot;
 
 
 exit all
-</code></pre></div> <p>R6:</p> <div class=highlight><pre><span></span><code>#--------------------------------------------------
-echo &quot;Router (Network Side) Configuration&quot;
+</code></pre></div> <p>R6:</p> <div class="highlight"><pre><span></span><code>#--------------------------------------------------
+echo "Router (Network Side) Configuration"
 #--------------------------------------------------
     router 
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.6/32
             no shutdown
         exit
-        interface &quot;toR2&quot;
+        interface "toR2"
             address 10.10.99.3/31
             port 1/1/4
             no shutdown
         exit
-        interface &quot;toR5&quot;
+        interface "toR5"
             address 10.10.99.7/31
             port 1/1/1
             no shutdown
         exit
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf                          
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1677,14 +1689,14 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR2&quot;
+            interface "toR2"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR5&quot;          
+            interface "toR5"          
                 interface-type point-to-point
                 no shutdown
             exit
@@ -1693,34 +1705,34 @@ echo &quot;ISIS Configuration&quot;
     exit
 
 #--------------------------------------------------
-echo &quot;Service Configuration&quot;
+echo "Service Configuration"
 #--------------------------------------------------
     service
         customer 1 create
-            description &quot;Default customer&quot;
+            description "Default customer"
         exit
     exit
 #--------------------------------------------------
-echo &quot;Router (Service Side) Configuration&quot;
+echo "Router (Service Side) Configuration"
 #--------------------------------------------------
     router 
 #--------------------------------------------------
-echo &quot;OSPFv2 Configuration&quot;
+echo "OSPFv2 Configuration"
 #--------------------------------------------------
         ospf                          
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;iBGP&quot;
+            group "iBGP"
                 peer-as 65510
                 neighbor 10.10.10.1
                 exit
@@ -1735,8 +1747,8 @@ echo &quot;BGP Configuration&quot;
 
 
 exit all
-</code></pre></div> <h2 id=__comments>Comments</h2> <script src=https://giscus.app/client.js data-repo=hellt/netdevops.me data-repo-id="MDEwOlJlcG9zaXRvcnkzNTkzNTc5ODc=" data-category="Show and tell" data-category-id=DIC_kwDOFWteI84CRmVn data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=preferred_color_scheme data-lang=en data-loading=lazy crossorigin=anonymous async>
-    </script> <!-- Synchronize Giscus theme with palette --> <script>
+</code></pre></div> <h2 id="__comments">Comments</h2> <script async="" crossorigin="anonymous" data-category="Show and tell" data-category-id="DIC_kwDOFWteI84CRmVn" data-emit-metadata="0" data-input-position="top" data-lang="en" data-loading="lazy" data-mapping="pathname" data-reactions-enabled="1" data-repo="hellt/netdevops.me" data-repo-id="MDEwOlJlcG9zaXRvcnkzNTkzNTc5ODc=" data-strict="0" data-theme="preferred_color_scheme" src="https://giscus.app/client.js">
+</script> <!-- Synchronize Giscus theme with palette --> <script>
     var giscus = document.querySelector("script[src*=giscus]")
 
     /* Set palette on initial load */
@@ -1763,4 +1775,4 @@ exit all
             }
         })
     })
-</script> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <a href=# class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg> Back to top </a> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs Insiders </a> </div> <div class=md-social> <a href=https://github.com/hellt target=_blank rel=noopener title=github.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </a> <a href=https://twitter.com/ntdvps target=_blank rel=noopener title=twitter.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["navigation.top", "navigation.instant", "navigation.tabs", "search.suggest", "content.code.annotate", "toc.follow", "content.tooltips", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.94e452fd.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script> <script src=../../assets/javascripts/bundle.28bf374e.min.js></script> </body> </html>
+</script> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <button class="md-top md-icon" data-md-component="top" hidden="" type="button"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg> Back to top </button> </main> <footer class="md-footer"> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class="md-copyright"> Made with <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank"> Material for MkDocs Insiders </a> </div> <div class="md-social"> <a class="md-social__link" href="https://github.com/hellt" rel="noopener" target="_blank" title="github.com"> <svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg> </a> <a class="md-social__link" href="https://twitter.com/ntdvps" rel="noopener" target="_blank" title="twitter.com"> <svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg> </a> </div> </div> </div> </footer> </div> <div class="md-dialog" data-md-component="dialog"> <div class="md-dialog__inner md-typeset"></div> </div> <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.instant", "navigation.tabs", "search.suggest", "content.code.annotate", "toc.follow", "content.tooltips", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.6c7302c4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script> <script src="../../assets/javascripts/bundle.9ab90144.min.js"></script> <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body> </html>

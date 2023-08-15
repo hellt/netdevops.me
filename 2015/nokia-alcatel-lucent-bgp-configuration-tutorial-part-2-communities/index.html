@@ -1,22 +1,34 @@
-<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Applying DevOps to networks."><meta name=author content="Roman Dodin"><link href=https://netdevops.me/2015/nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/ rel=canonical><link href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/ rel=prev><link href=../basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx/ rel=next><link rel=alternate type=application/rss+xml title="RSS feed" href=../../feed_rss_created.xml><link rel=alternate type=application/rss+xml title="RSS feed of updated content" href=../../feed_rss_updated.xml><link rel=icon href=../../assets/images/code.svg><meta name=generator content="mkdocs-1.4.2, mkdocs-material-9.0.3+insiders-4.27.1"><title>Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities - Applying DevOps to networks</title><link rel=stylesheet href=../../assets/stylesheets/main.38fd6ec5.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.2505c338.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Google Sans";--md-code-font:"Fira Mono"}</style><link rel=stylesheet href=../../stylesheets/extra.css><script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id=__analytics>function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-Y7R34KCT4N"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-Y7R34KCT4N",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-Y7R34KCT4N",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script><script>"undefined"!=typeof __md_analytics&&__md_analytics()</script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities class=md-skip> Skip to content </a> </div> <div data-md-component=announce> <aside class=md-banner> <div class="md-banner__inner md-grid md-typeset"> <a href=https://twitter.com/ntdvps> For updates follow <strong>@ntdvps</strong> on <span class="twemoji twitter"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> </span> <strong>Twitter</strong> </a> </div> </aside> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title="Applying DevOps to networks" class="md-header__button md-logo" aria-label="Applying DevOps to networks" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Applying DevOps to networks </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=white data-md-color-accent=cyan aria-label="Switch to dark mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=black data-md-color-accent=cyan aria-label="Switch to light mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg> </label> </form> <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> </label> <nav class=md-search__options aria-label=Search> <button type=reset class="md-search__icon md-icon" title=Clear aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../.. class="md-tabs__link md-tabs__link--active"> Blog </a> </li> <li class=md-tabs__item> <a href=../../tags/ class=md-tabs__link> Tags </a> </li> <li class=md-tabs__item> <a href=../../subscribe/ class=md-tabs__link> Subscribe </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation hidden> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title="Applying DevOps to networks" class="md-nav__button md-logo" aria-label="Applying DevOps to networks" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 640 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> </a> Applying DevOps to networks </label> <div class=md-nav__source> <a href=https://github.com/hellt/netdevops.me title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </div> <div class=md-source__repository> hellt/netdevops.me </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " data-md-toggle=__nav_1 type=checkbox id=__nav_1 checked> <div class="md-nav__link md-nav__container"> <a href=../.. class="md-nav__link "> <span class=md-ellipsis> Blog </span> </a> </div> <nav class=md-nav aria-label=Blog data-md-level=1> <label class=md-nav__title for=__nav_1> <span class="md-nav__icon md-icon"></span> Blog </label> <ul class=md-nav__list data-md-scrollfix> </ul> </nav> </li> <li class=md-nav__item> <a href=../../tags/ class=md-nav__link> <span class=md-ellipsis> Tags </span> </a> </li> <li class=md-nav__item> <a href=../../subscribe/ class=md-nav__link> <span class=md-ellipsis> Subscribe </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#what-are-bgp-policies-for class=md-nav__link> <span class=md-ellipsis> What are BGP policies for? </span> </a> </li> <li class=md-nav__item> <a href=#community-attribute class=md-nav__link> <span class=md-ellipsis> Community attribute </span> </a> <nav class=md-nav aria-label="Community attribute"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#adding-community class=md-nav__link> <span class=md-ellipsis> Adding community </span> </a> </li> <li class=md-nav__item> <a href=#show-communities class=md-nav__link> <span class=md-ellipsis> Show communities </span> </a> </li> <li class=md-nav__item> <a href=#operation-replace-well-known-communities class=md-nav__link> <span class=md-ellipsis> Operation replace &amp; Well-known communities </span> </a> </li> <li class=md-nav__item> <a href=#removing-community class=md-nav__link> <span class=md-ellipsis> Removing community </span> </a> </li> <li class=md-nav__item> <a href=#matching-community class=md-nav__link> <span class=md-ellipsis> Matching community </span> </a> <nav class=md-nav aria-label="Matching community"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#and-and-or-operators class=md-nav__link> <span class=md-ellipsis> "AND" and "OR" operators </span> </a> </li> <li class=md-nav__item> <a href=#expressions class=md-nav__link> <span class=md-ellipsis> Expressions </span> </a> </li> <li class=md-nav__item> <a href=#regular-expressions class=md-nav__link> <span class=md-ellipsis> Regular Expressions </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#wrapping-up class=md-nav__link> <span class=md-ellipsis> Wrapping up </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-content md-content--post" data-md-component=content> <div class="md-sidebar md-sidebar--post" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class="md-sidebar__inner md-post"> <nav class=md-nav> <div class=md-post__back> <div class="md-nav__title md-nav__container"> <a href=../.. class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg> <span class=md-ellipsis> Back to index </span> </a> </div> </div> <div class="md-post__authors md-typeset"> <div class="md-profile md-post__profile"> <span class="md-author md-author--long"> <img src=https://avatars.githubusercontent.com/u/5679861 alt="Roman Dodin"> </span> <span class=md-profile__description> <strong>Roman Dodin</strong><br> Network Automater </span> </div> </div> <ul class="md-post__meta md-nav__list"> <li class="md-nav__item md-nav__title"> <div class=md-nav__link> <span class=md-ellipsis> Metadata </span> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"/></svg> <time datetime="2015-09-23 00:00:00" class=md-ellipsis>September 23, 2015</time> </div> </li> <li class=md-nav__item> <div class=md-nav__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"/></svg> <span class=md-ellipsis> 28 min read </span> </div> </li> </ul> </nav> </div> </div> </div> <article class="md-content__inner md-typeset"> <nav class=md-tags> <a href=../../tags/#nokia class=md-tag>nokia</a> <a href=../../tags/#sr-os class=md-tag>sr os</a> <a href=../../tags/#bgp class=md-tag>bgp</a> </nav> <h1 id=nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities>Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities<a class=headerlink href=#nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities title="Permanent link">#</a></h1> <p>In the <a href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/ >first part of this BGP tutorial</a> we prepared the ground by configuring eBGP/iBGP peering. We did a good job overall, yet the <em>plain</em> BGP peering is not something you would not normally see in production. The power of BGP is in its ability for granular management of multiple routes from multiple sources. And the tools that help BGP to handle this complex task are BGP policies at their full glory.</p> <p>In this part we will discuss and practice:</p> <ul> <li>BGP export/import policies for route advertisement/filtering</li> <li>BGP communities operations</li> <li>BGP routes aggregation: route summarization and the corresponding <code>aggregate</code> and <code>atomic-aggregate</code> path attributes</li> </ul> <!-- more --> <h2 id=what-are-bgp-policies-for>What are BGP policies for?<a class=headerlink href=#what-are-bgp-policies-for title="Permanent link">#</a></h2> <p>The BGP peering configuration process is simple, you saw it in <a href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/ >Part 1</a>, but, frankly, no network engineer leaves a BGP router in a default "receive all, advertise all" state. We use BGP policies to tell the router which routes to accept and which to advertise.</p> <p>This is just an example on where the BGP policies play a part, but they are used for many other tasks as well.</p> <p>In BGP you can define two types of policies: Import and Export. To demonstrate where and when does a particular policy take place I paste here the BGP route processing diagram:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/4109/21639405.11c/0_84d72_94e5a74a_orig.png></p> <p><strong>Export polices</strong> are used for:</p> <ul> <li>export routes from different protocols to BGP (like IGP routes being exported to BGP in <a href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/ >Part 1</a>)</li> <li>granular control of the advertised routes<ul> <li>prohibit unwanted prefixes advertising</li> <li>set the path attributes to a desired NLRI</li> </ul> </li> <li>reducing control plane traffic by advertising aggregate routes</li> </ul> <p><strong>Import policies</strong> are used for:</p> <ul> <li>filtering unwanted NLRI<ul> <li>by prefix, prefix-length, community value</li> </ul> </li> <li>manipulation with the outbound traffic<ul> <li>applying <code>Local-Pref</code> attribute to desired prefixes</li> <li>modifying/setting <code>MED</code> value or any other transitive attribute</li> </ul> </li> </ul> <p>In SROS BGP policy configuration takes place in a router's policy-options context - <code>configure router policy-options</code>.</p> <p>To practice with BGP policies configuration we will go through a set of tasks that an ISP engineer can be expected to do in theirs day-to-day operations. We will simulate a simple ISP scenario using the following network topology:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/9263/21639405.11c/0_85519_aeed2105_orig.png></p> <p>Network interfaces, IGP and basic BGP configuration are done exactly the same as in the <a href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/ >Part 1 of this series</a>. If you are interested in the final configuration output, please refer to the <a href=../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/#wrapping-up>Wrapping up section</a>.</p> <h2 id=community-attribute>Community attribute<a class=headerlink href=#community-attribute title="Permanent link">#</a></h2> <p>Lets statr with <em>BGP communities</em> introduction. A BGP community (not <a href=https://tools.ietf.org/html/rfc4360>extended</a>) is an <strong>optional transitive BGP Path attribute</strong> that is <em>a group of destinations which share some common property</em> as per the <a href=https://tools.ietf.org/html/rfc1997>RFC 1997</a>.</p> <p>I like to think of a community as <em>a label (or a tag)</em> which BGP speaker puts on a NLRI to give it a context. These labels could serve different purposes, for example:</p> <ul> <li>to mark/identify the prefixes originated from a specific geographic region, customer or service,</li> <li>or to indicate that a specific treatment is desired like for the prefixes with the use of <code>no-export</code> or <code>no-advertise</code> community values</li> <li>or could mean any other property which BGP speaker wants to communicate within an NLRI.</li> </ul> <p>BGP Communities are just the means to augment the specific prefixes with the metadata, they are useless until you bind some actions to them.<br> For example, you tag some prefixes with a <code>community A</code> value and others with a <code>community B</code>; then you could tell your BGP peers to, say, set the <code>Local Preference 200</code> attribute for the prefixes that have <code>community A</code> value and leave Local Preference intact for the ones marked with <code>community B</code> value. In this examples communities allowed us to set a specific action based on the community value associated with the prefixes.</p> <p>Communities are represented by a <strong>community string</strong> which is a 32 bit value. <strong>First two bytes</strong> of a community attribute <strong>have to</strong> be encoded with an AS number where community was born, and the other two bytes are set by an AS network engineer as he pleases (or in other words, the community string follows this template <code>&lt;2byte-asnumber:community-value&gt;</code>).</p> <blockquote> <p>The community attribute values range from <code>0x0000000 (0:0)</code> through <code>0x0000FFFF (0:65535)</code>.<br> The range from <code>0xFFFF0000 (65535:0)</code> through <code>0xFFFFFFFF (65535:65535)</code> is reserved.</p> </blockquote> <p>Lets run our lab and refer to the following diagram before we start configuring community attributes:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/6442/21639405.11c/0_8551a_fa9ce1ee_orig.png></p> <p>We will introduce three different communities for our customer routes:</p> <ul> <li><code>65510:100</code> - community for every route originated from the West side of AS 65510</li> <li><code>65510:200</code> - community for every route originated from the East side of our AS 65510</li> <li><code>65510:2</code> - community for the <code>Customer_2</code> routes</li> </ul> <h3 id=adding-community>Adding community<a class=headerlink href=#adding-community title="Permanent link">#</a></h3> <p>Community strings are configured under the <code>policy-options</code> context. Before we will be able to add communities to the prefixes, we need to:</p> <ol> <li>Specify the <code>prefix-lists</code> for our the routes we would like to mark with a community</li> <li>Declare the community strings we want to refer later to.</li> </ol> <p>R5 policy config:</p> <div class=highlight><pre><span></span><code>*A:R5&gt;config&gt;router&gt;policy-options# info
+<!DOCTYPE html>
+<html class="no-js" lang="en"> <head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Applying DevOps to networks." name="description"/><meta content="Roman Dodin" name="author"/><link href="https://netdevops.me/2015/nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities/" rel="canonical"/><link href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/" rel="prev"/><link href="../basic-l3vpn-bgpmpls-vpn-or-vprn-configuration-on-nokia-alcatel-lucent-sros-juniper-mx/" rel="next"/><link href="../../feed_rss_created.xml" rel="alternate" title="RSS feed" type="application/rss+xml"/><link href="../../feed_rss_updated.xml" rel="alternate" title="RSS feed of updated content" type="application/rss+xml"/><link href="../../assets/images/code.svg" rel="icon"/><meta content="mkdocs-1.4.2, mkdocs-material-9.1.4+insiders-4.32.4" name="generator"/><title>Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities - Applying DevOps to networks</title><link href="../../assets/stylesheets/main.f49c7df4.min.css" rel="stylesheet"/><link href="../../assets/stylesheets/palette.6932e648.min.css" rel="stylesheet"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/><style>:root{--md-text-font:"Google Sans";--md-code-font:"Fira Mono"}</style><link href="../../stylesheets/extra.css" rel="stylesheet"/><script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-Y7R34KCT4N"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-Y7R34KCT4N",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-Y7R34KCT4N",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script><script>"undefined"!=typeof __md_analytics&&__md_analytics()</script><link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            
+                .gscrollbar-fixer { padding-right: 15px; }
+                .gdesc-inner { font-size: 0.75rem; }
+                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+                </style><script src="../../assets/javascripts/glightbox.min.js"></script></head> <body data-md-color-accent="cyan" data-md-color-primary="white" data-md-color-scheme="default" dir="ltr"> <input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/> <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/> <label class="md-overlay" for="__drawer"></label> <div data-md-component="skip"> <a class="md-skip" href="#nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities"> Skip to content </a> </div> <div data-md-component="announce"> <aside class="md-banner"> <div class="md-banner__inner md-grid md-typeset"> <a href="https://twitter.com/ntdvps"> For updates follow <strong>@ntdvps</strong> on <span class="twemoji twitter"> <svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg> </span> <strong>Twitter</strong> </a> </div> </aside> </div> <header class="md-header" data-md-component="header"> <nav aria-label="Header" class="md-header__inner md-grid"> <a aria-label="Applying DevOps to networks" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Applying DevOps to networks"> <svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"></path></svg> </a> <label class="md-header__button md-icon" for="__drawer"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg> </label> <div class="md-header__title" data-md-component="header-title"> <div class="md-header__ellipsis"> <div class="md-header__topic"> <span class="md-ellipsis"> Applying DevOps to networks </span> </div> <div class="md-header__topic" data-md-component="header-topic"> <span class="md-ellipsis"> Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities </span> </div> </div> </div> <form class="md-header__option" data-md-component="palette"> <input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="cyan" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="white" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/> <label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg> </label> <input aria-label="Switch to light mode" class="md-option" data-md-color-accent="cyan" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/> <label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"></path></svg> </label> </form> <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for="__search"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg> </label> <div class="md-search" data-md-component="search" role="dialog"> <label class="md-search__overlay" for="__search"></label> <div class="md-search__inner" role="search"> <form class="md-search__form" name="search"> <input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/> <label class="md-search__icon md-icon" for="__search"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg> </label> <nav aria-label="Search" class="md-search__options"> <button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg> </button> </nav> <div class="md-search__suggest" data-md-component="search-suggest"></div> </form> <div class="md-search__output"> <div class="md-search__scrollwrap" data-md-scrollfix=""> <div class="md-search-result" data-md-component="search-result"> <div class="md-search-result__meta"> Initializing search </div> <ol class="md-search-result__list" role="presentation"></ol> </div> </div> </div> </div> </div> <div class="md-header__source"> <a class="md-source" data-md-component="source" href="https://github.com/hellt/netdevops.me" title="Go to repository"> <div class="md-source__icon md-icon"> <svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg> </div> <div class="md-source__repository"> hellt/netdevops.me </div> </a> </div> </nav> </header> <div class="md-container" data-md-component="container"> <nav aria-label="Tabs" class="md-tabs" data-md-component="tabs"> <div class="md-grid"> <ul class="md-tabs__list"> <li class="md-tabs__item"> <a class="md-tabs__link md-tabs__link--active" href="../.."> Blog </a> </li> <li class="md-tabs__item"> <a class="md-tabs__link" href="../../tags/"> Tags </a> </li> <li class="md-tabs__item"> <a class="md-tabs__link" href="../../subscribe/"> Subscribe </a> </li> </ul> </div> </nav> <main class="md-main" data-md-component="main"> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden=""> <div class="md-sidebar__scrollwrap"> <div class="md-sidebar__inner"> <nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0"> <label class="md-nav__title" for="__drawer"> <a aria-label="Applying DevOps to networks" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Applying DevOps to networks"> <svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"></path></svg> </a> Applying DevOps to networks </label> <div class="md-nav__source"> <a class="md-source" data-md-component="source" href="https://github.com/hellt/netdevops.me" title="Go to repository"> <div class="md-source__icon md-icon"> <svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg> </div> <div class="md-source__repository"> hellt/netdevops.me </div> </a> </div> <ul class="md-nav__list" data-md-scrollfix=""> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input checked="" class="md-nav__toggle md-toggle" id="__nav_1" type="checkbox"/> <div class="md-nav__link md-nav__container"> <a class="md-nav__link" href="../.."> <span class="md-ellipsis"> Blog </span> </a> </div> <nav aria-expanded="true" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1"> <label class="md-nav__title" for="__nav_1"> <span class="md-nav__icon md-icon"></span> Blog </label> <ul class="md-nav__list" data-md-scrollfix=""> </ul> </nav> </li> <li class="md-nav__item"> <a class="md-nav__link" href="../../tags/"> <span class="md-ellipsis"> Tags </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="../../subscribe/"> <span class="md-ellipsis"> Subscribe </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc"> <div class="md-sidebar__scrollwrap"> <div class="md-sidebar__inner"> <nav aria-label="Table of contents" class="md-nav md-nav--secondary"> <label class="md-nav__title" for="__toc"> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix=""> <li class="md-nav__item"> <a class="md-nav__link" href="#what-are-bgp-policies-for"> <span class="md-ellipsis"> What are BGP policies for? </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#community-attribute"> <span class="md-ellipsis"> Community attribute </span> </a> <nav aria-label="Community attribute" class="md-nav"> <ul class="md-nav__list"> <li class="md-nav__item"> <a class="md-nav__link" href="#adding-community"> <span class="md-ellipsis"> Adding community </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#show-communities"> <span class="md-ellipsis"> Show communities </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#operation-replace-well-known-communities"> <span class="md-ellipsis"> Operation replace &amp; Well-known communities </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#removing-community"> <span class="md-ellipsis"> Removing community </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#matching-community"> <span class="md-ellipsis"> Matching community </span> </a> <nav aria-label="Matching community" class="md-nav"> <ul class="md-nav__list"> <li class="md-nav__item"> <a class="md-nav__link" href="#and-and-or-operators"> <span class="md-ellipsis"> "AND" and "OR" operators </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#expressions"> <span class="md-ellipsis"> Expressions </span> </a> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#regular-expressions"> <span class="md-ellipsis"> Regular Expressions </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item"> <a class="md-nav__link" href="#wrapping-up"> <span class="md-ellipsis"> Wrapping up </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-content md-content--post" data-md-component="content"> <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation"> <div class="md-sidebar__scrollwrap"> <div class="md-sidebar__inner md-post"> <nav class="md-nav"> <div class="md-post__back"> <div class="md-nav__title md-nav__container"> <a class="md-nav__link" href="../.."> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg> <span class="md-ellipsis"> Back to index </span> </a> </div> </div> <div class="md-post__authors md-typeset"> <div class="md-profile md-post__profile"> <span class="md-author md-author--long"> <img alt="Roman Dodin" src="https://avatars.githubusercontent.com/u/5679861"/> </span> <span class="md-profile__description"> <strong>Roman Dodin</strong><br/> Network Automater </span> </div> </div> <ul class="md-post__meta md-nav__list"> <li class="md-nav__item md-nav__title"> <div class="md-nav__link"> <span class="md-ellipsis"> Metadata </span> </div> </li> <li class="md-nav__item"> <div class="md-nav__link"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"></path></svg> <time class="md-ellipsis" datetime="2015-09-23 00:00:00">September 23, 2015</time> </div> </li> <li class="md-nav__item"> <div class="md-nav__link"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"></path></svg> <span class="md-ellipsis"> 28 min read </span> </div> </li> </ul> </nav> </div> </div> </div> <article class="md-content__inner md-typeset"> <nav class="md-tags"> <a class="md-tag" href="../../tags/#nokia">nokia</a> <a class="md-tag" href="../../tags/#sr-os">sr os</a> <a class="md-tag" href="../../tags/#bgp">bgp</a> </nav> <h1 id="nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities">Nokia (Alcatel-Lucent) BGP configuration tutorial. Part 2 - Communities<a class="headerlink" href="#nokia-alcatel-lucent-bgp-configuration-tutorial-part-2-communities" title="Permanent link">#</a></h1> <p>In the <a href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/">first part of this BGP tutorial</a> we prepared the ground by configuring eBGP/iBGP peering. We did a good job overall, yet the <em>plain</em> BGP peering is not something you would not normally see in production. The power of BGP is in its ability for granular management of multiple routes from multiple sources. And the tools that help BGP to handle this complex task are BGP policies at their full glory.</p> <p>In this part we will discuss and practice:</p> <ul> <li>BGP export/import policies for route advertisement/filtering</li> <li>BGP communities operations</li> <li>BGP routes aggregation: route summarization and the corresponding <code>aggregate</code> and <code>atomic-aggregate</code> path attributes</li> </ul> <!-- more --> <h2 id="what-are-bgp-policies-for">What are BGP policies for?<a class="headerlink" href="#what-are-bgp-policies-for" title="Permanent link">#</a></h2> <p>The BGP peering configuration process is simple, you saw it in <a href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/">Part 1</a>, but, frankly, no network engineer leaves a BGP router in a default "receive all, advertise all" state. We use BGP policies to tell the router which routes to accept and which to advertise.</p> <p>This is just an example on where the BGP policies play a part, but they are used for many other tasks as well.</p> <p>In BGP you can define two types of policies: Import and Export. To demonstrate where and when does a particular policy take place I paste here the BGP route processing diagram:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/4109/21639405.11c/0_84d72_94e5a74a_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/4109/21639405.11c/0_84d72_94e5a74a_orig.png"/></a></p> <p><strong>Export polices</strong> are used for:</p> <ul> <li>export routes from different protocols to BGP (like IGP routes being exported to BGP in <a href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/">Part 1</a>)</li> <li>granular control of the advertised routes<ul> <li>prohibit unwanted prefixes advertising</li> <li>set the path attributes to a desired NLRI</li> </ul> </li> <li>reducing control plane traffic by advertising aggregate routes</li> </ul> <p><strong>Import policies</strong> are used for:</p> <ul> <li>filtering unwanted NLRI<ul> <li>by prefix, prefix-length, community value</li> </ul> </li> <li>manipulation with the outbound traffic<ul> <li>applying <code>Local-Pref</code> attribute to desired prefixes</li> <li>modifying/setting <code>MED</code> value or any other transitive attribute</li> </ul> </li> </ul> <p>In SROS BGP policy configuration takes place in a router's policy-options context - <code>configure router policy-options</code>.</p> <p>To practice with BGP policies configuration we will go through a set of tasks that an ISP engineer can be expected to do in theirs day-to-day operations. We will simulate a simple ISP scenario using the following network topology:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/9263/21639405.11c/0_85519_aeed2105_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/9263/21639405.11c/0_85519_aeed2105_orig.png"/></a></p> <p>Network interfaces, IGP and basic BGP configuration are done exactly the same as in the <a href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/">Part 1 of this series</a>. If you are interested in the final configuration output, please refer to the <a href="../nokia-alcatel-lucent-bgp-configuration-tutorial-part-1-basic-ebgp-ibgp/#wrapping-up">Wrapping up section</a>.</p> <h2 id="community-attribute">Community attribute<a class="headerlink" href="#community-attribute" title="Permanent link">#</a></h2> <p>Lets statr with <em>BGP communities</em> introduction. A BGP community (not <a href="https://tools.ietf.org/html/rfc4360">extended</a>) is an <strong>optional transitive BGP Path attribute</strong> that is <em>a group of destinations which share some common property</em> as per the <a href="https://tools.ietf.org/html/rfc1997">RFC 1997</a>.</p> <p>I like to think of a community as <em>a label (or a tag)</em> which BGP speaker puts on a NLRI to give it a context. These labels could serve different purposes, for example:</p> <ul> <li>to mark/identify the prefixes originated from a specific geographic region, customer or service,</li> <li>or to indicate that a specific treatment is desired like for the prefixes with the use of <code>no-export</code> or <code>no-advertise</code> community values</li> <li>or could mean any other property which BGP speaker wants to communicate within an NLRI.</li> </ul> <p>BGP Communities are just the means to augment the specific prefixes with the metadata, they are useless until you bind some actions to them.<br/> For example, you tag some prefixes with a <code>community A</code> value and others with a <code>community B</code>; then you could tell your BGP peers to, say, set the <code>Local Preference 200</code> attribute for the prefixes that have <code>community A</code> value and leave Local Preference intact for the ones marked with <code>community B</code> value. In this examples communities allowed us to set a specific action based on the community value associated with the prefixes.</p> <p>Communities are represented by a <strong>community string</strong> which is a 32 bit value. <strong>First two bytes</strong> of a community attribute <strong>have to</strong> be encoded with an AS number where community was born, and the other two bytes are set by an AS network engineer as he pleases (or in other words, the community string follows this template <code>&lt;2byte-asnumber:community-value&gt;</code>).</p> <blockquote> <p>The community attribute values range from <code>0x0000000 (0:0)</code> through <code>0x0000FFFF (0:65535)</code>.<br/> The range from <code>0xFFFF0000 (65535:0)</code> through <code>0xFFFFFFFF (65535:65535)</code> is reserved.</p> </blockquote> <p>Lets run our lab and refer to the following diagram before we start configuring community attributes:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/6442/21639405.11c/0_8551a_fa9ce1ee_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/6442/21639405.11c/0_8551a_fa9ce1ee_orig.png"/></a></p> <p>We will introduce three different communities for our customer routes:</p> <ul> <li><code>65510:100</code> - community for every route originated from the West side of AS 65510</li> <li><code>65510:200</code> - community for every route originated from the East side of our AS 65510</li> <li><code>65510:2</code> - community for the <code>Customer_2</code> routes</li> </ul> <h3 id="adding-community">Adding community<a class="headerlink" href="#adding-community" title="Permanent link">#</a></h3> <p>Community strings are configured under the <code>policy-options</code> context. Before we will be able to add communities to the prefixes, we need to:</p> <ol> <li>Specify the <code>prefix-lists</code> for our the routes we would like to mark with a community</li> <li>Declare the community strings we want to refer later to.</li> </ol> <p>R5 policy config:</p> <div class="highlight"><pre><span></span><code>*A:R5&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
-            prefix-list &quot;Customer_1&quot;
+            prefix-list "Customer_1"
                 prefix 10.10.55.0/24 exact
                 prefix 10.10.66.0/24 exact
             exit
-            prefix-list &quot;Customer_2&quot;
+            prefix-list "Customer_2"
                 prefix 172.10.55.0/24 exact
                 prefix 172.10.66.0/24 exact
             exit
-            community &quot;East&quot; members &quot;65510:200&quot;
-            community &quot;West&quot; members &quot;65510:100&quot;
-            community &quot;Customer_2&quot; members &quot;65510:2&quot;
+            community "East" members "65510:200"
+            community "West" members "65510:100"
+            community "Customer_2" members "65510:2"
 ----------------------------------------------
-</code></pre></div> <p>The same <code>policy-options</code> configuration block is applied to R6.</p> <p>To tag the routes with a community value we have to additionally configure a <code>policy-statement</code> which will associate a community string with the selected prefixes. This policy will be later referenced in the BGP configuration as the <strong>export policy</strong>.</p> <p>Consider the following <code>policy-statement "Adv_Customers_nets"</code> that is configured on R5:</p> <div class=highlight><pre><span></span><code>*A:R5&gt;config&gt;router&gt;policy-options# info
+</code></pre></div> <p>The same <code>policy-options</code> configuration block is applied to R6.</p> <p>To tag the routes with a community value we have to additionally configure a <code>policy-statement</code> which will associate a community string with the selected prefixes. This policy will be later referenced in the BGP configuration as the <strong>export policy</strong>.</p> <p>Consider the following <code>policy-statement "Adv_Customers_nets"</code> that is configured on R5:</p> <div class="highlight"><pre><span></span><code>*A:R5&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
 &lt;prefix-lists and community strings are omitted&gt;
 
-            policy-statement &quot;Adv_Customers_nets&quot;
+            policy-statement "Adv_Customers_nets"
 ## =======================================================================
                 entry 10 
                     from
@@ -24,46 +36,46 @@
                     exit
                     action next-entry 
 ## next-entry means that upon successful completion of this action 
-## we DON&#39;T stop the policy evaluation process and proceed to the next entry
-                        community add &quot;West&quot; ## adding community to every direct connected route
-                                             ## matched by the &quot;from&quot; statement
+## we DON'T stop the policy evaluation process and proceed to the next entry
+                        community add "West" ## adding community to every direct connected route
+                                             ## matched by the "from" statement
                     exit
                 exit
 ## =======================================================================
                 entry 20
                     from
-                        prefix-list &quot;Customer_2&quot; ## matches Customer_2 routes
+                        prefix-list "Customer_2" ## matches Customer_2 routes
                     exit
                     action accept
-## action &quot;accept&quot; stops policy evaluation effective immediately
+## action "accept" stops policy evaluation effective immediately
 ## and its okay in this situation, since we have only two customers
-## so if we matched &quot;Customer_2&quot; and marked it with its community, 
+## so if we matched "Customer_2" and marked it with its community, 
 ## then we have nothing to do else and can stop policy evaluation
-                        community add &quot;Customer_2&quot;
+                        community add "Customer_2"
                     exit
                 exit
 ## =======================================================================
                 entry 30
                     from
-                        prefix-list &quot;Customer_1&quot;
+                        prefix-list "Customer_1"
                     exit
                     action accept
 ## we do not need to add communities for the Customer_1 routes, but we need to create
-## an &quot;action accept&quot; for its prefixes, since the default action is deny-all
+## an "action accept" for its prefixes, since the default action is deny-all
                     exit
                 exit
             exit
 ----------------------------------------------
-</code></pre></div> <p>The same policy statement configuration should be created on R6 router.</p> <p>In the example above we added the community string using the <code>community add</code> operation; SROS also has additional operations provided for the community strings:</p> <div class=highlight><pre><span></span><code>- community add &lt;name&gt; [&lt;name&gt;...(upto 28 max)]
+</code></pre></div> <p>The same policy statement configuration should be created on R6 router.</p> <p>In the example above we added the community string using the <code>community add</code> operation; SROS also has additional operations provided for the community strings:</p> <div class="highlight"><pre><span></span><code>- community add &lt;name&gt; [&lt;name&gt;...(upto 28 max)]
 - community remove &lt;name&gt; [&lt;name&gt;...(upto 28 max)]
 - community replace &lt;name&gt; [&lt;name&gt;...(upto 28 max)]
 - no community
-</code></pre></div> <p>As was explained before, the policy statement should then be applied as an <code>export</code> policy in the respective BGP configuration on both R5 and R6:</p> <div class=highlight><pre><span></span><code>*A:R5# configure router bgp group &quot;iBGP&quot;
-*A:R5&gt;config&gt;router&gt;bgp&gt;group# export &quot;Adv_Customers_nets&quot;
+</code></pre></div> <p>As was explained before, the policy statement should then be applied as an <code>export</code> policy in the respective BGP configuration on both R5 and R6:</p> <div class="highlight"><pre><span></span><code>*A:R5# configure router bgp group "iBGP"
+*A:R5&gt;config&gt;router&gt;bgp&gt;group# export "Adv_Customers_nets"
 
-*A:R6# configure router bgp group &quot;iBGP&quot;
-*A:R6&gt;config&gt;router&gt;bgp&gt;group# export &quot;Adv_Customers_nets&quot;
-</code></pre></div> <p>Now take a look at the <code>show router bgp summary</code> command on R5. There are 2 routes advertised to every iBGP neighbor and 2 rotes received from its fellow - R6:</p> <div class=highlight><pre><span></span><code>===============================================================================
+*A:R6# configure router bgp group "iBGP"
+*A:R6&gt;config&gt;router&gt;bgp&gt;group# export "Adv_Customers_nets"
+</code></pre></div> <p>Now take a look at the <code>show router bgp summary</code> command on R5. There are 2 routes advertised to every iBGP neighbor and 2 rotes received from its fellow - R6:</p> <div class="highlight"><pre><span></span><code>===============================================================================
 BGP Summary
 ===============================================================================
 Neighbor
@@ -80,7 +92,7 @@ Neighbor
                 65510     592    0 04h53m51s 2/2/2 (IPv4)
                           592    0
 -------------------------------------------------------------------------------
-</code></pre></div> <p>The BGP summary output does not disclose if any community attributes were applied to the NLRIs a BGP speaker sent or received, to verify that we should ask for a specific prefix details.</p> <h3 id=show-communities>Show communities<a class=headerlink href=#show-communities title="Permanent link">#</a></h3> <p>To ensure that the correct communities were passed along with the NLRI we can leverage the <code>show router bgp routes &lt;prefix&gt; detail</code> command and check the <code>Community</code> column in its output:</p> <div class=highlight><pre><span></span><code>A:R1# show router bgp routes 172.10.55.0/24 detail
+</code></pre></div> <p>The BGP summary output does not disclose if any community attributes were applied to the NLRIs a BGP speaker sent or received, to verify that we should ask for a specific prefix details.</p> <h3 id="show-communities">Show communities<a class="headerlink" href="#show-communities" title="Permanent link">#</a></h3> <p>To ensure that the correct communities were passed along with the NLRI we can leverage the <code>show router bgp routes &lt;prefix&gt; detail</code> command and check the <code>Community</code> column in its output:</p> <div class="highlight"><pre><span></span><code>A:R1# show router bgp routes 172.10.55.0/24 detail
 ===============================================================================
  BGP Router ID:10.10.10.1       AS:65510       Local AS:65510
 ===============================================================================
@@ -155,7 +167,7 @@ Route Tag      : 0
 Neighbor-AS    : N/A
 Orig Validation: NotFound
 Source Class   : 0                      Dest Class     : 0
-</code></pre></div> <p>Everything works as expected. <code>Customer_1</code> routes are tagged with just the "West" community, and the <code>Customer_2</code> routes are being tagged with both "West" and "Customer_2" communities. Lets go a bit deeper and see how the community strings are carried in the BGP Updates messages:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/4214/21639405.11c/0_8551b_9f4430f3_orig.png></p> <p>Community path attribute propagates across eBGP links as well. To check this we can filter the routes with a specfic community that R3 has in its BGP routes tables. Note, that R3 resides in the AS 65520 and thus is a eBGP peer:</p> <div class=highlight><pre><span></span><code>## show BGP routes labelled with a specific community string
+</code></pre></div> <p>Everything works as expected. <code>Customer_1</code> routes are tagged with just the "West" community, and the <code>Customer_2</code> routes are being tagged with both "West" and "Customer_2" communities. Lets go a bit deeper and see how the community strings are carried in the BGP Updates messages:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/4214/21639405.11c/0_8551b_9f4430f3_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/4214/21639405.11c/0_8551b_9f4430f3_orig.png"/></a></p> <p>Community path attribute propagates across eBGP links as well. To check this we can filter the routes with a specfic community that R3 has in its BGP routes tables. Note, that R3 resides in the AS 65520 and thus is a eBGP peer:</p> <div class="highlight"><pre><span></span><code>## show BGP routes labelled with a specific community string
 
 A:R3# show router bgp routes community 65510:2
 ===============================================================================
@@ -188,9 +200,9 @@ u*&gt;i  172.10.66.0/24                                     None        None
 -------------------------------------------------------------------------------
 Routes : 4
 ===============================================================================
-</code></pre></div> <p>And of course you can use <code>show router bgp routes &lt;prefix&gt; hunt</code> to see the verbose output of a given BGP route.</p> <h3 id=operation-replace-well-known-communities>Operation replace &amp; Well-known communities<a class=headerlink href=#operation-replace-well-known-communities title="Permanent link">#</a></h3> <p><a href=https://tools.ietf.org/html/rfc1997>RFC 1997</a> specifies the following well-known communities as the well-known communities:</p> <ul> <li><code>NO_EXPORT (0xFFFFFF01)</code> All routes received carrying a communities attribute containing this value MUST NOT be advertised outside a BGP confederation boundary (a stand-alone autonomous system that is not part of a confederation should be considered a confederation itself).</li> <li><code>NO_ADVERTISE (0xFFFFFF02)</code> All routes received carrying a communities attribute containing this value MUST NOT be advertised to other BGP peers.</li> <li><code>NO_EXPORT_SUBCONFED (0xFFFFFF03)</code> All routes received carrying a communities attribute containing this value MUST NOT be advertised to external BGP peers (this includes peers in other members autonomous systems inside a BGP confederation).</li> </ul> <p>You will encounter <code>no-export</code> and <code>no-advertise</code> communities quite often, as they are naturally used for route advertisement manipulations.</p> <p>To demonstrate the power of the default communities I would like to introduce you to another AS 65530 which has the single-homed peering with AS 65520:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/4214/21639405.11c/0_8551c_4c86f63e_orig.png></p> <p>Router R7 residing in AS 65530 has the default BGP configuration:</p> <div class=highlight><pre><span></span><code>A:R7&gt;config&gt;router&gt;bgp# info 
+</code></pre></div> <p>And of course you can use <code>show router bgp routes &lt;prefix&gt; hunt</code> to see the verbose output of a given BGP route.</p> <h3 id="operation-replace-well-known-communities">Operation replace &amp; Well-known communities<a class="headerlink" href="#operation-replace-well-known-communities" title="Permanent link">#</a></h3> <p><a href="https://tools.ietf.org/html/rfc1997">RFC 1997</a> specifies the following well-known communities as the well-known communities:</p> <ul> <li><code>NO_EXPORT (0xFFFFFF01)</code> All routes received carrying a communities attribute containing this value MUST NOT be advertised outside a BGP confederation boundary (a stand-alone autonomous system that is not part of a confederation should be considered a confederation itself).</li> <li><code>NO_ADVERTISE (0xFFFFFF02)</code> All routes received carrying a communities attribute containing this value MUST NOT be advertised to other BGP peers.</li> <li><code>NO_EXPORT_SUBCONFED (0xFFFFFF03)</code> All routes received carrying a communities attribute containing this value MUST NOT be advertised to external BGP peers (this includes peers in other members autonomous systems inside a BGP confederation).</li> </ul> <p>You will encounter <code>no-export</code> and <code>no-advertise</code> communities quite often, as they are naturally used for route advertisement manipulations.</p> <p>To demonstrate the power of the default communities I would like to introduce you to another AS 65530 which has the single-homed peering with AS 65520:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/4214/21639405.11c/0_8551c_4c86f63e_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/4214/21639405.11c/0_8551c_4c86f63e_orig.png"/></a></p> <p>Router R7 residing in AS 65530 has the default BGP configuration:</p> <div class="highlight"><pre><span></span><code>A:R7&gt;config&gt;router&gt;bgp# info 
 ----------------------------------------------
-            group &quot;no_export_example&quot;
+            group "no_export_example"
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.4
@@ -199,7 +211,7 @@ Routes : 4
             exit
             no shutdown
 ----------------------------------------------
-</code></pre></div> <p>As a result of this configuration it receives <strong>all</strong> BGP routes that R3 has in its BGP Rib-Out database:</p> <p>R3 BGP routes:</p> <div class=highlight><pre><span></span><code>A:R3# show router bgp routes 
+</code></pre></div> <p>As a result of this configuration it receives <strong>all</strong> BGP routes that R3 has in its BGP Rib-Out database:</p> <p>R3 BGP routes:</p> <div class="highlight"><pre><span></span><code>A:R3# show router bgp routes 
 ===============================================================================
  BGP Router ID:10.20.20.3       AS:65520       Local AS:65520      
 ===============================================================================
@@ -242,7 +254,7 @@ u*&gt;i  172.10.66.0/24                                     None        None
 -------------------------------------------------------------------------------
 Routes : 8
 ===============================================================================
-</code></pre></div> <p>R7 BGP routes:</p> <div class=highlight><pre><span></span><code>A:R7# show router bgp routes 
+</code></pre></div> <p>R7 BGP routes:</p> <div class="highlight"><pre><span></span><code>A:R7# show router bgp routes 
 ===============================================================================
  BGP Router ID:10.30.30.7       AS:65530       Local AS:65530      
 ===============================================================================
@@ -273,7 +285,7 @@ u*&gt;i  172.10.66.0/24                                     None        None
 -------------------------------------------------------------------------------
 Routes : 4
 ===============================================================================
-</code></pre></div> <p>Moreover, R7 receives all the community values with the received NLRIs. For instance, the community string <code>65510:100</code> is present for the <code>10.10.55.0/24</code> prefix:</p> <div class=highlight><pre><span></span><code>A:R7# show router bgp routes 10.10.55.0/24 detail 
+</code></pre></div> <p>Moreover, R7 receives all the community values with the received NLRIs. For instance, the community string <code>65510:100</code> is present for the <code>10.10.55.0/24</code> prefix:</p> <div class="highlight"><pre><span></span><code>A:R7# show router bgp routes 10.10.55.0/24 detail 
 ===============================================================================
  BGP Router ID:10.30.30.7       AS:65530       Local AS:65530      
 ===============================================================================
@@ -308,7 +320,7 @@ Route Tag      : 0
 Neighbor-AS    : 65520
 Orig Validation: NotFound               
 Source Class   : 0                      Dest Class     : 0
-</code></pre></div> <p>Lets see how by tagging the <code>10.10.55.0/24</code> prefix with the <code>no-export</code> community we can change the BGP route advertisement process. To do so I will add a policy-statement to our border router R1 which will replace the community string <code>65510:100</code> of the <code>10.10.55.0/24</code> prefix with the <code>no-export</code> one:</p> <p><img alt=pic src=http://img-fotki.yandex.ru/get/3902/21639405.11c/0_8551d_e4cb7869_orig.png></p> <p>Lets track the community mutations of a <code>10.10.55.0/24</code> prefix. R3 receives this prefix from R1 and installs in its RIB. Community value for this prefix is <code>65510:100</code>:</p> <div class=highlight><pre><span></span><code>A:R3# show router bgp routes 10.10.55.0/24 detail 
+</code></pre></div> <p>Lets see how by tagging the <code>10.10.55.0/24</code> prefix with the <code>no-export</code> community we can change the BGP route advertisement process. To do so I will add a policy-statement to our border router R1 which will replace the community string <code>65510:100</code> of the <code>10.10.55.0/24</code> prefix with the <code>no-export</code> one:</p> <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="http://img-fotki.yandex.ru/get/3902/21639405.11c/0_8551d_e4cb7869_orig.png"><img alt="pic" src="http://img-fotki.yandex.ru/get/3902/21639405.11c/0_8551d_e4cb7869_orig.png"/></a></p> <p>Lets track the community mutations of a <code>10.10.55.0/24</code> prefix. R3 receives this prefix from R1 and installs in its RIB. Community value for this prefix is <code>65510:100</code>:</p> <div class="highlight"><pre><span></span><code>A:R3# show router bgp routes 10.10.55.0/24 detail 
 ===============================================================================
  BGP Router ID:10.20.20.3       AS:65520       Local AS:65520      
 ===============================================================================
@@ -343,42 +355,42 @@ Route Tag      : 0
 Neighbor-AS    : 65510
 Orig Validation: NotFound               
 Source Class   : 0                      Dest Class     : 0
-</code></pre></div> <p>In order to replace the existing community value with a new one, we need to go to R1 and add the necessary policy configuration:</p> <div class=highlight><pre><span></span><code>*A:R1&gt;config&gt;router&gt;policy-options# info 
+</code></pre></div> <p>In order to replace the existing community value with a new one, we need to go to R1 and add the necessary policy configuration:</p> <div class="highlight"><pre><span></span><code>*A:R1&gt;config&gt;router&gt;policy-options# info 
 ----------------------------------------------
-            prefix-list &quot;Customer_1_55_network&quot;
+            prefix-list "Customer_1_55_network"
                 prefix 10.10.55.0/24 exact
             exit
             ## We have to specify community strings 
             ## we want to use with policy-statements
-            community &quot;West&quot; members &quot;65510:100&quot;
-            community &quot;no-export&quot; members &quot;no-export&quot;
-            policy-statement &quot;replace_with_no_exp&quot;
+            community "West" members "65510:100"
+            community "no-export" members "no-export"
+            policy-statement "replace_with_no_exp"
                 entry 10
                     from
-                        prefix-list &quot;Customer_1_55_network&quot;
+                        prefix-list "Customer_1_55_network"
                     exit
                     action accept                      ## it is allowed to set up to 28 communities 
-                        community replace &quot;no-export&quot;  ## which will replaces all the current ones
+                        community replace "no-export"  ## which will replaces all the current ones
                     exit                              
                 exit
             exit
 ----------------------------------------------
 
-## add new policy-statement as &quot;export&quot; policy on R1 
-A:R1&gt;config&gt;router&gt;bgp# group &quot;eBGP&quot;
-A:R1&gt;config&gt;router&gt;bgp&gt;group# export &quot;replace_with_no_exp&quot;
+## add new policy-statement as "export" policy on R1 
+A:R1&gt;config&gt;router&gt;bgp# group "eBGP"
+A:R1&gt;config&gt;router&gt;bgp&gt;group# export "replace_with_no_exp"
 
 
 *A:R1&gt;config&gt;router&gt;bgp&gt;group# info 
 ----------------------------------------------
-                export &quot;replace_with_no_exp&quot; 
+                export "replace_with_no_exp" 
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.1
                     local-address 10.0.99.0
                 exit
 ----------------------------------------------
-</code></pre></div> <p>Ok, lets see if this change was casted properly, examine R1's RIB-In and RIB-Out tables and watch closely the <code>Community</code> value:</p> <div class=highlight><pre><span></span><code>*A:R1&gt;config&gt;router&gt;bgp&gt;group# show router bgp routes 10.10.55.0/24 hunt 
+</code></pre></div> <p>Ok, lets see if this change was casted properly, examine R1's RIB-In and RIB-Out tables and watch closely the <code>Community</code> value:</p> <div class="highlight"><pre><span></span><code>*A:R1&gt;config&gt;router&gt;bgp&gt;group# show router bgp routes 10.10.55.0/24 hunt 
 ===============================================================================
  BGP Router ID:10.10.10.1       AS:65510       Local AS:65510      
 ===============================================================================
@@ -441,7 +453,7 @@ Source Class   : 0                      Dest Class     : 0
 -------------------------------------------------------------------------------
 Routes : 2
 ===============================================================================
-</code></pre></div> <p>Good, R1 <strong>modified</strong> the community attribute of this prefix and replaced the value it had received with a <code>no-export</code> well known community. It is important to note that <code>community replace</code> removes all communities for a prefix and sets a <code>no-export</code> instead them. So if we had &gt;1 communities for the <code>10.10.55.0/24</code> prefix we would end up with just one <code>no-export</code> in the end.</p> <p>Well, lets check with R3, how is this fella doing?</p> <div class=highlight><pre><span></span><code>A:R3# show router bgp routes 10.10.55.0/24 detail 
+</code></pre></div> <p>Good, R1 <strong>modified</strong> the community attribute of this prefix and replaced the value it had received with a <code>no-export</code> well known community. It is important to note that <code>community replace</code> removes all communities for a prefix and sets a <code>no-export</code> instead them. So if we had &gt;1 communities for the <code>10.10.55.0/24</code> prefix we would end up with just one <code>no-export</code> in the end.</p> <p>Well, lets check with R3, how is this fella doing?</p> <div class="highlight"><pre><span></span><code>A:R3# show router bgp routes 10.10.55.0/24 detail 
 ===============================================================================
  BGP Router ID:10.20.20.3       AS:65520       Local AS:65520      
 ===============================================================================
@@ -476,7 +488,7 @@ Route Tag      : 0
 Neighbor-AS    : 65510
 Orig Validation: NotFound               
 Source Class   : 0                      Dest Class     : 0
-</code></pre></div> <p>R3 receives and uses this prefix with the <code>no-export</code> community!</p> <p>Before we jump to R7 let the dust to settle and think about the propagation path of the examined prefix.</p> <ul> <li>R5 originates this prefix and sets community <code>West "65510:100"</code>.</li> <li>R5 then advertise via its <em>BGP UPDATE</em> message this prefix with this community to all of its iBGP peers (R1, R2 and R6 are the iBGP peers of R5).</li> <li>R1 (since we configured it this way) replaces community <code>West</code> with <code>no-export</code> for its eBGP peer R3, but <strong>R2 does not</strong>.</li> </ul> <p>This leads to an interesting situation when R2 advertises <code>10.10.55.0/24</code> prefix with its original community <code>West "65510:100"</code> so R4 selects this route as the best (because R4 prefers eBGP routes over iBGP):</p> <div class=highlight><pre><span></span><code>A:R4# show router bgp routes 10.10.55.0/24 detail 
+</code></pre></div> <p>R3 receives and uses this prefix with the <code>no-export</code> community!</p> <p>Before we jump to R7 let the dust to settle and think about the propagation path of the examined prefix.</p> <ul> <li>R5 originates this prefix and sets community <code>West "65510:100"</code>.</li> <li>R5 then advertise via its <em>BGP UPDATE</em> message this prefix with this community to all of its iBGP peers (R1, R2 and R6 are the iBGP peers of R5).</li> <li>R1 (since we configured it this way) replaces community <code>West</code> with <code>no-export</code> for its eBGP peer R3, but <strong>R2 does not</strong>.</li> </ul> <p>This leads to an interesting situation when R2 advertises <code>10.10.55.0/24</code> prefix with its original community <code>West "65510:100"</code> so R4 selects this route as the best (because R4 prefers eBGP routes over iBGP):</p> <div class="highlight"><pre><span></span><code>A:R4# show router bgp routes 10.10.55.0/24 detail 
 ===============================================================================
  BGP Router ID:10.20.20.4       AS:65520       Local AS:65520      
 ===============================================================================
@@ -511,7 +523,7 @@ Route Tag      : 0
 Neighbor-AS    : 65510
 Orig Validation: NotFound               
 Source Class   : 0                      Dest Class     : 0
-</code></pre></div> <p>This highlights the fact that if you have more then one eBGP peers and want to communicate specific community value - you should do this on <strong>every BGP border router</strong>.</p> <p>Check R7 BGP routes now. We expect that R3 does not advertise the prefix <code>10.10.55.0/24</code> to its eBGP peer R7, since it is instructed to do so by the <code>no-export</code> community:</p> <div class=highlight><pre><span></span><code>## making sure R3 does not advertise 10.10.55.0/24 to R7
+</code></pre></div> <p>This highlights the fact that if you have more then one eBGP peers and want to communicate specific community value - you should do this on <strong>every BGP border router</strong>.</p> <p>Check R7 BGP routes now. We expect that R3 does not advertise the prefix <code>10.10.55.0/24</code> to its eBGP peer R7, since it is instructed to do so by the <code>no-export</code> community:</p> <div class="highlight"><pre><span></span><code>## making sure R3 does not advertise 10.10.55.0/24 to R7
 
 A:R3# show router bgp neighbor 10.0.99.5 advertised-routes
 ===============================================================================
@@ -564,7 +576,7 @@ Flag  Network                                            LocalPref   MED
 -------------------------------------------------------------------------------
 No Matching Entries Found
 ===============================================================================
-</code></pre></div> <p>As expected, no <code>10.10.55.0/24</code> prefix is advertised by R3. That is what <code>no-export</code> community for.</p> <blockquote> <p>Note, R3 <strong>does not</strong> advertise a route with the <code>no-export</code> to its eBGP peers, but it <strong>does advertise</strong> it to its iBGP peers:</p> </blockquote> <div class=highlight><pre><span></span><code>## R3 advertises 10.10.55.0/24 with no-export community to iBGP peer R4
+</code></pre></div> <p>As expected, no <code>10.10.55.0/24</code> prefix is advertised by R3. That is what <code>no-export</code> community for.</p> <blockquote> <p>Note, R3 <strong>does not</strong> advertise a route with the <code>no-export</code> to its eBGP peers, but it <strong>does advertise</strong> it to its iBGP peers:</p> </blockquote> <div class="highlight"><pre><span></span><code>## R3 advertises 10.10.55.0/24 with no-export community to iBGP peer R4
 A:R3# show router bgp neighbor 10.20.20.4 advertised-routes
 ===============================================================================
  BGP Router ID:10.20.20.3       AS:65520       Local AS:65520
@@ -596,33 +608,33 @@ i     172.10.66.0/24                                     100         None
 -------------------------------------------------------------------------------
 Routes : 4
 ===============================================================================
-</code></pre></div> <p>The <code>no-advertise</code> community works a bit different - if a router receives a route with the <code>no-advertise</code> community it will <strong>not advertise it at all</strong> even to its iBGP peers.</p> <h3 id=removing-community>Removing community<a class=headerlink href=#removing-community title="Permanent link">#</a></h3> <p>Currently R2 does not modify any routes flying off to its eBGP peer R4. Lets imagine that we now have to remove the community <code>Customer_2</code> from all the Customer_2 routes on R2 before advertising them to the AS 65520. To do so we have to perform a community <strong>remove operation</strong>.</p> <p>To filter all the routes with a community string <code>65510:2</code> we could use prefix lists or filter by the community string value:</p> <div class=highlight><pre><span></span><code>*A:R2&gt;config&gt;router&gt;policy-options# info
+</code></pre></div> <p>The <code>no-advertise</code> community works a bit different - if a router receives a route with the <code>no-advertise</code> community it will <strong>not advertise it at all</strong> even to its iBGP peers.</p> <h3 id="removing-community">Removing community<a class="headerlink" href="#removing-community" title="Permanent link">#</a></h3> <p>Currently R2 does not modify any routes flying off to its eBGP peer R4. Lets imagine that we now have to remove the community <code>Customer_2</code> from all the Customer_2 routes on R2 before advertising them to the AS 65520. To do so we have to perform a community <strong>remove operation</strong>.</p> <p>To filter all the routes with a community string <code>65510:2</code> we could use prefix lists or filter by the community string value:</p> <div class="highlight"><pre><span></span><code>*A:R2&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
-            community &quot;Customer2&quot; members &quot;65510:2&quot;
-            policy-statement &quot;remove_Cust2_community&quot;
+            community "Customer2" members "65510:2"
+            policy-statement "remove_Cust2_community"
                 entry 10
                     from
-                        community &quot;Customer2&quot; ## filter routes with specific community value
+                        community "Customer2" ## filter routes with specific community value
                     exit
                     action accept
-                        community remove &quot;Customer2&quot;
+                        community remove "Customer2"
                     exit
                 exit
             exit
 ----------------------------------------------
 
 
-*A:R2&gt;config&gt;router&gt;bgp&gt;group# export &quot;remove_Cust2_community&quot;
+*A:R2&gt;config&gt;router&gt;bgp&gt;group# export "remove_Cust2_community"
 *A:R2&gt;config&gt;router&gt;bgp&gt;group# info
 ----------------------------------------------
-                export &quot;remove_Cust2_community&quot;
+                export "remove_Cust2_community"
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.3
                     local-address 10.0.99.2
                 exit
 ----------------------------------------------
-</code></pre></div> <p>Now R2 selects the routes with the community value of <code>65510:2</code> and removes it before sending it to its eBGP peer R4:</p> <p>The following output verifies this behavior:</p> <div class=highlight><pre><span></span><code>*A:R2# show router bgp routes 172.10.55.0/24 hunt
+</code></pre></div> <p>Now R2 selects the routes with the community value of <code>65510:2</code> and removes it before sending it to its eBGP peer R4:</p> <p>The following output verifies this behavior:</p> <div class="highlight"><pre><span></span><code>*A:R2# show router bgp routes 172.10.55.0/24 hunt
 ===============================================================================
  BGP Router ID:10.10.10.2       AS:65510       Local AS:65510
 ===============================================================================
@@ -752,67 +764,67 @@ Source Class   : 0                      Dest Class     : 0
 -------------------------------------------------------------------------------
 Routes : 2
 ===============================================================================
-</code></pre></div> <p>Remove operation removes a single community per action. Like in this example R2's RIB-In had the prefix <code>172.10.55.0/24</code> with both <code>65510:2</code> and <code>65510:200</code> values set the remove operation removed the <code>65510:2</code> community only.</p> <h3 id=matching-community>Matching community<a class=headerlink href=#matching-community title="Permanent link">#</a></h3> <p>The whole thing with the communities is about performing the actions against the prefixed matched with it. As you saw previously, the action based on a community should first match the community by its value and there are several ways to do the matching.</p> <p>How can you pick the routes with the different communities and modify them altogether? One way would be to write multiple policy-statements with the same action and different <code>from community &lt;name&gt;</code> statements. This is a bruteforce. There are far more elegant techniques we are going to explore.</p> <h4 id=and-and-or-operators>"AND" and "OR" operators<a class=headerlink href=#and-and-or-operators title="Permanent link">#</a></h4> <p>To create a community that matches some of the community values you can use the <code>|</code> operator like that: <code>community West_or_Customer_2 members 65510:2|65510:100</code>. This community statement will match prefixes with the community strings like <code>65510:2</code>, <code>65510:2 65510:100</code> or <code>65510:2 63300:2 54487:200</code>.</p> <p>To create a community statement that will match on a string that has multiple community values (aka <code>AND</code> operator) you can compose the following community statement: <code>community "A_and_B" members "65510:2" "65510:100"</code>. This community will match <code>65510:2 65510:100</code> or <code>100:100 200:200 65510:2 65510:100</code> but <strong>not</strong> <code>65510:2</code> or <code>100:100 65510:2</code>.</p> <h4 id=expressions>Expressions<a class=headerlink href=#expressions title="Permanent link">#</a></h4> <p>Nokia SR-OS has the built-in expressions engine equipped with a set of most commonly used operators. The Expressions syntax is described in the Routing Protocols guide:</p> <div class=highlight><pre><span></span><code>community &lt;name&gt; expression &lt;expression&gt; [exact]
+</code></pre></div> <p>Remove operation removes a single community per action. Like in this example R2's RIB-In had the prefix <code>172.10.55.0/24</code> with both <code>65510:2</code> and <code>65510:200</code> values set the remove operation removed the <code>65510:2</code> community only.</p> <h3 id="matching-community">Matching community<a class="headerlink" href="#matching-community" title="Permanent link">#</a></h3> <p>The whole thing with the communities is about performing the actions against the prefixed matched with it. As you saw previously, the action based on a community should first match the community by its value and there are several ways to do the matching.</p> <p>How can you pick the routes with the different communities and modify them altogether? One way would be to write multiple policy-statements with the same action and different <code>from community &lt;name&gt;</code> statements. This is a bruteforce. There are far more elegant techniques we are going to explore.</p> <h4 id="and-and-or-operators">"AND" and "OR" operators<a class="headerlink" href="#and-and-or-operators" title="Permanent link">#</a></h4> <p>To create a community that matches some of the community values you can use the <code>|</code> operator like that: <code>community West_or_Customer_2 members 65510:2|65510:100</code>. This community statement will match prefixes with the community strings like <code>65510:2</code>, <code>65510:2 65510:100</code> or <code>65510:2 63300:2 54487:200</code>.</p> <p>To create a community statement that will match on a string that has multiple community values (aka <code>AND</code> operator) you can compose the following community statement: <code>community "A_and_B" members "65510:2" "65510:100"</code>. This community will match <code>65510:2 65510:100</code> or <code>100:100 200:200 65510:2 65510:100</code> but <strong>not</strong> <code>65510:2</code> or <code>100:100 65510:2</code>.</p> <h4 id="expressions">Expressions<a class="headerlink" href="#expressions" title="Permanent link">#</a></h4> <p>Nokia SR-OS has the built-in expressions engine equipped with a set of most commonly used operators. The Expressions syntax is described in the Routing Protocols guide:</p> <div class="highlight"><pre><span></span><code>community &lt;name&gt; expression &lt;expression&gt; [exact]
 
 &lt;expression&gt;         : [900 chars max] - &lt;expression&gt; is one of the following:
                        &lt;expression&gt; {AND|OR} &lt;expression&gt;
                        [NOT] ( &lt;expression&gt; )
                        [NOT] &lt;comm-id&gt;
 &lt;exact&gt;              : keyword
-</code></pre></div> <p>A good example on the expressions syntax is demonstrated by the statement below which matches exactly the prefixes with agiven list of communities attached to them:</p> <div class=highlight><pre><span></span><code>community &quot;West_and_Cust_2_ONLY&quot; expression &quot;65510:2 AND 65510:100&quot; exact
-</code></pre></div> <p>This community, once used in the <code>from</code> statement of a policy will match prefixes with the community string <code>65510:2 65510:100</code> only (enforced by the <code>exact</code> statement).</p> <h4 id=regular-expressions>Regular Expressions<a class=headerlink href=#regular-expressions title="Permanent link">#</a></h4> <p>Another filtering technique is based on the regular expressions.</p> <p>Let me show you how easy it is to filter the routes with a community string containing <code>65510:100</code> <strong>or</strong> <code>65510:2</code> values:</p> <div class=highlight><pre><span></span><code>*A:R1&gt;config&gt;router&gt;policy-options# info
+</code></pre></div> <p>A good example on the expressions syntax is demonstrated by the statement below which matches exactly the prefixes with agiven list of communities attached to them:</p> <div class="highlight"><pre><span></span><code>community "West_and_Cust_2_ONLY" expression "65510:2 AND 65510:100" exact
+</code></pre></div> <p>This community, once used in the <code>from</code> statement of a policy will match prefixes with the community string <code>65510:2 65510:100</code> only (enforced by the <code>exact</code> statement).</p> <h4 id="regular-expressions">Regular Expressions<a class="headerlink" href="#regular-expressions" title="Permanent link">#</a></h4> <p>Another filtering technique is based on the regular expressions.</p> <p>Let me show you how easy it is to filter the routes with a community string containing <code>65510:100</code> <strong>or</strong> <code>65510:2</code> values:</p> <div class="highlight"><pre><span></span><code>*A:R1&gt;config&gt;router&gt;policy-options# info
 ----------------------------------------------
-            prefix-list &quot;Customer_1_55_network&quot;
+            prefix-list "Customer_1_55_network"
                 prefix 10.10.55.0/24 exact
             exit
-            community &quot;West&quot; members &quot;65510:100&quot;
-            community &quot;no-export&quot; members &quot;no-export&quot;
-            community &quot;no-advertise&quot; members &quot;no-advertise&quot;
+            community "West" members "65510:100"
+            community "no-export" members "no-export"
+            community "no-advertise" members "no-advertise"
 
             ## this community string equals to the form:
             ## members list contains 65510:2 OR 65510:100
-            community &quot;Customer_2_from_West&quot; members &quot;65510:(2|100)&quot;
+            community "Customer_2_from_West" members "65510:(2|100)"
 
             &lt;...omitted...&gt;
 
-            policy-statement &quot;test_regexp_community&quot;
+            policy-statement "test_regexp_community"
                 entry 10
                     from
-                        community &quot;Customer_2_from_West&quot;
+                        community "Customer_2_from_West"
                     exit
                     action accept
-                        community replace &quot;no-advertise&quot;
+                        community replace "no-advertise"
                     exit
                 exit
             exit
 ----------------------------------------------
-</code></pre></div> <p>Here I defined the <code>Customer_2_from_West</code> community and used a simple regular expression for to match on the communities <code>65510:100</code> <strong>or</strong> <code>65510:2</code>. This regexp community string will match strings like <code>65510:2</code> , <code>65510:2 65510:100</code> , <code>65510:2 63300:2 54487:200</code></p> <p>Of course you can create a far more complex regexps, check the table of the supported operators of the Routing Protocols Guide to build a regexp that meets your needs.</p> <h2 id=wrapping-up>Wrapping up<a class=headerlink href=#wrapping-up title="Permanent link">#</a></h2> <p>As usual, check out the full config that you will have at the end of this tutorial:</p> <p>R1:</p> <div class=highlight><pre><span></span><code>A:R1&gt;config&gt;router# info
+</code></pre></div> <p>Here I defined the <code>Customer_2_from_West</code> community and used a simple regular expression for to match on the communities <code>65510:100</code> <strong>or</strong> <code>65510:2</code>. This regexp community string will match strings like <code>65510:2</code> , <code>65510:2 65510:100</code> , <code>65510:2 63300:2 54487:200</code></p> <p>Of course you can create a far more complex regexps, check the table of the supported operators of the Routing Protocols Guide to build a regexp that meets your needs.</p> <h2 id="wrapping-up">Wrapping up<a class="headerlink" href="#wrapping-up" title="Permanent link">#</a></h2> <p>As usual, check out the full config that you will have at the end of this tutorial:</p> <p>R1:</p> <div class="highlight"><pre><span></span><code>A:R1&gt;config&gt;router# info
 ----------------------------------------------
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.1/32
             no shutdown
         exit
-        interface &quot;toR2&quot;
+        interface "toR2"
             address 10.10.99.0/31
             port 1/1/1
             no shutdown
         exit
-        interface &quot;toR3&quot;
+        interface "toR3"
             address 10.0.99.0/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR5&quot;
+        interface "toR5"
             address 10.10.99.4/31
             port 1/1/4
             no shutdown
         exit
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -824,66 +836,66 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR2&quot;
+            interface "toR2"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR5&quot;
+            interface "toR5"
                 interface-type point-to-point
                 no shutdown
             exit
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;Policy Configuration&quot;
+echo "Policy Configuration"
 #--------------------------------------------------
         policy-options
             begin
-            prefix-list &quot;Customer_1_55_network&quot;
+            prefix-list "Customer_1_55_network"
                 prefix 10.10.55.0/24 exact
             exit
-            community &quot;West&quot; members &quot;65510:100&quot;
-            community &quot;no-export&quot; members &quot;no-export&quot;
-            community &quot;no-advertise&quot; members &quot;no-advertise&quot;
-            community &quot;Customer_2_from_West&quot; members &quot;65510:(2|100)&quot;
-            policy-statement &quot;replace_with_no_exp&quot;
+            community "West" members "65510:100"
+            community "no-export" members "no-export"
+            community "no-advertise" members "no-advertise"
+            community "Customer_2_from_West" members "65510:(2|100)"
+            policy-statement "replace_with_no_exp"
                 entry 10
                     from
-                        prefix-list &quot;Customer_1_55_network&quot;
+                        prefix-list "Customer_1_55_network"
                     exit
                     action accept
-                        community replace &quot;no-export&quot;
+                        community replace "no-export"
                     exit
                 exit
             exit
-            policy-statement &quot;test_regexp_community&quot;
+            policy-statement "test_regexp_community"
                 entry 10
                     from
-                        community &quot;Customer_2_from_West&quot;
+                        community "Customer_2_from_West"
                     exit
                     action accept
-                        community replace &quot;no-advertise&quot;
+                        community replace "no-advertise"
                     exit
                 exit
             exit
             commit
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;eBGP&quot;
-                export &quot;replace_with_no_exp&quot; &quot;test_regexp_community&quot;
+            group "eBGP"
+                export "replace_with_no_exp" "test_regexp_community"
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.1
                     local-address 10.0.99.0
                 exit
             exit
-            group &quot;iBGP&quot;
+            group "iBGP"
                 next-hop-self
                 peer-as 65510
                 neighbor 10.10.10.2
@@ -895,33 +907,33 @@ echo &quot;BGP Configuration&quot;
             exit
             no shutdown
         exit
-</code></pre></div> <p>R2:</p> <div class=highlight><pre><span></span><code>A:R2&gt;config&gt;router# info
+</code></pre></div> <p>R2:</p> <div class="highlight"><pre><span></span><code>A:R2&gt;config&gt;router# info
 ----------------------------------------------
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.2/32
             no shutdown
         exit
-        interface &quot;toR1&quot;
+        interface "toR1"
             address 10.10.99.1/31
             port 1/1/1
             no shutdown
         exit
-        interface &quot;toR4&quot;
+        interface "toR4"
             address 10.0.99.2/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR6&quot;
+        interface "toR6"
             address 10.10.99.2/31
             port 1/1/4
             no shutdown
         exit
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -933,50 +945,50 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR1&quot;
+            interface "toR1"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR6&quot;
+            interface "toR6"
                 interface-type point-to-point
                 no shutdown
             exit
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;Policy Configuration&quot;
+echo "Policy Configuration"
 #--------------------------------------------------
         policy-options
             begin
-            community &quot;Customer2&quot; members &quot;65510:2&quot;
-            policy-statement &quot;remove_Cust2_community&quot;
+            community "Customer2" members "65510:2"
+            policy-statement "remove_Cust2_community"
                 entry 10
                     from
-                        community &quot;Customer2&quot;
+                        community "Customer2"
                     exit
                     action accept
-                        community remove &quot;Customer2&quot;
+                        community remove "Customer2"
                     exit
                 exit
             exit
             commit
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;eBGP&quot;
-                export &quot;remove_Cust2_community&quot;
+            group "eBGP"
+                export "remove_Cust2_community"
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.3
                     local-address 10.0.99.2
                 exit
             exit
-            group &quot;iBGP&quot;
+            group "iBGP"
                 peer-as 65510
                 neighbor 10.10.10.1
                 exit
@@ -988,38 +1000,38 @@ echo &quot;BGP Configuration&quot;
             no shutdown
         exit
 ----------------------------------------------
-</code></pre></div> <p>R3:</p> <div class=highlight><pre><span></span><code>A:R3&gt;config&gt;router# info
+</code></pre></div> <p>R3:</p> <div class="highlight"><pre><span></span><code>A:R3&gt;config&gt;router# info
 ----------------------------------------------
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;R3_Ext_Customer&quot;
+        interface "R3_Ext_Customer"
             address 172.16.33.1/24
             loopback
             no shutdown
         exit
-        interface &quot;system&quot;
+        interface "system"
             address 10.20.20.3/32
             no shutdown
         exit
-        interface &quot;toR1&quot;
+        interface "toR1"
             address 10.0.99.1/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR4&quot;
+        interface "toR4"
             address 10.20.99.0/31
             port 1/1/2
             no shutdown
         exit
-        interface &quot;toR7&quot;
+        interface "toR7"
             address 10.0.99.4/31
             port 1/1/5
             no shutdown
         exit
         autonomous-system 65520
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1031,34 +1043,34 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR4&quot;
+            interface "toR4"
                 interface-type point-to-point
                 no shutdown
             exit
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;eBGP&quot;
-                export &quot;export_R3_Ext_Customer&quot;
+            group "eBGP"
+                export "export_R3_Ext_Customer"
                 peer-as 65510
                 split-horizon
                 neighbor 10.0.99.0
                     local-address 10.0.99.1
                 exit
             exit
-            group &quot;iBGP&quot;
+            group "iBGP"
                 next-hop-self
                 peer-as 65520
                 neighbor 10.20.20.4
                 exit
             exit
-            group &quot;no_export_example&quot;
+            group "no_export_example"
                 peer-as 65530
                 split-horizon
                 neighbor 10.0.99.5
@@ -1068,28 +1080,28 @@ echo &quot;BGP Configuration&quot;
             no shutdown
         exit
 ----------------------------------------------
-</code></pre></div> <p>R4:</p> <div class=highlight><pre><span></span><code>A:R4&gt;config&gt;router# info
+</code></pre></div> <p>R4:</p> <div class="highlight"><pre><span></span><code>A:R4&gt;config&gt;router# info
 ----------------------------------------------
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;system&quot;
+        interface "system"
             address 10.20.20.4/32
             no shutdown
         exit
-        interface &quot;toR2&quot;
+        interface "toR2"
             address 10.0.99.3/31
             port 1/1/3
             no shutdown
         exit
-        interface &quot;toR3&quot;
+        interface "toR3"
             address 10.20.99.1/31
             port 1/1/2
             no shutdown
         exit
         autonomous-system 65520
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1101,27 +1113,27 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR3&quot;
+            interface "toR3"
                 interface-type point-to-point
                 no shutdown
             exit
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;eBGP&quot;
+            group "eBGP"
                 peer-as 65510
                 split-horizon
                 neighbor 10.0.99.2
                     local-address 10.0.99.3
                 exit
             exit
-            group &quot;iBGP&quot;
+            group "iBGP"
                 next-hop-self
                 peer-as 65520
                 neighbor 10.20.20.3
@@ -1130,38 +1142,38 @@ echo &quot;BGP Configuration&quot;
             no shutdown
         exit
 ----------------------------------------------
-</code></pre></div> <p>R5:</p> <div class=highlight><pre><span></span><code>A:R5&gt;config&gt;router# info
+</code></pre></div> <p>R5:</p> <div class="highlight"><pre><span></span><code>A:R5&gt;config&gt;router# info
 ----------------------------------------------
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;R5_Customer_1&quot;
+        interface "R5_Customer_1"
             address 10.10.55.1/24
             loopback
             no shutdown
         exit
-        interface &quot;R5_Customer_2&quot;
+        interface "R5_Customer_2"
             address 172.10.55.1/24
             loopback
             no shutdown
         exit
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.5/32
             no shutdown
         exit
-        interface &quot;toR1&quot;
+        interface "toR1"
             address 10.10.99.5/31
             port 1/1/4
             no shutdown
         exit
-        interface &quot;toR6&quot;
+        interface "toR6"
             address 10.10.99.6/31
             port 1/1/1
             no shutdown
         exit
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1173,55 +1185,55 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR1&quot;
+            interface "toR1"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR6&quot;
+            interface "toR6"
                 interface-type point-to-point
                 no shutdown
             exit
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;Policy Configuration&quot;
+echo "Policy Configuration"
 #--------------------------------------------------
         policy-options
             begin
-            prefix-list &quot;Customer_1&quot;
+            prefix-list "Customer_1"
                 prefix 10.10.55.0/24 exact
                 prefix 10.10.66.0/24 exact
             exit
-            prefix-list &quot;Customer_2&quot;
+            prefix-list "Customer_2"
                 prefix 172.10.55.0/24 exact
                 prefix 172.10.66.0/24 exact
             exit
-            community &quot;East&quot; members &quot;65510:200&quot;
-            community &quot;West&quot; members &quot;65510:100&quot;
-            community &quot;Customer_2&quot; members &quot;65510:2&quot;
-            policy-statement &quot;Adv_Customers_nets&quot;
+            community "East" members "65510:200"
+            community "West" members "65510:100"
+            community "Customer_2" members "65510:2"
+            policy-statement "Adv_Customers_nets"
                 entry 10
                     from
                         protocol direct
                     exit
                     action next-entry
-                        community add &quot;West&quot;
+                        community add "West"
                     exit
                 exit
                 entry 20
                     from
-                        prefix-list &quot;Customer_2&quot;
+                        prefix-list "Customer_2"
                     exit
                     action accept
-                        community add &quot;Customer_2&quot;
+                        community add "Customer_2"
                     exit
                 exit
                 entry 30
                     from
-                        prefix-list &quot;Customer_1&quot;
+                        prefix-list "Customer_1"
                     exit
                     action accept
                     exit
@@ -1230,11 +1242,11 @@ echo &quot;Policy Configuration&quot;
             commit
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;iBGP&quot;
-                export &quot;Adv_Customers_nets&quot;
+            group "iBGP"
+                export "Adv_Customers_nets"
                 peer-as 65510
                 neighbor 10.10.10.1
                 exit
@@ -1246,38 +1258,38 @@ echo &quot;BGP Configuration&quot;
             no shutdown
         exit
 ----------------------------------------------
-</code></pre></div> <p>R6:</p> <div class=highlight><pre><span></span><code>A:R6&gt;config&gt;router# info
+</code></pre></div> <p>R6:</p> <div class="highlight"><pre><span></span><code>A:R6&gt;config&gt;router# info
 ----------------------------------------------
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;R6_Customer_1&quot;
+        interface "R6_Customer_1"
             address 10.10.66.1/24
             loopback
             no shutdown
         exit
-        interface &quot;R6_Customer_2&quot;
+        interface "R6_Customer_2"
             address 172.10.66.1/24
             loopback
             no shutdown
         exit
-        interface &quot;system&quot;
+        interface "system"
             address 10.10.10.6/32
             no shutdown
         exit
-        interface &quot;toR2&quot;
+        interface "toR2"
             address 10.10.99.3/31
             port 1/1/4
             no shutdown
         exit
-        interface &quot;toR5&quot;
+        interface "toR5"
             address 10.10.99.7/31
             port 1/1/1
             no shutdown
         exit
         autonomous-system 65510
 #--------------------------------------------------
-echo &quot;ISIS Configuration&quot;
+echo "ISIS Configuration"
 #--------------------------------------------------
         isis
             level-capability level-1
@@ -1289,55 +1301,55 @@ echo &quot;ISIS Configuration&quot;
             level 2
                 wide-metrics-only
             exit
-            interface &quot;system&quot;
+            interface "system"
                 no shutdown
             exit
-            interface &quot;toR2&quot;
+            interface "toR2"
                 interface-type point-to-point
                 no shutdown
             exit
-            interface &quot;toR5&quot;
+            interface "toR5"
                 interface-type point-to-point
                 no shutdown
             exit
             no shutdown
         exit
 #--------------------------------------------------
-echo &quot;Policy Configuration&quot;
+echo "Policy Configuration"
 #--------------------------------------------------
         policy-options
             begin
-            prefix-list &quot;Customer_1&quot;
+            prefix-list "Customer_1"
                 prefix 10.10.55.0/24 exact
                 prefix 10.10.66.0/24 exact
             exit
-            prefix-list &quot;Customer_2&quot;
+            prefix-list "Customer_2"
                 prefix 172.10.55.0/24 exact
                 prefix 172.10.66.0/24 exact
             exit
-            community &quot;East&quot; members &quot;65510:200&quot;
-            community &quot;West&quot; members &quot;65510:100&quot;
-            community &quot;Customer_2&quot; members &quot;65510:2&quot;
-            policy-statement &quot;Adv_Customers_nets&quot;
+            community "East" members "65510:200"
+            community "West" members "65510:100"
+            community "Customer_2" members "65510:2"
+            policy-statement "Adv_Customers_nets"
                 entry 10
                     from
                         protocol direct
                     exit
                     action next-entry
-                        community add &quot;West&quot;
+                        community add "West"
                     exit
                 exit
                 entry 20
                     from
-                        prefix-list &quot;Customer_2&quot;
+                        prefix-list "Customer_2"
                     exit
                     action accept
-                        community add &quot;Customer_2&quot;
+                        community add "Customer_2"
                     exit
                 exit
                 entry 30
                     from
-                        prefix-list &quot;Customer_1&quot;
+                        prefix-list "Customer_1"
                     exit
                     action accept
                     exit
@@ -1346,11 +1358,11 @@ echo &quot;Policy Configuration&quot;
             commit
         exit
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;iBGP&quot;
-                export &quot;Adv_Customers_nets&quot;
+            group "iBGP"
+                export "Adv_Customers_nets"
                 peer-as 65510
                 neighbor 10.10.10.1
                 exit
@@ -1362,25 +1374,25 @@ echo &quot;BGP Configuration&quot;
             no shutdown
         exit
 ----------------------------------------------
-</code></pre></div> <p>R7:</p> <div class=highlight><pre><span></span><code>A:R7&gt;config&gt;router# info
+</code></pre></div> <p>R7:</p> <div class="highlight"><pre><span></span><code>A:R7&gt;config&gt;router# info
 #--------------------------------------------------
-echo &quot;IP Configuration&quot;
+echo "IP Configuration"
 #--------------------------------------------------
-        interface &quot;system&quot;
+        interface "system"
             address 10.30.30.7/32
             no shutdown
         exit
-        interface &quot;toR4&quot;
+        interface "toR4"
             address 10.0.99.5/31
             port 1/1/5
             no shutdown
         exit
         autonomous-system 65530
 #--------------------------------------------------
-echo &quot;BGP Configuration&quot;
+echo "BGP Configuration"
 #--------------------------------------------------
         bgp
-            group &quot;no_export_example&quot;
+            group "no_export_example"
                 peer-as 65520
                 split-horizon
                 neighbor 10.0.99.4
@@ -1390,8 +1402,8 @@ echo &quot;BGP Configuration&quot;
             no shutdown
         exit
 ----------------------------------------------
-</code></pre></div> <h2 id=__comments>Comments</h2> <script src=https://giscus.app/client.js data-repo=hellt/netdevops.me data-repo-id="MDEwOlJlcG9zaXRvcnkzNTkzNTc5ODc=" data-category="Show and tell" data-category-id=DIC_kwDOFWteI84CRmVn data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=preferred_color_scheme data-lang=en data-loading=lazy crossorigin=anonymous async>
-    </script> <!-- Synchronize Giscus theme with palette --> <script>
+</code></pre></div> <h2 id="__comments">Comments</h2> <script async="" crossorigin="anonymous" data-category="Show and tell" data-category-id="DIC_kwDOFWteI84CRmVn" data-emit-metadata="0" data-input-position="top" data-lang="en" data-loading="lazy" data-mapping="pathname" data-reactions-enabled="1" data-repo="hellt/netdevops.me" data-repo-id="MDEwOlJlcG9zaXRvcnkzNTkzNTc5ODc=" data-strict="0" data-theme="preferred_color_scheme" src="https://giscus.app/client.js">
+</script> <!-- Synchronize Giscus theme with palette --> <script>
     var giscus = document.querySelector("script[src*=giscus]")
 
     /* Set palette on initial load */
@@ -1418,4 +1430,4 @@ echo &quot;BGP Configuration&quot;
             }
         })
     })
-</script> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <a href=# class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg> Back to top </a> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs Insiders </a> </div> <div class=md-social> <a href=https://github.com/hellt target=_blank rel=noopener title=github.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 496 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> </a> <a href=https://twitter.com/ntdvps target=_blank rel=noopener title=twitter.com class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["navigation.top", "navigation.instant", "navigation.tabs", "search.suggest", "content.code.annotate", "toc.follow", "content.tooltips", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.94e452fd.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script> <script src=../../assets/javascripts/bundle.28bf374e.min.js></script> </body> </html>
+</script> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <button class="md-top md-icon" data-md-component="top" hidden="" type="button"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg> Back to top </button> </main> <footer class="md-footer"> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class="md-copyright"> Made with <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank"> Material for MkDocs Insiders </a> </div> <div class="md-social"> <a class="md-social__link" href="https://github.com/hellt" rel="noopener" target="_blank" title="github.com"> <svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg> </a> <a class="md-social__link" href="https://twitter.com/ntdvps" rel="noopener" target="_blank" title="twitter.com"> <svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!-- Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg> </a> </div> </div> </div> </footer> </div> <div class="md-dialog" data-md-component="dialog"> <div class="md-dialog__inner md-typeset"></div> </div> <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.instant", "navigation.tabs", "search.suggest", "content.code.annotate", "toc.follow", "content.tooltips", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.6c7302c4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script> <script src="../../assets/javascripts/bundle.9ab90144.min.js"></script> <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body> </html>
