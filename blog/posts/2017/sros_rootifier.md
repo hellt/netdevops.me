@@ -20,7 +20,8 @@ These sad facts pushed me to create a **rootifier** CLI script, that was convert
 
 ![rootifier](https://gitlab.com/rdodin/netdevops.me/uploads/29184e488b07d8b5efb77d367a9e41ce/image.png)
 
-Now I decided to make a web service of that script, that is publicly available at <http://rootifier.netdevops.me/>
+!!!note "update 2023"
+    The web service that was available publicly but has been now decommissioned due to the transition to MD-CLI.
 
 <!-- more -->
 
