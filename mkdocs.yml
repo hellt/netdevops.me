@@ -91,6 +91,7 @@ plugins:
       categories:
         - tags
       comments_path: "#__comments"
+  - glightbox
 
 # Customization
 extra:
@@ -137,7 +138,11 @@ markdown_extensions:
       fractions: false
   - pymdownx.snippets:
       check_paths: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
