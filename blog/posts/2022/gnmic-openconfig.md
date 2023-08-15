@@ -272,13 +272,13 @@ Karim, as the sole developer, will still be at the helm of gNMIc development, bu
 [actions]: https://gnmic.openconfig.net/user_guide/actions/actions/
 [clab]: https://containerlab.dev
 [clustering]: https://gnmic.openconfig.net/user_guide/HA/
-[consul-loader]: https://gnmic.openconfig.net/user_guide/target_discovery/discovery_intro/#consul-server-loader
+[consul-loader]: https://gnmic.openconfig.net/user_guide/targets/target_discovery/discovery_intro/#consul-server-loader
 [data-reuse]: https://gnmic.openconfig.net/user_guide/inputs/input_intro/#data-reuse
 [deployment-examples]: https://gnmic.openconfig.net/deployments/deployments_intro/
-[diff-cmd]: https://gnmic.openconfig.net/cmd/diff/
+[diff-cmd]: https://gnmic.openconfig.net/cmd/diff/diff/
 [distrib-cluster]: https://gnmic.openconfig.net/user_guide/inputs/input_intro/#clustering
-[docker-loader]: https://gnmic.openconfig.net/user_guide/target_discovery/discovery_intro/#docker-engine-loader
-[file-loader]: https://gnmic.openconfig.net/user_guide/target_discovery/discovery_intro/#file-loader
+[docker-loader]: https://gnmic.openconfig.net/user_guide/targets/target_discovery/discovery_intro/#docker-engine-loader
+[file-loader]: https://gnmic.openconfig.net/user_guide/targets/target_discovery/discovery_intro/#file-loader
 [getset-cmd]: https://gnmic.openconfig.net/cmd/getset/
 [gnmi-ref]: https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
 [gnmi-server]: https://gnmic.openconfig.net/user_guide/gnmi_server/
@@ -288,7 +288,7 @@ Karim, as the sole developer, will still be at the helm of gNMIc development, bu
 [grpctunnel-gnmic]: https://gnmic.openconfig.net/user_guide/tunnel_server/
 [grpctunnel-repo]: https://github.com/openconfig/grpctunnel
 [ha]: https://gnmic.openconfig.net/user_guide/HA/#instance-failure
-[http-loader]: https://gnmic.openconfig.net/user_guide/target_discovery/discovery_intro/#http-loader
+[http-loader]: https://gnmic.openconfig.net/user_guide/targets/target_discovery/discovery_intro/#http-loader
 [inputs]: https://gnmic.openconfig.net/user_guide/inputs/input_intro/
 [karim_linkedin]: https://www.linkedin.com/in/karim-radhouani/
 [karim-github]: https://github.com/karimra
@@ -300,5 +300,5 @@ Karim, as the sole developer, will still be at the helm of gNMIc development, bu
 [restapi]: https://gnmic.openconfig.net/user_guide/api/api_intro/
 [scaling]: https://gnmic.openconfig.net/user_guide/HA/#scalability
 [target-distrib]: https://gnmic.openconfig.net/user_guide/HA/#target-distribution-process
-[target-load]: https://gnmic.openconfig.net/user_guide/target_discovery/discovery_intro/
+[target-load]: https://gnmic.openconfig.net/user_guide/targets/target_discovery/discovery_intro/
 [template-set]: https://gnmic.openconfig.net/cmd/set/#templated-set-request-file

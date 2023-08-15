@@ -15,9 +15,10 @@ tags:
 ---
 # Flask application in a production-ready container
 
-Flask documentation [is very clear](http://flask.pocoo.org/docs/0.12/deploying/#deployment-options) on where is the place for its built-in WSGI application server:
+Flask documentation [is very clear](https://flask.palletsprojects.com/en/2.3.x/tutorial/deploy/#run-with-a-production-server) on where is the place for its built-in WSGI application server:
 
-> While lightweight and easy to use, **Flask’s built-in server is not suitable for production** as it doesn’t scale well and by default serves only one request at a time.
+!!!note
+    When running publicly rather than in development, you should not use the built-in development server (flask run). The development server is provided by Werkzeug for convenience, but is not designed to be particularly efficient, stable, or secure.
 
 So how about I share with you a [_Dockerfile_](https://github.com/hellt/nginx-uwsgi-flask-alpine-docker) that will enable your Flask application to run **properly** and ready for production-like deployments? As a bonus, I will share my findings discovered along the way of building this container image.
 
@@ -62,7 +63,7 @@ nginx config consists of two parts:
 
 ### nginx global config
 
-For the **global nginx config file** I combined the recommendations outlined in the post [_How to Configure NGINX for a Flask Web Application_](http://www.patricksoftwareblog.com/how-to-configure-nginx-for-a-flask-web-application/) with [nginx configuration samples](https://uwsgi-docs.readthedocs.io/en/latest/Nginx.html) from uWSGI docs.
+For the **global nginx config file** I combined the recommendations gathered online with [nginx configuration samples](https://uwsgi-docs.readthedocs.io/en/latest/Nginx.html) from uWSGI docs.
 
 A little caveat that you might encounter when deploying nginx in Alpine Linux renders itself like that:
 
