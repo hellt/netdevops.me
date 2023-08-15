@@ -40,7 +40,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-20.04
-    needs: docs-test
+    environment: github-pages
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
