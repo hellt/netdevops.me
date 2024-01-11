@@ -16,6 +16,7 @@ IgnoreURLs:
   - https://twitter.com/*
   - http://codepen.io/hellt
   - https://pbs.twimg.com/media
+  - https://t.co # twitter links don't work anymore
 IgnoreDirectoryMissingTrailingSlash: true
 IgnoreAltMissing: true
 IgnoreSSLVerify: true

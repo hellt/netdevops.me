@@ -312,7 +312,7 @@ You might guess that a [template](https://flask.palletsprojects.com/en/1.1.x/qui
 
 > Generating HTML from within Python is not fun, and actually pretty cumbersome because you have to do the HTML escaping on your own to keep the application secure. Because of that Flask configures the [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/) template engine for you automatically.
 
-So Flask's template is a Jinja2-based template which allows you to build **dynamic** web-pages instead of a static content. To render a template you can use the [`render_template()`](http://flask.pocoo.org/docs/1.0/api/#flask.render_template) method. All you have to do is to provide the name of the template and the variables you want to pass to the template engine.
+So Flask's template is a Jinja2-based template which allows you to build **dynamic** web-pages instead of a static content. To render a template you can use the [`render_template()`](https://flask.palletsprojects.com/en/1.1.x/api/#template-rendering) method. All you have to do is to provide the name of the template and the variables you want to pass to the template engine.
 
 You can name your templates as you like, but normally it will have an `.html` extension to reflect their purpose. This is my `index.html` template mentioned earlier bound to the route `/`.
 
@@ -865,7 +865,7 @@ def get_vmrc_links():
                         'pass': request.form['vmware_pass']}
 ```
 
-To get the contents arrived in `POST` I queried `form` data structure of the [request](https://werkzeug.palletsprojects.com/en/1.0.x/wrappers/#) object with appropriate keys. `form[]` object is an `ImmutableDict` data structure which contains all the data received in the `POST` method:
+To get the contents arrived in `POST` I queried `form` data structure of the [request](https://werkzeug.palletsprojects.com/en/2.0.x/wrappers/#mutability-and-reusability-of-wrappers) object with appropriate keys. `form[]` object is an `ImmutableDict` data structure which contains all the data received in the `POST` method:
 
 ```python
 ImmutableMultiDict([('vmware_pass', 'mypass'), ('vmware_ip_addr', '172.17.255.253'), ('vmware_login', 'root')])
