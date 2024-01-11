@@ -142,7 +142,7 @@ It looks like a lot of lines of code, but everything was just pasted from the ex
 
 ## 4 Hooking up the back-end
 
-As implied by the name of this post, the communication between the front-end and the back-end is happening using the REST API. In the [previous post](../creating-google-cloud-platform-function-with-python-and-serverless/) I wrote about the way I packaged the [`pycatj`](https://github.com/dbarrosop/pycatj/) tool into a Google Cloud Function which exposes a single API endpoint. Now it is time to make our front-end to be a REST API client that talks to the back-end and displays the results it receives back.
+As implied by the name of this post, the communication between the front-end and the back-end is happening using the REST API. In the [previous post](../2019/serverless-gc-functions.md) I wrote about the way I packaged the [`pycatj`](https://github.com/dbarrosop/pycatj/) tool into a Google Cloud Function which exposes a single API endpoint. Now it is time to make our front-end to be a REST API client that talks to the back-end and displays the results it receives back.
 
 This is a breakdown of a communication logic between the front and back ends:
 
@@ -198,7 +198,7 @@ Now with every push to the master branch Gitlab will restart the web server to e
 
 This pretty much concludes the Minimum Viable Product of the web front-end for the simple REST API service:
 
-- by leveraging the Google Cloud PLatform Functions we [deployed](../creating-google-cloud-platform-function-with-python-and-serverless/) a python code that implements a back-end REST API service - **$0**
+- by leveraging the Google Cloud Platform Functions we [deployed](../2019/serverless-gc-functions.md) a python code that implements a back-end REST API service - **$0**
 - the front-end is built with a simple Bootstrap/JQuery based [MDB](https://mdbootstrap.com) framework and hosted with Gitlab Pages - **$0**
 - the wildcard TLS certificate is provided by Cloudflare - **$0**
 
