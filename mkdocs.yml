@@ -92,6 +92,10 @@ plugins:
         - tags
       comments_path: "#__comments"
   - glightbox
+  - typeset
+  - git-revision-date-localized:
+      enable_creation_date: true
+      enabled: !ENV [CI, false]
 
 # Customization
 extra:
@@ -126,10 +130,12 @@ markdown_extensions:
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
-      linenums_style: pymdownx-inline
+      line_spans: __span
+      anchor_linenums: true
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.magiclink
@@ -138,6 +144,7 @@ markdown_extensions:
       fractions: false
   - pymdownx.snippets:
       check_paths: true
+      url_download: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -145,6 +152,11 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.blocks.tab:
+      alternate_style: true
+  - pymdownx.blocks.admonition
+  - pymdownx.blocks.definition
+  - pymdownx.blocks.details
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde

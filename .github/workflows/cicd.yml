@@ -4,16 +4,16 @@ on:
   push:
 
 env:
-  MKDOCS_INS_VER: 9.1.4-insiders-4.32.4-hellt
+  MKDOCS_INS_VER: 9.4.14-insiders-4.46.0-hellt
 
 jobs:
   docs-test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -39,16 +39,16 @@ jobs:
           config: blog/htmltest.yml
 
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: github-pages
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
