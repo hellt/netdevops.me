@@ -295,7 +295,7 @@ With this configuration we expect our function to execute once an HTTP request h
 
 #### 2.3.3 Writing a function
 
-Yes, a thousand words later we finally at a milestone where we write actual python code for a function. The template we generated earlier gives us a good starting point - a function body with a single [Flask `request`](http://flask.pocoo.org/docs/1.0/api/#flask.Request) argument:
+Yes, a thousand words later we finally at a milestone where we write actual python code for a function. The template we generated earlier gives us a good starting point - a function body with a single [Flask `request`](hhttps://flask.palletsprojects.com/en/1.1.x/api/#flask.request) argument:
 
 ```python
 def pycatj(request):
