@@ -15,6 +15,7 @@ Here is one for skopeo to copy images between registries:
 alias skopeo='sudo docker run --rm \
 -v ~/.config/gcloud:/root/.config/gcloud:ro \
 -v ~/.docker/config.json:/tmp/auth.json:ro \
+-v /var/run/docker.sock:/var/run/docker.sock \
 -v /usr/bin/docker-credential-gcr:/usr/bin/docker-credential-gcr \
 quay.io/skopeo/stable:v1.14'
 ```
