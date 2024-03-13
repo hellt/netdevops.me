@@ -17,6 +17,8 @@ alias skopeo='sudo docker run --rm \
 -v ~/.docker/config.json:/tmp/auth.json:ro \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v /usr/bin/docker-credential-gcr:/usr/bin/docker-credential-gcr \
+-v $(pwd):/workdir \
+-w /workdir \
 quay.io/skopeo/stable:v1.14'
 ```
 
@@ -27,3 +29,5 @@ skopeo version 1.14.2
 
 Note this quirky `docker-credential-gcr` binary mount, this is an authentication helper for skopeo to authenticate with GCP.
 Other clouds might require other helpers or file mounts.
+
+A nice blog post on how to use skopeo different transports - <https://www.redhat.com/sysadmin/7-transports-features>
