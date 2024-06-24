@@ -18,7 +18,7 @@ tags:
 ---
 # Arista EOS gNMI Tutorial
 
-We were pleasantly surprised by the way community appreciated [gNMIc](https://netdevops.me/2020/gnmic-gnmi-cli-client-and-collector/) release. Thank you 🙏! That solidifies the fact that a well-formed, documented and easy to use gNMI tool was needed.
+We were pleasantly surprised by the way community appreciated [gNMIc](../2020/gnmic.md) release. Thank you 🙏! That solidifies the fact that a well-formed, documented and easy to use gNMI tool was needed.
 
 Now with gNMIc available to everybody its easy like never before to test gNMI implementation of different routing OSes. And in this post we will get our hands on **Arista vEOS**.
 
@@ -52,7 +52,7 @@ With this config snippet we do a few things important from the gNMI standpoint:
 - enabling password for `admin` to authenticate with a router
 - configuring IP address for the `Ethernet1` interface to let gNMIc reach the router
 - enabling `gnmi` management interface with the default transport config
-  - default transport doesn't enforce TLS usage and uses `6030` port
+    - default transport doesn't enforce TLS usage and uses `6030` port
 
 That is all it takes to configure vEOS to start replying to our first gNMI RPCs, ridiculously easy!
 

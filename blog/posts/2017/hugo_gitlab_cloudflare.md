@@ -46,7 +46,7 @@ For details refer to the [QuickStart guide](https://gohugo.io/getting-started/qu
 
 ### Theme
 
-Hugo community produced over 100+ themes for different needs. As to me, most of them are ugly, or as minimalistic as the blogspot. Probably the hardest thing in the whole process is to find a theme that suits you. This blog uses a [Tranquilpeak](https://themes.gohugo.io/hugo-tranquilpeak-theme/) theme.
+Hugo community produced over 100+ themes for different needs. As to me, most of them are ugly, or as minimalistic as the blogspot. Probably the hardest thing in the whole process is to find a theme that suits you. This blog uses a [Tranquilpeak](https://github.com/kakawait/hugo-tranquilpeak-theme) theme.
 
 To onboard a chosen theme follow the quickstart guide' [step 3](https://gohugo.io/getting-started/quick-start/#step-3-add-a-theme).
 

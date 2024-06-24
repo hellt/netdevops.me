@@ -42,11 +42,10 @@ To build a fairly fresh-looking (_fresh_ as in 2016yr), dynamic web view we need
 
 What tastes good with Bootstrap - [JQuery](http://jquery.com), of course. JQuery was used to handle AJAX response/request messages between the front-end and the back-end without reloading the whole page. Since I had no previous experience with both of these technologies, I heavily used everything google served me. Here is my list of useful resources I found noteworthy:
 
-  1. [Layoutit.com](http://www.layoutit.com/build#) - there you can create Bootstrap grid and play with elements in a drag and drop fashion. Load the result in a zip file and your grid system is almost ready.
-  2. [Bootply.com](http://www.bootply.com/new?visual=1) - visual builder for Bootstrap layout. It has some good examples which cover basic Bootstrap elements behavior (navbar, grid rules, etc).
-  3. [Form validator by 1000hz](http://1000hz.github.io/bootstrap-validator/) - well, it's a form validator. And since every script needs to get input data from a user, form validation is a must-have for a sleek user experience.
-  4. [Bootsnipp.com](http://bootsnipp.com/) - crowdsource collection of snippets written with Bootstrap. I grabbed my side menu from it. Another useful section from this site is [Form Builder](http://bootsnipp.com/forms).
-  5. [Formden](https://formden.com/form-builder/) - another form builder.
+1. [Layoutit.com](http://www.layoutit.com/build#) - there you can create Bootstrap grid and play with elements in a drag and drop fashion. Load the result in a zip file and your grid system is almost ready.
+2. [Form validator by 1000hz](http://1000hz.github.io/bootstrap-validator/) - well, it's a form validator. And since every script needs to get input data from a user, form validation is a must-have for a sleek user experience.
+3. [Bootsnipp.com](http://bootsnipp.com/) - crowdsource collection of snippets written with Bootstrap. I grabbed my side menu from it. Another useful section from this site is [Form Builder](http://bootsnipp.com/forms).
+4. [Formden](https://formden.com/form-builder/) - another form builder.
 
 ### Back-end
 

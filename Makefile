@@ -1,6 +1,6 @@
 # insiders version/tag https://github.com/srl-labs/mkdocs-material-insiders/pkgs/container/mkdocs-material-insiders
 # make sure to also change the mkdocs version in actions' cicd.yml and force-build.yml files
-MKDOCS_INS_VER = 9.4.14-insiders-4.46.0-hellt
+MKDOCS_INS_VER = 9.5.9-insiders-4.52.2-hellt
 
 .PHONY: docs
 docs:
