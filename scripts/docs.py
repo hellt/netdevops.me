@@ -230,7 +230,7 @@ def prepare(preview=False):
         write(target, page(meta, post["body"]))
     count = max(1, math.ceil(len(posts) / 10))
     for number in range(1, count + 1):
-        body = "# Blog\n\n"
+        body = ""
         for index, post in enumerate(posts[(number - 1) * 10:number * 10]):
             title = html.escape(post["title"])
             body += f'## <a href="/{quote(post["url"], safe="/")}">{title}</a>\n\n'
@@ -239,7 +239,7 @@ def prepare(preview=False):
         body += pagination_template.render(current=number, total=count)
         target = STAGE / ("index.md" if number == 1 else f"page/{number}.md")
         expected.add(target)
-        write(target, page(dict(hide=["navigation", "toc"], comments=False), body))
+        write(target, page(dict(title="Blog", template="blog.html", hide=["navigation", "toc"], comments=False), body))
     for name, content in feeds(posts, config):
         target = STAGE / name
         expected.add(target)
