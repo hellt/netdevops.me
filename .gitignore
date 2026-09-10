@@ -9,3 +9,8 @@ tmp
 bin
 resources/_gen/**/*
 site/
+.venv/
+.cache/
+.build/
+.mkdocs-generated.yml
+__pycache__/

@@ -1,22 +1,44 @@
-# insiders version/tag https://github.com/srl-labs/mkdocs-material-insiders/pkgs/container/mkdocs-material-insiders
-# make sure to also change the mkdocs version in actions' cicd.yml and force-build.yml files
-MKDOCS_INS_VER = 9.5.9-insiders-4.52.2-hellt
+UV ?= uv
+DEV_ADDR ?= 127.0.0.1:8002
+DEPLOY_REMOTE ?= origin
+DEPLOY_BRANCH ?= gh-pages
+DEPLOY_NAME ?= github-actions[bot]
+DEPLOY_EMAIL ?= 41898282+github-actions[bot]@users.noreply.github.com
+HTMLTEST_VERSION := 0.17.0
 
-.PHONY: docs
-docs:
-	docker run -v $$(pwd):/docs --entrypoint mkdocs squidfunk/mkdocs-material:$(MKDOCS_INS_VER) build --clean --strict
+.DEFAULT_GOAL := build-docs
+.PHONY: install-docs lock-docs build-docs serve-docs test-docs deploy-docs htmltest htmltest-internal check-docs docs serve serve-full
 
-# serve the site locally using mkdocs-material insiders container
-.PHONY: serve
-serve:
-	docker run -it --rm -p 8002:8000 -v $$(pwd):/docs ghcr.io/hellt/mkdocs-material-insiders:$(MKDOCS_INS_VER) serve -a 0.0.0.0:8000 --dirtyreload
+install-docs:
+	$(UV) sync --locked
 
-.PHONY: serve-full
-serve-full:
-	docker run -it --rm -p 8002:8000 -v $$(pwd):/docs ghcr.io/hellt/mkdocs-material-insiders:$(MKDOCS_INS_VER)
+lock-docs:
+	$(UV) lock
 
-.PHONY: htmltest
-htmltest:
-	docker run --rm -v $$(pwd):/docs --entrypoint mkdocs ghcr.io/hellt/mkdocs-material-insiders:$(MKDOCS_INS_VER) build --clean --strict
-	docker run --rm -v $$(pwd):/test wjdp/htmltest --conf ./site/htmltest-w-github.yml
-	rm -rf ./site
+build-docs: install-docs
+	$(UV) run --locked python scripts/docs.py build
+
+serve-docs: install-docs
+	$(UV) run --locked python scripts/docs.py serve --address $(DEV_ADDR)
+
+check-docs: test-docs htmltest-internal
+
+test-docs: build-docs
+	$(UV) run --locked python -m unittest discover -s tests -v
+
+# Keep the existing branch-based GitHub Pages deployment and custom domain.
+deploy-docs: check-docs
+	GIT_COMMITTER_NAME="$(DEPLOY_NAME)" GIT_COMMITTER_EMAIL="$(DEPLOY_EMAIL)" $(UV) run --locked ghp-import -n -p -f -r $(DEPLOY_REMOTE) -b $(DEPLOY_BRANCH) site
+
+# Native Go binary; no container action or remote shell installer.
+bin/htmltest:
+	GOBIN=$(CURDIR)/bin go install github.com/wjdp/htmltest@v$(HTMLTEST_VERSION)
+
+htmltest: build-docs bin/htmltest
+	bin/htmltest --conf blog/htmltest.yml
+
+htmltest-internal: build-docs bin/htmltest
+	bin/htmltest --conf blog/htmltest.yml --skip-external
+
+docs: build-docs
+serve serve-full: serve-docs

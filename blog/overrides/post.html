@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+{% block content %}
+<aside class="md-post__meta">
+  {% for author in page.meta.post_authors %}
+    <img src="{{ author.avatar }}" alt="{{ author.name }}" width="32" height="32" loading="lazy">
+    {{ author.name }} ·
+  {% endfor %}
+  {{ page.meta.published }} · {{ page.meta.readtime }} min read
+  {% if page.meta.draft %} · <strong>Draft</strong>{% endif %}
+</aside>
+{{ super() }}
+{% endblock %}
