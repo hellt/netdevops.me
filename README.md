@@ -56,8 +56,10 @@ preparation step supplies the blog features. Preview watches the sources,
 configuration, and macro data, then lets Zensical rebuild and reload the browser.
 Production builds remove old output so preview drafts cannot leak into deployment.
 
-The classic theme, CSS, announcement, Giscus configuration, analytics, and custom
-domain are retained. The post metadata layout is now a small local template.
+The site uses Zensical's modern theme with its default Inter and JetBrains Mono
+fonts. Custom CSS, the sun/moon switcher, announcement, Giscus configuration,
+analytics, and custom domain are retained. The post metadata layout is a small
+local template.
 Feeds retain the existing filenames and 20-item limit; their descriptions are
 plain text abstracts of up to 5,000 characters. A sitemap override includes posts
 and pagination pages that Zensical otherwise omits when they aren't in `nav`.

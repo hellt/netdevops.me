@@ -1,8 +1,3 @@
-/* make announce link color always white */
-.md-banner__inner a {
-    color: #ffffff
-}
-
 /* twitter logo coloring */
 .twitter {
     color: #00acee
@@ -51,6 +46,144 @@
 /* make emojis appear middle aligned when used in paragraphs */
 .md-typeset :is(.emojione, .twemoji, .gemoji) {
     vertical-align: middle;
+}
+
+/* Compact post byline with aligned, decorative author portraits. */
+.blog-post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .4rem 1rem;
+    margin-bottom: .8rem;
+    color: var(--md-default-fg-color--light);
+    font-size: .65rem;
+    line-height: 1.5;
+}
+
+.blog-post-meta__author,
+.blog-post-meta__details {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    white-space: nowrap;
+}
+
+.blog-post-meta__author {
+    font-weight: 500;
+}
+
+.blog-post-meta__author img {
+    display: block;
+    flex: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.blog-post-meta__separator {
+    opacity: .6;
+}
+
+.blog-post-meta__draft {
+    padding: .1rem .35rem;
+    border-radius: .25rem;
+    background: var(--md-default-fg-color--lightest);
+    font-size: .6rem;
+    font-weight: 500;
+}
+
+/* A quiet, spacious finish to each page of posts. */
+.md-typeset .blog-pagination {
+    margin: 2rem 0 1rem;
+    text-align: center;
+}
+
+.blog-pagination__status {
+    color: var(--md-default-fg-color--light);
+    font-size: .6rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+}
+
+.blog-pagination__controls,
+.blog-pagination__pages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+}
+
+.blog-pagination__controls {
+    margin-top: .65rem;
+    gap: .75rem;
+}
+
+.md-typeset .blog-pagination__page,
+.md-typeset .blog-pagination__direction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.2rem;
+    min-height: 2.2rem;
+    padding: .4rem .65rem;
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: .65rem;
+    color: var(--md-default-fg-color);
+    background: var(--md-default-bg-color);
+    font-size: .7rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition: background .15s, border-color .15s, box-shadow .15s;
+}
+
+.md-typeset .blog-pagination__direction {
+    flex-shrink: 0;
+    gap: .5rem;
+    border-color: transparent;
+    white-space: nowrap;
+}
+
+.md-typeset .blog-pagination a:hover {
+    border-color: var(--md-accent-fg-color);
+    background: var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .blog-pagination [aria-current="page"] {
+    border-color: transparent;
+    background: #00c9ff;
+    color: #002b36;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgb(0 201 255 / 20%);
+}
+
+.blog-pagination [aria-disabled="true"] {
+    opacity: .35;
+}
+
+.blog-pagination a:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 3px;
+}
+
+@media (max-width: 40rem) {
+    .blog-pagination__pages {
+        flex-basis: 100%;
+        order: -1;
+    }
+
+    .blog-pagination__controls {
+        gap: .5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .md-typeset .blog-pagination a {
+        transition: none;
+    }
 }
 
 /* Sun/moon slider, styled like gNMIc's header palette control. */

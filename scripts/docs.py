@@ -20,6 +20,7 @@ from urllib.parse import quote, unquote, urlsplit, urlunsplit
 import xml.etree.ElementTree as ET
 
 from bs4 import BeautifulSoup
+from jinja2 import Environment, FileSystemLoader
 import markdown
 from pymdownx.slugs import slugify
 from watchfiles import watch
@@ -205,12 +206,19 @@ def prepare(preview=False):
         expected.add(target)
         write(target, path.read_text())
     authors = yaml.safe_load((SOURCE / ".authors.yml").read_text())["authors"]
+    templates = Environment(
+        loader=FileSystemLoader(SOURCE / "overrides"), autoescape=True,
+        trim_blocks=True, lstrip_blocks=True,
+    )
+    metadata_template = templates.get_template("partials/post-meta.html")
+    pagination_template = templates.get_template("partials/pagination.html")
     for post in posts:
         meta = post["meta"].copy()
         meta.update(title=post["title"], template="post.html",
                     source_path=post["source"], published=post["created"].strftime("%B %d, %Y"),
                     post_authors=[authors[a] for a in meta.get("authors", [])],
                     readtime=max(1, math.ceil(len(post["body"].split()) / 265)))
+        post["display_meta"] = meta
         if os.getenv("CI", "").lower() == "true":
             created, updated = git_dates(SOURCE / post["source"])
             if created:
@@ -226,9 +234,9 @@ def prepare(preview=False):
         for index, post in enumerate(posts[(number - 1) * 10:number * 10]):
             title = html.escape(post["title"])
             body += f'## <a href="/{quote(post["url"], safe="/")}">{title}</a>\n\n'
-            body += f'{post["created"]:%B %d, %Y}' + (" · **Draft**" if post["draft"] else "") + "\n\n"
+            body += metadata_template.render(post_meta=post["display_meta"]) + "\n\n"
             body += excerpt(post, index) + f'\n\n[Continue reading](/{quote(post["url"], safe="/")})\n\n---\n\n'
-        body += "\n".join(f'[{n}]({"/" if n == 1 else f"/page/{n}/"})' if n != number else f"**{n}**" for n in range(1, count + 1))
+        body += pagination_template.render(current=number, total=count)
         target = STAGE / ("index.md" if number == 1 else f"page/{number}.md")
         expected.add(target)
         write(target, page(dict(hide=["navigation", "toc"], comments=False), body))

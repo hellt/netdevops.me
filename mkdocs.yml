@@ -12,7 +12,7 @@ edit_uri: "edit/master/blog/"
 docs_dir: blog
 
 theme:
-  variant: classic
+  variant: modern
   custom_dir: blog/overrides
 
   features:
@@ -33,7 +33,7 @@ theme:
       primary: white
       accent: cyan
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: lucide/moon
         name: Switch to dark mode
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
@@ -41,15 +41,11 @@ theme:
       primary: black
       accent: cyan
       toggle:
-        icon: material/toggle-switch
+        icon: lucide/sun
         name: Switch to light mode
-  font:
-    text: Google Sans
-    code: Fira Mono
   icon:
     logo: fontawesome/solid/code
     repo: fontawesome/brands/github
-    edit: material/file-edit-outline
   favicon: assets/images/code.svg
 
 # Plugins

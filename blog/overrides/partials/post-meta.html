@@ -1,0 +1,14 @@
+<aside class="blog-post-meta" aria-label="Post details">
+  {% for author in post_meta.post_authors %}
+    <span class="blog-post-meta__author">
+      <img src="{{ author.avatar }}" alt="" width="24" height="24" loading="lazy">
+      <span>{{ author.name }}</span>
+    </span>
+  {% endfor %}
+  <span class="blog-post-meta__details">
+    <span>{{ post_meta.published }}</span>
+    <span class="blog-post-meta__separator" aria-hidden="true">·</span>
+    <span>{{ post_meta.readtime }} min read</span>
+  </span>
+  {% if post_meta.draft %}<span class="blog-post-meta__draft">Draft</span>{% endif %}
+</aside>
