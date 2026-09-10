@@ -12,16 +12,8 @@ edit_uri: "edit/master/blog/"
 docs_dir: blog
 
 theme:
-  name: material
+  variant: modern
   custom_dir: blog/overrides
-
-  # 404 page
-  static_templates:
-    - 404.html
-
-  # Don't include MkDocs' JavaScript
-  include_search_page: false
-  search_index_only: true
 
   features:
     - navigation.top
@@ -41,7 +33,7 @@ theme:
       primary: white
       accent: cyan
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: lucide/moon
         name: Switch to dark mode
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
@@ -49,15 +41,11 @@ theme:
       primary: black
       accent: cyan
       toggle:
-        icon: material/toggle-switch
+        icon: lucide/sun
         name: Switch to light mode
-  font:
-    text: Google Sans
-    code: Fira Mono
   icon:
     logo: fontawesome/solid/code
     repo: fontawesome/brands/github
-    edit: material/file-edit-outline
   favicon: assets/images/code.svg
 
 # Plugins
@@ -70,32 +58,17 @@ plugins:
       j2_variable_end_string: "]]]"
       include_yaml:
         - macros/data.yml
-  - blog:
-      blog_dir: .
-      post_url_date_format: yyyy
-      archive: false
-      categories: false
-  - tags:
-      tags_file: tags.md
+  # Blog pages, feeds and revision dates are prepared by scripts/docs.py.
+  - tags
   - search:
-      separator: '[\s\-\_]'
+      # The browser search worker compiles this with Unicode (u) mode.
+      # Underscores must stay unescaped; a trailing hyphen is literal.
+      separator: '[\s_-]'
   - minify:
       minify_html: true
   - redirects:
-      redirect_maps:
-  - rss:
-      match_path: posts/.*
-      abstract_chars_count: 5000
-      date_from_meta:
-        as_creation: date
-      categories:
-        - tags
-      comments_path: "#__comments"
+      redirect_maps: {}
   - glightbox
-  - typeset
-  - git-revision-date-localized:
-      enable_creation_date: true
-      enabled: !ENV [CI, false]
 
 # Customization
 extra:
@@ -130,8 +103,8 @@ markdown_extensions:
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:zensical.extensions.emoji.twemoji
+      emoji_generator: !!python/name:zensical.extensions.emoji.to_svg
   - pymdownx.highlight:
       line_spans: __span
       anchor_linenums: true

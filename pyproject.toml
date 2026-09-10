@@ -1,0 +1,14 @@
+[project]
+name = "netdevops-blog"
+version = "0.1.0"
+description = "Zensical blog and publishing tools for netdevops.me"
+requires-python = ">=3.14"
+dependencies = [
+    "beautifulsoup4==4.15.0",
+    "ghp-import==2.1.0",
+    "watchfiles==1.2.0",
+    "zensical==0.0.60",
+]
+
+[tool.uv]
+package = false

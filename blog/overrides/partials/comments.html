@@ -28,7 +28,7 @@
 
                 /* Instruct Giscus to change theme */
                 var frame = document.querySelector(".giscus-frame")
-                frame.contentWindow.postMessage(
+                frame?.contentWindow?.postMessage(
                     { giscus: { setConfig: { theme } } },
                     "https://giscus.app"
                 )

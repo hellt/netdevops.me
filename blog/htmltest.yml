@@ -23,6 +23,8 @@ IgnoreSSLVerify: true
 IgnoreDirs:
   - overrides
 IgnoreInternalEmptyHash: true
+# Zensical renders homepage self-links as href="", a valid current-page URL.
+IgnoreEmptyHref: true
 ExternalTimeout: 60
 HTTPHeaders:
   "Range": "bytes=0-10"

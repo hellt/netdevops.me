@@ -1,0 +1,29 @@
+{% macro url(number) -%}
+{{ '/' if number == 1 else '/page/' ~ number ~ '/' }}
+{%- endmacro %}
+{% if total > 1 %}
+<nav class="blog-pagination" aria-label="Blog pagination">
+  <span class="blog-pagination__status">Page {{ current }} of {{ total }}</span>
+  <div class="blog-pagination__controls">
+    {% if current > 1 %}
+    <a class="blog-pagination__direction" href="{{ url(current - 1) }}" rel="prev" aria-label="Previous page"><span aria-hidden="true">&larr;</span><span>Previous</span></a>
+    {% else %}
+    <span class="blog-pagination__direction" aria-disabled="true"><span aria-hidden="true">&larr;</span><span>Previous</span></span>
+    {% endif %}
+    <div class="blog-pagination__pages">
+      {% for number in range(1, total + 1) %}
+      {% if number == current %}
+      <span class="blog-pagination__page" aria-current="page" aria-label="Page {{ number }}">{{ number }}</span>
+      {% else %}
+      <a class="blog-pagination__page" href="{{ url(number) }}" aria-label="Page {{ number }}">{{ number }}</a>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% if current < total %}
+    <a class="blog-pagination__direction" href="{{ url(current + 1) }}" rel="next" aria-label="Next page"><span>Next</span><span aria-hidden="true">&rarr;</span></a>
+    {% else %}
+    <span class="blog-pagination__direction" aria-disabled="true"><span>Next</span><span aria-hidden="true">&rarr;</span></span>
+    {% endif %}
+  </div>
+</nav>
+{% endif %}

@@ -264,7 +264,7 @@ Up until now we played with a boilerplate code with a few names changed to give 
 
 Since the Functions are executed in the sandboxes on the cloud platforms, we must somehow tell what dependencies we want these sandbox to have when running our code. In the [AWS Lambda example](https://netdevops.me/2017/building-aws-lambda-with-python-s3-and-serverless#adding-python-packages-to-lambda) we packaged the 3rd party libraries along the function (aka vendoring).
 
-In GCP case the [vendoring](../../2017/building-aws-lambda-with-python-s3-and-serverless/#adding-python-packages-to-lambda) approach is also possible and is done in the same way, but it is also possible to ship a pip `requirements.txt` file along your `main.py` that will specify your function dependencies as pythonistas used to.
+In GCP case the [vendoring](../2017/nokdoc_sentinel_lambda.md#adding-python-packages-to-lambda) approach is also possible and is done in the same way, but it is also possible to ship a pip `requirements.txt` file along your `main.py` that will specify your function dependencies as pythonistas used to.
 
 > Read more on GCP python [dependency](https://cloud.google.com/functions/docs/writing/specifying-dependencies-python) management
 

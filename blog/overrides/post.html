@@ -1,0 +1,6 @@
+{% extends "main.html" %}
+{% block content %}
+{% set post_meta = page.meta %}
+{% include "partials/post-meta.html" %}
+{{ super() }}
+{% endblock %}
