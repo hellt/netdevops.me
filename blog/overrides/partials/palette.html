@@ -1,0 +1,17 @@
+<form class="md-header__option theme-switch" data-md-component="palette" aria-label="Color theme">
+  {% for option in config.theme.palette %}
+    <input class="md-option"
+      data-md-color-media="{{ option.media }}"
+      data-md-color-scheme="{{ option.scheme | d('default', true) }}"
+      data-md-color-primary="{{ option.primary | d('indigo', true) }}"
+      data-md-color-accent="{{ option.accent | d('indigo', true) }}"
+      aria-label="{{ option.toggle.name }}"
+      type="radio" name="__palette" id="__palette_{{ loop.index0 }}">
+    <label class="md-header__button" title="{{ option.toggle.name }}"
+      for="__palette_{{ loop.index % loop.length }}" hidden></label>
+  {% endfor %}
+  <span class="theme-switch__thumb md-icon" aria-hidden="true">
+    <span class="theme-switch__sun">{% include ".icons/lucide/sun.svg" %}</span>
+    <span class="theme-switch__moon">{% include ".icons/lucide/moon.svg" %}</span>
+  </span>
+</form>
