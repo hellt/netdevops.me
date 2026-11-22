@@ -74,7 +74,7 @@ also execute the generated browser search worker and verify actual query results
 
 GitHub Actions installs uv and Go and calls Make targets. All build, check, and
 deployment commands live in the Makefile. A full Git checkout supplies revision
-dates. Deployment on `master` waits for the checks and retains branch-based Pages
+dates. Deployment on `main` waits for the checks and retains branch-based Pages
 publishing to `gh-pages`, including `CNAME` and `.nojekyll`.
 
 CI gates on internal links and migration tests. The optional `make htmltest`
