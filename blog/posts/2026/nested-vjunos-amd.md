@@ -18,7 +18,7 @@ This was bad, but not too bad, considering that HPE/Juniper official stance is:
 
 While it is quite common to see VM-images not running on ARM architecture, seeing them disqualified on the merit of running in the VMs or on Intel VT-X vs AMD SVM is weird. And as you'll see in this post, there are no technical reasons to support these claims.
 
-In [Nebius cloud](console.nebius.com) I have general compute nodes powered by AMD EPYC Genoa chips and thus seeing slow Junos boot was hitting me personally :)
+In [Nebius cloud](https://nebius.com/compute) I have general compute nodes powered by AMD EPYC Genoa chips and thus seeing slow Junos boot was hitting me personally :)
 
 After three small patches to the Junos startup script, the same Junos vSwitch became healthy on the same hardware in about **5-6 minutes**, and the biggest improvement came from giving Junos *fewer* vCPUs.
 
