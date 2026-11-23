@@ -120,9 +120,54 @@ def rewrite_links(body, source, destinations):
 
 
 def write(path, content):
+    """Replace a file atomically so watchers never read a half-written file."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    if not path.exists() or path.read_text() != content:
-        path.write_text(content)
+    if path.exists() and path.read_text() == content:
+        return False
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(content)
+    os.replace(temporary, path)
+    return True
+
+
+class Stage:
+    """Collect the generated tree in memory, then apply it in one sweep.
+
+    A failure while computing pages must not leave the preview half-updated,
+    and the dev server must see the writes as one burst, not as each page.
+    """
+
+    def __init__(self):
+        self.pending = {}
+        self.expected = set()
+
+    def text(self, path, content):
+        self.expected.add(path)
+        if path.exists() and path.read_text() == content:
+            self.pending.pop(path, None)
+        else:
+            self.pending[path] = (content, None)
+
+    def copy(self, source, target):
+        self.expected.add(target)
+        if target.exists() and source.read_bytes() == target.read_bytes():
+            self.pending.pop(target, None)
+        else:
+            self.pending[target] = (None, source)
+
+    def commit(self):
+        for target, (content, source) in self.pending.items():
+            if source is None:
+                write(target, content)
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            temporary = target.with_name(target.name + ".tmp")
+            shutil.copy2(source, temporary)
+            os.replace(temporary, target)
+        for path in STAGE.rglob("*"):
+            if path.is_file() and path not in self.expected:
+                path.unlink()
+        return len(self.pending)
 
 
 def page(meta, body):
@@ -186,25 +231,21 @@ def prepare(preview=False):
         dest = key.removeprefix("posts/")
         destinations[key] = (dest[:-3] + "/").replace("index/", "") if path.suffix == ".md" else dest
         assets.append((path, dest))
-    expected = set()
+    stage = Stage()
     for path, dest in assets:
         target = STAGE / dest
-        expected.add(target)
         if path.suffix == ".md":
             meta, body = frontmatter(path.read_text())
             created, updated = git_dates(path)
             if os.getenv("CI", "").lower() == "true" and created:
                 meta.update(git_creation_date_localized=created.strftime("%B %d, %Y"),
                             git_revision_date_localized=updated.strftime("%B %d, %Y"))
-            write(target, page(meta, rewrite_links(body, path.relative_to(SOURCE).as_posix(), destinations)))
-        elif not target.exists() or path.read_bytes() != target.read_bytes():
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(path, target)
+            stage.text(target, page(meta, rewrite_links(body, path.relative_to(SOURCE).as_posix(), destinations)))
+        else:
+            stage.copy(path, target)
     # Native meta plugin still supplies inherited comments/authors for all pages.
     for path in SOURCE.rglob(".meta.yml"):
-        target = STAGE / path.relative_to(SOURCE)
-        expected.add(target)
-        write(target, path.read_text())
+        stage.text(STAGE / path.relative_to(SOURCE), path.read_text())
     authors = yaml.safe_load((SOURCE / ".authors.yml").read_text())["authors"]
     templates = Environment(
         loader=FileSystemLoader(SOURCE / "overrides"), autoescape=True,
@@ -225,9 +266,8 @@ def prepare(preview=False):
                 meta.update(git_creation_date_localized=created.strftime("%B %d, %Y"),
                             git_revision_date_localized=updated.strftime("%B %d, %Y"))
         target = STAGE / (post["url"].rstrip("/") + ".md")
-        expected.add(target)
         post["body"] = rewrite_links(post["body"], post["source"], destinations)
-        write(target, page(meta, post["body"]))
+        stage.text(target, page(meta, post["body"]))
     count = max(1, math.ceil(len(posts) / 10))
     for number in range(1, count + 1):
         body = ""
@@ -238,28 +278,26 @@ def prepare(preview=False):
             body += excerpt(post, index) + f'\n\n[Continue reading](/{quote(post["url"], safe="/")})\n\n---\n\n'
         body += pagination_template.render(current=number, total=count)
         target = STAGE / ("index.md" if number == 1 else f"page/{number}.md")
-        expected.add(target)
-        write(target, page(dict(title="Blog", template="blog.html", hide=["navigation", "toc"], comments=False), body))
+        stage.text(target, page(dict(title="Blog", template="blog.html", hide=["navigation", "toc"], comments=False), body))
     for name, content in feeds(posts, config):
-        target = STAGE / name
-        expected.add(target)
-        write(target, content)
-    for path in STAGE.rglob("*"):
-        if path.is_file() and path not in expected:
-            path.unlink()
+        stage.text(STAGE / name, content)
+    changed = stage.commit()
     urls = sorted({destinations[p["source"]] for p in posts} |
                   {destinations[path.relative_to(SOURCE).as_posix()] for path, _ in assets if path.suffix == ".md"} |
                   {f"page/{n}/" for n in range(2, count + 1)})
     generated = dict(INHERIT="mkdocs.yml", docs_dir=".build/docs", site_dir="site",
                      extra=dict(sitemap_urls=[config["site_url"].rstrip("/") + "/" + quote(url, safe="/") for url in urls]))
+    if preview:
+        generated["extra_javascript"] = ["assets/javascripts/live-reload.js"]
     write(CONFIG, "# Generated by scripts/docs.py; edit mkdocs.yml instead.\n" + yaml.safe_dump(generated))
-    print(f'Prepared {len(posts)} posts ({"preview, including drafts" if preview else "production"}).', flush=True)
+    print(f'Prepared {len(posts)} posts ({"preview, including drafts" if preview else "production"}), '
+          f'{changed} staged files updated.', flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["build", "serve"])
-    parser.add_argument("--address", default="127.0.0.1:8002")
+    parser.add_argument("--address", default="0.0.0.0:8002")
     args = parser.parse_args()
     os.chdir(ROOT)
     prepare(preview=args.command == "serve")
@@ -272,11 +310,16 @@ def main():
         return
     stop = threading.Event()
     def refresh():
-        for _ in watch(SOURCE, ROOT / "macros", ROOT / "mkdocs.yml", stop_event=stop):
+        for changes in watch(SOURCE, ROOT / "macros", ROOT / "mkdocs.yml", stop_event=stop):
             try:
                 prepare(preview=True)
             except Exception as error:
-                print(f"Preview preparation failed: {error}", file=sys.stderr, flush=True)
+                # Nothing is staged on failure, so the browser keeps showing the
+                # last good state. Say so instead of failing silently.
+                names = ", ".join(sorted({Path(path).name for _, path in changes}))
+                print(f"Preview preparation failed for {names}: {error}\n"
+                      "Nothing was staged; the preview still shows the last successful build.",
+                      file=sys.stderr, flush=True)
     worker = threading.Thread(target=refresh, daemon=True)
     worker.start()
     try:
