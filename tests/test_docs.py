@@ -4,13 +4,15 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import tempfile
 import unittest
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
 from bs4 import BeautifulSoup
+import yaml
 
-from scripts.docs import ROOT, excerpt, read_posts, rewrite_links
+from scripts.docs import CONFIG, ROOT, Stage, excerpt, prepare, read_posts, rewrite_links
 
 
 class BlogMigration(unittest.TestCase):
@@ -97,6 +99,28 @@ class BlogMigration(unittest.TestCase):
             ["node", str(ROOT / "tests/search-worker.cjs"), str(self.site / "search.json"), str(worker)],
             check=True, capture_output=True, text=True, timeout=30,
         )
+
+    def test_staging_uses_last_content_for_duplicate_paths(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "index.md"
+            for original in ("source", "generated"):
+                path.write_text(original)
+                stage = Stage()
+                stage.text(path, "source")
+                stage.text(path, "generated")
+                stage.commit()
+                self.assertEqual("generated", path.read_text())
+
+    def test_preview_reload_tracks_instant_navigation(self):
+        try:
+            prepare(preview=True)
+            generated = yaml.safe_load(CONFIG.read_text())
+            script = generated["extra_javascript"][0]
+            self.assertEqual("assets/javascripts/live-reload.js", script)
+            self.assertIn("window.location.pathname", (ROOT / "blog" / script).read_text())
+        finally:
+            prepare()
+        self.assertNotIn("extra_javascript", yaml.safe_load(CONFIG.read_text()))
 
     def test_custom_domain_and_404(self):
         self.assertEqual("netdevops.me", (self.site / "CNAME").read_text().strip())

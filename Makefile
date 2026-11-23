@@ -1,5 +1,5 @@
 UV ?= uv
-DEV_ADDR ?= 127.0.0.1:8002
+DEV_ADDR ?= 0.0.0.0:8002
 DEPLOY_REMOTE ?= origin
 DEPLOY_BRANCH ?= gh-pages
 DEPLOY_NAME ?= github-actions[bot]
